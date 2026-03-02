@@ -1,0 +1,147 @@
+{
+  "page": "home",
+  "meta": {
+    "title": "Kerala Legislative Assembly - Home",
+    "description": "Official website of Kerala Legislative Assembly",
+    "keywords": "kerala, niyamasabha, legislative assembly"
+  },
+  "sections": {
+    "header": {
+      "logo": {
+        "white": "/images/logq1.png",
+        "black": "/images/logb1.png",
+        "alt": "Kerala Legislative Assembly Logo",
+        "width": 325
+      },
+      "navigation": {
+        "menu_items": [],
+        "search_placeholder": "What service are you looking for today?",
+        "login_button": {
+          "text": "Log in",
+          "link": "/login"
+        }
+      }
+    },
+    "banner_section": {
+      "slides": [
+        {
+          "type": "video",
+          "source": "/images/bannervideo.mp4",
+          "autoplay": true,
+          "muted": true,
+          "loop": false
+        },
+        {
+          "type": "image",
+          "source": "/images/Niyamasabha_Mandiram.JPG",
+          "alt": "Niyamasabha Mandiram"
+        }
+      ],
+      "content": {
+        "title": {
+          "malayalam": "കേരള നിയമസഭ",
+          "english": "Kerala Legislative Assembly"
+        },
+        "description": {
+          "malayalam": "കേരള നിയമസഭയുടെ ഔദ്യോഗിക വെബ്‌സൈറ്റായ 'Niyamasabha.org'-ലേക്ക് സ്വാഗതം. 1888 മുതലുള്ള ആർക്കൈവുകൾ, സഭാ നടപടികളുടെ ദൈനംദിന അജണ്ട, സംഗ്രഹം, അനുബന്ധ വാർത്തകൾ, ഔദ്യോഗിക പത്രക്കുറിപ്പുകൾ എന്നിവയുൾപ്പെടെ കേരള നിയമസഭയുടെ എല്ലാ വശങ്ങളെയും കുറിച്ചുള്ള വിവരങ്ങൾക്ക് ഈ സമഗ്രമായ സൈറ്റിൽ ലോഗിൻ ചെയ്യുക.",
+          "english": "Welcome to 'Niyamasabha.org' - the official website of Kerala Legislative Assembly. Log in to this comprehensive site for information on all aspects of Kerala Niyamasabha, including archives from 1888 onwards."
+        }
+      }
+    },
+    "latest_section": {
+      "title": "Latest Updates",
+      "news_items": [],
+      "social_media": [
+        {
+          "platform": "facebook",
+          "icon": "faFacebookF",
+          "link": "#"
+        },
+        {
+          "platform": "instagram",
+          "icon": "faInstagram",
+          "link": "#"
+        },
+        {
+          "platform": "youtube",
+          "icon": "faYoutube",
+          "link": "#"
+        },
+        {
+          "platform": "twitter",
+          "icon": "faXTwitter",
+          "link": "#"
+        }
+      ],
+      "seat_map": {
+        "enabled": true,
+        "seats": []
+      }
+    },
+    "calendar_section": {
+      "title": "കലണ്ടർ",
+      "current_year": 2025,
+      "months": [
+        "ജനുവരി",
+        "ഫെബ്രുവരി",
+        "മാർച്ച്",
+        "ഏപ്രിൽ",
+        "മെയ്",
+        "ജൂൺ",
+        "ജൂലൈ",
+        "ഓഗസ്റ്റ്",
+        "സെപ്റ്റംബർ",
+        "ഒക്‌ടോബർ",
+        "നവംബർ",
+        "ഡിസംബർ"
+      ],
+      "events": {},
+      "legend": [
+        {
+          "type": "meeting",
+          "label": "Meeting",
+          "color": "#ff0000"
+        }
+      ]
+    },
+    "map_section": {
+      "title": "Districts & Representatives",
+      "districts": []
+    },
+    "partners_section": {
+      "title": "Partner Websites",
+      "partners": [
+        {
+          "name": "Partner 1",
+          "logo": "/images/b1.png",
+          "link": "#"
+        },
+        {
+          "name": "Partner 2",
+          "logo": "/images/b3.png",
+          "link": "#"
+        },
+        {
+          "name": "Partner 3",
+          "logo": "/images/b4.png",
+          "link": "#"
+        },
+        {
+          "name": "Partner 4",
+          "logo": "/images/b5.png",
+          "link": "#"
+        },
+        {
+          "name": "Partner 5",
+          "logo": "/images/b6.png",
+          "link": "#"
+        },
+        {
+          "name": "Partner 6",
+          "logo": "/images/b2.png",
+          "link": "#"
+        }
+      ]
+    }
+  }
+}

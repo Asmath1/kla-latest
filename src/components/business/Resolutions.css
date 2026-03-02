@@ -1,0 +1,130 @@
+.resolution-section {
+  padding: 20px 0;
+}
+
+.resolution-title {
+  font-size: 20px;
+  color: var(--clr--primary);
+  font-weight: 600;
+}
+
+.resolution-subtitle {
+  font-size: 15px;
+  color: var(--clr--primary);
+  font-weight: 600;
+}
+
+.resolutionz {
+  display: block;
+}
+
+.resolutionz .tabley {
+  margin-bottom: 20px;
+}
+
+.resolutionz .mydrop {
+  margin-bottom: 15px;
+}
+
+/* Responsive table styles */
+.table-responsive {
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.myTable2 {
+  font-size: 14px !important;
+  margin-bottom: 0;
+}
+
+.myTable2 th,
+.myTable2 td {
+  padding: 10px 8px !important;
+  vertical-align: middle;
+  border-color: #ddd;
+}
+
+.myTable2 th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+  font-size: 15px !important;
+}
+
+.myTable2 tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.myTable2 tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.myTable2 td {
+  font-size: 15px !important;
+  line-height: 18px;
+}
+
+/* Mobile responsive - hide table and show accordion */
+@media (max-width: 767px) {
+  .myTable2 {
+    font-size: 11px !important;
+  }
+  
+  .myTable2 th,
+  .myTable2 td {
+    padding: 6px 4px !important;
+    font-size: 11px !important;
+  }
+  
+  .myTable2 td:first-child {
+    min-width: 30px;
+  }
+  
+  .resolution-subtitle {
+    font-size: 13px;
+  }
+}
+
+/* Tablet responsive adjustments */
+@media (max-width: 992px) {
+  .myTable2 {
+    font-size: 12px !important;
+  }
+  
+  .myTable2 th,
+  .myTable2 td {
+    padding: 8px 6px !important;
+    font-size: 12px !important;
+  }
+  
+  .resolution-subtitle {
+    font-size: 14px;
+  }
+}
+
+.pagination-container .paginationn .page-item.active .page-link {
+  background-color: var(--clr--primary) !important;
+  border-color: var(--clr--primary) !important;
+  color: #fff !important;
+}
+
+.pagination-container .paginationn .page-link {
+  color: var(--body-text-color);
+  padding: 4px 14px;
+  border-radius: 50%;
+}
+
+.pagination-info {
+  font-size: 14px;
+  margin-top: 10px;
+  color: #666;
+}
+
+.paginationn {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  gap: 10px;
+}

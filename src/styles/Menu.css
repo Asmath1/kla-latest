@@ -1,0 +1,159 @@
+/* Mega Menu Container */
+.mega-menu-container {
+  position: relative;
+  width: 100%;
+  z-index: 50;
+  font-family: Arial, sans-serif;
+}
+
+/* Header */
+.header {
+  background-color: #1a202c;
+  color: white;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0;
+}
+
+.menu-button span {
+  font-size: 14px;
+}
+
+.search-icon {
+  cursor: pointer;
+}
+
+/* Mega Menu Content */
+.mega-menu-content {
+  position: absolute;
+  width: 100%;
+  max-width: 1000px;
+  left: 0;
+  top: 100%;
+  display: flex;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  z-index: 50;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 300px;
+  border-right: 1px solid #e2e8f0;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sidebar-item:hover {
+  background-color: #f7fafc;
+}
+
+.sidebar-item.active {
+  background-color: #f1f5f9;
+}
+
+.sidebar-item-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-icon {
+  width: 20px;
+  height: 20px;
+  color: #047857;
+  /* emerald-700 */
+}
+
+.default-icon {
+  width: 20px;
+  height: 20px;
+  background-color: #047857;
+  border-radius: 4px;
+}
+
+/* Content Area */
+.content-area {
+  flex: 1;
+  padding: 24px;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.categories-grid.second-row {
+  margin-top: 32px;
+}
+
+.category h3 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4a5568;
+  margin-bottom: 16px;
+}
+
+.category ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category ul li {
+  margin-bottom: 8px;
+}
+
+.category ul li a {
+  color: #718096;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.category ul li a:hover {
+  color: #2d3748;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mega-menu-content {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+}

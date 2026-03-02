@@ -1,0 +1,748 @@
+.viw {
+  border: 1px solid #6440fbc7;
+  padding: 5px 12px 1px 12px;
+  border-radius: 4px;
+  background: #6440fb1a;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  color: var(--clr--primary);
+}
+.viw:hover {
+  border: 1px solid #6440fbc7;
+  padding: 5px 12px 1px 12px;
+  border-radius: 4px;
+  background: var(--clr--primary);
+  color: #fff !important;
+  text-decoration: none !important;
+}
+.viw:focus {
+  outline: none;
+  text-decoration: none;
+}
+.filt {
+  background: #ebe7fd;
+  padding: 14px 0px 20px 0px;
+  margin: 10px 0px 30px 0px !important;
+  border-radius: 4px;
+}
+.filt .selectM .btn {
+  font-size: 15px;
+  line-height: 32px;
+}
+.session-info-card {
+  margin-bottom: 30px;
+}
+
+.buss-cal .mb-2 {
+  color: var(--clr--primary);
+}
+
+.buss-cal .mb-2:hover {
+  border-color: transparent;
+  color: var(--clr--dark);
+}
+.buss-cal .session-bac-rep {
+  color: var(--clr--primary);
+}
+
+/* Large Calendar Styles */
+.react-calendar__navigation {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.session-tab-title {
+  margin-bottom: 20px;
+}
+.session-tab-title .tab-section-date{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 8px;
+  row-gap: 6px;
+}
+.session-tab-title .tab-section-date .section-text{
+  white-space: nowrap;
+}
+.session-tab-title .tab-section-date .date-range{
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.session-calendar-large {
+  height: 100% !important;   /* fill container */
+  width: 100% !important;
+}
+
+.session-calendar-large .react-calendar__viewContainer {
+  height: 100% !important;   /* shrink content properly */
+}
+
+/* .session-calendar-large {
+  font-size: 18px !important;
+  min-height: 250px !important;
+  height: 40px;
+} */
+.session-calendar-large .react-calendar__month-view__days {
+  /* height: 250px !important; */
+  height: auto;
+  margin: 15px 0px 0px 0px !important;
+}
+
+.session-calendar-large .react-calendar__tile {
+  /* padding: 20px 10px !important;
+    font-size: 16px !important;
+    min-height: 60px !important; */
+}
+
+.session-calendar-large .react-calendar__navigation {
+  height: 40px !important;
+}
+.session-calendar-large .react-calendar__navigation button {
+  font-size: 12px !important;
+}
+.session-col-12 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* gap: 20px; */
+  /* margin-bottom: 30px; */
+}
+.businees-schedule .mb-4 {
+  margin-bottom: 0px !important;
+}
+/* current month primary border */
+.session-calendar-large
+  .react-calendar__month-view__days__day.date-month-border {
+  border-radius: 6px;
+  border: 1px solid var(--clr--primary) !important;
+}
+
+/* dates outside the range - show as inactive */
+.session-calendar-large
+  .react-calendar__month-view__days__day.date-outside-range {
+  color: #7b88af !important;
+  background-color: transparent !important;
+}
+
+/* dates within the range - show in primary color */
+.session-calendar-large .react-calendar__month-view__days__day.date-in-range {
+  color: var(--clr--dark) !important;
+}
+
+/* stronger background for allowed clickable dates within range */
+.session-calendar-large .react-calendar__month-view__days__day.date-allowed-bg {
+  /* background-color: rgba(100, 64, 251, 0.40) !important; */
+  cursor: pointer;
+  display: flex !important;
+  flex-direction: column;
+  position:  relative !important;
+  line-height: normal !important;
+}
+
+/* selected active date styling */
+.session-calendar-large .react-calendar__month-view__days__day.date-selected {
+  background-color: var(--clr--primary) !important;
+  color: #fff !important;
+}
+.session-calendar-large
+  .react-calendar__month-view__days__day.date-selected
+  abbr {
+  color: #fff !important;
+}
+.buss-cal .imgx {
+  background-color: #6440fb52;
+  width: 30px;
+  height: 30px;
+  padding: 4px;
+  border-radius: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
+}
+.buss-cal .session-info {
+  margin: 20px 0 !important;
+}
+.calendar .rul:hover {
+  background-color: var(--clr--primary) !important;
+  color: #fff !important;
+}
+
+.buss-cal .rul:hover {
+  background-color: var(--clr--primary);
+  color: #fff;
+}
+.buss-cal .rul:hover span {
+  color: #fff !important;
+}
+
+/* PDF Viewer Styles */
+.pdf-viewer-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/* Modal PDF Viewer - Ensure at least one page is visible */
+.modal-pdf-viewer {
+  height: 85vh !important;
+  min-height: 600px !important;
+  max-height: 90vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Ensure the PDF content area takes up the available space */
+.modal-pdf-viewer .rpv-core__viewer {
+  flex: 1 !important;
+  min-height: 500px !important;
+}
+
+/* Inline PDF Viewer in List of Business tab */
+.inline-pdf-viewer {
+  height: 70vh !important;
+  min-height: 500px !important;
+  max-height: 80vh !important;
+}
+
+.pdf-viewer-container .rpv-core__viewer {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.pdf-viewer-container .rpv-core__page-layer {
+  height: auto !important;
+}
+
+/* Mobile Responsive PDF Viewer */
+@media (max-width: 768px) {
+  .pdf-viewer-container {
+    height: 100%;
+    width: 100%;
+    min-height: 300px;
+  }
+  
+  .pdf-viewer-container .rpv-core__viewer {
+    height: 100% !important;
+    width: 100% !important;
+    min-height: 300px;
+  }
+  
+  .pdf-viewer-container .rpv-core__page {
+    margin: 5px auto;
+    max-width: 100%;
+  }
+  
+  .pdf-viewer-container .rpv-core__page-layer {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  
+  /* Ensure PDF content is scrollable on mobile */
+  .pdf-viewer-container .rpv-core__viewer {
+    overflow: auto !important;
+  }
+  
+  /* Custom scrollbar for mobile */
+  .pdf-viewer-container::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .pdf-viewer-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+  
+  .pdf-viewer-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+  }
+  
+  .pdf-viewer-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+  
+  /* Modal adjustments for mobile */
+  .modal-xl {
+    max-width: 95vw !important;
+    margin: 10px auto;
+  }
+  
+  .modal-xl .modal-body {
+    height: 65vh !important;
+    padding: 10px;
+  }
+  
+  /* Modal PDF viewer mobile adjustments */
+  .modal-pdf-viewer {
+    height: 65vh !important;
+    min-height: 400px !important;
+    max-height: 75vh !important;
+  }
+  
+  /* Calendar and PDF layout adjustments for mobile */
+  .session-col-12 {
+    flex-direction: column !important;
+  }
+  
+  .session-col-12 > .col-lg-4,
+  .session-col-12 > .col-md-4 {
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
+  
+  .session-col-12 > .col-lg-8,
+  .session-col-12 > .col-md-8 {
+    width: 100% !important;
+  }
+  
+  /* PDF viewer height adjustment for mobile */
+  .pdf-viewer-container {
+    height: 60vh !important;
+    min-height: 300px;
+  }
+}
+
+/* Additional mobile optimizations */
+@media (max-width: 480px) {
+  .pdf-viewer-container {
+    height: 35vh !important;
+    min-height: 250px;
+  }
+  
+  /* .modal-xl .modal-body {
+    height: 60vh !important;
+    padding: 8px;
+  } */
+  
+  /* Modal PDF viewer small mobile adjustments */
+  .modal-pdf-viewer {
+    height: 55vh !important;
+    min-height: 300px !important;
+    max-height: 60vh !important;
+  }
+  
+  .session-calendar-large {
+    font-size: 14px !important;
+    min-height: 200px !important;
+  }
+  
+  .session-calendar-large .react-calendar__month-view__days {
+    /* height: 200px !important; */
+    margin: 10px 0px 0px 0px !important;
+  }
+}
+
+/* Mobile PDF Viewer Heading Styles */
+@media (max-width: 768px) {
+  /* Make PDF viewer heading bigger on mobile */
+  .col-lg-8 h4,
+  .col-md-8 h4 {
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    margin-bottom: 15px !important;
+    color: var(--clr--primary) !important;
+  }
+  
+  /* Specific styling for List of Business tab PDF heading */
+  .session-list-buss .col-lg-8 h4,
+  .session-list-buss .col-md-8 h4 {
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    padding: 10px 0 !important;
+    border-bottom: 2px solid var(--clr--primary) !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+/* Additional mobile heading optimizations */
+@media (max-width: 480px) {
+  .col-lg-8 h4,
+  .col-md-8 h4 {
+    font-size: 22px !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .session-list-buss .col-lg-8 h4,
+  .session-list-buss .col-md-8 h4 {
+    font-size: 26px !important;
+    padding: 8px 0 !important;
+    margin-bottom: 18px !important;
+  }
+  .buss-cal .session-bac-rep{
+    font-size: 12px;
+  }
+}
+
+/* PDF Viewer Mobile Refresh Fixes */
+@media (max-width: 768px) {
+  /* Ensure PDF viewer container maintains dimensions after refresh */
+  .pdf-viewer-container {
+    position: relative !important;
+    /* overflow: hidden !important; */
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  /* Fix for iOS Safari PDF rendering issues */
+  .pdf-viewer-container .rpv-core__viewer {
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+  }
+  
+  /* Ensure PDF pages are properly sized on mobile */
+  .pdf-viewer-container .rpv-core__page {
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 5px auto !important;
+  }
+  
+  /* Fix for mobile PDF zoom and pan */
+  .pdf-viewer-container .rpv-core__page-layer {
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+  
+  /* Modal backdrop fix for mobile */
+  .modal-backdrop {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1040 !important;
+  }
+  
+  /* Ensure modal content is properly positioned on mobile */
+  .modal.show {
+    display: block !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1050 !important;
+  }
+}
+
+/* Additional fixes for mobile PDF viewer */
+@media (max-width: 768px) and (orientation: landscape) {
+  .pdf-viewer-container {
+    height: 60vh !important;
+    min-height: 200px;
+  }
+  
+  .modal-xl .modal-body {
+    height: 65vh !important;
+  }
+/*   
+  .modal-pdf-viewer {
+    height: 70vh !important;
+    min-height: 250px !important;
+  } */
+}
+
+/* Large screen optimizations for modal PDF viewer */
+@media (min-width: 1200px) {
+  .modal-pdf-viewer {
+    height: 80vh !important;
+    min-height: 700px !important;
+    max-height: 85vh !important;
+  }
+  
+  .modal-xl .modal-body {
+    height: 85vh !important;
+  }
+}
+
+/* Fix for mobile PDF viewer after page refresh */
+@media (max-width: 768px) {
+  .pdf-viewer-container {
+    will-change: transform !important;
+    -webkit-perspective: 1000px !important;
+    perspective: 1000px !important;
+  }
+  
+  /* Ensure PDF content is properly rendered after refresh */
+  .pdf-viewer-container .rpv-core__viewer {
+    will-change: auto !important;
+    -webkit-transform: none !important;
+    transform: none !important;
+  }
+}
+
+/* Ensure PDF content is properly sized and visible */
+.pdf-viewer-container .rpv-core__page {
+  margin: 10px auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+.pdf-viewer-container .rpv-core__page-layer {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Modal specific PDF viewer optimizations */
+.modal-pdf-viewer .rpv-core__viewer {
+  height: 100% !important;
+  /* overflow: auto !important; */
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.modal-pdf-viewer .rpv-core__page {
+  margin: 15px auto !important;
+  flex: 1 !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+/* Ensure PDF content fits properly in modal */
+.modal-pdf-viewer .rpv-core__page-layer {
+  max-width: 100% !important;
+  height: auto !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+/* Fix for PDF toolbar positioning in modal */
+.modal-pdf-viewer .rpv-core__toolbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
+  background: white !important;
+}
+
+@media (max-width: 767px) {
+  .session-select {
+    padding-bottom: 10px;
+  }
+  .filt .form-style1 label{
+    font-weight: 500;
+  }
+
+
+}
+@media (max-width: 976px) {
+    .session-calendar-large .react-calendar__navigation button{
+        font-size: 12px !important;
+      }
+    
+}
+@media (max-width: 1200px){
+    .session-col-12{
+        flex-direction:column !important;
+    }
+   
+
+}
+
+ 
+
+/* 1200px to 1400px: equal widths for calendar and PDF */
+@media (min-width: 1200px) and (max-width: 1400px){
+  .session-col-12{ 
+    flex-direction: row !important; 
+  }
+  .session-col-12 > .col-lg-4,
+  .session-col-12 > .col-md-4,
+  .session-col-12 > .col-lg-8,
+  .session-col-12 > .col-md-8{
+    flex: 0 0 50%;
+    max-width: 50%;
+    width: 50%;
+  }
+}
+@media (min-width: 767px) and (max-width: 1200px){
+    .session-col-12 .col-lg-4{
+width: 800px !important;
+    }
+    .session-col-12 .col-lg-8{
+        width: 800px !important;
+            }
+}
+.session-list-buss{
+    margin-bottom: 30px;
+}
+.modal .modal-dialog{
+  margin-top: 50px !important;
+  max-height: 90vh !important;
+}
+
+/* Ensure modal content can expand properly */
+.modal-xl .modal-content {
+    /* max-height: 80vh !important; */
+    /* height: auto !important; */
+    margin-top: 105px;
+    position: absolute;
+    /* left: 50%; */
+    /* right: 50%; */
+}
+
+.modal-xl .modal-body {
+  /* overflow: hidden !important; */
+  padding: 15px !important;
+}
+
+.buss-ca .myTable2 thead tr thl{
+  font-weight: 500;
+
+}
+
+
+.session-col-12{
+  margin-bottom: 30px;
+}
+
+
+.list-card-buss{
+  background-color: #ebe7fd;
+}
+
+/* -----Caledndar----------- */
+
+/* Continuous gradient background for range */
+/* .react-calendar__tile.date-in-range {
+  background: linear-gradient(135deg, #4f46e5, #3b82f6); 
+  color: #fff !important;
+  border-radius: 0 !important;
+} */
+
+/* Special allowed days (darker highlight inside range) */
+.react-calendar__tile.date-allowed-bg {
+  color: #fff !important;
+}
+
+/* Selected day */
+.react-calendar__tile.date-selected {
+  color: #fff !important;
+}
+
+/* Meeting dot */
+.meeting-dot {
+  width: 8px;
+  height: 8px;
+  margin: 2px auto 0;
+  border-radius: 50%;
+  background-color: #ff8709; /* red dot */
+}
+
+/* Remove all borders */
+.react-calendar__tile,
+.react-calendar__month-view__days__day {
+  border: none !important;
+}
+/* All dates from July 5 → Aug 5 get this background */
+.react-calendar__tile.date-in-range {
+  background: #e6e0ff !important;   /* light blue */
+  color: #111827 !important;        /* dark text */
+  border-radius: 0 !important;
+}
+/* .react-calendar__tile.date-in-range {
+  background: linear-gradient(135deg, #4f46e5, #3b82f6) !important;
+  color: #fff !important;
+  border-radius: 0 !important;
+} */
+
+/* Remove the gaps between cells */
+.react-calendar__month-view__days {
+  gap: 0 !important;            /* remove CSS gap */
+}
+
+.react-calendar__tile {
+  margin: 0 !important;         /* remove spacing */
+  border: none !important;      /* remove cell borders */
+}
+
+/* Make in-range background fill tightly without white gaps */
+.react-calendar__tile.date-in-range {
+  background: #3b82f6;
+  color: #fff !important;
+  border-radius: 0 !important;
+  background-clip: padding-box !important;
+}
+
+/* Optional: give the week row same background for perfect continuity */
+
+.react-calendar__month-view__days {
+  gap: 0 !important; /* no gap inside a row */
+}
+
+/* Make in-range dates blend together */
+.react-calendar__tile.date-in-range {
+  color: #fff !important;
+  border-radius: 0 !important;
+  background-clip: padding-box !important;
+}
+
+/* Separate rows with a gap */
+.react-calendar__month-view__week {
+  margin-bottom: 6px !important;/* space between weeks */
+  gap: 10px !important;
+}
+
+.session-calendar-large .react-calendar__tile{
+  margin-bottom: 5px !important;
+}
+
+.react-calendar__tile .react-calendar__month-view__days__day .date-in-range .date-allowed-bg{
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+
+
+.proceedings-list {
+    display: flex;
+    /* gap: 10px 15px; */
+    margin-top: 10px;
+    align-items: flex-start;
+    /* width: 100%; */
+    flex-direction: column;
+}
+
+.proceedings-list .proceeding-item-div {
+  flex: 0 0 auto;
+}
+
+.proceedings-list .proc {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #8b7cf1;
+  border-radius: 4px;
+  color: #5b44e2;
+  font-weight: 500;
+  /* padding: 6px 5px; */
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  background-color: #fff;
+  font-size: 13px;
+}
+
+.proceedings-list .proc:hover{}
+.proceedings-list .proc.active-event {
+  background-color: #5b44e2;
+  color: #fff;
+}
+.proceedings-list .proc.active-event .imgx {
+  background-color: #fff;
+}
+
+.proceedings-list .proc .imgx {
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+}
+.proceedings-list .proc:hover{
+  background-color: #5b44e2;
+
+}
+
+/* Modal styling is handled by Bootstrap */

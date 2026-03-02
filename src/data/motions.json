@@ -1,0 +1,257 @@
+{
+  "confidence_motions": [
+    {
+      "id": 1,
+      "kla_id": 14,
+      "year": 2020,
+      "date": "2020-08-24",
+      "mover": "Shri V. D. Satheesan MLA",
+      "discussion_date": "2020-08-24",
+      "votes_for": 40,
+      "votes_against": 87,
+      "result": "lost",
+      "description": "The motion was discussed on 24th August, 2020 and was put to vote and it was declared as lost.",
+      "image_url": "/images/abstract-blur-lobby.jpg"
+    }
+  ],
+  "motions_rule_130": [
+    {
+      "id": 1,
+      "serial_no": 1,
+      "date": "2016-07-18",
+      "mover": "Shri. Pinarayi Vijayan",
+      "subject": "സ്റ്റേറ്റ് ബാങ്ക് ഓഫ് ട്രാവന്‍കൂറിനെ സ്റ്റേറ്റ് ബാങ്ക് ഓഫ് ഇന്ത്യയില്‍ ലയിപ്പിക്കാനുള്ള നീക്കത്തില്‍ നിന്നും പിന്മാറണമെന്ന് റിസര്‍വ് ബാങ്കിനോടും കേന്ദ്ര സര്‍ക്കാറിനോടും ഈ സഭ അഭ്യര്‍ത്ഥിക്കുന്ന കാര്യം ചര്‍ച്ച ചെയ്യണം.",
+      "pdf_url": "/pdf1.pdf"
+    },
+    {
+      "id": 2,
+      "serial_no": 2,
+      "date": "2016-11-22",
+      "mover": "Shri. A. C. Moideen",
+      "subject": "കേന്ദ്ര സര്‍ക്കാര്‍ 500,1000 രൂപ നോട്ടുകള്‍ അസാധുവാക്കിയത് കാരണം സംസ്ഥാനത്ത് വിവിധ മേഖലയില്‍ പ്രത്യേകിച്ച് സഹകരണ മേഖലയില്‍ സംജാതമായിട്ടുള്ള പ്രതിസന്ധിയും ഗുരുതരമായ സ്ഥിതിവിശേഷവും ഈ സഭയില്‍ ചര്‍ച്ച ചെയ്യണം.",
+      "pdf_url": "/dummy.pdf"
+    },
+    {
+      "id": 3,
+      "serial_no": 3,
+      "date": "2017-06-08",
+      "mover": "Shri. Pinarayi Vijayan",
+      "subject": "സംസ്ഥാനങ്ങളുടെ അധികാരം കവര്‍ന്ന് കന്നുകാലി കശാപ്പ് ഫലത്തില്‍ വിലക്കിക്കൊണ്ട് കേന്ദ്രസര്‍ക്കാര്‍ പുറപ്പെടുവിച്ച വിജ്ഞാപനംമൂലം സംസ്ഥാനത്തുളവായിരിക്കുന്ന ഗുരുതരമായ സ്ഥിതിവിശേഷം ഇൗ സഭ ചര്‍ച്ച ചെയ്യണം. (Bulletin No.261)",
+      "pdf_url": "/pdff.pdf"
+    },
+    {
+      "id": 4,
+      "serial_no": 4,
+      "date": "2018-08-30",
+      "mover": "Shri. Pinarayi Vijayan",
+      "subject": "സംസ്ഥാനത്തു പൊതുവിലുണ്ടായ കാലവർഷക്കെടുതി മൂലം ഉളവായിരിക്കുന്ന ഗുരുതരമായ സ്ഥിതിവിശേഷവും പുനർനിർമാണത്തിനായി സ്വീകരിക്കേണ്ട നടപടികളും ഈ സഭ ചർച്ച ചെയ്യണം.",
+      "pdf_url": "/pdf1.pdf"
+    }
+  ],
+  "motions_adopted_rule_130": [
+    {
+      "id": 1,
+      "serial_no": 1,
+      "date": "2016-11-22",
+      "minister": "Sri. Pinarayi Vijayan, Hon. Chief Minister",
+      "statement": "On Demonetisation of 500 and 1000 notes",
+      "pdf_url": "/pdf/motions/2016_demonetisation.pdf"
+    },
+    {
+      "id": 2,
+      "serial_no": 2,
+      "date": "2018-08-30",
+      "minister": "Sri. Pinarayi Vijayan, Hon. Chief Minister",
+      "statement": "On the Monsoon disaster, the consequences and the steps to be taken for reconstruction of affected regions in the State of Kerala",
+      "pdf_url": "/pdf/motions/2018_monsoon_disaster.pdf"
+    },
+    {
+      "id": 3,
+      "serial_no": 3,
+      "date": "2019-10-30",
+      "minister": "Sri. Pinarayi Vijayan, Hon. Chief Minister",
+      "statement": "The motion to raise a discussion on the Crisis likely to be evolved in the agriculture and small scale industry sectors in the State consequent to the R.C.E.P Agreement.",
+      "pdf_url": "/pdf/motions/2019_rcep_crisis.pdf"
+    }
+  ],
+  "discussion_rule_58": [
+    {
+      "id": 1,
+      "serial_no": 1,
+      "date": "2016-10-19",
+      "member": "Sri. K S Sabarinadhan",
+      "subject": "Regarding road accidents and its remedial measures."
+    }
+  ],
+  "discussion_rule_205b": [
+    {
+      "id": 1,
+      "serial_no": 1,
+      "date": "2016-10-26",
+      "member": "Shri. K C Joseph",
+      "report": "16th Report of the Estimate Committee on MGP"
+    }
+  ],
+  "statement_rule_300": [
+    {
+      "id": 1,
+      "serial_no": 1,
+      "date": "2020-03-12",
+      "minister": "Shri. Pinarayi Vijayan",
+      "statement": "കൊറോണ വൈറസ് ബാധയുമായി ബന്ധപ്പെട്ട്",
+      "pdf_url": "/pdf1.pdf"
+    },
+    {
+      "id": 2,
+      "serial_no": 2,
+      "date": "2020-02-03",
+      "minister": "Smt K.K. Shailaja Teacher",
+      "statement": "കൊറോണ വൈറസ് സംബന്ധിച്ച്",
+      "pdf_url": "/dummy.pdf"
+    },
+    {
+      "id": 3,
+      "serial_no": 3,
+      "date": "2019-11-21",
+      "minister": "Shri. Pinarayi Vijayan",
+      "statement": "കേരള പുനര്‍ നിര്‍മാണ വികസന പരിപാടി സംബന്ധിച്ച്",
+      "pdf_url": "/pdff.pdf"
+    },
+    {
+      "id": 4,
+      "serial_no": 4,
+      "date": "2019-02-04",
+      "minister": "Shri V.S. Sunil Kumar",
+      "statement": "സംസ്ഥാനത്തു കാർഷികമേഖലയിലെ കീടനാശിനികളുടെ അമിതോപയോഗം തടയുന്നതു സംബന്ധിച്ച്",
+      "pdf_url": "/pdf1.pdf"
+    },
+    {
+      "id": 5,
+      "serial_no": 5,
+      "date": "2018-12-11",
+      "minister": "Sri. Pinarayi Vijayan",
+      "statement": "On the decision by the Central Government to begin public-private partnership in the development of International Airport, Thiruvananthapuram",
+      "pdf_url": "/dummy.pdf"
+    },
+    {
+      "id": 6,
+      "serial_no": 6,
+      "date": "2018-12-06",
+      "minister": "Sri. A K Saseendran",
+      "statement": "On revise of Auto-Taxi fare",
+      "pdf_url": "/pdff.pdf"
+    },
+    {
+      "id": 7,
+      "serial_no": 7,
+      "date": "2018-11-29",
+      "minister": "Sri. Pinarayi Vijayan",
+      "statement": "On the massive flood disaster and the survival, relief and reconstruction measures adopted thereafter",
+      "pdf_url": "/pdf1.pdf"
+    },
+    {
+      "id": 8,
+      "serial_no": 8,
+      "date": "2018-06-21",
+      "minister": "Sri. Pinarayi Vijayan",
+      "statement": "On the Crisis affecting the Plantation Sector",
+      "pdf_url": "/dummy.pdf"
+    },
+    {
+      "id": 9,
+      "serial_no": 9,
+      "date": "2018-06-19",
+      "minister": "Sri. Pinarayi Vijayan",
+      "statement": "On the devastation due to natural calamities in monsoon season",
+      "pdf_url": "/pdff.pdf"
+    },
+    {
+      "id": 10,
+      "serial_no": 10,
+      "date": "2018-06-07",
+      "minister": "Sri. V S Sunilkumar",
+      "statement": "On Agricultural Loan",
+      "pdf_url": "/pdf1.pdf"
+    },
+    {
+      "id": 11,
+      "serial_no": 11,
+      "date": "2018-03-28",
+      "minister": "Sri. K. Raju",
+      "statement": "On the Compensation to legal heirs of victims of attack by fauna",
+      "pdf_url": "/dummy.pdf"
+    },
+    {
+      "id": 12,
+      "serial_no": 12,
+      "date": "2018-03-20",
+      "minister": "Sri. Pinarayi Vijayan",
+      "statement": "On Reservation of ST in Government Service",
+      "pdf_url": "/pdff.pdf"
+    },
+    {
+      "id": 13,
+      "serial_no": 13,
+      "date": "2018-01-25",
+      "minister": "Sri. Pinarayi Vijayan",
+      "statement": "On the relief measures taken by Government after the sudden impact of Okhi Cyclone in Kerala",
+      "pdf_url": "/pdf1.pdf"
+    },
+    {
+      "id": 14,
+      "serial_no": 14,
+      "date": "2018-01-25",
+      "minister": "Sri. A.K. Balan",
+      "statement": "On the 70th Anniversary of Martyrdom of Mahatma Gandhi",
+      "pdf_url": "/dummy.pdf"
+    },
+    {
+      "id": 15,
+      "serial_no": 15,
+      "date": "2017-11-09",
+      "minister": "Sri. Pinarayi Vijayan",
+      "statement": "On Solar Inquiry Commission Report",
+      "pdf_url": "/pdff.pdf"
+    },
+    {
+      "id": 16,
+      "serial_no": 16,
+      "date": "2017-08-21",
+      "minister": "Sri. Pinarayi Vijayan",
+      "statement": "On Climate change, Rainfall shortage, Rain water Harvesting and Water Conservation",
+      "pdf_url": "/pdf1.pdf"
+    },
+    {
+      "id": 17,
+      "serial_no": 17,
+      "date": "2017-04-27",
+      "minister": "Sri. Pinarayi Vijayan",
+      "statement": "On Education Loan Repayment Support Scheme",
+      "pdf_url": "/dummy.pdf"
+    },
+    {
+      "id": 18,
+      "serial_no": 18,
+      "date": "2017-03-01",
+      "minister": "Sri. E. Chandrasekharan",
+      "statement": "On Steps being taken by the Government to face the severe drought in the State",
+      "pdf_url": "/pdff.pdf"
+    },
+    {
+      "id": 19,
+      "serial_no": 19,
+      "date": "2016-11-03",
+      "minister": "Sri. P Thilothaman",
+      "statement": "On National Food Security Act",
+      "pdf_url": "/pdf1.pdf"
+    },
+    {
+      "id": 20,
+      "serial_no": 20,
+      "date": "2016-07-18",
+      "minister": "Sri. Kadakampalli Surendran",
+      "statement": "Complete Electrification Project",
+      "pdf_url": "/dummy.pdf"
+    }
+  ]
+}

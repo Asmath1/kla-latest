@@ -1,0 +1,154 @@
+{
+  "calendar_section": {
+    "title": {
+      "malayalam": "കലണ്ടർ",
+      "english": "Calendar"
+    },
+    "current_year": 2025,
+    "current_month": 2,
+    "months": [
+      {
+        "id": 1,
+        "name_malayalam": "ജനുവരി",
+        "name_english": "January",
+        "short_name": "Jan"
+      },
+      {
+        "id": 2,
+        "name_malayalam": "ഫെബ്രുവരി",
+        "name_english": "February",
+        "short_name": "Feb"
+      },
+      {
+        "id": 3,
+        "name_malayalam": "മാർച്ച്",
+        "name_english": "March",
+        "short_name": "Mar"
+      },
+      {
+        "id": 4,
+        "name_malayalam": "ഏപ്രിൽ",
+        "name_english": "April",
+        "short_name": "Apr"
+      },
+      {
+        "id": 5,
+        "name_malayalam": "മെയ്",
+        "name_english": "May",
+        "short_name": "May"
+      },
+      {
+        "id": 6,
+        "name_malayalam": "ജൂൺ",
+        "name_english": "June",
+        "short_name": "Jun"
+      },
+      {
+        "id": 7,
+        "name_malayalam": "ജൂലൈ",
+        "name_english": "July",
+        "short_name": "Jul"
+      },
+      {
+        "id": 8,
+        "name_malayalam": "ഓഗസ്റ്റ്",
+        "name_english": "August",
+        "short_name": "Aug"
+      },
+      {
+        "id": 9,
+        "name_malayalam": "സെപ്റ്റംബർ",
+        "name_english": "September",
+        "short_name": "Sep"
+      },
+      {
+        "id": 10,
+        "name_malayalam": "ഒക്‌ടോബർ",
+        "name_english": "October",
+        "short_name": "Oct"
+      },
+      {
+        "id": 11,
+        "name_malayalam": "നവംബർ",
+        "name_english": "November",
+        "short_name": "Nov"
+      },
+      {
+        "id": 12,
+        "name_malayalam": "ഡിസംബർ",
+        "name_english": "December",
+        "short_name": "Dec"
+      }
+    ],
+    "weekdays": [
+      {
+        "id": 0,
+        "name_malayalam": "ഞായർ",
+        "name_english": "Sunday",
+        "short_name": "Sun"
+      },
+      {
+        "id": 1,
+        "name_malayalam": "തിങ്കൾ",
+        "name_english": "Monday",
+        "short_name": "Mon"
+      },
+      {
+        "id": 2,
+        "name_malayalam": "ചൊവ്വ",
+        "name_english": "Tuesday",
+        "short_name": "Tue"
+      },
+      {
+        "id": 3,
+        "name_malayalam": "ബുധൻ",
+        "name_english": "Wednesday",
+        "short_name": "Wed"
+      },
+      {
+        "id": 4,
+        "name_malayalam": "വ്യാഴം",
+        "name_english": "Thursday",
+        "short_name": "Thu"
+      },
+      {
+        "id": 5,
+        "name_malayalam": "വെള്ളി",
+        "name_english": "Friday",
+        "short_name": "Fri"
+      },
+      {
+        "id": 6,
+        "name_malayalam": "ശനി",
+        "name_english": "Saturday",
+        "short_name": "Sat"
+      }
+    ],
+    "legend": [
+      {
+        "type": "meeting",
+        "label": {
+          "malayalam": "യോഗം",
+          "english": "Meeting"
+        },
+        "color": "#4CAF50"
+      },
+      {
+        "type": "session",
+        "label": {
+          "malayalam": "സമ്മേളനം",
+          "english": "Session"
+        },
+        "color": "#2196F3"
+      },
+      {
+        "type": "holiday",
+        "label": {
+          "malayalam": "അവധി",
+          "english": "Holiday"
+        },
+        "color": "#FF5722"
+      }
+    ]
+  }
+}

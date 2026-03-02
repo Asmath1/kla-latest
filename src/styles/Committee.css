@@ -1,0 +1,712 @@
+.vLink {
+    color: var(--clr--primary);
+    padding: 5px 9px;
+    background: #dfdaf5;
+    border-radius: 4px;
+    display: block;
+    width: 100px;
+}
+
+.vLink:hover {
+    color: #fff;
+
+    background: var(--clr--primary);
+
+}
+
+.committi {
+    background-image: url(../images/cta-1.jpg);
+    padding: 25px 20px 20px 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    /* border: 1px solid #80808061; */
+    background-image: linear-gradient(to bottom, #e0e0e0 0%, #eaeaeb 52%, #ebebeb 100%);
+}
+
+.committi .card-header {
+    border: none;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.committi .card-body {
+    background-color: #e6e1ff !important;
+}
+
+.committi .dropdown-toggle {
+
+    border: 1px solid #848484 !important;
+    display: flex;
+    align-items: center;
+    line-height: 28px;
+    font-size: 16px;
+    border-radius: 5px;
+    height: 40px;
+}
+
+.committi .dropdown-item.active {
+    background-color: var(--clr--primary);
+    color: #fff;
+}
+
+.committi .dropdown-item:hover {
+    background-color: var(--clr--primary);
+}
+
+.committi .dropdown-item:hover .text {
+    color: #fff;
+}
+
+.committi .dropdown-item.active .text {
+    color: #fff !important;
+}
+
+.committi .selectkla option small {
+    font-size: 10px;
+}
+
+.committi .form-select:focus {
+    border: 1px solid #848484;
+    border-color: transparent;
+    outline: 0;
+    box-shadow: none;
+}
+
+.committi .selectkla .opt {
+    margin: 10px 0px;
+    background-color: red;
+    cursor: pointer;
+}
+
+.committi .selectkla .opt:hover {
+    background-color: green !important;
+}
+
+.committi .selectkla option:hover {
+    background-color: var(--clr--primary);
+}
+
+.committi .accordion .card-header h6 {
+    margin-bottom: 0px;
+}
+
+.committi .accordion .card-header h6 button {
+    padding: 12px 0px;
+    line-height: 25px;
+    color: var(--clr--dark);
+    text-align: left;
+}
+/* ------first letter color change ------------------ */
+/* .main-title .title::first-letter {
+    color: var(--clr--primary);
+} */
+
+@media only screen and (max-width:1220) {
+    .committi .accordion .card-header h6 button {
+        font-size: 13px;
+    }
+
+}
+
+@media only screen and (max-width:991px) {
+
+    .committi {
+        padding: 20px 10px 10px 10px;
+    }
+}
+
+.committi .accordion .card-header h6 .btn {
+    /* padding: 0px; */
+}
+
+/* .committi  .accordion  .card-header:before{
+    line-height: 26px;
+    color: var(--clr--dark);
+    position: relative;
+    right: 5px;
+} */
+.c-ptag p {
+    color: var(--clr--dark);
+    /* text-align: justify; */
+}
+
+.committeDt .tabDet {
+    border-bottom: none;
+    padding-bottom: 0px;
+    color: var(--clr--primary);
+}
+
+.committeeDt .singleD .ryt h5 {
+    font-size: 15px;
+    color: var(--clr--dark);
+    margin-bottom: 0px;
+}
+
+.fixed {
+    position: fixed;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    /* adjust as needed */
+    z-index: 1000;
+}
+
+.committeeDt .singleD img {
+    width: 16px;
+    top: 3px;
+    position: relative;
+}
+
+.committeeDt .tabDet {
+    border-bottom: 0px solid #E9E9E9;
+    padding-bottom: 0px;
+    color: var(--clr--primary);
+}
+
+.cMember .memberList img {
+    /* width: 150px; */
+    height: auto;
+    width: 100%;
+}
+
+.horiz-tab .nav-tabs .nav-link:hover {
+    border-color: transparent;
+    color: var(--clr--primary);
+}
+
+.cMember .memberList img {
+    padding: 0px 0px 0 0px;
+}
+
+.cMember .memberList .details h5 {
+    font-size: 15px;
+    min-height: 42px;
+    width: 150px;
+}
+
+.horiz-tab .nav-link {
+    font-size: 15px;
+    padding: .5rem .7rem;
+    font-weight: 600;
+    color: var(--clr--dark);
+    margin-top: 10px;
+    border: 1px solid transparent;
+
+}
+
+.horiz-tab .nav-tabs .nav-link.active {
+    background: var(--clr--primary);
+    color: #fff;
+    border-bottom: 1px solid var(--clr--primary);
+}
+
+.cta-job-v2 {
+    /* background-image: url(../images/cta-service-v1-bgv.jpg); */
+    background-image: url(../images/cta-service-v2-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 220px;
+}
+
+.committi .accordion .card {
+    margin-top: 0;
+    background-color: unset;
+    border: none !important;
+}
+
+.committi .accordion .collapse {
+    background: #fff;
+    padding: 11px 4px 4px 10px;
+    border-radius: 0px 0px 5px 6px;
+    margin-bottom: 7px;
+}
+
+.committi .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) .btn,
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) .btn-light {
+    background-color: rgb(255 255 255);
+    border-radius: 4px;
+}
+
+.committi .active {
+    /* background: #d9d1fe!important; */
+    background: var(--clr--primary);
+    padding: 9px 0px 0px 3px;
+}
+
+.committi .active button {
+    padding-top: 0px !important;
+    color: #fff !important;
+    ;
+}
+
+.sublinkz ul {
+    padding-left: 2px;
+    margin-bottom: 0px;
+}
+
+.sublinkz ul li a {
+    line-height: 18px;
+    color: var(--clr--dark);
+    font-size: 14.6px;
+    display: flex;
+    align-items: baseline;
+    padding: 4px 0px;
+}
+
+.sublinkz ul li a:hover {
+    color: var(--clr--primary);
+}
+
+.sublinkz ul li a img {
+    margin-right: 4px;
+    transition: all .3s ease-in-out;
+}
+
+.sublinkz ul li:hover img {
+    margin-right: 2px;
+}
+
+.sublinkz ul li {
+    line-height: 14px;
+    margin-bottom: 7px;
+}
+
+.committi .sidebar-accordion .card-header.active:before,
+.list-sidebar-style1 .card-header.active:before {
+    top: -10px;
+    position: relative;
+}
+
+/* ------------------sidebar accordion---------- */
+
+.AccordionChevron {
+    transition: transform 0.2s ease;
+}
+
+[data-state="open"] .AccordionChevron {
+    transform: rotate(180deg);
+}
+
+/* ----------------------------------------------------------- */
+
+/* Custom Chevron Rotation */
+.chevron {
+    transition: transform 0.2s ease-in-out;
+    font-size: 13px;
+    margin-left: 6px;
+    display: inline-block;
+}
+
+.chevron.rotate {
+    transform: rotate(180deg);
+}
+
+/* Accordion Card Header */
+.committi .card-header {
+    padding: 8px 10px;
+    cursor: pointer;
+    /* background: #fff; */
+    border-radius: 5px;
+    /* margin-bottom: 6px; */
+    font-weight: 600;
+    color: var(--clr--dark);
+    /* border: 1px solid #ddd; */
+}
+
+
+.committi .card.active .card-header {
+    background-color: var(--clr--primary);
+    color: #fff;
+    border: none;
+}
+
+/* Button Styling */
+.committi .card-header button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    color: inherit;
+}
+
+/* Sub-link container */
+.sublinkz ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+/* Sub-links */
+.sublinkz ul li a {
+    font-size: 14.5px;
+    color: var(--clr--dark);
+    text-decoration: none;
+    padding: 6px 8px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s ease;
+}
+
+.sublinkz ul li a:hover {
+    color: var(--clr--primary);
+}
+
+.sublinkz ul li a .triangle-icon {
+    font-size: 12px;
+    margin-right: 6px;
+    color: var(--clr--primary);
+}
+
+/* Select dropdown styling */
+.bootselect-multiselect .selectpicker {
+    width: 100%;
+    /* border: 1px solid #a19bff; */
+    border-radius: 6px;
+    padding: 8px 34px 8px 10px;
+    font-size: 15px;
+    /* color: var(--clr--primary); */
+    /* appearance: none; */
+    background: white url("/images/down-arrow-purple.svg") no-repeat right 14px center;
+    background-size: 12px;
+    border: none;
+}
+
+.btn-check:focus+.btn,
+.btn:focus {
+    box-shadow: none !important;
+}
+
+
+
+/* Active state styling */
+.committi .card.active .card-header {
+    background-color: var(--clr--primary);
+    color: #fff;
+}
+
+/* Accordion button styling */
+.committi .accordion-toggle {
+    all: unset;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    color: inherit;
+    padding: 0;
+    background: none;
+}
+
+/* Chevron icon */
+.committi .chevron {
+    transition: transform 0.2s ease-in-out;
+    font-size: 11px;
+    margin-left: 6px;
+    color: inherit;
+}
+
+.committi .chevron.rotate {
+    transform: rotate(180deg);
+}
+
+
+@media (max-width: 575.98px) {
+    .cta-job-v2 {
+        height: unset;
+    }
+
+    .committe-member {
+        .title {
+            font-size: 16px;
+        }
+
+        .text-th {
+            font-size: 16px;
+
+        }
+
+        small {
+            font-size: 13px;
+
+        }
+
+        .text-thm {
+            font-size: 12px;
+        }
+    }
+}
+.committe-member{
+    display: flex
+;
+    gap: 5px;
+    flex-direction: column;
+}
+
+/* Committee navigation active tab styles */
+.listings_category_nav_list_menu ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.listings_category_nav_list_menu ul li a:hover {
+    color: #000;
+}
+
+.listings_category_nav_list_menu ul li a:before {
+    background-color: #000;
+    bottom: -3px;
+    content: "";
+    height: 5px;
+    left: 50%;
+    position: absolute;
+    width: 0;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.listings_category_nav_list_menu ul li a.active {
+    color: #000;
+    font-weight: 600;
+}
+
+.listings_category_nav_list_menu ul li a.active:before {
+    width: 100%;
+    left: 0;
+}
+
+.categories_list_section {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Committee content alignment styles */
+.committe-member {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100%;
+    padding-top: 0;
+}
+
+.committe-member small {
+    margin-bottom: 2px;
+    font-weight: 500;
+    color: #666;
+}
+
+.committe-member h6.title {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.committe-member h6.text-th {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.committe-member h6.text-thm {
+    margin-top: 0;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.wrapperr {
+    align-items: flex-start !important;
+}
+
+.freelancer-single-style {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Table content centering styles */
+/* .tabley .myTable2 {
+    text-align: center;
+}
+
+.tabley .myTable2 th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tabley .myTable2 td {
+    text-align: center;
+    vertical-align: middle;
+} */
+
+/* Ensure specific columns that should remain left-aligned (like text content) */
+.tabley .myTable2 td:nth-child(2) {
+    text-align: left;
+}
+
+/* For tables with more text-heavy columns, adjust as needed */
+.tabley .myTable2 td:nth-child(3) {
+    text-align: left;
+}
+
+@media (max-width: 320px) {
+    .cta-job-v2 {
+        height: unset;
+    }
+
+    .committe-member {
+        .title {
+            font-size: 13px;
+        }
+
+        .text-th {
+            font-size: 13px;
+
+        }
+
+        small {
+            font-size: 11px;
+
+        }
+
+        .text-thm {
+            font-size: 11px;
+        }
+    }
+
+    .committeeDt .tabDet {
+        font-size: 18px;
+    }
+
+    .c-ptag p {
+        font-size: 12px;
+        text-align: justify;
+        line-height: 20px;
+    }
+
+    .grids .tabDet {
+        font-size: 16px;
+        margin-top: 14px;
+    }
+
+    .basicD .title {
+        font-size: 18px;
+
+    }
+
+    .singleD .ryt span {
+        font-size: 9px;
+    }
+
+    .committeeDt .singleD .ryt h5 {
+        font-size: 10px;
+
+    }
+
+    .accordion-toggle .title-text {
+        font-size: 12px;
+    }
+
+    .sublinkz .sub-item {
+        font-size: 10px;
+    }
+
+    .committi {
+        padding: 8px 18px 10px 10px;
+        line-height: 12px;
+    }
+
+    .bootselect-multiselect .selectpicker {
+        font-size: 12px;
+        padding: 5px 34px 5px 7px;
+    }
+
+    .main-title .text {
+        font-size: 13px;
+    }
+
+    .memberList .col-6 {
+        width: 50%;
+    }
+
+    .votingResult .tabley .myTable2 th {
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .votingResult .tabley .myTable2 td {
+        font-size: 12px;
+        font-weight: 400;
+    }
+
+    .memberPro .nav-tabs .nav-link span {
+        font-size: 13px;
+
+    }
+}
+
+@media (max-width: 412px) {
+    .c-ptag p {
+        font-size: 12px;
+        text-align: justify;
+    }
+
+    .main-title .title text {
+        text-align: center;
+        line-height: 24px;
+    }
+
+    .committeeDt .singleD .ryt h5 {
+        font-size: 11px !important;
+
+    }
+
+    .singleD .ryt h6 {
+        /* font-size: 10px !important; */
+
+    }
+    .sublinkz ul li{
+        margin-bottom: 0 !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .memberSection .col-sm-6 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+
+    .col-lg-9 .rightSide .mt-md-0 {
+        margin-top: 25px;
+    }
+
+}
+@media (max-width:500px){
+    .committee-intro{
+    font-size: 13px !important;
+    line-height: 22px !important;
+}
+}
+.committee-intro{
+    text-align: justify;
+    color: var(--bs-body-color) !important;
+}
+
+.disable-active-tab .nav-link.active {
+  background-color: transparent !important;
+    color: var(--clr--dark) !important;
+    font-weight: normal !important;
+    border-bottom: none !important;
+    font-weight: 600 !important;
+}

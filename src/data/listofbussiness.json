@@ -1,0 +1,73 @@
+{
+  "pageTitle": "List of Business",
+
+
+  "calendar": {
+    "startDate": "2025-07-05",
+    "endDate": "2025-08-05",
+    "allowedActiveDates": [
+      "2025-07-05",
+      "2025-07-06",
+      "2025-07-09",
+      "2025-07-12",
+      "2025-07-13",
+      "2025-07-30",
+      "2025-08-05"
+    ],
+    "meetingDates": [
+      "2025-07-09",
+      "2025-07-30"
+    ]
+  },
+
+  "filters": {
+    "KLA": {
+      "label": "KLA",
+      "options": [
+        "15th KLA",
+        "14th KLA",
+        "13th KLA"
+      ]
+    },
+    "SESSION_TYPE": {
+      "label": "Session Type",
+      "options": [
+        "Session 1",
+        "Session 5",
+        "Session 7",
+        "Session 8",
+        "Session 9"
+      ]
+    }
+  },
+
+
+  "infoCards": [
+    {
+      "id": 1,
+      "title": "Bulletin",
+      "link": "/pdf1"
+    },
+    {
+      "id": 2,
+      "title": "Question",
+      "link": "/pdf1"
+    },
+    {
+      "id": 3,
+      "title": "List of Business",
+      "link": "/pdf1"
+    },
+    {
+      "id": 4,
+      "title": "Short Notice Question",
+      "link": "/pdf1"
+    },
+    {
+      "id": 5,
+      "title": "Half an Hour Question",
+      "link": "/pdf1"
+    }
+
+  ]
+}

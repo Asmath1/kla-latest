@@ -1,0 +1,19 @@
+.speaker-prof {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  align-items: flex-start;
+  gap: 7px;
+}
+.cnfm-btn {
+     padding: 5px 25px;
+    border-radius: 5px;
+    display: inline-block;
+}
+.alert-card {
+    max-width: 600px;
+    background:#efebff;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 10px;
+    border: 1px solid var(--clr--primary);
+    border-radius: 5px;
+}

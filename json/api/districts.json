@@ -1,0 +1,60 @@
+{
+  "section": "districts_map",
+  "map_section": {
+    "title": {
+      "malayalam": "ജില്ലകളും പ്രതിനിധികളും",
+      "english": "Districts & Representatives"
+    },
+    "districts": [
+      {
+        "id": "thiruvananthapuram",
+        "name": {
+          "malayalam": "തിരുവനന്തപുരം",
+          "english": "Thiruvananthapuram"
+        },
+        "image": "/images/thiruvananthapuram.jpg",
+        "total_constituencies": 14,
+        "constituency_range": {
+          "start": 127,
+          "end": 140
+        },
+        "representatives": [
+          {
+            "id": 1,
+            "name": "V.Joy",
+            "constituency": "Varkala",
+            "constituency_no": "127",
+            "image": "/images/prof.png",
+            "party": "CPI(M)",
+            "phone": "+91-XXXXXXXXXX",
+            "email": "vjoy@niyamasabha.org"
+          },
+          {
+            "id": 2,
+            "name": "O.S. Ambika",
+            "constituency": "Attingal",
+            "constituency_no": "128",
+            "image": "/images/o-s-ambika_member_15_57.jpg",
+            "party": "CPI(M)",
+            "phone": "+91-XXXXXXXXXX",
+            "email": "osambika@niyamasabha.org"
+          }
+        ]
+      },
+      {
+        "id": "kollam",
+        "name": {
+          "malayalam": "കൊല്ലം",
+          "english": "Kollam"
+        },
+        "image": "/images/kollam.jpg",
+        "total_constituencies": 5,
+        "constituency_range": {
+          "start": 141,
+          "end": 145
+        },
+        "representatives": []
+      }
+    ]
+  }
+}

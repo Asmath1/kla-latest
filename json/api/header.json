@@ -1,0 +1,56 @@
+{
+  "section": "header",
+  "header_section": {
+    "logo": {
+      "white_logo": "/images/logq1.png",
+      "black_logo": "/images/logb1.png",
+      "alt": "Kerala Legislative Assembly Logo",
+      "width": 325,
+      "height": 100,
+      "link": "/"
+    },
+    "navigation": {
+      "menu_items": [
+        {
+          "id": 1,
+          "title": "About",
+          "link": null,
+          "has_submenu": true,
+          "submenu": [
+            {
+              "id": 11,
+              "title": "History",
+              "link": "/about/history"
+            },
+            {
+              "id": 12,
+              "title": "Functions",
+              "link": "/about/functions"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Members",
+          "link": "/members",
+          "has_submenu": false
+        }
+      ],
+      "search": {
+        "enabled": true,
+        "placeholder": "What service are you looking for today?",
+        "icon": "/images/search.png"
+      },
+      "login": {
+        "enabled": true,
+        "text": "Log in",
+        "link": "/login"
+      }
+    },
+    "mobile_menu": {
+      "enabled": true,
+      "icon_white": "/images/bars-solid.svg",
+      "icon_dark": "/images/right-margin_10396835.png"
+    }
+  }
+}

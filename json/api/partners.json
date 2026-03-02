@@ -1,0 +1,60 @@
+{
+  "section": "partner_websites",
+  "partners_section": {
+    "title": {
+      "malayalam": "പങ്കാളി വെബ്‌സൈറ്റുകൾ",
+      "english": "Partner Websites"
+    },
+    "enabled": true,
+    "partners": [
+      {
+        "id": 1,
+        "name": "Government of Kerala",
+        "logo": "/images/b1.png",
+        "link": "https://kerala.gov.in",
+        "description": "Official Government of Kerala Website"
+      },
+      {
+        "id": 2,
+        "name": "Kerala Police",
+        "logo": "/images/b3.png",
+        "link": "https://keralapolice.gov.in",
+        "description": "Kerala Police Official Website"
+      },
+      {
+        "id": 3,
+        "name": "Kerala Tourism",
+        "logo": "/images/b4.png",
+        "link": "https://keralatourism.org",
+        "description": "Kerala Tourism Official Website"
+      },
+      {
+        "id": 4,
+        "name": "Kerala PSC",
+        "logo": "/images/b5.png",
+        "link": "https://keralapsc.gov.in",
+        "description": "Kerala Public Service Commission"
+      },
+      {
+        "id": 5,
+        "name": "Kerala High Court",
+        "logo": "/images/b6.png",
+        "link": "https://hckerala.gov.in",
+        "description": "Kerala High Court Official Website"
+      },
+      {
+        "id": 6,
+        "name": "India.gov.in",
+        "logo": "/images/b2.png",
+        "link": "https://india.gov.in",
+        "description": "National Portal of India"
+      }
+    ],
+    "display_settings": {
+      "desktop_columns": 6,
+      "mobile_carousel": true,
+      "autoplay": true,
+      "autoplay_speed": 3000
+    }
+  }
+}

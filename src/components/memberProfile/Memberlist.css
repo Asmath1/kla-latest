@@ -1,0 +1,102 @@
+Animation classes .animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Member card hover effects */
+.member-card a:hover {
+  text-decoration: none;
+}
+
+.member-card img {
+  transition: transform 0.3s ease;
+}
+
+.member-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Line clamp for text overflow */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .alphabet-filter {
+    justify-content: center;
+  }
+
+  .alphabet-filter a {
+    width: 2rem;
+    height: 2rem;
+    margin: 0.125rem;
+  }
+}
+
+.list-group-item a{
+  color: #000;
+  text-decoration: none;
+}
+.list-group-item a:hover{
+  color: var(--clr--primary);
+  text-decoration: none;
+}
+.list-grp-item-head{
+  color: var(--clr--primary);
+
+}
+
+.facility-sec{
+  padding-left: 0;
+  margin: 0;
+}
+.list-group-item{
+  font-size: 14px;
+}
+
+.facil-sec{
+    color: var(--headings-color);
+}
+.fac-data{
+  color: var(--headings-color);
+}
+.fac-icon {
+ color: var(--clr--primary);
+  font-size: 1.2rem;
+  vertical-align: middle;
+}
+
+@media (max-width:576px){
+  .list-group-item{
+    font-size: 13px !important;
+    line-height: 22px !important;
+  }
+  .facility-sec li{
+    font-size: 13px !important;
+    line-height: 24px !important;
+  }
+  .facil-sec{
+    font-weight: 600 !important;
+  }
+  .hct-table-body{
+    font-size: 13px !important;
+    line-height: 24px !important;
+  }
+  .fm-container div p{
+    font-size: 13px !important;
+    line-height: 24px !important;
+  }
+} 

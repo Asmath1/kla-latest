@@ -1,0 +1,50 @@
+{
+  "success": true,
+  "data": {
+    "total_count": 7,
+    "members": [
+      {
+        "id": 1,
+        "member_name": "Member 1",
+        "committee": "Business Advisory Committee",
+        "status": "Member"
+      },
+      {
+        "id": 2,
+        "member_name": "Member 2",
+        "committee": "Committee on Environment",
+        "status": "Member"
+      },
+      {
+        "id": 3,
+        "member_name": "Member 3",
+        "committee": "Committee on Environment",
+        "status": "Member"
+      },
+      {
+        "id": 4,
+        "member_name": "Member 4",
+        "committee": "Business Advisory Committee",
+        "status": "Member"
+      },
+      {
+        "id": 5,
+        "member_name": "Member 5",
+        "committee": "Committee of Privileges and Ethics",
+        "status": "Member"
+      },
+      {
+        "id": 6,
+        "member_name": "Member 6",
+        "committee": "Committee on Estimates",
+        "status": "Member"
+      },
+      {
+        "id": 7,
+        "member_name": "Member 7",
+        "committee": "Committee on Estimates",
+        "status": "Chairperson"
+      }
+    ]
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "api_version": "1.0",
+  "base_url": "https://api.niyamasabha.org/v1",
+  "endpoints": {
+    "home_page": {
+      "url": "/pages/home",
+      "method": "GET",
+      "description": "Get complete home page data",
+      "response": "Combined data from all sections"
+    },
+    "header": {
+      "url": "/sections/header",
+      "method": "GET",
+      "description": "Get header navigation data",
+      "file": "header.json"
+    },
+    "banner": {
+      "url": "/sections/banner",
+      "method": "GET",
+      "description": "Get banner carousel data",
+      "file": "banner.json"
+    },
+    "latest_updates": {
+      "url": "/sections/latest",
+      "method": "GET",
+      "description": "Get latest news and updates",
+      "file": "latest.json"
+    },
+    "calendar": {
+      "url": "/sections/calendar",
+      "method": "GET",
+      "description": "Get calendar configuration",
+      "file": "calendar.json"
+    },
+    "calendar_events": {
+      "url": "/calendar/events",
+      "method": "GET",
+      "description": "Get calendar events by year/month",
+      "parameters": {
+        "year": "2025",
+        "month": "2"
+      },
+      "file": "calendar-events.json"
+    },
+    "districts": {
+      "url": "/districts",
+      "method": "GET",
+      "description": "Get all districts with representatives",
+      "file": "districts.json"
+    },
+    "district_detail": {
+      "url": "/districts/{district_id}",
+      "method": "GET",
+      "description": "Get specific district details",
+      "parameters": {
+        "district_id": "thiruvananthapuram"
+      }
+    },
+    "partners": {
+      "url": "/sections/partners",
+      "method": "GET",
+      "description": "Get partner websites",
+      "file": "partners.json"
+    },
+    "menu": {
+      "url": "/navigation/menu",
+      "method": "GET",
+      "description": "Get navigation menu items",
+      "parameters": {
+        "language_id": 1
+      }
+    }
+  }
+}

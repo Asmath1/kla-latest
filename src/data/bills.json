@@ -1,0 +1,361 @@
+{
+  "billsProcedure": {
+    "rules": {
+      "pdfTitle": "Rules",
+      "linkTitle": "Bill Rules",
+      "pdfFile": "/pdf1.pdf"
+    },
+    "intro": {
+      "pdfTitle": "Schedule of Days for Answering Questions - 15th Kla - Session 13",
+      "linkTitle": "How bills become act",
+      "pdfFile": "/pdf1.pdf"
+    }
+  },
+
+  "mainTabs": {
+    "bills": {
+      "filters": {
+        "kla": [
+          "16th KLA",
+          "15th KLA",
+          "14th KLA",
+          "13th KLA",
+          "12th KLA",
+          "11th KLA",
+          "10th KLA"
+        ],
+        "session": ["Session 1", "Session 2", "Session 3", "Session 4"],
+        "sessionStartDate": ["01-02-2018", "02-06-2019", "23-07-2020"],
+        "sessionEndDate": ["10-02-2018", "19-06-2019", "10-08-2020"],
+        "billType": ["Govt", "Private"],
+        "billCategory": ["Original", "Amendment", "Appropriation"],
+        "billStatus": [
+          "Published",
+          "Introduced",
+          "Passed",
+          "Assented",
+          "Removed"
+        ]
+      },
+
+      "billsTable": [
+        {
+          "slNo": 1,
+          "billNo": 2,
+          "title": "2020-ലെ കേരള ധനവിനിയോഗ (2-ാം നമ്പർ) ബിൽ",
+          "type": "Govt Bill",
+          "dateIntro": "10.12.2025",
+          "introducedBy": "Abdul Hameed Master",
+          "assentDate": "12.12.2025",
+          "status": "Published",
+          "pdfFile": "/pdf1.pdf",
+          "billInformation": {
+            "billNumber": "259",
+            "kla": "14",
+            "title": "2020-ലെ കേരള ധനവിനിയോഗ (2-ാം നമ്പർ) ബിൽ",
+            "billTitlePdf": "/pdf1.pdf",
+            "shortTitle": "2020-ലെ കേരള ധനവിനിയോഗ (2-ാം നമ്പർ) ബിൽ",
+            "type": "Government",
+            "billTypePdf": "/pdf1.pdf",
+            "category": "Appropriation Bill",
+            "introduced": "2020-03-03",
+            "billIntroducedPdf": "/pdf1.pdf",
+            "passed": "2020-03-03",
+            "published": "2020-03-12",
+            "billPublishedPdf": "/pdf1.pdf",
+            "assentBy": "Governor",
+            "act": "5 OF 2020",
+            "billActPdf": "/pdf1.pdf",
+            "gazette": "2020-03-24",
+            "pdfFile": "/pdf1.pdf"
+          }
+        },
+        {
+          "slNo": 2,
+          "billNo": 3,
+          "title": "The Kerala State Goods And Services Tax (Amendment) Bill, 2018",
+          "type": "Private Bill",
+          "dateIntro": "10.12.2025",
+          "introducedBy": "A C Moideen",
+          "assentDate": "12.12.2025",
+          "status": "Introduced",
+          "billInformation": {
+            "billNumber": "259",
+            "kla": "14",
+            "title": "2020-ലെ കേരള ധനവിനിയോഗ (2-ാം നമ്പർ) ബിൽ",
+            "billTitlePdf": "/pdf1.pdf",
+            "shortTitle": "2020-ലെ കേരള ധനവിനിയോഗ (2-ാം നമ്പർ) ബിൽ",
+            "type": "Government",
+            "billTypePdf": "/pdf1.pdf",
+            "category": "Appropriation Bill",
+            "introduced": "2020-03-03",
+            "billIntroducedPdf": "/pdf1.pdf",
+            "passed": "2020-03-03",
+            "published": "2020-03-12",
+            "billPublishedPdf": "/pdf1.pdf",
+            "assentBy": "Governor",
+            "act": "5 OF 2020",
+            "billActPdf": "/pdf1.pdf",
+            "gazette": "2020-03-24",
+            "pdfFile": "/pdf1.pdf"
+          }
+        },
+        {
+          "slNo": 3,
+          "billNo": 5,
+          "title": "2019-ലെ കേരള സഹകരണ ആശുപത്രി കോംപ്ലക്സും മെഡിക്കൽ സയൻസസ് അക്കാദമിയും അനുബന്ധ സ്ഥാപനങ്ങളും (ഏറ്റെടുക്കലും നടത്തിപ്പും)",
+          "dateIntro": "10.12.2025",
+          "introducedBy": "Chittayam Gopakumar",
+          "assentDate": "12.12.2025",
+          "status": "Referred to",
+          "billInformation": {
+            "billNumber": "259",
+            "kla": "14",
+            "title": "2020-ലെ കേരള ധനവിനിയോഗ (2-ാം നമ്പർ) ബിൽ",
+            "billTitlePdf": "/pdf1.pdf",
+            "shortTitle": "2020-ലെ കേരള ധനവിനിയോഗ (2-ാം നമ്പർ) ബിൽ",
+            "type": "Government",
+            "billTypePdf": "/pdf1.pdf",
+            "category": "Appropriation Bill",
+            "introduced": "2020-03-03",
+            "billIntroducedPdf": "/pdf1.pdf",
+            "passed": "2020-03-03",
+            "published": "2020-03-12",
+            "billPublishedPdf": "/pdf1.pdf",
+            "assentBy": "Governor",
+            "act": "5 OF 2020",
+            "billActPdf": "/pdf1.pdf",
+            "gazette": "2020-03-24",
+            "pdfFile": "/pdf1.pdf"
+          }
+        },
+        {
+          "slNo": 4,
+          "billNo": 1,
+          "title": "2019-ലെ കേരള വ്യവസായ ഏകജാലക ക്ലിയറൻസ് ബോർഡുകളും വ്യവസായ നഗരപ്രദേശ വികസനവും (ഭേദഗതി) ബിൽ",
+          "dateIntro": "10.12.2025",
+          "introducedBy": "D K Murali",
+          "assentDate": "10.12.2025",
+          "status": "Passed",
+          "billInformation": {
+            "billNumber": "259",
+            "kla": "14",
+            "title": "2020-ലെ കേരള ധനവിനിയോഗ (2-ാം നമ്പർ) ബിൽ",
+            "billTitlePdf": "/pdf1.pdf",
+            "shortTitle": "2020-ലെ കേരള ധനവിനിയോഗ (2-ാം നമ്പർ) ബിൽ",
+            "type": "Government",
+            "billTypePdf": "/pdf1.pdf",
+            "category": "Appropriation Bill",
+            "introduced": "2020-03-03",
+            "billIntroducedPdf": "/pdf1.pdf",
+            "passed": "2020-03-03",
+            "published": "2020-03-12",
+            "billPublishedPdf": "/pdf1.pdf",
+            "assentBy": "Governor",
+            "act": "5 OF 2020",
+            "billActPdf": "/pdf1.pdf",
+            "gazette": "2020-03-24",
+            "pdfFile": "/pdf1.pdf"
+          }
+        },
+        {
+          "slNo": 5,
+          "billNo": 7,
+          "title": "The University Laws (Amendment) Bill, 2019",
+          "dateIntro": "10.12.2025",
+          "introducedBy": "DR. Mathew Kuzhalnadan",
+          "assentDate": "10.12.2025",
+          "status": "Assented",
+          "billInformation": {
+            "billNumber": "259",
+            "kla": "14",
+            "title": "2020-ലെ കേരള ധനവിനിയോഗ (2-ാം നമ്പർ) ബിൽ",
+            "billTitlePdf": "/pdf1.pdf",
+            "shortTitle": "2020-ലെ കേരള ധനവിനിയോഗ (2-ാം നമ്പർ) ബിൽ",
+            "type": "Government",
+            "billTypePdf": "/pdf1.pdf",
+            "category": "Appropriation Bill",
+            "introduced": "2020-03-03",
+            "billIntroducedPdf": "/pdf1.pdf",
+            "passed": "2020-03-03",
+            "published": "2020-03-12",
+            "billPublishedPdf": "/pdf1.pdf",
+            "assentBy": "Governor",
+            "act": "5 OF 2020",
+            "billActPdf": "/pdf1.pdf",
+            "gazette": "2020-03-24",
+            "pdfFile": "/pdf1.pdf"
+          }
+        }
+      ]
+    },
+
+    "ordinances": {
+      "filters": {
+        "kla": [
+          "16th KLA",
+          "15th KLA",
+          "14th KLA",
+          "13th KLA",
+          "12th KLA",
+          "11th KLA",
+          "10th KLA"
+        ],
+        "session": ["Session 1", "Session 2", "Session 3", "Session 4"],
+        "sessionStartDate": ["01-02-2018", "02-06-2019", "23-07-2020"],
+        "sessionEndDate": ["10-02-2018", "19-06-2019", "10-08-2020"],
+        "billType": ["Govt", "Private"],
+        "billCategory": ["Original", "Ammendment", "Appropriation"],
+        "billStatus": [
+          "Published",
+          "Introduced",
+          "Passed",
+          "Assented",
+          "Removed"
+        ]
+      },
+
+      "ordinancesTable": [
+        {
+          "id": 1,
+          "ref": "PLO-001",
+          "title": "2020-ലെ കേരള ധനവിനിയോഗ (അനധികൃത ചെലവ്) ബിൽ ഡ്രാഫ്റ്റ്",
+          "type": "Draft Bill",
+          "pubDate": "10.12.2025",
+          "by": "Law Department",
+          "closingDate": "12.12.2025",
+          "status": "Open for Comments",
+          "pdfFile": "/pdf1.pdf"
+        },
+        {
+          "id": 2,
+          "ref": "PLO-002",
+          "title": "The Kerala State Goods And Services Tax (Amendment) Policy Document",
+          "type": "Policy Document",
+          "pubDate": "10.12.2025",
+          "by": "Tax Department",
+          "closingDate": "12.12.2025",
+          "status": "Under Review",
+          "pdfFile": "/pdf1.pdf"
+        },
+        {
+          "id": 3,
+          "ref": "PLO-003",
+          "title": "2019-ലെ കേരള സഹകരണ ആശുപത്രി കോംപ്ലക്സും മെഡിക്കൽ സയൻസസ് അക്കാദമിയും അനുബന്ധ സ്ഥാപനങ്ങളും (ഏറ്റെടുക്കലും നടത്തിപ്പും) റെഗുലേഷൻ",
+          "type": "",
+          "pubDate": "10.12.2025",
+          "by": "Health Department",
+          "closingDate": "12.12.2025",
+          "status": "Closed",
+          "pdfFile": "/pdf1.pdf"
+        },
+        {
+          "id": 4,
+          "ref": "PLO-004",
+          "title": "2019-ലെ കേരള വ്യവസായ ഏകജാലക ക്ലിയറൻസ് ബോർഡുകളും വ്യവസായ നഗരപ്രദേശ വികസനവും (ഭേദഗതി) ഗൈഡ്ലൈൻ",
+          "type": "",
+          "pubDate": "10.12.2025",
+          "by": "Industry Department",
+          "closingDate": "10.12.2025",
+          "status": "Incorporated",
+          "pdfFile": "/pdf1.pdf"
+        },
+        {
+          "id": 5,
+          "ref": "PLO-005",
+          "title": "The University Laws (Amendment) Regulation, 2019",
+          "type": "",
+          "pubDate": "10.12.2025",
+          "by": "Education Department",
+          "closingDate": "10.12.2025",
+          "status": "Rejected",
+          "pdfFile": "/pdf1.pdf"
+        }
+      ]
+    },
+
+    "pre-legislative": {
+      "filters": {
+        "kla": [
+          "16th KLA",
+          "15th KLA",
+          "14th KLA",
+          "13th KLA",
+          "12th KLA",
+          "11th KLA",
+          "10th KLA"
+        ],
+        "session": ["Session 1", "Session 2", "Session 3", "Session 4"],
+        "sessionStartDate": ["01-02-2018", "02-06-2019", "23-07-2020"],
+        "sessionEndDate": ["10-02-2018", "19-06-2019", "10-08-2020"],
+        "billType": ["Govt", "Private"],
+        "billCategory": ["Original", "Ammendment", "Appropriation"],
+        "billStatus": [
+          "Published",
+          "Introduced",
+          "Passed",
+          "Assented",
+          "Removed"
+        ]
+      },
+
+      "preLegislativeTable": [
+        {
+          "id": 1,
+          "ref": "PLO-001",
+          "title": "2020-ലെ കേരള ധനവിനിയോഗ (അനധികൃത ചെലവ്) ബിൽ ഡ്രാഫ്റ്റ്",
+          "type": "Draft Bill",
+          "pubDate": "10.12.2025",
+          "by": "Law Department",
+          "closingDate": "12.12.2025",
+          "status": "Open for Comments",
+          "pdfFile": "/pdf1.pdf"
+        },
+        {
+          "id": 2,
+          "ref": "PLO-002",
+          "title": "The Kerala State Goods And Services Tax (Amendment) Policy Document",
+          "type": "Policy Document",
+          "pubDate": "10.12.2025",
+          "by": "Tax Department",
+          "closingDate": "12.12.2025",
+          "status": "Under Review",
+          "pdfFile": "/pdf1.pdf"
+        },
+        {
+          "id": 3,
+          "ref": "PLO-003",
+          "title": "2019-ലെ കേരള സഹകരണ ആശുപത്രി കോംപ്ലക്സും മെഡിക്കൽ സയൻസസ് അക്കാദമിയും അനുബന്ധ സ്ഥാപനങ്ങളും (ഏറ്റെടുക്കലും നടത്തിപ്പും) റെഗുലേഷൻ",
+          "type": "",
+          "pubDate": "10.12.2025",
+          "by": "Health Department",
+          "closingDate": "12.12.2025",
+          "status": "Closed",
+          "pdfFile": "/pdf1.pdf"
+        },
+        {
+          "id": 4,
+          "ref": "PLO-004",
+          "title": "2019-ലെ കേരള വ്യവസായ ഏകജാലക ക്ലിയറൻസ് ബോർഡുകളും വ്യവസായ നഗരപ്രദേശ വികസനവും (ഭേദഗതി) ഗൈഡ്ലൈൻ",
+          "type": "",
+          "pubDate": "10.12.2025",
+          "by": "Industry Department",
+          "closingDate": "10.12.2025",
+          "status": "Incorporated",
+          "pdfFile": "/pdf1.pdf"
+        },
+        {
+          "id": 5,
+          "ref": "PLO-005",
+          "title": "The University Laws (Amendment) Regulation, 2019",
+          "type": "",
+          "pubDate": "10.12.2025",
+          "by": "Education Department",
+          "closingDate": "10.12.2025",
+          "status": "Rejected",
+          "pdfFile": "/pdf1.pdf"
+        }
+      ]
+    }
+  }
+}

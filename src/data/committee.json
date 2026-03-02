@@ -1,0 +1,837 @@
+{
+  "text": "Legislative committees are vital for executive oversight and handling the legislature's heavy workload efficiently.",
+  "KLA_List": ["15th", "14th", "13th", "12th", "11th", "10th", "9th"],
+
+  "sidebar": [
+    {
+      "id": "0",
+      "title": "Advisory committee",
+      "items": [
+        {
+          "name": "Library Advisory Committee",
+          "content": {
+            "committeeContentHeader": {
+              "committeeName": "COMMITTEE ON ENVIRONMENT",
+              "chairperson": "Mullakkara Retnakaran",
+              "constitutionDate": "2019-01-25",
+              "kla": "14th",
+              "photo": "images/j-chinchurani_member_15_198.jpg",
+              "tabs": {
+                "introduction": {
+                  "committeeName": "Committee on Environment",
+                  "heading": "Introduction",
+                  "text": "Committee on Environment is one of the welfare Committees constituted by Kerala Legislature in 1992...",
+                  "officers": [
+                    {
+                      "name": "Smt. Shabana Anjum",
+                      "phone": "0471-2512325",
+                      "designation": "Joint Secretary"
+                    },
+                    {
+                      "name": "Shri. G Suresh Kumar",
+                      "phone": "0471-2512325",
+                      "designation": "Deputy Secretary"
+                    },
+                    {
+                      "name": "Shri. Anil Kumar B",
+                      "phone": "0471-2512325",
+                      "designation": "Under Secretary"
+                    }
+                  ],
+                  "contact": {
+                    "phone": "0471-2512007",
+                    "email": "environment@niyamasabha.nic.in"
+                  }
+                },
+
+                "exOfficio": {
+                  "committeeName": "Committee on Environment",
+                  "heading": "Ex-Officio Members",
+                  "ministers": [
+                    {
+                      "name": "J Chinchurani",
+                      "role": "Member",
+                      "photo": "images/j-chinchurani_member_15_198.jpg"
+                    },
+                    {
+                      "name": "Ramachandran Kadannappalli",
+                      "role": "Member",
+                      "photo": "images/j-chinchurani_member_15_198.jpg"
+                    }
+                  ],
+                  "otherMembers": [
+                    "Member One",
+                    "Member Two",
+                    "Member Three",
+                    "Member Four",
+                    "Member Five",
+                    "Member Six",
+                    "Member Seven",
+                    "Member Eight",
+                    "Member Nine",
+                    "Member Ten",
+                    "Member Eleven"
+                  ]
+                },
+
+                "members": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Members List",
+                  "list": [
+                    {
+                      "name": "J Chinchurani",
+                      "role": "Member",
+                      "photo": "images/j-chinchurani_member_15_198.jpg"
+                    },
+                    {
+                      "name": "Ramachandran Kadannappalli",
+                      "role": "Member",
+                      "photo": "images/j-chinchurani_member_15_198.jpg"
+                    }
+                  ]
+                },
+
+                "subjectsSelected": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Subjects Selected",
+                  "tabledata": [
+                    {
+                      "slNo": 1,
+                      "subject": "പ്രളയാനന്തര സാഹചര്യ പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+                      "department": "Environment",
+                      "remarks": "",
+                      "document": "document.pdf"
+                    },
+                    {
+                      "slNo": 2,
+                      "subject": "വനസംരക്ഷണ നിയമം 2006-ന്റെ പ്രാബല്യവും കേരളത്തിലെ വനവികസന പ്രവർത്തനങ്ങളിലെ അതിന്റെ പ്രഭാവവും",
+                      "department": "Environment",
+                      "remarks": "",
+                      "document": "document.pdf"
+                    }
+                  ]
+                },
+
+                "billsReferred": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Bills Referred",
+                  "tablecontent": {
+                    "billNo": "5421",
+                    "billTitle": "പ്രളയാനന്തര സാഹചര്യം",
+                    "introDate": "12.12.2025",
+                    "remarks": ""
+                  }
+                },
+
+                "sittings": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Sittings",
+                  "tablecontent": [
+                    {
+                      "slNo": 1,
+                      "date": "13.12.2024",
+                      "subject": "പ്രളയാനന്തര സാഹചര്യ പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+                      "remarks": ""
+                    }
+                  ]
+                },
+
+                "schedules": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Schedules",
+                  "tablecontent": [
+                    {
+                      "slNo": 1,
+                      "type": "General Meeting",
+                      "dateFrom": "24.12.2025",
+                      "dateTo": "28.12.2025",
+                      "venue": "Chairman Suit, Kerala House, New Delhi"
+                    }
+                  ]
+                },
+
+                "studyTours": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Study Tours",
+                  "tablecontent": [
+                    {
+                      "slNo": 1,
+                      "subject": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+                      "dateFrom": "24.12.2025",
+                      "dateTo": "28.12.2025",
+                      "member_count": "10",
+                      "place": "Trivandrum"
+                    }
+                  ]
+                },
+
+                "reports": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Reports",
+                  "list": [
+                    {
+                      "id": 1,
+                      "reportNo": "44",
+                      "title": "44th Report",
+                      "committee": "Committee on Local Fund Accounts",
+                      "date": "2023-03-31",
+                      "type": "Audit",
+                      "pdf": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+                    }
+                  ]
+                },
+
+                "pressRelease": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Press Release",
+                  "list": [
+                    {
+                      "id": 1,
+                      "filename": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+                      "title": "44th Report",
+                      "committee": "Committee on Local Fund Accounts",
+                      "date": "2023-03-31",
+                      "type": "Audit",
+                      "pdf": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Library Advisory Committee",
+          "content": {
+            "committeeContentHeader": {
+              "committeeName": "COMMITTEE ON ENVIRONMENT",
+              "chairperson": "Mullakkara Retnakaran",
+              "constitutionDate": "2019-01-25",
+              "kla": "14th",
+              "photo": "images/j-chinchurani_member_15_198.jpg",
+              "tabs": {
+                "introduction": {
+                  "committeeName": "Committee on Environment",
+                  "heading": "Introduction",
+                  "text": "Committee on Environment is one of the welfare Committees constituted by Kerala Legislature in 1992...",
+                  "officers": [
+                    {
+                      "name": "Smt. Shabana Anjum",
+                      "phone": "0471-2512325",
+                      "designation": "Joint Secretary"
+                    },
+                    {
+                      "name": "Shri. G Suresh Kumar",
+                      "phone": "0471-2512325",
+                      "designation": "Deputy Secretary"
+                    },
+                    {
+                      "name": "Shri. Anil Kumar B",
+                      "phone": "0471-2512325",
+                      "designation": "Under Secretary"
+                    }
+                  ],
+                  "contact": {
+                    "phone": "0471-2512007",
+                    "email": "environment@niyamasabha.nic.in"
+                  }
+                },
+
+                "exOfficio": {
+                  "committeeName": "Committee on Environment",
+                  "heading": "Ex-Officio Members",
+                  "ministers": [
+                    {
+                      "name": "J Chinchurani",
+                      "role": "Member",
+                      "photo": "images/j-chinchurani_member_15_198.jpg"
+                    },
+                    {
+                      "name": "Ramachandran Kadannappalli",
+                      "role": "Member",
+                      "photo": "images/j-chinchurani_member_15_198.jpg"
+                    }
+                  ],
+                  "otherMembers": [
+                    "Member One",
+                    "Member Two",
+                    "Member Three",
+                    "Member Four",
+                    "Member Five",
+                    "Member Six",
+                    "Member Seven",
+                    "Member Eight",
+                    "Member Nine",
+                    "Member Ten",
+                    "Member Eleven"
+                  ]
+                },
+
+                "members": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Members List",
+                  "list": [
+                    {
+                      "name": "J Chinchurani",
+                      "role": "Member",
+                      "photo": "images/j-chinchurani_member_15_198.jpg"
+                    },
+                    {
+                      "name": "Ramachandran Kadannappalli",
+                      "role": "Member",
+                      "photo": "images/j-chinchurani_member_15_198.jpg"
+                    }
+                  ]
+                },
+
+                "subjectsSelected": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Subjects Selected",
+                  "tabledata": [
+                    {
+                      "slNo": 1,
+                      "subject": "പ്രളയാനന്തര സാഹചര്യ പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+                      "department": "Environment",
+                      "remarks": "",
+                      "document": "document.pdf"
+                    },
+                    {
+                      "slNo": 2,
+                      "subject": "വനസംരക്ഷണ നിയമം 2006-ന്റെ പ്രാബല്യവും കേരളത്തിലെ വനവികസന പ്രവർത്തനങ്ങളിലെ അതിന്റെ പ്രഭാവവും",
+                      "department": "Environment",
+                      "remarks": "",
+                      "document": "document.pdf"
+                    }
+                  ]
+                },
+
+                "billsReferred": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Bills Referred",
+                  "tablecontent": {
+                    "billNo": "5421",
+                    "billTitle": "പ്രളയാനന്തര സാഹചര്യം",
+                    "introDate": "12.12.2025",
+                    "remarks": ""
+                  }
+                },
+
+                "sittings": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Sittings",
+                  "tablecontent": [
+                    {
+                      "slNo": 1,
+                      "date": "13.12.2024",
+                      "subject": "പ്രളയാനന്തര സാഹചര്യ പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+                      "remarks": ""
+                    }
+                  ]
+                },
+
+                "schedules": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Schedules",
+                  "tablecontent": [
+                    {
+                      "slNo": 1,
+                      "type": "General Meeting",
+                      "dateFrom": "24.12.2025",
+                      "dateTo": "28.12.2025",
+                      "venue": "Chairman Suit, Kerala House, New Delhi"
+                    }
+                  ]
+                },
+
+                "studyTours": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Study Tours",
+                  "tablecontent": [
+                    {
+                      "slNo": 1,
+                      "subject": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+                      "dateFrom": "24.12.2025",
+                      "dateTo": "28.12.2025",
+                      "member_count": "10",
+                      "place": "Trivandrum"
+                    }
+                  ]
+                },
+
+                "reports": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Reports",
+                  "list": [
+                    {
+                      "id": 1,
+                      "reportNo": "44",
+                      "title": "44th Report",
+                      "committee": "Committee on Local Fund Accounts",
+                      "date": "2023-03-31",
+                      "type": "Audit",
+                      "pdf": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+                    }
+                  ]
+                },
+
+                "pressRelease": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Press Release",
+                  "list": [
+                    {
+                      "id": 1,
+                      "filename": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+                      "title": "44th Report",
+                      "committee": "Committee on Local Fund Accounts",
+                      "date": "2023-03-31",
+                      "type": "Audit",
+                      "pdf": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+
+        {
+          "name": "Library Advisory Committee",
+          "content": {
+            "committeeContentHeader": {
+              "committeeName": "COMMITTEE ON ENVIRONMENT",
+              "chairperson": "Mullakkara Retnakaran",
+              "constitutionDate": "2019-01-25",
+              "kla": "14th",
+              "photo": "images/j-chinchurani_member_15_198.jpg",
+              "tabs": {
+                "introduction": {
+                  "committeeName": "Committee on Environment",
+                  "heading": "Introduction",
+                  "text": "Committee on Environment is one of the welfare Committees constituted by Kerala Legislature in 1992...",
+                  "officers": [
+                    {
+                      "name": "Smt. Shabana Anjum",
+                      "phone": "0471-2512325",
+                      "designation": "Joint Secretary"
+                    },
+                    {
+                      "name": "Shri. G Suresh Kumar",
+                      "phone": "0471-2512325",
+                      "designation": "Deputy Secretary"
+                    },
+                    {
+                      "name": "Shri. Anil Kumar B",
+                      "phone": "0471-2512325",
+                      "designation": "Under Secretary"
+                    }
+                  ],
+                  "contact": {
+                    "phone": "0471-2512007",
+                    "email": "environment@niyamasabha.nic.in"
+                  }
+                },
+
+                "exOfficio": {
+                  "committeeName": "Committee on Environment",
+                  "heading": "Ex-Officio Members",
+                  "ministers": [
+                    {
+                      "name": "J Chinchurani",
+                      "role": "Member",
+                      "photo": "images/j-chinchurani_member_15_198.jpg"
+                    },
+                    {
+                      "name": "Ramachandran Kadannappalli",
+                      "role": "Member",
+                      "photo": "images/j-chinchurani_member_15_198.jpg"
+                    }
+                  ],
+                  "otherMembers": [
+                    "Member One",
+                    "Member Two",
+                    "Member Three",
+                    "Member Four",
+                    "Member Five",
+                    "Member Six",
+                    "Member Seven",
+                    "Member Eight",
+                    "Member Nine",
+                    "Member Ten",
+                    "Member Eleven"
+                  ]
+                },
+
+                "members": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Members List",
+                  "list": [
+                    {
+                      "name": "J Chinchurani",
+                      "role": "Member",
+                      "photo": "images/j-chinchurani_member_15_198.jpg"
+                    },
+                    {
+                      "name": "Ramachandran Kadannappalli",
+                      "role": "Member",
+                      "photo": "images/j-chinchurani_member_15_198.jpg"
+                    }
+                  ]
+                },
+
+                "subjectsSelected": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Subjects Selected",
+                  "tabledata": [
+                    {
+                      "slNo": 1,
+                      "subject": "പ്രളയാനന്തര സാഹചര്യ പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+                      "department": "Environment",
+                      "remarks": "",
+                      "document": "document.pdf"
+                    },
+                    {
+                      "slNo": 2,
+                      "subject": "വനസംരക്ഷണ നിയമം 2006-ന്റെ പ്രാബല്യവും കേരളത്തിലെ വനവികസന പ്രവർത്തനങ്ങളിലെ അതിന്റെ പ്രഭാവവും",
+                      "department": "Environment",
+                      "remarks": "",
+                      "document": "document.pdf"
+                    }
+                  ]
+                },
+
+                "billsReferred": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Bills Referred",
+                  "tablecontent": {
+                    "billNo": "5421",
+                    "billTitle": "പ്രളയാനന്തര സാഹചര്യം",
+                    "introDate": "12.12.2025",
+                    "remarks": ""
+                  }
+                },
+
+                "sittings": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Sittings",
+                  "tablecontent": [
+                    {
+                      "slNo": 1,
+                      "date": "13.12.2024",
+                      "subject": "പ്രളയാനന്തര സാഹചര്യ പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+                      "remarks": ""
+                    }
+                  ]
+                },
+
+                "schedules": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Schedules",
+                  "tablecontent": [
+                    {
+                      "slNo": 1,
+                      "type": "General Meeting",
+                      "dateFrom": "24.12.2025",
+                      "dateTo": "28.12.2025",
+                      "venue": "Chairman Suit, Kerala House, New Delhi"
+                    }
+                  ]
+                },
+
+                "studyTours": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Study Tours",
+                  "tablecontent": [
+                    {
+                      "slNo": 1,
+                      "subject": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+                      "dateFrom": "24.12.2025",
+                      "dateTo": "28.12.2025",
+                      "member_count": "10",
+                      "place": "Trivandrum"
+                    }
+                  ]
+                },
+
+                "reports": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Reports",
+                  "list": [
+                    {
+                      "id": 1,
+                      "reportNo": "44",
+                      "title": "44th Report",
+                      "committee": "Committee on Local Fund Accounts",
+                      "date": "2023-03-31",
+                      "type": "Audit",
+                      "pdf": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+                    }
+                  ]
+                },
+
+                "pressRelease": {
+                  "committeeName": "Committee on Environment",
+                  "head": "Press Release",
+                  "list": [
+                    {
+                      "id": 1,
+                      "filename": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+                      "title": "44th Report",
+                      "committee": "Committee on Local Fund Accounts",
+                      "date": "2023-03-31",
+                      "type": "Audit",
+                      "pdf": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "1",
+      "title": "Business Committee",
+      "items": [
+        {
+          "name": "Library Advisory Committee",
+          "content": "Same structure as Library Advisory Committee "
+        },
+        {
+          "name": "Legislature Museum Advisory Committee",
+          "content": "Same structure as Library Advisory Committee "
+        },
+
+        {
+          "name": "Subject Committee - V (Public Works, Transport and Communication)",
+          "content": "Same structure as Library Advisory Committee "
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Others",
+      "items": [
+        {
+          "name": "Library Advisory Committee",
+          "content": "Same structure as Library Advisory Committee "
+        },
+        {
+          "name": "Legislature Museum Advisory Committee",
+          "content": "Same structure as Library Advisory Committee "
+        },
+
+        {
+          "name": "Subject Committee - V (Public Works, Transport and Communication)",
+          "content": "Same structure as Library Advisory Committee "
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Subject committees",
+      "items": [
+        {
+          "name": "Library Advisory Committee",
+          "content": "Same structure as Library Advisory Committee "
+        },
+        {
+          "name": "Legislature Museum Advisory Committee",
+          "content": "Same structure as Library Advisory Committee "
+        },
+
+        {
+          "name": "Subject Committee - V (Public Works, Transport and Communication)",
+          "content": "Same structure as Library Advisory Committee "
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Financial committees",
+      "items": [
+        {
+          "name": "Library Advisory Committee",
+          "content": "Same structure as Library Advisory Committee "
+        },
+        {
+          "name": "Legislature Museum Advisory Committee",
+          "content": "Same structure as Library Advisory Committee "
+        },
+
+        {
+          "name": "Subject Committee - V (Public Works, Transport and Communication)",
+          "content": "Same structure as Library Advisory Committee "
+        }
+      ]
+    }
+  ],
+
+  "generalInfo": {
+    "introtab": {
+      "heading": "Introduction",
+      "text": "The vitality of the role of Legislature committees as a link between Legislature and Executive has base on two factors-the need for Legislature to be vigilant over actions of Executive and the heavy volume of work of Legislature with limited time at its disposal...."
+    },
+
+    "constitutionofCommittee": {
+      "heading": "Constitution of Committee",
+      "text": "The Committee on Environment is one of the Welfare Committees constituted by Kerala Legislature in 1992. The objective of the Committee is to study and examine the environmental issues being faced by the entire State..."
+    },
+
+    "committeeMembershipSearch": [
+      {
+        "KLA_List": [
+          "15th നിയമസഭ",
+          "14th നിയമസഭ",
+          "13th നിയമസഭ",
+          "12th നിയമസഭ",
+          "11th നിയമസഭ",
+          "10th നിയമസഭ",
+          "9th നിയമസഭ"
+        ],
+        "membersList": [
+          "Member 1",
+          "Member 2",
+          "Member 3",
+          "Member 4",
+          "Member 5",
+          "Member 6",
+          "Member 7"
+        ],
+        "chairmanList": [
+          "Chairman 1",
+          "Chairman 2",
+          "Chairman 3",
+          "Chairman 4"
+        ],
+        "committeeCategoryList": [
+          "All",
+          "Advisory Committee",
+          "Business Committee",
+          "Others",
+          "Subject Committees",
+          "Financial Committees",
+          "Welfare Committees",
+          "Adhoc Committees",
+          "Select Committees",
+          "Expert Committees"
+        ],
+        "orderBy": ["Committee", "Members"],
+        "cmsTable": [
+          {
+            "slNo": 1,
+            "memberName": "Member 1",
+            "committee": "BUSINESS ADVISORY COMMITTEE",
+            "status": "Member"
+          },
+          {
+            "slNo": 2,
+            "memberName": "Member 2",
+            "committee": "COMMITTEE ON ENVIRONMENT",
+            "status": "Member"
+          },
+          {
+            "slNo": 3,
+            "memberName": "Member 3",
+            "committee": "COMMITTEE ON ENVIRONMENT",
+            "status": "Member"
+          },
+          {
+            "slNo": 4,
+            "memberName": "Member 4",
+            "committee": "BUSINESS ADVISORY COMMITTEE",
+            "status": "Member"
+          },
+          {
+            "slNo": 5,
+            "memberName": "Member 5",
+            "committee": "COMMITTEE OF PRIVILEGES AND ETHICS",
+            "status": "Member"
+          },
+          {
+            "slNo": 6,
+            "memberName": "Member 6",
+            "committee": "COMMITTEE ON ESTIMATES",
+            "status": "Member"
+          },
+          {
+            "slNo": 7,
+            "memberName": "Member 7",
+            "committee": "COMMITTEE ON ESTIMATES",
+            "status": "Chairperson"
+          }
+        ]
+      }
+    ],
+
+    "committeReports": [
+      {
+        "KLA_List": [
+          "15th നിയമസഭ",
+          "14th നിയമസഭ",
+          "13th നിയമസഭ",
+          "12th നിയമസഭ",
+          "11th നിയമസഭ",
+          "10th നിയമസഭ",
+          "9th നിയമസഭ"
+        ],
+        "reportTypes": ["All", "Audit", "Subject Report", "Annual Report"],
+        "committeeCategories": [
+          "All",
+          "Advisory Committee",
+          "Business Committee",
+          "Others",
+          "Subject Committees",
+          "Financial Committees",
+          "Welfare Committees",
+          "Adhoc Committees",
+          "Select Committees",
+          "Expert Committees"
+        ],
+        "reportTitles": ["Report 1", "Report 2", "Report 3", "Report 4"],
+        "reportsTable": [
+          {
+            "slNo": 1,
+            "reportNo": "44",
+            "subject": "44th Report",
+            "committee": "COMMITTEE ON LOCAL FUND ACCOUNTS",
+            "datePresented": "2023-03-31",
+            "reportType": "Audit"
+          },
+          {
+            "slNo": 2,
+            "reportNo": "43",
+            "subject": "43rd Report",
+            "committee": "COMMITTEE ON LOCAL FUND ACCOUNTS",
+            "datePresented": "2023-03-31",
+            "reportType": "Audit"
+          }
+        ]
+      }
+    ],
+
+    "schedules": [
+      {
+        "committeeCategory": [
+          "All",
+          "Advisory Committee",
+          "Business Committee",
+          "Others",
+          "Subject Committees",
+          "Financial Committees",
+          "Welfare Committees",
+          "Adhoc Committees",
+          "Select Committees",
+          "Expert Committees"
+        ],
+        "committeeName": [
+          "Committee 1",
+          "Committee 2",
+          "Committee 3",
+          "Committee 4"
+        ]
+      }
+    ]
+  }
+}

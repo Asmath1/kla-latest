@@ -1,0 +1,89 @@
+/* Global mobile-only table accordion styles for tables with class `myTable2` */
+
+/* Hide generated accordion on desktop */
+.global-table-accordion {
+  display: none;
+}
+
+/* On small screens hide original table and show accordion */
+@media (max-width: 767px) {
+  table.myTable2 {
+    display: none !important;
+  }
+  .global-table-accordion {
+    display: block;
+  }
+
+  .fs-accordion-item {
+    /* border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    background: #fff; */
+  }
+  .fs-accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    font-weight: 600;
+    font-size: 15px;
+    background: #f8f8fb;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+  }
+  .fs-accordion-header .fs-accordion-label-text {
+    display: inline-block;
+    max-width: 85%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .fs-accordion-arrow {
+    margin-left: 12px;
+    transition: transform 0.2s ease;
+    font-size: 16px;
+  }
+  .fs-accordion-arrow.open {
+    transform: rotate(90deg);
+  }
+
+  .fs-accordion-body {
+    padding: 11px 14px;
+    display: none;
+    background: #ffffff;
+  }
+  .fs-accordion-body-row {
+    margin-bottom: 4px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-size: 13px;
+        line-height: 23px;
+        margin-bottom: 4px;
+        border-bottom: 1px solid #cecece;
+  }
+  .fs-accordion-label {
+    flex: 0 0 36%;
+    font-weight: 600;
+    color: #444;
+  }
+  .fs-accordion-value {
+    flex: 1;
+    color: #333;
+  }
+}
+
+/* Keep accordion hidden on larger screens */
+@media (min-width: 768px) {
+  .global-table-accordion {
+    display: none !important;
+  }
+}
+@media (max-width:576px){
+  .fs-accordion-item{
+    margin-bottom: 5px !important;
+    font-size: 13px !important;
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "search_modal": {
+    "modal_config": {
+      "id": "exampleModalToggle",
+      "aria_labelledby": "exampleModalToggleLabel",
+      "tabindex": -1,
+      "backdrop": true,
+      "keyboard": true
+    },
+    "modal_content": {
+      "close_button": {
+        "enabled": true,
+        "aria_label": "Close",
+        "icon": "×"
+      },
+      "search_field": {
+        "type": "text",
+        "placeholder": {
+          "malayalam": "നിങ്ങൾ ഇന്ന് ഏത് സേവനമാണ് തിരയുന്നത്?",
+          "english": "What service are you looking for today?"
+        },
+        "icon": {
+          "type": "faMagnifyingGlass",
+          "width": 20,
+          "height": 20,
+          "color": "black"
+        },
+        "class": "form-control border-0"
+      },
+      "search_button": {
+        "text": {
+          "malayalam": "തിരയുക",
+          "english": "Search"
+        },
+        "class": "ud-btn-search btn-thm",
+        "type": "submit"
+      }
+    },
+    "search_suggestions": {
+      "enabled": false,
+      "categories": [
+        {
+          "title": {
+            "malayalam": "ജനപ്രിയ തിരയലുകൾ",
+            "english": "Popular Searches"
+          },
+          "items": [
+            {
+              "text": {
+                "malayalam": "അംഗങ്ങൾ",
+                "english": "Members"
+              },
+              "link": "/members"
+            },
+            {
+              "text": {
+                "malayalam": "ബില്ലുകൾ",
+                "english": "Bills"
+              },
+              "link": "/business/bills"
+            },
+            {
+              "text": {
+                "malayalam": "ചോദ്യങ്ങൾ",
+                "english": "Questions"
+              },
+              "link": "/business/questions"
+            },
+            {
+              "text": {
+                "malayalam": "സമിതികൾ",
+                "english": "Committees"
+              },
+              "link": "/committees"
+            }
+          ]
+        },
+        {
+          "title": {
+            "malayalam": "വിഭാഗങ്ങൾ",
+            "english": "Categories"
+          },
+          "items": [
+            {
+              "text": {
+                "malayalam": "നിയമസഭാ ബിസിനസ്",
+                "english": "Assembly Business"
+              },
+              "link": "/business"
+            },
+            {
+              "text": {
+                "malayalam": "പാർലമെന്ററി",
+                "english": "Parliamentary"
+              },
+              "link": "/parliamentary"
+            },
+            {
+              "text": {
+                "malayalam": "സെക്രട്ടേറിയറ്റ്",
+                "english": "Secretariat"
+              },
+              "link": "/secretariat"
+            },
+            {
+              "text": {
+                "malayalam": "വിഭവങ്ങൾ",
+                "english": "Resources"
+              },
+              "link": "/resources"
+            }
+          ]
+        }
+      ]
+    },
+    "search_api": {
+      "endpoint": "/api/search",
+      "method": "GET",
+      "params": {
+        "query": "q",
+        "limit": 10,
+        "language": "ml"
+      }
+    },
+    "styling": {
+      "modal_class": "modal fade",
+      "dialog_class": "modal-dialog modal-dialog-centered",
+      "content_class": "modal-content",
+      "body_class": "modal-body",
+      "search_area_class": "popup-search-field search_area"
+    }
+  }
+}

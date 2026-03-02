@@ -1,0 +1,257 @@
+/* Fullscreen banner */
+.home-one {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    /* Full screen */
+    overflow: hidden;
+}
+
+/* Slick Carousel Wrapper */
+.banner-carousel {
+    height: 98vh;
+    /* Full height */
+}
+
+/* Ensure slides take full screen and remove gaps */
+.banner-carousel .slide {
+    width: 100%;
+    height: 100vh;
+    /* Full screen */
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    /* margin: 0 !important; */
+    padding: 0 !important;
+    margin-top: -6px;
+}
+
+/* Video Slide */
+.banner-carousel video {
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    object-fit: cover;
+}
+
+/* Dark Overlay */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Darker overlay */
+}
+
+/* Banner Content */
+.home1-banner-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 2;
+}
+
+/* .banner-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+} */
+
+/* .bannerSub {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: auto;
+} */
+
+/* Custom Arrow Styles */
+.custom-prev,
+.custom-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 2rem;
+    padding: 15px 15px;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    background: transparent;
+    /* No background by default */
+    border-radius: 50%;
+    transition: background 0.3s ease-in-out;
+    display: flex;
+}
+
+/* Positioning */
+.custom-prev {
+    /* left: 30px; */
+}
+
+.custom-next {
+    /* right: 30px; */
+    right: 5px;
+}
+
+
+/* Initially white arrow */
+.custom-prev img,
+.custom-next img {
+    /* filter: invert(1);  */
+    transition: filter 0.3s ease-in-out;
+}
+
+
+
+/* Hover Effect */
+.custom-prev:hover,
+.custom-next:hover {
+    background: white;
+    /* White background */
+}
+
+.custom-prev:hover img,
+.custom-next:hover img {
+    filter: invert(1);
+    /* Turns the white arrow to black */
+}
+
+/* Click (Active) Effect */
+.custom-prev:active,
+.custom-next:active {
+    background: white;
+}
+
+.custom-prev:active img,
+.custom-next:active img {
+    /* filter: invert(0);  */
+    filter: invert(1);
+
+}
+
+/* Fix for removing gaps between slides */
+.slick-slide {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.slick-slide>div {
+    margin: 0;
+    padding: 0;
+}
+
+.slick-vertical .slick-slide {
+    border: none !important;
+}
+
+/* Loader styles */
+.loading-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #111;
+    /* Dark background */
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Animation */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* --------------------------------------------------------- */
+/* Mobile responsive adjustments for banner height */
+@media screen and (max-width: 780px) {
+    .home-one {
+        height: 500px;
+    }
+
+    .banner-carousel {
+        height: 500px;
+    }
+
+    .banner-carousel .slide {
+        height: 500px;
+    }
+
+    .banner-carousel video {
+        height: 500px;
+    }
+
+    /* .custom-prev,
+    .custom-next {
+        top: 32%;
+        margin: 9px -13px;
+    } */
+}
+
+/* Specific adjustments for 410px to 770px range */
+@media screen and (min-width: 410px) and (max-width: 770px) {
+    .home-one {
+        height: 600px;
+    }
+
+    .banner-carousel {
+        height: 600px;
+    }
+
+    .banner-carousel .slide {
+        height: 600px;
+    }
+
+    .banner-carousel video {
+        height: 600px;
+    }
+
+    /* .custom-prev,
+    .custom-next {
+        top: 35%;
+    } */
+}
+
+/* Extra small mobile devices */
+@media screen and (max-width: 409px) {
+    .home-one {
+        height: 450px;
+    }
+
+    .banner-carousel {
+        height: 450px;
+    }
+
+    .banner-carousel .slide {
+        height: 450px;
+    }
+
+    .banner-carousel video {
+        height: 450px;
+    }
+
+    /* .custom-prev,
+    .custom-next {
+        top: 30%;
+    } */
+}
+
+.slick-track {
+    z-index: 3;
+    transform: translate3d(0px, 0px, 0px);
+}

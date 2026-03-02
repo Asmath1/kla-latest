@@ -1,0 +1,137 @@
+{
+  "calendar_events": {
+    "2025": {
+      "2": {
+        "15": [
+          {
+            "id": 1,
+            "type": "meeting",
+            "title": {
+              "malayalam": "കമ്മിറ്റി യോഗം",
+              "english": "Committee Meeting"
+            },
+            "time": "10:00 AM",
+            "location": {
+              "malayalam": "നിയമസഭാ ഹാൾ",
+              "english": "Assembly Hall"
+            },
+            "description": {
+              "malayalam": "പതിവ് കമ്മിറ്റി യോഗം",
+              "english": "Regular committee meeting"
+            },
+            "documents": [
+              {
+                "title": {
+                  "malayalam": "ബിസിനസ് ലിസ്റ്റ്",
+                  "english": "List of Business"
+                },
+                "link": "/documents/business-list.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": {
+                  "malayalam": "ബുള്ളറ്റിൻ",
+                  "english": "Bulletin"
+                },
+                "link": "/documents/bulletin.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": {
+                  "malayalam": "ചോദ്യങ്ങൾ",
+                  "english": "Questions"
+                },
+                "link": "/documents/questions.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": {
+                  "malayalam": "പേപ്പർ ലേയ്ഡ്",
+                  "english": "Paper Laid"
+                },
+                "link": "/documents/papers.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": {
+                  "malayalam": "ഹ്രസ്വ അറിയിപ്പ് ചോദ്യം",
+                  "english": "Short notice question"
+                },
+                "link": "/documents/short-notice.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": {
+                  "malayalam": "അര മണിക്കൂർ ചോദ്യങ്ങൾ",
+                  "english": "Half an hour questions"
+                },
+                "link": "/documents/half-hour.pdf",
+                "type": "pdf"
+              }
+            ]
+          }
+        ],
+        "9": [
+          {
+            "id": 2,
+            "type": "meeting",
+            "title": {
+              "malayalam": "കമ്മിറ്റി യോഗം",
+              "english": "Committee Meeting"
+            },
+            "time": "11:00 AM",
+            "location": {
+              "malayalam": "നിയമസഭാ ഹാൾ",
+              "english": "Assembly Hall"
+            },
+            "description": {
+              "malayalam": "പതിവ് കമ്മിറ്റി യോഗം",
+              "english": "Regular committee meeting"
+            },
+            "documents": []
+          }
+        ]
+      },
+      "8": {
+        "8": [
+          {
+            "id": 3,
+            "type": "session",
+            "title": {
+              "malayalam": "KLA: 15-ാം, സമ്മേളനം: 8 - ആരംഭം",
+              "english": "KLA: 15th, Session: 8 - Start"
+            },
+            "time": "11:00 AM",
+            "location": {
+              "malayalam": "പ്രധാന നിയമസഭാ ഹാൾ",
+              "english": "Main Assembly Hall"
+            },
+            "description": {
+              "malayalam": "15-ാം കേരള നിയമസഭ 8-ാം സമ്മേളനം ആരംഭിക്കുന്നു",
+              "english": "15th Kerala Legislative Assembly 8th Session begins"
+            }
+          }
+        ],
+        "16": [
+          {
+            "id": 4,
+            "type": "session",
+            "title": {
+              "malayalam": "KLA: 15-ാം, സമ്മേളനം: 8 - അവസാനം",
+              "english": "KLA: 15th, Session: 8 - End"
+            },
+            "time": "05:00 PM",
+            "location": {
+              "malayalam": "പ്രധാന നിയമസഭാ ഹാൾ",
+              "english": "Main Assembly Hall"
+            },
+            "description": {
+              "malayalam": "15-ാം കേരള നിയമസഭ 8-ാം സമ്മേളനം അവസാനിക്കുന്നു",
+              "english": "15th Kerala Legislative Assembly 8th Session concludes"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

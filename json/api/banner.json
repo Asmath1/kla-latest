@@ -1,0 +1,41 @@
+{
+  "section": "banner",
+  "banner_section": {
+    "enabled": true,
+    "slides": [
+      {
+        "id": 1,
+        "type": "video",
+        "source": "/images/bannervideo.mp4",
+        "thumbnail": "/images/video-thumb.jpg",
+        "autoplay": true,
+        "muted": true,
+        "loop": false,
+        "controls": false
+      },
+      {
+        "id": 2,
+        "type": "image",
+        "source": "/images/Niyamasabha_Mandiram.JPG",
+        "alt": "Niyamasabha Mandiram Building",
+        "title": "Kerala Legislative Assembly Building"
+      }
+    ],
+    "content": {
+      "title": {
+        "malayalam": "കേരള നിയമസഭ",
+        "english": "Kerala Legislative Assembly"
+      },
+      "description": {
+        "malayalam": "കേരള നിയമസഭയുടെ ഔദ്യോഗിക വെബ്‌സൈറ്റായ 'Niyamasabha.org'-ലേക്ക് സ്വാഗതം. 1888 മുതലുള്ള ആർക്കൈവുകൾ, സഭാ നടപടികളുടെ ദൈനംദിന അജണ്ട, സംഗ്രഹം, അനുബന്ധ വാർത്തകൾ, ഔദ്യോഗിക പത്രക്കുറിപ്പുകൾ എന്നിവയുൾപ്പെടെ കേരള നിയമസഭയുടെ എല്ലാ വശങ്ങളെയും കുറിച്ചുള്ള വിവരങ്ങൾക്ക് ഈ സമഗ്രമായ സൈറ്റിൽ ലോഗിൻ ചെയ്യുക. 'Niyamasabha.org' വഴി നിങ്ങൾക്ക് സഭാംഗങ്ങളെ ബന്ധപ്പെടാനും നിയമസഭയുടെ ഓൺലൈൻ ടെലിഫോൺ ഡയറക്ടറി ആക്‌സസ് ചെയ്യാനും കഴിയും.",
+        "english": "Welcome to 'Niyamasabha.org' - the official website of Kerala Legislative Assembly. Log in to this comprehensive site for information on all aspects of Kerala Niyamasabha, including archives from 1888 onwards, daily agenda and synopsis of the House proceedings, related news and official press releases. You can contact Members of the House through 'Niyamasabha.org' and also access the online telephone directory of the Legislature."
+      }
+    },
+    "settings": {
+      "autoplay_speed": 5000,
+      "transition": "vertical",
+      "show_arrows": true,
+      "show_dots": false
+    }
+  }
+}

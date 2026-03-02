@@ -1,0 +1,820 @@
+[
+    {
+        "id": 38,
+        "parent_id": null,
+        "type": "route",
+        "file_path": null,
+        "target": null,
+        "active": true,
+        "order": 0,
+        "config": null,
+        "widget_positions": null,
+        "created_at": "2025-10-09T05:03:50.000000Z",
+        "updated_at": "2025-10-09T05:03:50.000000Z",
+        "translations": [
+            {
+                "id": 83,
+                "menu_id": 38,
+                "language_id": 1,
+                "title": "Main Menu",
+                "description": "Main Menu"
+            },
+            {
+                "id": 84,
+                "menu_id": 38,
+                "language_id": 2,
+                "title": "Main Menu",
+                "description": "Main Menu"
+            }
+        ],
+        "children": [
+             {
+                "id": 40,
+                "parent_id": 38,
+                "type": "route",
+                "file_path": null,
+                "target": null,
+                "active": true,
+                "order": 0,
+                "config": null,
+                "widget_positions": null,
+                "created_at": "2025-10-09T05:04:59.000000Z",
+                "updated_at": "2025-10-09T05:04:59.000000Z",
+                "translations": [
+                    {
+                        "id": 87,
+                        "menu_id": 40,
+                        "language_id": 1,
+                        "title": "Niyamasabha",
+                        "description": "Niyamasabha"
+                    },
+                    {
+                        "id": 88,
+                        "menu_id": 40,
+                        "language_id": 2,
+                        "title": "Niyamasabha",
+                        "description": "Niyamasabha"
+                    }
+                ],
+                "children": [
+                    {
+                        "id": 46,
+                        "parent_id": 40,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/bills",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:09:54.000000Z",
+                        "updated_at": "2025-10-09T05:09:54.000000Z",
+                        "translations": [
+                            {
+                                "id": 99,
+                                "menu_id": 46,
+                                "language_id": 1,
+                                "title": "Bills",
+                                "description": "Bills"
+                            },
+                            {
+                                "id": 100,
+                                "menu_id": 46,
+                                "language_id": 2,
+                                "title": "Bills",
+                                "description": "Bills"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 45,
+                        "parent_id": 40,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/questions",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:09:14.000000Z",
+                        "updated_at": "2025-10-09T05:09:14.000000Z",
+                        "translations": [
+                            {
+                                "id": 97,
+                                "menu_id": 45,
+                                "language_id": 1,
+                                "title": "Questions",
+                                "description": "Questions"
+                            },
+                            {
+                                "id": 98,
+                                "menu_id": 45,
+                                "language_id": 2,
+                                "title": "Questions",
+                                "description": "Questions"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 44,
+                        "parent_id": 40,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/committe",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:08:32.000000Z",
+                        "updated_at": "2025-10-09T05:08:32.000000Z",
+                        "translations": [
+                            {
+                                "id": 95,
+                                "menu_id": 44,
+                                "language_id": 1,
+                                "title": "Committee",
+                                "description": "Committee"
+                            },
+                            {
+                                "id": 96,
+                                "menu_id": 44,
+                                "language_id": 2,
+                                "title": "Committee",
+                                "description": "Committee"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 43,
+                        "parent_id": 40,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/facilities-to-member",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:08:03.000000Z",
+                        "updated_at": "2025-10-09T05:08:03.000000Z",
+                        "translations": [
+                            {
+                                "id": 93,
+                                "menu_id": 43,
+                                "language_id": 1,
+                                "title": "Facility to Members",
+                                "description": "Facility to Members"
+                            },
+                            {
+                                "id": 94,
+                                "menu_id": 43,
+                                "language_id": 2,
+                                "title": "Facility to Members",
+                                "description": "Facility to Members"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 41,
+                        "parent_id": 40,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/memberlist",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:06:32.000000Z",
+                        "updated_at": "2025-10-09T05:06:32.000000Z",
+                        "translations": [
+                            {
+                                "id": 89,
+                                "menu_id": 41,
+                                "language_id": 1,
+                                "title": "Members of Niyamasabha",
+                                "description": "Members of Niyamasabha"
+                            },
+                            {
+                                "id": 90,
+                                "menu_id": 41,
+                                "language_id": 2,
+                                "title": "Members of Niyamasabha",
+                                "description": "Members of Niyamasabha"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 42,
+                        "parent_id": 40,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/parliament-members",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:07:31.000000Z",
+                        "updated_at": "2025-10-09T05:07:31.000000Z",
+                        "translations": [
+                            {
+                                "id": 91,
+                                "menu_id": 42,
+                                "language_id": 1,
+                                "title": "Members of Parliament",
+                                "description": "Members of Parliament"
+                            },
+                            {
+                                "id": 92,
+                                "menu_id": 42,
+                                "language_id": 2,
+                                "title": "Members of Parliament",
+                                "description": "Members of Parliament"
+                            }
+                        ],
+                        "children": []
+                    }
+                    
+                ]
+            },
+              {
+                "id": 47,
+                "parent_id": 38,
+                "type": "route",
+                "file_path": null,
+                "target": null,
+                "active": true,
+                "order": 0,
+                "config": null,
+                "widget_positions": null,
+                "created_at": "2025-10-09T05:11:02.000000Z",
+                "updated_at": "2025-10-09T05:11:02.000000Z",
+                "translations": [
+                    {
+                        "id": 101,
+                        "menu_id": 47,
+                        "language_id": 1,
+                        "title": "Business",
+                        "description": "Business"
+                    },
+                    {
+                        "id": 102,
+                        "menu_id": 47,
+                        "language_id": 2,
+                        "title": "Business",
+                        "description": "Business"
+                    }
+                ],
+                "children": [
+                    {
+                        "id": 53,
+                        "parent_id": 47,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/resume",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:20:16.000000Z",
+                        "updated_at": "2025-10-09T05:20:16.000000Z",
+                        "translations": [
+                            {
+                                "id": 115,
+                                "menu_id": 53,
+                                "language_id": 1,
+                                "title": "Resume",
+                                "description": "Resume"
+                            },
+                            {
+                                "id": 116,
+                                "menu_id": 53,
+                                "language_id": 2,
+                                "title": "Resume",
+                                "description": "Resume"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 55,
+                        "parent_id": 47,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/proceedings",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:22:02.000000Z",
+                        "updated_at": "2025-10-09T05:22:02.000000Z",
+                        "translations": [
+                            {
+                                "id": 119,
+                                "menu_id": 55,
+                                "language_id": 1,
+                                "title": "Proceedings",
+                                "description": "Proceedings"
+                            },
+                            {
+                                "id": 120,
+                                "menu_id": 55,
+                                "language_id": 2,
+                                "title": "Proceedings",
+                                "description": "Proceedings"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 54,
+                        "parent_id": 47,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/paper-to-be-laid",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:20:47.000000Z",
+                        "updated_at": "2025-10-09T05:20:47.000000Z",
+                        "translations": [
+                            {
+                                "id": 117,
+                                "menu_id": 54,
+                                "language_id": 1,
+                                "title": "Papers laid on the Table",
+                                "description": "Papers laid on the Table"
+                            },
+                            {
+                                "id": 118,
+                                "menu_id": 54,
+                                "language_id": 2,
+                                "title": "Papers laid on the Table",
+                                "description": "Papers laid on the Table"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 52,
+                        "parent_id": 47,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/bulletins",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:19:26.000000Z",
+                        "updated_at": "2025-10-09T05:19:26.000000Z",
+                        "translations": [
+                            {
+                                "id": 111,
+                                "menu_id": 52,
+                                "language_id": 1,
+                                "title": "Bulletin",
+                                "description": "Bulletin"
+                            },
+                            {
+                                "id": 112,
+                                "menu_id": 52,
+                                "language_id": 2,
+                                "title": "Bulletin",
+                                "description": "Bulletin"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 51,
+                        "parent_id": 47,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/debates",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:15:10.000000Z",
+                        "updated_at": "2025-10-09T05:15:10.000000Z",
+                        "translations": [
+                            {
+                                "id": 109,
+                                "menu_id": 51,
+                                "language_id": 1,
+                                "title": "Debates",
+                                "description": "Debates"
+                            },
+                            {
+                                "id": 110,
+                                "menu_id": 51,
+                                "language_id": 2,
+                                "title": "Debates",
+                                "description": "Debates"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 49,
+                        "parent_id": 47,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/list-of-business",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:13:12.000000Z",
+                        "updated_at": "2025-10-09T05:13:12.000000Z",
+                        "translations": [
+                            {
+                                "id": 105,
+                                "menu_id": 49,
+                                "language_id": 1,
+                                "title": "List of Business",
+                                "description": "List of Business"
+                            },
+                            {
+                                "id": 106,
+                                "menu_id": 49,
+                                "language_id": 2,
+                                "title": "List of Business",
+                                "description": "List of Business"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 48,
+                        "parent_id": 47,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/session-schedule",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:12:26.000000Z",
+                        "updated_at": "2025-10-09T05:12:26.000000Z",
+                        "translations": [
+                            {
+                                "id": 103,
+                                "menu_id": 48,
+                                "language_id": 1,
+                                "title": "Session Schedule",
+                                "description": "Session Schedule"
+                            },
+                            {
+                                "id": 104,
+                                "menu_id": 48,
+                                "language_id": 2,
+                                "title": "Session Schedule",
+                                "description": "Session Schedule"
+                            }
+                        ],
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "id": 56,
+                "parent_id": 38,
+                "type": "route",
+                "file_path": null,
+                "target": null,
+                "active": true,
+                "order": 0,
+                "config": null,
+                "widget_positions": null,
+                "created_at": "2025-10-09T05:22:27.000000Z",
+                "updated_at": "2025-10-09T05:22:27.000000Z",
+                "translations": [
+                    {
+                        "id": 121,
+                        "menu_id": 56,
+                        "language_id": 1,
+                        "title": "Parliamentary Functionaries",
+                        "description": "Parliamentary Functionaries"
+                    },
+                    {
+                        "id": 122,
+                        "menu_id": 56,
+                        "language_id": 2,
+                        "title": "Parliamentary Functionaries",
+                        "description": "Parliamentary Functionaries"
+                    }
+                ],
+                "children": [
+                    {
+                        "id": 64,
+                        "parent_id": 56,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/secretary",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:50:39.000000Z",
+                        "updated_at": "2025-10-09T05:50:39.000000Z",
+                        "translations": [
+                            {
+                                "id": 137,
+                                "menu_id": 64,
+                                "language_id": 1,
+                                "title": "Secretary",
+                                "description": "Secretary"
+                            },
+                            {
+                                "id": 138,
+                                "menu_id": 64,
+                                "language_id": 2,
+                                "title": "Secretary",
+                                "description": "Secretary"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 63,
+                        "parent_id": 56,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/chief-whip",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:50:02.000000Z",
+                        "updated_at": "2025-10-09T05:50:02.000000Z",
+                        "translations": [
+                            {
+                                "id": 135,
+                                "menu_id": 63,
+                                "language_id": 1,
+                                "title": "Chief Whip",
+                                "description": "Chief Whip"
+                            },
+                            {
+                                "id": 136,
+                                "menu_id": 63,
+                                "language_id": 2,
+                                "title": "Chief Whip",
+                                "description": "Chief Whip"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 62,
+                        "parent_id": 56,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/ministers",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:49:27.000000Z",
+                        "updated_at": "2025-10-09T05:49:27.000000Z",
+                        "translations": [
+                            {
+                                "id": 133,
+                                "menu_id": 62,
+                                "language_id": 1,
+                                "title": "Council of Ministers",
+                                "description": "Council of Ministers"
+                            },
+                            {
+                                "id": 134,
+                                "menu_id": 62,
+                                "language_id": 2,
+                                "title": "Council of Ministers",
+                                "description": "Council of Ministers"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 61,
+                        "parent_id": 56,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/leader-opposition-contact",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:48:50.000000Z",
+                        "updated_at": "2025-10-09T05:48:50.000000Z",
+                        "translations": [
+                            {
+                                "id": 131,
+                                "menu_id": 61,
+                                "language_id": 1,
+                                "title": "Leader of Opposition",
+                                "description": "Leader of Opposition"
+                            },
+                            {
+                                "id": 132,
+                                "menu_id": 61,
+                                "language_id": 2,
+                                "title": "Leader of Opposition",
+                                "description": "Leader of Opposition"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 60,
+                        "parent_id": 56,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/cm",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:48:18.000000Z",
+                        "updated_at": "2025-10-09T05:48:18.000000Z",
+                        "translations": [
+                            {
+                                "id": 129,
+                                "menu_id": 60,
+                                "language_id": 1,
+                                "title": "Chief Minister",
+                                "description": "Chief Minister"
+                            },
+                            {
+                                "id": 130,
+                                "menu_id": 60,
+                                "language_id": 2,
+                                "title": "Chief Minister",
+                                "description": "Chief Minister"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 59,
+                        "parent_id": 56,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/deputy-speaker",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:47:40.000000Z",
+                        "updated_at": "2025-10-09T05:47:40.000000Z",
+                        "translations": [
+                            {
+                                "id": 127,
+                                "menu_id": 59,
+                                "language_id": 1,
+                                "title": "Deputy Speaker",
+                                "description": "Deputy Speaker"
+                            },
+                            {
+                                "id": 128,
+                                "menu_id": 59,
+                                "language_id": 2,
+                                "title": "Deputy Speaker",
+                                "description": "Deputy Speaker"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 58,
+                        "parent_id": 56,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/speaker",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:24:18.000000Z",
+                        "updated_at": "2025-10-09T05:24:18.000000Z",
+                        "translations": [
+                            {
+                                "id": 125,
+                                "menu_id": 58,
+                                "language_id": 1,
+                                "title": "Speaker",
+                                "description": "Speaker"
+                            },
+                            {
+                                "id": 126,
+                                "menu_id": 58,
+                                "language_id": 2,
+                                "title": "Speaker",
+                                "description": "Speaker"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "id": 57,
+                        "parent_id": 56,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/governor",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T05:23:14.000000Z",
+                        "updated_at": "2025-10-09T05:23:14.000000Z",
+                        "translations": [
+                            {
+                                "id": 123,
+                                "menu_id": 57,
+                                "language_id": 1,
+                                "title": "Governor",
+                                "description": "Governor"
+                            },
+                            {
+                                "id": 124,
+                                "menu_id": 57,
+                                "language_id": 2,
+                                "title": "Governor",
+                                "description": "Governor"
+                            }
+                        ],
+                        "children": []
+                    }
+                ]
+            },
+          
+            {
+                "id": 65,
+                "parent_id": 38,
+                "type": "route",
+                "file_path": null,
+                "target": null,
+                "active": true,
+                "order": 0,
+                "config": null,
+                "widget_positions": null,
+                "created_at": "2025-10-09T05:51:55.000000Z",
+                "updated_at": "2025-10-09T05:51:55.000000Z",
+                "translations": [
+                    {
+                        "id": 139,
+                        "menu_id": 65,
+                        "language_id": 1,
+                        "title": "RTI/Contacts",
+                        "description": "RTI/Contacts"
+                    },
+                    {
+                        "id": 140,
+                        "menu_id": 65,
+                        "language_id": 2,
+                        "title": "RTI/Contacts",
+                        "description": "RTI/Contacts"
+                    }
+                ],
+                "children": [
+                    {
+                        "id": 66,
+                        "parent_id": 65,
+                        "type": "route",
+                        "file_path": null,
+                        "target": "/rti",
+                        "active": true,
+                        "order": 0,
+                        "config": null,
+                        "widget_positions": null,
+                        "created_at": "2025-10-09T10:11:27.000000Z",
+                        "updated_at": "2025-10-09T10:11:27.000000Z",
+                        "translations": [
+                            {
+                                "id": 141,
+                                "menu_id": 66,
+                                "language_id": 1,
+                                "title": "RTI",
+                                "description": "RTI"
+                            },
+                            {
+                                "id": 142,
+                                "menu_id": 66,
+                                "language_id": 2,
+                                "title": "RTI",
+                                "description": "RTI"
+                            }
+                        ],
+                        "children": []
+                    }
+                ]
+            }
+           
+        ]
+    }
+]

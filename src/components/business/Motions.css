@@ -1,0 +1,296 @@
+/* --------------------confidence/non confidence------------------ */
+
+/* .motion-confidence-section-title {
+  color: var(--headings-color);
+  font-size: 22px;
+  font-weight: 600;
+  border-left: 4px solid var(--clr--primary);
+  padding-left: 10px;
+  margin-bottom: 25px;
+} */
+.motion-confidence-content {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 25px;
+  line-height: 1.7;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.motion-confidence-text-content {
+  flex: 1;
+}
+
+.motion-confidence-image img {
+  /* width: 260px; */
+  height: auto;
+  border-radius: 6px;
+  object-fit: cover;
+  margin-top: 85px;
+}
+
+.motion-confidence-year {
+  font-size: 18px;
+  color: var(--primary-color, #6440fb);
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.motion-confidence-text {
+  font-size: 15px;
+  margin-bottom: 12px;
+  color: var(--body-text-color, #333);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1300px) {
+  .motion-confidence-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 18px;
+  }
+
+  .motion-confidence-image img {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 15px;
+  }
+
+  .motion-confidence-text {
+    font-size: 14px;
+  }
+
+  .motion-confidence-section-title {
+    font-size: 18px;
+  }
+}
+
+/* ===== Motion Confidence / Rule 130 Common Styles ===== */
+
+
+
+/* Table Styling – same as your project’s existing tables */
+.motion-confidence-section .table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.motion-confidence-section .table th,
+.motion-confidence-section .table td {
+  border: 1px solid #dee2e6; /* Bootstrap default border */
+  padding: 10px 14px;
+  vertical-align: top;
+}
+
+.motion-confidence-section .table th {
+  background-color: #f8f9fa; /* light gray header */
+  font-weight: 600;
+}
+
+.motion-confidence-section .table td {
+  background-color: transparent; /* no alternating row color */
+}
+
+/* For responsive layout */
+@media (max-width: 768px) {
+  .motion-confidence-section-title {
+    font-size: 1.4rem;
+  }
+
+  .motion-confidence-section .table th,
+  .motion-confidence-section .table td {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+/* Optional note text */
+.motion-confidence-section p {
+  font-size: 0.95rem;
+  color: #333;
+  margin-top: 10px;
+}
+
+.motion-confidence-section-title {
+  text-transform: capitalize;
+}
+/* ---------------------------------------------------------- */
+.motion-confidence-section {
+  padding: 0px 0;
+}
+
+/* .motion-confidence-section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--primary-color, #2a2a2a);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--primary-color, #6440fb);
+  display: inline-block;
+  padding-bottom: 6px;
+  margin-bottom: 20px;
+} */
+
+.motion-confidence-table th,
+.motion-confidence-table td {
+  vertical-align: middle;
+  border-color: #dee2e6;
+}
+
+.motion-confidence-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+}
+
+.motion-confidence-table td {
+  font-size: 0.95rem;
+  color: #222;
+}
+
+/* PDF link style */
+/* .motion-confidence-link {
+  color: var(--primary-color, #6440fb);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+} */
+
+/* .motion-confidence-link:hover {
+  text-decoration: underline;
+  color: #5034d4;
+} */
+
+/* Responsive */
+@media (max-width: 768px) {
+  .motion-confidence-section-title {
+    font-size: 1.4rem;
+  }
+
+  .motion-confidence-table td {
+    font-size: 0.9rem;
+  }
+}
+/* ------------------------------------------------------ */
+.motion-confidence-note {
+  font-style: italic;
+  color: #555;
+  font-size: 0.95rem;
+}
+/* ----------------------------------------------------------- */
+.motion-confidence-section-title.text-center {
+  text-align: center;
+}
+/* ------------------------------------------------------------- */
+/* ---------------------------
+   Motion / Confidence Styles
+   Common for Rule 58, 130, 205B, 300 etc.
+---------------------------- */
+
+
+/* Table Styling (consistent with myTable2) */
+.motion-confidence-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.motion-confidence-table th,
+.motion-confidence-table td {
+  vertical-align: middle;
+  border-color: #dee2e6 !important;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+}
+
+.motion-confidence-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+}
+
+.motion-confidence-table td {
+  color: #222;
+}
+
+/* PDF Link Styling */
+/* .motion-confidence-link {
+  color: var(--primary-color, #6440fb);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.motion-confidence-link:hover {
+  text-decoration: underline;
+  color: #5034d4;
+} */
+
+/* Notes under table (like Former Rule, remarks etc.) */
+.motion-confidence-note {
+  font-style: italic;
+  color: #555;
+  font-size: 0.95rem;
+  margin-top: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .motion-confidence-section-title {
+    font-size: 1.4rem;
+  }
+
+  .motion-confidence-table th,
+  .motion-confidence-table td {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+}
+
+/* Optional: Centered title */
+.motion-confidence-section-title.text-center {
+  text-align: center;
+  display: block;
+}
+.motion-pdf-icon{
+  display: flex;
+  flex-direction: row;
+  border: none !important;
+}
+.motion-member-forms{
+      display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* .motion-member-forms:hover .imgx {
+  background-color: #fff;
+} */
+
+.motion-member-forms .imgx {
+  background-color: #6440fb52;
+  width: 30px;
+  height: 30px;
+  padding: 4px;
+  border-radius: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
+}
+
+.motion-member-forms {
+  border-radius: 4px;
+}
+
+.motion-member-forms .imgx:hover {
+  /* background-color: var(--clr--primary); */
+  color: #fff !important;
+      background-color: #ffffff;
+    color: #fff !important;
+    border: 1px solid #c3c3c3;
+
+}

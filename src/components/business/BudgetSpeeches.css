@@ -1,0 +1,46 @@
+/* Budget Speeches specific styles */
+.speech-link {
+  color: var(--clr--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.speech-link:hover {
+  color: var(--clr--primary);
+  text-decoration: underline;
+}
+
+/* Pagination styles - matching Resolutions */
+.pagination-container .paginationn .page-item.active .page-link {
+  background-color: var(--clr--primary) !important;
+  border-color: var(--clr--primary) !important;
+  color: #fff !important;
+}
+
+.pagination-container .paginationn .page-link {
+  color: var(--body-text-color);
+  padding: 4px 14px;
+  border-radius: 50%;
+}
+
+.pagination-info {
+  font-size: 14px;
+  margin-top: 10px;
+  color: #666;
+  text-align: center;
+}
+
+.paginationn {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  gap: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .speech-link {
+    font-size: 13px;
+  }
+}

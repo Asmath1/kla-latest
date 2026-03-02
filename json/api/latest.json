@@ -1,0 +1,77 @@
+{
+  "section": "latest_updates",
+  "latest_section": {
+    "title": {
+      "malayalam": "ഏറ്റവും പുതിയ വാർത്തകൾ",
+      "english": "Latest Updates"
+    },
+    "news_items": [
+      {
+        "id": 1,
+        "title": "Assembly Session Announcement",
+        "description": "15th Kerala Legislative Assembly 8th Session",
+        "date": "2025-08-08",
+        "category": "announcement",
+        "link": "/news/1",
+        "image": "/uploads/news1.jpg"
+      },
+      {
+        "id": 2,
+        "title": "New Bill Passed",
+        "description": "Important legislation approved",
+        "date": "2025-02-15",
+        "category": "legislation",
+        "link": "/news/2",
+        "image": "/uploads/news2.jpg"
+      }
+    ],
+    "social_media": [
+      {
+        "platform": "facebook",
+        "icon": "faFacebookF",
+        "link": "https://facebook.com/keralaniyamasabha",
+        "color": "#1877f2"
+      },
+      {
+        "platform": "instagram",
+        "icon": "faInstagram",
+        "link": "https://instagram.com/keralaniyamasabha",
+        "color": "#e4405f"
+      },
+      {
+        "platform": "youtube",
+        "icon": "faYoutube",
+        "link": "https://youtube.com/keralaniyamasabha",
+        "color": "#ff0000"
+      },
+      {
+        "platform": "twitter",
+        "icon": "faXTwitter",
+        "link": "https://twitter.com/keralaniyamasabha",
+        "color": "#000000"
+      }
+    ],
+    "seat_map": {
+      "enabled": true,
+      "title": "Assembly Seating Arrangement",
+      "seats": [
+        {
+          "id": "R1-22",
+          "name": "Pinarayi Vijayan",
+          "position": "Chief Minister",
+          "image": "/images/cm1.jpg",
+          "party": "CPI(M)",
+          "color": "red"
+        },
+        {
+          "id": "R0-0",
+          "name": "A N Shamseer",
+          "position": "Speaker",
+          "image": "/images/speaker.jpg",
+          "party": "CPI(M)",
+          "color": "neutral"
+        }
+      ]
+    }
+  }
+}

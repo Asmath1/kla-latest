@@ -1,0 +1,96 @@
+{
+  "partners_section": {
+    "title": {
+      "malayalam": "പങ്കാളി വെബ്‌സൈറ്റുകൾ",
+      "english": "Partner Websites"
+    },
+    "enabled": true,
+    "partners": [
+      {
+        "id": 1,
+        "name": {
+          "malayalam": "കേരള സർക്കാർ",
+          "english": "Government of Kerala"
+        },
+        "logo": "/images/b1.png",
+        "link": "https://kerala.gov.in",
+        "description": {
+          "malayalam": "കേരള സർക്കാരിന്റെ ഔദ്യോഗിക വെബ്‌സൈറ്റ്",
+          "english": "Official Government of Kerala Website"
+        }
+      },
+      {
+        "id": 2,
+        "name": {
+          "malayalam": "കേരള പോലീസ്",
+          "english": "Kerala Police"
+        },
+        "logo": "/images/b3.png",
+        "link": "https://keralapolice.gov.in",
+        "description": {
+          "malayalam": "കേരള പോലീസ് ഔദ്യോഗിക വെബ്‌സൈറ്റ്",
+          "english": "Kerala Police Official Website"
+        }
+      },                                  
+      {
+        "id": 3,
+        "name": {
+          "malayalam": "കേരള ടൂറിസം",
+          "english": "Kerala Tourism"
+        },
+        "logo": "/images/b4.png",
+        "link": "https://keralatourism.org",
+        "description": {
+          "malayalam": "കേരള ടൂറിസം ഔദ്യോഗിക വെബ്‌സൈറ്റ്",
+          "english": "Kerala Tourism Official Website"
+        }
+      },
+      {
+        "id": 4,
+        "name": {
+          "malayalam": "കേരള പി.എസ്.സി",
+          "english": "Kerala PSC"
+        },
+        "logo": "/images/b5.png",
+        "link": "https://keralapsc.gov.in",
+        "description": {
+          "malayalam": "കേരള പബ്ലിക് സർവീസ് കമ്മീഷൻ",
+          "english": "Kerala Public Service Commission"
+        }
+      },
+      {
+        "id": 5,
+        "name": {
+          "malayalam": "കേരള ഹൈക്കോടതി",
+          "english": "Kerala High Court"
+        },
+        "logo": "/images/b6.png",
+        "link": "https://hckerala.gov.in",
+        "description": {
+          "malayalam": "കേരള ഹൈക്കോടതി ഔദ്യോഗിക വെബ്‌സൈറ്റ്",
+          "english": "Kerala High Court Official Website"
+        }
+      },
+      {
+        "id": 6,
+        "name": {
+          "malayalam": "ഇന്ത്യ.gov.in",
+          "english": "India.gov.in"
+        },
+        "logo": "/images/b2.png",
+        "link": "https://india.gov.in",
+        "description": {
+          "malayalam": "ഇന്ത്യയുടെ ദേശീയ പോർട്ടൽ",
+          "english": "National Portal of India"
+        }
+      }
+    ],
+    "display_settings": {
+      "desktop_columns": 6,
+      "mobile_carousel": true,
+      "autoplay": true,
+      "autoplay_speed": 3000,
+      "infinite": true
+    }
+  }
+}

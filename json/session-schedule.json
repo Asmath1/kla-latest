@@ -1,0 +1,167 @@
+{
+  "pageTitle": "Session Schedule",
+  "tabs": [
+    {
+      "id": "calendar_of_sittings",
+      "label": "Calendar of Sittings",
+      "isActive": false,
+      "content": {
+        "filters": {
+          "kla": "14th നിയമസഭ",
+          "sessionNumber": "All"
+        },
+        "actions": [
+          {
+            "type": "button",
+            "label": "Export"
+          }
+        ],
+        "sessionInfo": {
+          "text": "Calendar: 15th KLA - Session : 13",
+          "attachment": "pdf_icon"
+        }
+      }
+    },
+    {
+      "id": "bac_report",
+      "label": "BAC Report",
+      "isActive": true,
+      "content": {
+        "filters": {
+          "kla": "14th നിയമസഭ",
+          "sessionNumber": "All"
+        },
+        "actions": [
+          {
+            "type": "button",
+            "label": "Export"
+          }
+        ],
+        "table": {
+          "headers": [
+            "Sl.No",
+            "KLA No",
+            "Session",
+            "Date of Presentation",
+            "Report No",
+            "Details"
+          ],
+          "rows": [
+            {
+              "slNo": 1,
+              "klaNo": "15th KLA",
+              "session": "Session 8",
+              "dateOfPresentation": "05 Jul 2025",
+              "reportNo": "9th Report",
+              "action": "View"
+            },
+            {
+              "slNo": 2,
+              "klaNo": "15th KLA",
+              "session": "Session 9",
+              "dateOfPresentation": "06 Jul 2025",
+              "reportNo": "7th Report",
+              "action": "View"
+            },
+            {
+              "slNo": 3,
+              "klaNo": "15th KLA",
+              "session": "Session 7",
+              "dateOfPresentation": "30 Jul 2025",
+              "reportNo": "9th Report",
+              "action": "View"
+            },
+            {
+              "slNo": 4,
+              "klaNo": "15th KLA",
+              "session": "Session 8",
+              "dateOfPresentation": "09 Jul 2025",
+              "reportNo": "8th Report",
+              "action": "View"
+            },
+            {
+              "slNo": 5,
+              "klaNo": "14th KLA",
+              "session": "Session 7",
+              "dateOfPresentation": "05 Jul 2025",
+              "reportNo": "7th Report",
+              "action": "View"
+            },
+            {
+              "slNo": 6,
+              "klaNo": "14th KLA",
+              "session": "Session 9",
+              "dateOfPresentation": "12 Jul 2025",
+              "reportNo": "4th Report",
+              "action": "View"
+            },
+            {
+              "slNo": 7,
+              "klaNo": "14th KLA",
+              "session": "Session 8",
+              "dateOfPresentation": "13 Jul 2025",
+              "reportNo": "6th Report",
+              "action": "View"
+            }
+          ],
+          "pagination": {
+            "currentPage": 1,
+            "totalPages": 3,
+            "hasPrevious": true,
+            "hasNext": true
+          }
+        }
+      }
+    },
+    {
+      "id": "list_of_business",
+      "label": "List of Business",
+      "isActive": false,
+      "content": {
+        "filters": {
+          "kla": "14th നിയമസഭ",
+          "sessionNumber": "All",
+          "dateRange": {
+            "start": "2025-07-05",
+            "end": "2025-08-05"
+          }
+        },
+        "actions": [
+          {
+            "type": "button",
+            "label": "Export"
+          },
+          {
+            "type": "button",
+            "label": "Download"
+          }
+        ],
+        "widgets": {
+          "calendar": {
+            "viewDate": "January 1911",
+            "highlightedDates": [15],
+            "legend": "Sitting date"
+          },
+          "businessListSelection": {
+            "slNo": 68,
+            "items": [
+              {
+                "label": "Business List A",
+                "link":"/images/pdf",
+                "isSelected": true,
+                "hasAttachment": true
+              },
+              {
+                "label": "Business List B",
+                "link":"/images/pdf",
+                "isSelected": false,
+                "hasAttachment": true
+              }
+            ]
+          }
+          
+        }
+      }
+    }
+  ]
+}

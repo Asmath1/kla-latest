@@ -1,0 +1,35 @@
+{
+  "success": true,
+  "data": {
+    "total_count": 3,
+    "schedules": [
+      {
+        "id": 1,
+        "sl_no": 1,
+        "type_of_meeting": "Meeting",
+        "committee": "Business Advisory Committee",
+        "date_from": "2025-09-03",
+        "date_to": "2025-09-03",
+        "venue": "Committee Room"
+      },
+      {
+        "id": 2,
+        "sl_no": 2,
+        "type_of_meeting": "Meeting",
+        "committee": "Committee on Estimates",
+        "date_from": "2025-09-04",
+        "date_to": "2025-09-04",
+        "venue": "Committee Room"
+      },
+      {
+        "id": 3,
+        "sl_no": 3,
+        "type_of_meeting": "Sitting",
+        "committee": "Committee on Local Fund Accounts",
+        "date_from": "2025-09-05",
+        "date_to": "2025-09-05",
+        "venue": "Assembly Secretariat"
+      }
+    ]
+  }
+}

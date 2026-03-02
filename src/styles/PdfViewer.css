@@ -1,0 +1,111 @@
+.pdf-viewer-responsive {
+  width: 100%;
+}
+
+/* Ensure toolbar adapts and doesn't overflow */
+.pdf-viewer-responsive .rpv-toolbar {
+  /* flex-wrap: wrap; */
+  gap: 4px;
+}
+
+/* Make toolbar items reflow in the same way as small screens for mid sizes */
+@media (min-width: 765px) and (max-width: 1400px) {
+  /* Make the toolbar behave like small screens: wrap to 2 rows, full-width groups */
+  .pdf-viewer-responsive .rpv-default-layout__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    height: auto; /* allow multiple rows */
+    padding: 6px;
+  }
+  .pdf-viewer-responsive .rpv-default-layout__body {
+    padding-top: 5rem; /* compensate for taller toolbar (about two rows) */
+  }
+  .pdf-viewer-responsive .rpv-toolbar__left,
+  .pdf-viewer-responsive .rpv-toolbar__center,
+  .pdf-viewer-responsive .rpv-toolbar__right {
+    flex: 1 1 100%;
+    min-width: 0;
+    justify-content: space-between;
+  }
+  .pdf-viewer-responsive .rpv-toolbar__center {
+    order: 2;
+  }
+  .pdf-viewer-responsive .rpv-toolbar__right {
+    order: 3;
+  }
+  .pdf-viewer-responsive .rpv-core__button {
+    flex: 0 0 auto;
+  }
+}
+
+/* Base sizing */
+.pdf-viewer-responsive .rpv-toolbar,
+.pdf-viewer-responsive .rpv-core__tooltip-body {
+  font-size: 14px;
+}
+
+.pdf-viewer-responsive .rpv-core__button,
+.pdf-viewer-responsive .rpv-toolbar__item,
+.pdf-viewer-responsive .rpv-toolbar__label,
+.pdf-viewer-responsive .rpv-search__popover-input {
+  font-size: 14px;
+}
+
+.pdf-viewer-responsive .rpv-core__button {
+  padding: 6px 8px;
+}
+
+/* Medium screens */
+@media (max-width: 992px) {
+  .pdf-viewer-responsive .rpv-toolbar,
+  .pdf-viewer-responsive .rpv-core__tooltip-body {
+    font-size: 13px;
+  }
+  .pdf-viewer-responsive .rpv-core__button,
+  .pdf-viewer-responsive .rpv-toolbar__item,
+  .pdf-viewer-responsive .rpv-toolbar__label,
+  .pdf-viewer-responsive .rpv-search__popover-input {
+    font-size: 13px;
+  }
+  .pdf-viewer-responsive .rpv-core__button {
+    padding: 5px 7px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .pdf-viewer-responsive .rpv-toolbar,
+  .pdf-viewer-responsive .rpv-core__tooltip-body {
+    font-size: 12px;
+  }
+  .pdf-viewer-responsive .rpv-core__button,
+  .pdf-viewer-responsive .rpv-toolbar__item,
+  .pdf-viewer-responsive .rpv-toolbar__label,
+  .pdf-viewer-responsive .rpv-search__popover-input {
+    font-size: 12px;
+  }
+  .pdf-viewer-responsive .rpv-core__button {
+    padding: 4px 6px;
+  }
+}
+
+/* Phones */
+@media (max-width: 576px) {
+  .pdf-viewer-responsive .rpv-toolbar,
+  .pdf-viewer-responsive .rpv-core__tooltip-body {
+    font-size: 11px;
+  }
+  .pdf-viewer-responsive .rpv-core__button,
+  .pdf-viewer-responsive .rpv-toolbar__item,
+  .pdf-viewer-responsive .rpv-toolbar__label,
+  .pdf-viewer-responsive .rpv-search__popover-input {
+    font-size: 11px;
+  }
+  .pdf-viewer-responsive .rpv-core__button {
+    padding: 3px 5px;
+  }
+}
+
+

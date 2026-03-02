@@ -1,0 +1,73 @@
+{
+  "section": "calendar",
+  "calendar_section": {
+    "title": {
+      "malayalam": "കലണ്ടർ",
+      "english": "Calendar"
+    },
+    "current_year": 2025,
+    "current_month": 2,
+    "months": [
+      {
+        "id": 1,
+        "name_malayalam": "ജനുവരി",
+        "name_english": "January"
+      },
+      {
+        "id": 2,
+        "name_malayalam": "ഫെബ്രുവരി",
+        "name_english": "February"
+      },
+      {
+        "id": 3,
+        "name_malayalam": "മാർച്ച്",
+        "name_english": "March"
+      },
+      {
+        "id": 4,
+        "name_malayalam": "ഏപ്രിൽ",
+        "name_english": "April"
+      },
+      {
+        "id": 5,
+        "name_malayalam": "മെയ്",
+        "name_english": "May"
+      },
+      {
+        "id": 6,
+        "name_malayalam": "ജൂൺ",
+        "name_english": "June"
+      },
+      {
+        "id": 7,
+        "name_malayalam": "ജൂലൈ",
+        "name_english": "July"
+      },
+      {
+        "id": 8,
+        "name_malayalam": "ഓഗസ്റ്റ്",
+        "name_english": "August"
+      },
+      {
+        "id": 9,
+        "name_malayalam": "സെപ്റ്റംബർ",
+        "name_english": "September"
+      },
+      {
+        "id": 10,
+        "name_malayalam": "ഒക്‌ടോബർ",
+        "name_english": "October"
+      },
+      {
+        "id": 11,
+        "name_malayalam": "നവംബർ",
+        "name_english": "November"
+      },
+      {
+        "id": 12,
+        "name_malayalam": "ഡിസംബർ",
+        "name_english": "December"
+      }
+    ]
+  }
+}

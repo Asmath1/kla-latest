@@ -1,0 +1,149 @@
+{
+  "section": "calendar_events",
+  "events": {
+    "2025": {
+      "2": {
+        "15": [
+          {
+            "id": 1,
+            "type": "meeting",
+            "title": "Committee Meeting",
+            "time": "10:00 AM",
+            "location": "Assembly Hall",
+            "description": "Regular committee meeting",
+            "documents": [
+              {
+                "title": "List of Business",
+                "link": "/documents/business-list.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Bulletin",
+                "link": "/documents/bulletin.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Question List",
+                "link": "/documents/questions.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Paper Laid",
+                "link": "/documents/papers.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Short notice question",
+                "link": "/documents/short-notice.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Half an hour questions",
+                "link": "/documents/half-hour.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Calling attention",
+                "link": "/documents/calling-attention.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Special mentions",
+                "link": "/documents/special-mentions.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Statements",
+                "link": "/documents/statements.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Motions",
+                "link": "/documents/motions.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Resolutions",
+                "link": "/documents/resolutions.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Private member bill",
+                "link": "/documents/private-bill.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Government bill",
+                "link": "/documents/gov-bill.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Petitions",
+                "link": "/documents/petitions.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Debates",
+                "link": "/documents/debates.pdf",
+                "type": "pdf"
+              },
+              {
+                "title": "Others",
+                "link": "/documents/others.pdf",
+                "type": "pdf"
+              }
+            ]
+          }
+        ]
+      },
+      "8": {
+        "8": [
+          {
+            "id": 2,
+            "type": "session",
+            "title": "KLA: 15th, Session: 8 - Start",
+            "time": "11:00 AM",
+            "location": "Main Assembly Hall",
+            "description": "15th Kerala Legislative Assembly 8th Session begins"
+          }
+        ],
+        "16": [
+          {
+            "id": 3,
+            "type": "session",
+            "title": "KLA: 15th, Session: 8 - End",
+            "time": "05:00 PM",
+            "location": "Main Assembly Hall",
+            "description": "15th Kerala Legislative Assembly 8th Session concludes"
+          }
+        ]
+      }
+    }
+  },
+  "legend": [
+    {
+      "type": "meeting",
+      "label": {
+        "malayalam": "യോഗം",
+        "english": "Meeting"
+      },
+      "color": "#4CAF50"
+    },
+    {
+      "type": "session",
+      "label": {
+        "malayalam": "സമ്മേളനം",
+        "english": "Session"
+      },
+      "color": "#2196F3"
+    },
+    {
+      "type": "holiday",
+      "label": {
+        "malayalam": "അവധി",
+        "english": "Holiday"
+      },
+      "color": "#FF5722"
+    }
+  ]
+}

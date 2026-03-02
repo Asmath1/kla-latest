@@ -1,0 +1,245 @@
+{
+  "success": true,
+  "data": {
+    "committee": {
+      "id": 1,
+      "name": "COMMITTEE ON ENVIRONMENT",
+      "category": "Advisory Committee",
+      "kla": "14th KLA",
+      "chairperson": {
+        "id": 198,
+        "name": "Mullakkara Retnakaran",
+        "image": "/images/j-chinchurani_member_15_198.jpg",
+        "constituency": "Kollam"
+      },
+      "date_of_constitution": "2019-01-25",
+      "duration_months": 30,
+      "introduction": "Committee on Environment is one of the welfare Committees constituted by Kerala Legislature in 1992. The objective of the Committee is to study and examine the environmental issues being faced by the entire State. It is one of the last resort of the common people of the state for solving problems related to environment. Committee has the right to visit spots having environmental issues and take evidence. Committee shall have the power to conduct suo-moto examination of any issues which comes to their notice either through media reports or from other sources. Committee have the privilege to conduct on the spot study examination of every firms/industry/institutions which make environmental pollution. Duration of the committee is 30 months.",
+      "officers": [
+        {
+          "name": "Smt. Shabana Anjum",
+          "designation": "Joint Secretary",
+          "phone": "0471-2512325",
+          "image": "/images/user.svg"
+        },
+        {
+          "name": "Shri. G Suresh Kumar",
+          "designation": "Deputy Secretary",
+          "phone": "0471-2512325",
+          "image": "/images/user.svg"
+        },
+        {
+          "name": "Shri. Anil Kumar B",
+          "designation": "Under Secretary",
+          "phone": "0471-2512325",
+          "image": "/images/user.svg"
+        }
+      ],
+      "contact": {
+        "phone": "0471-2512007",
+        "email": "environment@niyamasabha.nic.in",
+        "address": "Kerala Legislative Assembly, Thiruvananthapuram"
+      }
+    },
+    "ex_officio": {
+      "ministers": [
+        {
+          "id": 1,
+          "name": "J Chinchurani",
+          "image": "/images/j-chinchurani_member_15_198.jpg",
+          "status": "Member",
+          "constituency": "Kalpetta"
+        },
+        {
+          "id": 2,
+          "name": "Ramachandran Kadannappalli",
+          "image": "/images/j-chinchurani_member_15_198.jpg",
+          "status": "Member",
+          "constituency": "Kannur"
+        }
+      ],
+      "other_members": [
+        "Member One",
+        "Member Two",
+        "Member Three",
+        "Member Four",
+        "Member Five",
+        "Member Six",
+        "Member Seven",
+        "Member Eight",
+        "Member Nine",
+        "Member Ten",
+        "Member Eleven"
+      ]
+    },
+    "members": [
+      {
+        "id": 1,
+        "name": "J Chinchurani",
+        "image": "/images/j-chinchurani_member_15_198.jpg",
+        "status": "Member",
+        "constituency": "Kalpetta",
+        "party": "INC"
+      },
+      {
+        "id": 2,
+        "name": "Ramachandran Kadannappalli",
+        "image": "/images/j-chinchurani_member_15_198.jpg",
+        "status": "Member",
+        "constituency": "Kannur",
+        "party": "CPM"
+      },
+      {
+        "id": 3,
+        "name": "Member Name 3",
+        "image": "/images/j-chinchurani_member_15_198.jpg",
+        "status": "Member",
+        "constituency": "Constituency 3",
+        "party": "BJP"
+      }
+    ],
+    "subjects_selected": [
+      {
+        "id": 1,
+        "subject_name": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "department": "Environment",
+        "remarks": "",
+        "document_url": "/pdf1.pdf"
+      },
+      {
+        "id": 2,
+        "subject_name": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "department": "Environment",
+        "remarks": "",
+        "document_url": "/dummy.pdf"
+      },
+      {
+        "id": 3,
+        "subject_name": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "department": "Environment",
+        "remarks": "",
+        "document_url": "/pdff.pdf"
+      },
+      {
+        "id": 4,
+        "subject_name": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "department": "Environment",
+        "remarks": "",
+        "document_url": "/pdf1.pdf"
+      },
+      {
+        "id": 5,
+        "subject_name": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "department": "Environment",
+        "remarks": "",
+        "document_url": "/dummy.pdf"
+      }
+    ],
+    "bills_referred": [
+      {
+        "id": 1,
+        "bill_no": "5421",
+        "bill_title": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "bill_intro_date": "2025-12-12",
+        "remarks": ""
+      },
+      {
+        "id": 2,
+        "bill_no": "5422",
+        "bill_title": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "bill_intro_date": "2025-12-12",
+        "remarks": ""
+      }
+    ],
+    "sittings": [
+      {
+        "id": 1,
+        "date": "2024-12-13",
+        "subject": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "remarks": ""
+      },
+      {
+        "id": 2,
+        "date": "2024-12-13",
+        "subject": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "remarks": ""
+      },
+      {
+        "id": 3,
+        "date": "2024-12-13",
+        "subject": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "remarks": ""
+      }
+    ],
+    "schedules": [
+      {
+        "id": 1,
+        "type_of_meeting": "General Meeting",
+        "date_from": "2025-12-24",
+        "date_to": "2025-12-28",
+        "venue": "Chairman Suit, Kerala House, New Delhi."
+      },
+      {
+        "id": 2,
+        "type_of_meeting": "General Meeting",
+        "date_from": "2025-12-24",
+        "date_to": "2025-12-28",
+        "venue": "Chairman Suit, Kerala House, New Delhi."
+      }
+    ],
+    "study_tours": [
+      {
+        "id": 1,
+        "tour_subject": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "date_from": "2024-12-13",
+        "date_to": "2024-12-18",
+        "member_count": 10,
+        "places": "Trivandrum"
+      },
+      {
+        "id": 2,
+        "tour_subject": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "date_from": "2024-12-13",
+        "date_to": "2024-12-18",
+        "member_count": 10,
+        "places": "Trivandrum"
+      }
+    ],
+    "reports_presented": [
+      {
+        "id": 1,
+        "report_no": "213",
+        "subject": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "date_presented": "2024-12-18",
+        "report_type": "Testword"
+      },
+      {
+        "id": 2,
+        "report_no": "214",
+        "subject": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "date_presented": "2024-12-18",
+        "report_type": "Testword"
+      }
+    ],
+    "press_releases": [
+      {
+        "id": 1,
+        "file_name": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "date": "2024-12-18",
+        "document_url": "/pdff.pdf"
+      },
+      {
+        "id": 2,
+        "file_name": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "date": "2024-12-18",
+        "document_url": "/pdf1.pdf"
+      },
+      {
+        "id": 3,
+        "file_name": "പ്രളയാനന്തര പരിസ്‌ഥിതി പ്രശ്നങ്ങളെ സംബന്ധിച്ച്",
+        "date": "2024-12-18",
+        "document_url": "/dummy.pdf"
+      }
+    ]
+  }
+}

@@ -1,0 +1,410 @@
+{
+  "latest_section": {
+    "speaker_section": {
+      "title": {
+        "malayalam": "സ്പീക്കർ വിഭാഗം",
+        "english": "Speaker Section"
+      },
+      "governor": {
+        "name": {
+          "malayalam": "ശ്രീ രാജേന്ദ്ര വിശ്വനാഥ് അർലേക്കർ",
+          "english": "Shri. Rajendra Vishwanath Arlekar"
+        },
+        "position": {
+          "malayalam": "ബഹു. ഗവർണർ",
+          "english": "The Hon'ble Governor"
+        },
+        "image": "/images/gover.jpg",
+        "social_media": [
+          {
+            "platform": "facebook",
+            "icon": "faFacebookF",
+            "link": "#"
+          },
+          {
+            "platform": "twitter",
+            "icon": "faXTwitter",
+            "link": "#"
+          },
+          {
+            "platform": "instagram",
+            "icon": "faInstagram",
+            "link": "#"
+          },
+          {
+            "platform": "youtube",
+            "icon": "faYoutube",
+            "link": "#"
+          }
+        ]
+      },
+      "speaker": {
+        "name": {
+          "malayalam": "എ എൻ ഷംസീർ",
+          "english": "A N Shamseer"
+        },
+        "position": {
+          "malayalam": "ബഹു. സ്പീക്കർ",
+          "english": "The Hon'ble Speaker"
+        },
+        "image": "/images/speaker.jpg",
+        "social_media": [
+          {
+            "platform": "facebook",
+            "icon": "faFacebookF",
+            "link": "#"
+          },
+          {
+            "platform": "twitter",
+            "icon": "faXTwitter",
+            "link": "#"
+          },
+          {
+            "platform": "instagram",
+            "icon": "faInstagram",
+            "link": "#"
+          },
+          {
+            "platform": "youtube",
+            "icon": "faYoutube",
+            "link": "#"
+          }
+        ]
+      }
+    },
+    "seat_map": {
+      "enabled": true,
+      "title": {
+        "malayalam": "നിയമസഭാ ഇരിപ്പിട ക്രമീകരണം",
+        "english": "Assembly Seating Arrangement"
+      },
+      "svg_viewbox": "0 0 737 577",
+      "gradients": [
+        {
+          "id": "red3DGradient",
+          "type": "linear",
+          "direction": "vertical",
+          "stops": [
+            { "offset": "0%", "color": "#ff4d4d" },
+            { "offset": "50%", "color": "#cc0d0d" },
+            { "offset": "100%", "color": "#800a0a" }
+          ]
+        },
+        {
+          "id": "blue3DGradient",
+          "type": "linear",
+          "direction": "vertical",
+          "stops": [
+            { "offset": "0%", "color": "#74c0f8" },
+            { "offset": "50%", "color": "#1976d2" },
+            { "offset": "100%", "color": "#0d47a1" }
+          ]
+        }
+      ],
+      "seat_colors": {
+        "R7": { "range": "1-24", "class": "gray-fill", "party": "Gallery" },
+        "R6": { "range": "1-24", "class": "gray-fill", "party": "Gallery" },
+        "R1_ruling": { "range": "11-22", "class": "red-fill", "party": "LDF" },
+        "R1_opposition": { "range": "1-11", "class": "blue-fill", "party": "UDF" },
+        "R2_ruling": { "range": "13-24", "class": "red-fill", "party": "LDF" },
+        "R2_opposition": { "range": "1-12", "class": "blue-fill", "party": "UDF" },
+        "R3_ruling": { "range": "15-28", "class": "red-fill", "party": "LDF" },
+        "R3_opposition": { "range": "1-14", "class": "blue-fill", "party": "UDF" },
+        "R5_ruling": { "range": "13-32", "class": "red-fill", "party": "LDF" },
+        "R4_ruling": { "range": "23-32", "class": "red-fill", "party": "LDF" }
+      },
+      "members": [
+        {
+          "seat_id": "R1-22",
+          "name": "Pinarayi Vijayan",
+          "position": {
+            "malayalam": "മുഖ്യമന്ത്രി",
+            "english": "Chief Minister"
+          },
+          "image": "/images/cm1.jpg",
+          "party": "CPI(M)",
+          "color": "red"
+        },
+        {
+          "seat_id": "R0-0",
+          "name": "A N Shamseer",
+          "position": {
+            "malayalam": "സ്പീക്കർ",
+            "english": "Speaker"
+          },
+          "image": "/images/speaker.jpg",
+          "party": "CPI(M)",
+          "color": "neutral"
+        },
+        {
+          "seat_id": "R7-9",
+          "name": "Seat R7-9",
+          "position": {
+            "malayalam": "അംഗം",
+            "english": "Member"
+          },
+          "image": "/images/us.jpg",
+          "party": "Gallery",
+          "color": "gray"
+        },
+        {
+          "seat_id": "R7-8",
+          "name": "Seat R7-8",
+          "position": {
+            "malayalam": "അംഗം",
+            "english": "Member"
+          },
+          "image": "/images/us.jpg",
+          "party": "Gallery",
+          "color": "gray"
+        },
+        {
+          "seat_id": "R7-4",
+          "name": "Seat R7-4",
+          "position": {
+            "malayalam": "അംഗം",
+            "english": "Member"
+          },
+          "image": "/images/us.jpg",
+          "party": "Gallery",
+          "color": "gray"
+        }
+      ],
+      "tooltip": {
+        "enabled": true,
+        "show_image": true,
+        "show_name": true,
+        "show_position": true,
+        "offset_x": 10,
+        "offset_y": -40
+      }
+    },
+    "latest_news": {
+      "title": {
+        "malayalam": "പുതിയത്",
+        "english": "Latest"
+      },
+      "view_more_link": "/view-more",
+      "view_more_text": {
+        "malayalam": "കൂടുതൽ കാണുക",
+        "english": "View More"
+      },
+      "tabs": [
+        {
+          "id": "pills-home",
+          "label": {
+            "malayalam": "അറിയിപ്പുകൾ",
+            "english": "Updates"
+          },
+          "aria_controls": "pills-home",
+          "news_items": [
+            {
+              "text": "പതിനഞ്ചാം കേരള നിയമസഭ - പതിനാലാം സമ്മേളനം - കലണ്ടർ‍- മന്ത്രിമാര്‍ ചോദ്യങ്ങള്‍ക്ക് ഉത്തരം നല്‍കുന്നതിന് നിശ്ചയിച്ചിട്ടുള്ള ദിവസങ്ങൾ",
+              "date": "21.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "2025 ഒക്ടോബർ മാസം 06-ാം തീയതി അവതരിപ്പിക്കുന്ന ഉപധനാഭ്യർത്ഥനകൾ സംബന്ധിച്ച ഉപക്ഷേപങ്ങൾ",
+              "date": "20.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "പതിനഞ്ചാം കേരള നിയമസഭ - പതിനാലാം സമ്മേളനം - മന്ത്രിമാര്‍ ചോദ്യങ്ങള്‍ക്ക് മറുപടി നല്‍കുന്നതിന് നിശ്ചയിച്ചിട്ടുള്ള ദിവസങ്ങൾ പരസ്പരം മാറ്റി നൽകിയത്",
+              "date": "19.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "പതിനഞ്ചാം കേരള നിയമസഭയിലേക്ക് '92-പീരുമേട് നിയോജകമണ്ഡലത്തിൽ നിന്നും തെരഞ്ഞെടുക്കപ്പെട്ട അംഗമായ വാഴൂർ സോമന്റെ നിര്യാണം സംബന്ധിച്ച്",
+              "date": "18.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "ചോദ്യങ്ങൾക്കുള്ള നോട്ടീസുകൾ നറുക്കെടുക്കുന്ന ദിവസങ്ങളുടെ പുനക്രമീകരണം - ചോദ്യങ്ങളുടെ നറുക്കെടുപ്പ് സംബന്ധിച്ച പട്ടിക",
+              "date": "17.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "ചോദ്യങ്ങൾ വെബ്‌സൈറ്റിൽ ‍പ്രസിദ്ധീകരിക്കുന്ന തീയതി സംബന്ധിച്ച അറിയിപ്പ്",
+              "date": "16.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            }
+          ]
+        },
+        {
+          "id": "pills-profile",
+          "label": {
+            "malayalam": "പ്രഖ്യാപനങ്ങൾ ",
+            "english": "Announcements"
+          },
+          "aria_controls": "pills-profile",
+          "news_items": [
+            {
+              "text": "കേന്ദ്ര തിരഞ്ഞെടുപ്പ് കമ്മീഷന്റെ തീവ്ര വോട്ടർ പട്ടിക പുനഃപരിശോധന സംബന്ധിച്ച് 2025 സെപ്റ്റംബർ 29 - ന് ചട്ടം 118 പ്രകാരം സഭ ഐകകണ്ഠ്യേന പാസ്സാക്കിയ പ്രമേയം",
+              "date": "21.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "കാര്യോപദേശക സമിതി - പതിനേഴാമത് റിപ്പോർട്ട് പ്രഖ്യാപനം",
+              "date": "20.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "പതിനഞ്ചാം കേരള നിയമസഭ - പതിനാലാം സമ്മേളനം - പ്രത്യേക പ്രഖ്യാപനം",
+              "date": "19.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "നിയമസഭാ സമ്മേളനം സംബന്ധിച്ച പ്രധാന പ്രഖ്യാപനങ്ങൾ",
+              "date": "18.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "സമിതി യോഗങ്ങളുടെ പുനഃക്രമീകരണം സംബന്ധിച്ച പ്രഖ്യാപനം",
+              "date": "17.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "നിയമസഭാ അംഗങ്ങൾക്കുള്ള പ്രത്യേക സൗകര്യങ്ങൾ സംബന്ധിച്ച പ്രഖ്യാപനം",
+              "date": "16.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            }
+          ]
+        },
+        {
+          "id": "pills-contact",
+          "label": {
+            "malayalam": "വാർത്തകൾ",
+            "english": "Press Release"
+          },
+          "aria_controls": "pills-contact",
+          "news_items": [
+            {
+              "text": "2025 - 2026 സാമ്പത്തിക വർഷത്തേക്കുള്ള ബജറ്റിലെ ധനാഭ്യർത്ഥനകളുടെ സ്റ്റേറ്റ്മെന്റ് പ്രസിദ്ധീകരിച്ചു",
+              "date": "21.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "Budget രേഖകളിലെ തിരുത്ത് : 17.03.2025 ന് ബഹു.ധനകാര്യ വകുപ്പുമന്ത്രി മേശപ്പുറത്ത് വച്ചത്",
+              "date": "20.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "നിയമസഭാ സമ്മേളനത്തിൽ പ്രധാന തീരുമാനങ്ങൾ - വാർത്താക്കുറിപ്പ്",
+              "date": "19.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "സ്പീക്കറുടെ പ്രത്യേക പ്രസ്താവന - മാധ്യമ വാർത്താക്കുറിപ്പ്",
+              "date": "18.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "നിയമസഭയിൽ പാസ്സാക്കിയ പ്രധാന ബില്ലുകൾ - വാർത്താക്കുറിപ്പ്",
+              "date": "17.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            },
+            {
+              "text": "സമിതി റിപ്പോർട്ടുകൾ സഭയിൽ സമർപ്പിച്ചു - മാധ്യമ വാർത്ത",
+              "date": "16.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg"
+            }
+          ]
+        },
+        {
+          "id": "pills-music",
+          "label": {
+            "malayalam": "ബുള്ളറ്റിൻ",
+            "english": "Bulletin"
+          },
+          "aria_controls": "pills-music",
+          "news_items": [
+            {
+              "text": "ബുള്ളറ്റിൻ നം. 619 - 2025 മാർച്ച് 19, 20 എന്നീ സമ്മേളന ദിവസങ്ങളിലെ കാര്യപരിപാടി പുനഃക്രമീകരണം",
+              "date": "21.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg",
+              "part": 1
+            },
+            {
+              "text": "ബുള്ളറ്റിൻ നം. 618 - 2025 മാർച്ച് 18 - ലെ സമ്മേളന ദിവസത്തെ കാര്യപരിപാടി",
+              "date": "20.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg",
+              "part": 2
+            },
+            {
+              "text": "ബുള്ളറ്റിൻ നം. 617 - 2025 ഫെബ്രുവരി 24 -ലെ ഭാഗം 2 ബുള്ളറ്റിൻ നമ്പർ 610 -ൽ വരുത്തിയ ഭേദഗതി",
+              "date": "19.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg",
+              "part": 1
+            },
+            {
+              "text": "ബുള്ളറ്റിൻ നം. 616 - 2025 ഫെബ്രുവരി 21 - ലെ സമ്മേളന ദിവസത്തെ കാര്യപരിപാടി",
+              "date": "18.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg",
+              "part": 2
+            },
+            {
+              "text": "ബുള്ളറ്റിൻ നം. 615 - 2025 ഫെബ്രുവരി 20 - ലെ സമ്മേളന ദിവസത്തെ കാര്യപരിപാടി",
+              "date": "17.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg",
+              "part": 1
+            },
+            {
+              "text": "ബുള്ളറ്റിൻ നം. 614 - 2025 ഫെബ്രുവരി 19 - ലെ സമ്മേളന ദിവസത്തെ കാര്യപരിപാടി",
+              "date": "16.02.2025",
+              "link": "#",
+              "pdf_icon": "/images/pdf.svg",
+              "part": 2
+            }
+          ]
+        }
+      ],
+      "display_config": {
+        "text_line_clamp": 3,
+        "text_line_height": "1.5em",
+        "columns": {
+          "mobile": "col-12",
+          "tablet": "col-md-6",
+          "desktop": "col-xl-6"
+        }
+      }
+    },
+    "responsive_layout": {
+      "desktop": {
+        "min_width": 992,
+        "layout": "governor, seatmap, speaker (3 columns)"
+      },
+      "tablet": {
+        "min_width": 679,
+        "max_width": 991,
+        "layout": "governor + speaker (row), seatmap (full width)"
+      },
+      "mobile": {
+        "max_width": 678,
+        "layout": "governor, speaker, seatmap (stacked)"
+      }
+    }
+  }
+}

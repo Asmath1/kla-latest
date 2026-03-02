@@ -1,0 +1,109 @@
+{
+  "header_section": {
+    "logo": {
+      "white_logo": "/images/logq1.png",
+      "black_logo": "/images/logb1.png",
+      "alt": "Kerala Legislative Assembly Logo",
+      "width": 325,
+      "height": 100,
+      "link": "/"
+    },
+    "navigation": {
+      "menu_items": [
+        {
+          "id": 1,
+          "title": {
+            "malayalam": "നിയമസഭയെക്കുറിച്ച്",
+            "english": "About"
+          },
+          "link": null,
+          "has_submenu": true,
+          "submenu": [
+            {
+              "id": 11,
+              "title": {
+                "malayalam": "ചരിത്രം",
+                "english": "History"
+              },
+              "link": "/about/history"
+            },
+            {
+              "id": 12,
+              "title": {
+                "malayalam": "പ്രവർത്തനങ്ങൾ",
+                "english": "Functions"
+              },
+              "link": "/about/functions"
+            },
+            {
+              "id": 13,
+              "title": {
+                "malayalam": "സ്പീക്കർ",
+                "english": "Speaker"
+              },
+              "link": "/about/speaker"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": {
+            "malayalam": "അംഗങ്ങൾ",
+            "english": "Members"
+          },
+          "link": "/members",
+          "has_submenu": false
+        },
+        {
+          "id": 3,
+          "title": {
+            "malayalam": "ബിസിനസ്",
+            "english": "Business"
+          },
+          "link": null,
+          "has_submenu": true,
+          "submenu": [
+            {
+              "id": 31,
+              "title": {
+                "malayalam": "ചോദ്യങ്ങൾ",
+                "english": "Questions"
+              },
+              "link": "/business/questions"
+            },
+            {
+              "id": 32,
+              "title": {
+                "malayalam": "ബില്ലുകൾ",
+                "english": "Bills"
+              },
+              "link": "/business/bills"
+            }
+          ]
+        }
+      ],
+      "search": {
+        "enabled": true,
+        "placeholder": {
+          "malayalam": "നിങ്ങൾ ഇന്ന് ഏത് സേവനമാണ് തിരയുന്നത്?",
+          "english": "What service are you looking for today?"
+        },
+        "icon": "/images/search.png"
+      },
+      "login": {
+        "enabled": true,
+        "text": {
+          "malayalam": "ലോഗിൻ",
+          "english": "Log in"
+        },
+        "link": "/login"
+      }
+    },
+    "mobile_menu": {
+      "enabled": true,
+      "icon_white": "/images/bars-solid.svg",
+      "icon_dark": "/images/right-margin_10396835.png",
+      "breakpoint": 991
+    }
+  }
+}
