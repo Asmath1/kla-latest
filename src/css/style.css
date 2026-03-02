@@ -707,16 +707,17 @@ li {
 }
 
 .link-style1 a {
-  color: rgba(255, 255, 255, 0.7);
-  display: block;
-  font-family: var(--title-font-family);
-  line-height: 35px;
-  position: relative;
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  transition: all 0.3s ease;
+    color: #ffffffb3;
+    display: block;
+    font-family: var(--title-font-family);
+    line-height: 30px;
+    position: relative;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+    font-size: 14px;
 }
 
 .link-style1 a:hover {
@@ -8659,17 +8660,18 @@ textarea {
   border-radius: 50%;
 }
 .alphabets a.active {
-  transform: scale(1.2);
-  color: #ffffff;
-  position: relative;
-  background-color: var(--clr--primary);
-  font-weight: bold;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  text-align: center;
-  top: 0px;
-  /* padding-top: 3px; */
+    transform: scale(1.2);
+    color: #ffffff;
+    position: relative;
+    background-color: var(--clr--primary);
+    /* font-weight: 600; */
+    width: 25px;
+    height: 26px;
+    border-radius: 50%;
+    text-align: center;
+    top: 0px;
+    font-size: 13px;
+    /* padding-top: 3px; */
 }
 .alphabets a:hover {
   transform: scale(1.2);
@@ -12225,7 +12227,7 @@ tr.calendar-body .calendar-day .day.calendar-active:hover {
   .sabha img {
     bottom: -68px;
     left: -68px;
-    width: 275px;
+    width: 230px;
   }
   .eCalendar .form-check-inline label {
     font-size: 12px;

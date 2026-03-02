@@ -1104,6 +1104,7 @@ const transformMenuData = (apiMenus, languageId = 1) => {
         return {
           title: getTitle(child.translations),
           link: link,
+          type: child.type, // Include type to determine if external
           items: transformChildren(child.children),
         };
       });
@@ -1120,6 +1121,7 @@ const transformMenuData = (apiMenus, languageId = 1) => {
       return {
         title: getTitle(menu.translations),
         link: link,
+        type: menu.type, // Include type to determine if external
         items: transformChildren(menu.children),
       };
     });
@@ -1128,6 +1130,7 @@ const transformMenuData = (apiMenus, languageId = 1) => {
 // Recursive component to render menu items
 const MenuItemRenderer = ({ item, level = 0 }) => {
   const hasChildren = item.items && item.items.length > 0;
+  const isExternal = item.type === 'external';
 
   // Level 0: Category headers (both with and without children)
   if (level === 0) {
@@ -1148,7 +1151,11 @@ const MenuItemRenderer = ({ item, level = 0 }) => {
       return (
         <div style={{ breakInside: 'avoid', marginBottom: '20px' }}>
           <div className="h6 cat-title">
-            <Link to={item.link}>{item.title}</Link>
+            {isExternal ? (
+              <a href={item.link} target="_blank" rel="noopener noreferrer">{item.title}</a>
+            ) : (
+              <Link to={item.link}>{item.title}</Link>
+            )}
           </div>
         </div>
       );
@@ -1159,7 +1166,11 @@ const MenuItemRenderer = ({ item, level = 0 }) => {
   if (!hasChildren) {
     return (
       <li>
-        <Link to={item.link}>{item.title}</Link>
+        {isExternal ? (
+          <a href={item.link} target="_blank" rel="noopener noreferrer">{item.title}</a>
+        ) : (
+          <Link to={item.link}>{item.title}</Link>
+        )}
       </li>
     );
   }
@@ -1168,7 +1179,11 @@ const MenuItemRenderer = ({ item, level = 0 }) => {
   return (
     <>
       <li>
-        <Link to={item.link}>{item.title}</Link>
+        {isExternal ? (
+          <a href={item.link} target="_blank" rel="noopener noreferrer">{item.title}</a>
+        ) : (
+          <Link to={item.link}>{item.title}</Link>
+        )}
       </li>
       {item.items.map((subItem, index) => (
         <MenuItemRenderer key={`${subItem.title}-${index}`} item={subItem} level={level + 1} />
@@ -1692,10 +1707,23 @@ const HomeTest = () => {
                           <span>{subItem.title}</span>
                           <FontAwesomeIcon icon={faChevronRight} />
                         </button>
-                      ) : (
-                        <a href={subItem.link} className="menu-link">
+                      ) : subItem.type === 'external' ? (
+                        <a href={subItem.link} className="menu-link" target="_blank" rel="noopener noreferrer">
                           {subItem.title}
                         </a>
+                      ) : (
+                        <Link 
+                          to={subItem.link} 
+                          className="menu-link"
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            setActiveSubmenu(null);
+                            setActiveNestedSubmenu(null);
+                            setActiveMenuItem(null);
+                          }}
+                        >
+                          {subItem.title}
+                        </Link>
                       )}
                     </li>
                   ))}
@@ -1713,9 +1741,24 @@ const HomeTest = () => {
                   )
                   ?.items.map((linkItem) => (
                     <li key={linkItem.title} className="menu-item">
-                      <a href={linkItem.link} className="menu-link">
-                        {linkItem.title}
-                      </a>
+                      {linkItem.type === 'external' ? (
+                        <a href={linkItem.link} className="menu-link" target="_blank" rel="noopener noreferrer">
+                          {linkItem.title}
+                        </a>
+                      ) : (
+                        <Link 
+                          to={linkItem.link} 
+                          className="menu-link"
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            setActiveSubmenu(null);
+                            setActiveNestedSubmenu(null);
+                            setActiveMenuItem(null);
+                          }}
+                        >
+                          {linkItem.title}
+                        </Link>
+                      )}
                     </li>
                   ))}
               </ul>

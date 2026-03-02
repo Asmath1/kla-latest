@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import HomeTest from "../Header";
-import { CategoriesNav, BreadcrumbNav, SectionTitle, Pagination } from "../common";
+import { CategoriesNav, BreadcrumbNav, SectionTitle, Pagination, ExportButton } from "../common";
 import { fetchMemberContact } from "../../api/services/all.service";
+import { exportData as exportDataUtil } from "../../utils/exportUtils";
 
 const MemberContact = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [memberContactData, setMemberContactData] = useState([]);
+  const [allMemberData, setAllMemberData] = useState([]); // Store all data for filtering
   const [totalPages, setTotalPages] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -17,6 +19,7 @@ const MemberContact = () => {
     orderBy: "Members",
     alphabetFilter: "",
   });
+  const itemsPerPage = 15; // Items per page for client-side pagination
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -25,35 +28,41 @@ const MemberContact = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Fetch all data once on component mount
   useEffect(() => {
-    const loadMemberContact = async () => {
+    const loadAllMemberContact = async () => {
       setLoading(true);
       try {
-        const data = await fetchMemberContact(currentPage);
-        console.log("Fetched member contact data:", data);
-        
-        if (data && Array.isArray(data.data)) {
-          setMemberContactData(data.data);
-          setTotalPages(data.last_page || 1);
-          setTotalRecords(data.total || 0);
-        } else {
-          console.error("Data is not in expected format:", data);
-          setMemberContactData([]);
-          setTotalPages(1);
-          setTotalRecords(0);
+        // Fetch all pages to get complete data
+        let allData = [];
+        let page = 1;
+        let hasMorePages = true;
+
+        while (hasMorePages) {
+          const data = await fetchMemberContact(page);
+          if (data && Array.isArray(data.data) && data.data.length > 0) {
+            allData = [...allData, ...data.data];
+            hasMorePages = page < (data.last_page || 1);
+            page++;
+          } else {
+            hasMorePages = false;
+          }
         }
+
+        console.log("Fetched all member contact data:", allData.length);
+        setAllMemberData(allData);
+        setTotalRecords(allData.length);
       } catch (error) {
         console.error("Error loading member contact:", error);
-        setMemberContactData([]);
-        setTotalPages(1);
+        setAllMemberData([]);
         setTotalRecords(0);
       } finally {
         setLoading(false);
       }
     };
 
-    loadMemberContact();
-  }, [currentPage]);
+    loadAllMemberContact();
+  }, []); // Only run once on mount
 
   // Get member name from langs array (English version)
   const getMemberName = (member) => {
@@ -67,8 +76,8 @@ const MemberContact = () => {
     return englishLang?.permanent_address || contact.langs?.[0]?.permanent_address || "";
   };
 
-  // Filter data based on filters (client-side filtering on current page data)
-  const filteredData = memberContactData.filter((contact) => {
+  // Filter data based on filters (client-side filtering on ALL data)
+  const filteredData = allMemberData.filter((contact) => {
     const memberName = getMemberName(contact);
     const matchesName = memberName.toLowerCase().includes(filters.memberName.toLowerCase());
     const matchesAlphabet = !filters.alphabetFilter || memberName.toUpperCase().startsWith(filters.alphabetFilter);
@@ -84,6 +93,12 @@ const MemberContact = () => {
     return 0; // Constituency sorting would need additional data
   });
 
+  // Calculate pagination for filtered data
+  const totalFilteredPages = Math.ceil(sortedData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = sortedData.slice(startIndex, endIndex);
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo({ top: 300, behavior: "smooth" });
@@ -91,15 +106,30 @@ const MemberContact = () => {
 
   const handleFilterChange = (key, value) => {
     setFilters({ ...filters, [key]: value });
+    setCurrentPage(1); // Reset to first page when any filter changes
   };
 
   const handleAlphabetClick = (letter) => {
     setFilters({ ...filters, alphabetFilter: letter });
+    setCurrentPage(1); // Reset to first page when alphabet filter changes
   };
 
-  const handleExport = () => {
-    console.log("Export data:", sortedData);
-    alert("Export functionality to be implemented");
+  const handleExport = (format) => {
+    // Prepare data for export
+    const exportData = sortedData.map((contact, index) => ({
+      'Sl. No': contact.order || index + 1,
+      'Name of Member': getMemberName(contact),
+      'Permanent Address': getPermanentAddress(contact) || "-",
+      'Telephone': contact.office_telephone || "-",
+      'Mobile': contact.mobile_nos || "-",
+      'E-mail': contact.email_ids || "-"
+    }));
+
+    // Use export utility
+    exportDataUtil(exportData, format, 'member-contact', {
+      title: 'Member Contact Details',
+      sheetName: 'Member Contact'
+    });
   };
 
   // --------------------------- AlphabetFilter ---------------------------
@@ -107,6 +137,19 @@ const MemberContact = () => {
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
     return (
       <div className="alphabets d-flex w-100 wow fadeInUp">
+        {/* All button */}
+        <a
+          href="#"
+          key="all"
+          className={!activeLetter ? "active" : ""}
+          onClick={(e) => {
+            e.preventDefault();
+            onLetterClick("");
+          }}
+        >
+          All
+        </a>
+        {/* Alphabet letters */}
         {alphabet.map((letter) => (
           <a
             href="#"
@@ -114,7 +157,7 @@ const MemberContact = () => {
             className={activeLetter === letter ? "active" : ""}
             onClick={(e) => {
               e.preventDefault();
-              onLetterClick(letter === activeLetter ? "" : letter);
+              onLetterClick(letter);
             }}
           >
             {letter}
@@ -244,15 +287,26 @@ const MemberContact = () => {
               {/* Total Records and Export */}
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                  <strong>Total Records: {totalRecords}</strong>
+                  <strong>Total Records: {sortedData.length}</strong>
+                  {filters.alphabetFilter && (
+                    <span className="ms-2 text-muted">
+                      (Filtered by: {filters.alphabetFilter})
+                    </span>
+                  )}
+                  {!filters.alphabetFilter && sortedData.length === allMemberData.length && (
+                    <span className="ms-2 text-muted">
+                      (Showing All)
+                    </span>
+                  )}
                 </div>
                 <div>
-                  <select className="form-select" onChange={handleExport}>
-                    <option value="">Export</option>
-                    <option value="csv">Export to CSV</option>
-                    <option value="excel">Export to Excel</option>
-                    <option value="pdf">Export to PDF</option>
-                  </select>
+                  <ExportButton
+                    className=""
+                    buttonText="Export"
+                    exportOptions={["PDF", "Excel", "CSV", "XML", "DOC"]}
+                    onExport={handleExport}
+                    buttonClassName="btn btn-secondary dropdown-toggle"
+                  />
                 </div>
               </div>
 
@@ -277,14 +331,16 @@ const MemberContact = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {sortedData.length > 0 ? (
-                          sortedData.map((contact, index) => {
+                        {paginatedData.length > 0 ? (
+                          paginatedData.map((contact, index) => {
                             const memberName = getMemberName(contact);
                             const permanentAddress = getPermanentAddress(contact);
+                            // Calculate serial number based on current page and filtered results
+                            const serialNumber = startIndex + index + 1;
                             
                             return (
                               <tr key={contact.id}>
-                                <td className="text-th">{contact.order || index + 1}</td>
+                                <td className="text-th">{serialNumber}</td>
                                 <td className="text-th">
                                   <strong>{memberName}</strong>
                                 </td>
@@ -320,14 +376,14 @@ const MemberContact = () => {
                   </div>
 
                   {/* Pagination */}
-                  {totalPages > 1 && (
+                  {totalFilteredPages > 1 && (
                     <div className="mt-4">
                       <Pagination
                         currentPage={currentPage}
-                        totalPages={totalPages}
+                        totalPages={totalFilteredPages}
                         onPageChange={handlePageChange}
-                        totalItems={totalRecords}
-                        itemsPerPage={15}
+                        totalItems={sortedData.length}
+                        itemsPerPage={itemsPerPage}
                       />
                     </div>
                   )}

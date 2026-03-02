@@ -88,20 +88,19 @@ const Footer = () => {
                     <a href="https://presidentofindia.nic.in/" target="_blank" rel="noopener noreferrer">President of India</a>
                   </li>
                   <li>
-                    <a href="https://www.pmindia.gov.in/" target="_blank" rel="noopener noreferrer">Prime Minister of India</a>
-                  </li>
-                  <li>
                     <a href="https://vicepresidentofindia.nic.in/" target="_blank" rel="noopener noreferrer">Vice President of India</a>
                   </li>
                   <li>
+                    <a href="https://www.pmindia.gov.in/" target="_blank" rel="noopener noreferrer">Prime Minister of India</a>
+                  </li>
+                  {/* <li>
                     <a href="https://loksabhaspeaker.gov.in/" target="_blank" rel="noopener noreferrer">Speaker of Lok Sabha</a>
-                  </li>
-                 
-                  <li>
-                    <a href="https://niyamasabha.nic.in/" target="_blank" rel="noopener noreferrer">Speaker of Kerala</a>
-                  </li>
+                  </li> */}
                   <li>
                     <a href="https://cm.kerala.gov.in/" target="_blank" rel="noopener noreferrer">Chief Minister of Kerala</a>
+                  </li>
+                  <li>
+                    <a href="https://niyamasabha.nic.in/" target="_blank" rel="noopener noreferrer">Speaker of the Kerala Legislative Assembly</a>
                   </li>
                 </ul>
               </div>
@@ -110,15 +109,15 @@ const Footer = () => {
               <div className="link-style1 mb-4 mb-sm-5">
                 <h5 className="footer-title text-white mb15">Useful Links</h5>
                 <ul className="ps-0">
-                  <li>
+                  {/* <li>
                     <a href="https://main.sci.gov.in/" target="_blank" rel="noopener noreferrer">Supreme Court of India</a>
-                  </li>
+                  </li> */}
                   <li>
                     <a href="https://hckerala.gov.in/" target="_blank" rel="noopener noreferrer">High Court of Kerala</a>
                   </li>
-                   <li>
+                   {/* <li>
                     <a href="https://rajbhavangoa.gov.in/" target="_blank" rel="noopener noreferrer">Governor of India</a>
-                  </li>
+                  </li> */}
                   <li>
                     <a href="https://governor.kerala.gov.in/" target="_blank" rel="noopener noreferrer">Governor of Kerala</a>
                   </li>
@@ -156,14 +155,33 @@ const Footer = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {/* <i className="fab fa-apple fz17 mr15" /> */}
-                        {/* <FontAwesomeIcon
-                          className="footer-font-icon"
-                          icon={faApple}
-                          height={15}
-                          color="rgba(255, 255, 255, 0.7)"
-                        /> */}
+                        <img 
+                          src="/images/e-niyamasabha.webp" 
+                          alt="E Niyamasabha App Icon" 
+                          style={{ width: '24px', height: '24px', marginRight: '10px', verticalAlign: 'middle' }}
+                        />
                         <h6 className="app-title fz15 fw400 mb-0">E Niyamasabha App</h6>
+                      </a>
+                     
+                    </div>
+                  </div>
+                </div>
+                    <div className="app-widget mb-4 mb-sm-5">
+                  <h5 className="footer-title text-white mb20">Old Website</h5>
+                  <div className="row mb-4 mb-lg-5">
+                    <div className="col-lg-12">
+                      <a
+                        className="app-list d-flex align-items-center mb10"
+                        href="http://niyamasabha.org/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {/* <img 
+                          src="/images/e-niyamasabha.webp" 
+                          alt="E Niyamasabha App Icon" 
+                          style={{ width: '24px', height: '24px', marginRight: '10px', verticalAlign: 'middle' }}
+                        /> */}
+                        <h6 className="app-title fz15 fw400 mb-0">http://niyamasabha.org/</h6>
                       </a>
                      
                     </div>
@@ -178,19 +196,26 @@ const Footer = () => {
             <div className="col-md-12">
               <div className="text-center">
                 <p className="copyright-text mb-2 mb-md-0 text-white-light ff-heading">
-                  © Copyright 2024 | Designed By <span>C-Dit</span>. All Rights
+                  © Copyright 2026 | Designed By <span>C-Dit</span>. All Rights
                   Reserved
+
+                  {/* © Copyright 2026 | Developed by C-Dit. All Rights Reserved */}
                 </p>
               </div>
             </div>
           </div>
+          {isHomePage && (
+            <a 
+              className="sabha" 
+              href="https://youtube.com/@sabhatv-kla?si=bJkkS_4SyaU2BeZo" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              title="Watch Sabha TV on YouTube"
+            >
+              <img src="images/tvq.webp" alt="Sabha TV" />
+            </a>
+          )}
           <a className="scrollToHomepage" href="#">
-            {isHomePage && (
-              <div className="sabha">
-                <img src="images/tvq.webp" alt="" />
-              </div>
-            )}
-
             <ScrollToTop
               smooth
               style={{

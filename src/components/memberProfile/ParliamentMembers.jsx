@@ -817,7 +817,8 @@ const ParliamentMembers = () => {
                                   `pdfs/former-members/${m.name
                                     .toLowerCase()
                                     .replace(/ /g, "-")}.pdf`,
-                                  "_blank"
+                                  "_blank",
+                                  "noopener,noreferrer"
                                 )
                               }
                               style={{ cursor: "pointer" }}

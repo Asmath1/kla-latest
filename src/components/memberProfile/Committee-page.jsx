@@ -347,7 +347,7 @@ export default function CommitteePage() {
                                           <a
                                             href="https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
                                             target="_blank"
-                                            rel="noreferrer"
+                                            rel="noopener noreferrer"
                                           >
                                             44th Report
                                           </a>
@@ -356,7 +356,7 @@ export default function CommitteePage() {
                                           <a
                                             href="https://www.niyamasabha.nic.in/index.php/committe/index/106"
                                             target="_blank"
-                                            rel="noreferrer"
+                                            rel="noopener noreferrer"
                                           >
                                             Committee on Local Fund Accounts
                                           </a>
@@ -371,7 +371,7 @@ export default function CommitteePage() {
                                           <a
                                             href="https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC43.pdf"
                                             target="_blank"
-                                            rel="noreferrer"
+                                            rel="noopener noreferrer"
                                           >
                                             43rd Report
                                           </a>
@@ -380,7 +380,7 @@ export default function CommitteePage() {
                                           <a
                                             href="https://www.niyamasabha.nic.in/index.php/committe/index/106"
                                             target="_blank"
-                                            rel="noreferrer"
+                                            rel="noopener noreferrer"
                                           >
                                            Committee on Local Fund Accounts
                                           </a>

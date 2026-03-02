@@ -1,17 +1,21 @@
 // API Configuration
-export const API_BASE_URL = "https://kla.cditproject.org";
-export const DEMO_API_BASE_URL = "https://klademo.cditproject.org";
+// export const API_BASE_URL = "https://kla.cditproject.org";
+// export const DEMO_API_BASE_URL = "https://klademo.cditproject.org";
+
+
+export const DEMO_API_BASE_URL = "https://api.niyamasabha.in";
+
 
 // API Endpoints
 export const API_ENDPOINTS = {
-  KLA_MEMBERS: (klaId) => `${API_BASE_URL}/api/kla-members/${klaId}`,
-  MEMBER: (memberId) => `${API_BASE_URL}/api/member/${memberId}`,
+  KLA_MEMBERS: (klaId) => `${DEMO_API_BASE_URL}/api/kla-members/${klaId}`,
+  MEMBER: (memberId) => `${DEMO_API_BASE_URL}/api/member/${memberId}`,
   MEMBER_PROFILE: (memberId) => `${DEMO_API_BASE_URL}/api/member-profile/${memberId}`,
-  KLA_LIST: `${API_BASE_URL}/api/kla-list`,
-  KLA_QUESTIONS: `${API_BASE_URL}/api/kla-questions`,
+  KLA_LIST: `${DEMO_API_BASE_URL}/api/kla-list`,
+  KLA_QUESTIONS: `${DEMO_API_BASE_URL}/api/kla-questions`,
   KLA15_QUESTIONS: `${DEMO_API_BASE_URL}/api/kla15-questions`,
-  KLA_SESSIONS: `${API_BASE_URL}/api/kla-sessions`,
-  SESSION_SITTING_DAYS: `${API_BASE_URL}/api/session-sittingdays`,
+  KLA_SESSIONS: `${DEMO_API_BASE_URL}/api/kla-sessions`,
+  SESSION_SITTING_DAYS: `${DEMO_API_BASE_URL}/api/session-sittingdays`,
   RESUME_BUSINESS: `${DEMO_API_BASE_URL}/api/resume_business`,
   BANNER_LIST: `${DEMO_API_BASE_URL}/api/bannerlist`,
   BULLETIN_LIST: `${DEMO_API_BASE_URL}/api/bulletinlist`,
@@ -36,7 +40,10 @@ export const API_ENDPOINTS = {
   LEADER_OPPOSITION: `${DEMO_API_BASE_URL}/api/leader-opposition`,
   FORMER_DEPUTY_SPEAKERS: `${DEMO_API_BASE_URL}/api/former_dyspeakers`,
   BALLOTCHART_LIST: `${DEMO_API_BASE_URL}/api/ballotChart_questions`,
-CALENDAR_CURRENT: `${DEMO_API_BASE_URL}/api/calendar/current`,
+  // current calendar for initial load / fallback
+  CALENDAR_CURRENT: `${DEMO_API_BASE_URL}/api/calendar/current`,
+  // dynamic calendar endpoint by year and month
+  CALENDAR_YEAR_MONTH: (year, month) => `${DEMO_API_BASE_URL}/api/calendar/${year}/${month}`,
   BILLS_LIST: `${DEMO_API_BASE_URL}/api/bills`,
   BILLS_FILTERS: `${DEMO_API_BASE_URL}/api/bills-filters`,
   BILLS_STATUSES: `${DEMO_API_BASE_URL}/api/bills-statuses`,
@@ -49,7 +56,7 @@ export const getImageUrl = (img) => {
   if (!img) return img;
   if (img.startsWith("http://") || img.startsWith("https://")) return img;
   if (img.startsWith("//")) return `https:${img}`;
-  if (img.startsWith("/")) return `${API_BASE_URL}${img}`;
+  if (img.startsWith("/")) return `${DEMO_API_BASE_URL}${img}`;
   return img;
 };
 

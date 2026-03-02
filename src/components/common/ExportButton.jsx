@@ -1,11 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { exportData } from '../../utils/exportUtils';
 
 const ExportButton = ({ 
   className = "col-lg-2 col-md-6 mb-2", 
   buttonText = "Export",
-  exportOptions = ["PDF", "XLS"],
+  exportOptions = ["PDF", "Excel", "CSV"],
   onExport,
-  buttonClassName = "btn btn-secondary dropdown-toggle mb--10 mt--1 w--100"
+  data = [],
+  filename = "export",
+  title = "Report",
+  columns = null,
+  buttonClassName = "btn btn-secondary dropdown-toggle mb--10 mt--1 w--100",
+  showNotification = true
 }) => {
   const [showExportDropdown, setShowExportDropdown] = useState(false);
   const exportDropdownRef = useRef(null);
@@ -15,12 +21,35 @@ const ExportButton = ({
   };
 
   const handleExportOption = (format) => {
+    setShowExportDropdown(false);
+
+    // If custom onExport handler is provided, use it
     if (onExport) {
       onExport(format);
-    } else {
-      console.log(`Exporting as ${format}`);
+      return;
     }
-    setShowExportDropdown(false);
+
+    // Otherwise, use the built-in export functionality
+    if (!data || data.length === 0) {
+      if (showNotification) {
+        console.warn('No data available to export');
+      }
+      return;
+    }
+
+    const success = exportData(data, format, filename, {
+      title,
+      columns,
+      sheetName: title || 'Sheet1',
+      rootElement: 'data',
+      itemElement: 'item'
+    });
+
+    if (success && showNotification) {
+      console.log(`Successfully exported as ${format}`);
+    } else if (!success) {
+      console.error(`Failed to export as ${format}`);
+    }
   };
 
   // Handle click outside to close dropdown

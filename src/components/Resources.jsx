@@ -33,7 +33,8 @@ const Resources = () => {
   useEffect(() => {
     // Automatically open the PDF on component mount
     const pdfUrl =
-      "https://www.niyamasabha.nic.in/libraryFile/libraryrules.pdf";
+      // "https://www.niyamasabha.nic.in/libraryFile/libraryrules.pdf";
+      "/libraryrules.pdf";
     setActiveFileUrl(pdfUrl);
   }, []);
 

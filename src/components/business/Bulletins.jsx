@@ -425,7 +425,17 @@ const Bulletin = () => {
                             KLA: { defaultValue: filtersPart1.kla_id }
                           }}
                         />
-                        <ExportButton />
+                        <ExportButton 
+                          data={bulletinsPart1.map((b, idx) => ({
+                            'Bulletin No': b.bulletinNumber,
+                            'Title': b.name,
+                            'Session': b.sessionNumber,
+                            'PDF URL': b.fileUrl
+                          }))}
+                          filename="bulletins-part1"
+                          title="Bulletins Part 1"
+                          exportOptions={["PDF", "Excel", "CSV"]}
+                        />
                         
                         {/* Display session info prominently */}
                         <div className="mt-4 mb-3 p-3" style={{ 
@@ -495,7 +505,16 @@ const Bulletin = () => {
                             KLA: { defaultValue: filtersPart2.kla_id }
                           }}
                         />
-                        <ExportButton />
+                        <ExportButton 
+                          data={bulletinsPart2.map((b, idx) => ({
+                            'Bulletin No': b.bulletinNumber,
+                            'Title': b.name,
+                            'PDF URL': b.fileUrl
+                          }))}
+                          filename="bulletins-part2"
+                          title="Bulletins Part 2"
+                          exportOptions={["PDF", "Excel", "CSV"]}
+                        />
                         
                         {/* Display bulletin count */}
                         {bulletinsPart2.length > 0 && (

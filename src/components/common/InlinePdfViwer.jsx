@@ -4,6 +4,7 @@ import { Worker, Viewer, SpecialZoomLevel } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import { ensureHttps } from "../../utils/urlUtils";
 
 const InlinePdfViewer = ({
   fileUrl,
@@ -14,6 +15,9 @@ const InlinePdfViewer = ({
   workerUrl = "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js",
 }) => {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  
+  // Convert HTTP URLs to use PDF proxy
+  const secureFileUrl = ensureHttps(fileUrl);
 
   // Prefer fitting to container width unless caller overrides
   const resolvedScale =
@@ -27,10 +31,10 @@ const InlinePdfViewer = ({
 
   // Download handler
   const handleDownload = () => {
-    if (fileUrl) {
+    if (secureFileUrl) {
       const link = document.createElement("a");
-      link.href = fileUrl;
-      link.download = fileUrl.split("/").pop() || "document.pdf";
+      link.href = secureFileUrl;
+      link.download = secureFileUrl.split("/").pop() || "document.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -40,7 +44,7 @@ const InlinePdfViewer = ({
   return (
     <div className={className || ""}>
       {/* Button Row */}
-      {fileUrl && (
+      {secureFileUrl && (
         <div className="d-flex justify-content-end mb-2">
           <button
             onClick={handleDownload}
@@ -62,10 +66,10 @@ const InlinePdfViewer = ({
           overflow: "hidden",
         }}
       >
-        {fileUrl ? (
+        {secureFileUrl ? (
           <Worker workerUrl={workerUrl}>
             <Viewer
-              fileUrl={fileUrl}
+              fileUrl={secureFileUrl}
               plugins={[defaultLayoutPluginInstance]}
               defaultScale={resolvedScale}
             />

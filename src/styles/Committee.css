@@ -165,10 +165,10 @@
     color: var(--clr--primary);
 }
 
+
 .cMember .memberList img {
-    /* width: 150px; */
-    height: auto;
-    width: 100%;
+    padding: 0;
+    height: 200px;
 }
 
 .horiz-tab .nav-tabs .nav-link:hover {

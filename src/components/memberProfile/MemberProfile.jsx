@@ -1570,6 +1570,8 @@ const MemberProfile = () => {
                                   <a
                                     href="https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0"
                                     class="vLink"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                   >
                                     Video Link
                                   </a>

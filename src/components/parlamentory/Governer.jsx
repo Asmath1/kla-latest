@@ -488,7 +488,7 @@ const Governer = () => {
                                 <a
                                   href="https://rajbhavan.kerala.gov.in/" // Governor’s Office actual link
                                   target="_blank"
-                                  rel="noreferrer"
+                                  rel="noopener noreferrer"
                                   className="cnfm-btn ud-btn btn-thm"
                                 >
                                   Proceed
@@ -639,7 +639,7 @@ const Governer = () => {
                                 <a
                                   href="https://www.rajbhavan.kerala.gov.in/index.php/the-governor/previous-governors" // Former Governers
                                   target="_blank"
-                                  rel="noreferrer"
+                                  rel="noopener noreferrer"
                                   className="cnfm-btn ud-btn btn-thm"
                                 >
                                   OK

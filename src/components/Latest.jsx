@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import {
-  faFacebookF,
-  faInstagram,
-  faYoutube,
-  faXTwitter,
-} from "@fortawesome/free-brands-svg-icons";
+// import {
+//   faFacebookF,
+//   faInstagram,
+//   faYoutube,
+//   faXTwitter,
+// } from "@fortawesome/free-brands-svg-icons";
 // import { FileText } from "lucide-react"
 import LatestNews from "./Dummy";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
@@ -1309,18 +1309,20 @@ useEffect(() => {
             <div className="speakName">
               <h4 className="title text-capitalize">
                 <a
-                  href="#"
+                  href="https://lokbhavan.kerala.gov.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{ textDecoration: "none", color: "#222222" }}
                 >
                   {/* Shri. Rajendra Vishwanath Arlekar */}
-                  ശ്രീ രാജേന്ദ്ര വിശ്വനാഥ് അർലേക്കർ
+                  ശ്രീ. രാജേന്ദ്ര വിശ്വനാഥ് അർലേക്കർ
                 </a>
               </h4>
               <p className="text mb-0">
                 {/* The Hon'ble Governor */}
                 ബഹു. ഗവർണർ
               </p>
-              <div className="social-style12">
+              {/* <div className="social-style12">
                 <a href="#">
                   <FontAwesomeIcon
                     icon={faFacebookF}
@@ -1345,7 +1347,7 @@ useEffect(() => {
                     className="list-inline-item"
                   />
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -1378,17 +1380,19 @@ useEffect(() => {
             <div className="speakName">
               <h4 className="title text-capitalize">
                 <a
-                  href="#"
+                  href="https://speakerkerala.niyamasabha.nic.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{ textDecoration: "none", color: "#222222" }}
                 >
-                  {/* A N Shamseer */}എ എൻ ഷംസീർ
+                  {/* A N Shamseer */}ശ്രീ. എ എൻ ഷംസീർ
                 </a>
               </h4>
               <p className="text mb-0">
                 {/* The Hon'ble Speaker */}
                 ബഹു. സ്പീക്കർ
               </p>
-              <div className="social-style12">
+              {/* <div className="social-style12">
                 <a href="#">
                   <FontAwesomeIcon
                     icon={faFacebookF}
@@ -1413,7 +1417,7 @@ useEffect(() => {
                     className="list-inline-item"
                   />
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 export const fetchConstituencies = async (opts = {}) => {
   // Backend expects POST for this route — send form-encoded body.
-  const url = "https://klademo.cditproject.org/api/constituencies";
+  const url = "https://api.niyamasabha.in/api/constituencies";
   const res = await fetch(url, {
     method: "POST",
     headers: {
@@ -16,7 +16,7 @@ export const fetchConstituencies = async (opts = {}) => {
 };
 
 export const fetchKlaList = async () => {
-  const res = await fetch("https://klademo.cditproject.org/api/kla-list", {
+  const res = await fetch("https://api.niyamasabha.in/api/kla-list", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
     body: new URLSearchParams({ t: "o" }).toString(),
@@ -28,7 +28,7 @@ export const fetchKlaList = async () => {
 
 export const fetchKlaSessions = async (klaId) => {
   // The backend expects POST for this route. Send kla_id in POST body when provided.
-  const url = "https://klademo.cditproject.org/api/kla-sessions";
+  const url = "https://api.niyamasabha.in/api/kla-sessions";
   const opts = {
     method: "POST",
     headers: {
@@ -50,7 +50,7 @@ export const fetchKlaSessions = async (klaId) => {
 };
 
 export const fetchAllotmentDays = async (klaId = 15) => {
-  const url = `https://klademo.cditproject.org/api/allotment_days${klaId ? `?kla_id=${klaId}` : ''}`;
+  const url = `https://api.niyamasabha.in/api/allotment_days${klaId ? `?kla_id=${klaId}` : ''}`;
   const res = await fetch(url, {
     method: "GET",
     headers: {
@@ -64,7 +64,7 @@ export const fetchAllotmentDays = async (klaId = 15) => {
 };
 
 export const fetchCommittees = async () => {
-  const url = "https://klademo.cditproject.org/api/committees";
+  const url = "https://api.niyamasabha.in/api/committees";
   const res = await fetch(url, {
     method: "GET",
     headers: {
@@ -78,7 +78,7 @@ export const fetchCommittees = async () => {
 };
 
 export const fetchCommitteeById = async (committeeId) => {
-  const url = `https://klademo.cditproject.org/api/committees/${committeeId}`;
+  const url = `https://api.niyamasabha.in/api/committees/${committeeId}`;
   const res = await fetch(url, {
     method: "GET",
     headers: {
@@ -91,7 +91,7 @@ export const fetchCommitteeById = async (committeeId) => {
 };
 
 export const fetchPeriodicals = async () => {
-  const url = "https://klademo.cditproject.org/api/periodicals";
+  const url = "https://api.niyamasabha.in/api/periodicals";
   const res = await fetch(url, {
     method: "GET",
     headers: {
@@ -105,7 +105,7 @@ export const fetchPeriodicals = async () => {
 };
 
 export const fetchScheduleWebUpdation = async (klaId = 15) => {
-  const url = `https://klademo.cditproject.org/api/schedule_web_updation_questions${klaId ? `?kla_id=${klaId}` : ''}`;
+  const url = `https://api.niyamasabha.in/api/schedule_web_updation_questions${klaId ? `?kla_id=${klaId}` : ''}`;
   const res = await fetch(url, {
     method: "GET",
     headers: {

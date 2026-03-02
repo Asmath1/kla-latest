@@ -14,6 +14,7 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import "../styles/Calender.css";
 import { API_ENDPOINTS } from "../utils/config";
+import { ensureHttps, isHttpUrl } from "../utils/urlUtils";
 
 function Calendar({
   legendItems,
@@ -82,15 +83,23 @@ function Calendar({
 
       setIsLoadingEvents(true);
       try {
-        const response = await fetch(API_ENDPOINTS.CALENDAR_CURRENT);
+        // determine month number based on the localized names array
+        const monthNumber = months.indexOf(currentMonth) + 1;
+        // construct endpoint: use year/month if available, otherwise fallback to current
+        const url =
+          typeof API_ENDPOINTS.CALENDAR_YEAR_MONTH === "function"
+            ? API_ENDPOINTS.CALENDAR_YEAR_MONTH(year, monthNumber)
+            : API_ENDPOINTS.CALENDAR_CURRENT;
+
+        const response = await fetch(url);
         const result = await response.json();
 
         if (result?.success && result?.data) {
           const { dailyEvents, year: apiYear, month: apiMonth } = result.data;
           
-          // Update year and month from API
-          setApiYear(apiYear);
-          setApiMonth(apiMonth);
+          // Update year and month from API (useful if backend returns normalized values)
+          setApiYear(apiYear || year);
+          setApiMonth(apiMonth || monthNumber);
 
           // Transform API data to match component structure
           const transformedEvents = {};
@@ -108,7 +117,7 @@ function Calendar({
           });
 
           setCalendarEvents(transformedEvents);
-          console.log('Calendar events loaded:', transformedEvents);
+          console.log('Calendar events loaded for', year, monthNumber, transformedEvents);
         }
       } catch (error) {
         console.error("Error fetching calendar events:", error);
@@ -120,7 +129,7 @@ function Calendar({
     };
 
     fetchCalendarEvents();
-  }, [customEvents]);
+  }, [customEvents, year, currentMonth]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -440,15 +449,16 @@ function Calendar({
               <FontAwesomeIcon icon={faTimes} />
             </button>
             <a
-              href={pdfViewerSrc}
-              download
-              className="download-pdf-button d-none"
+              href={ensureHttps(pdfViewerSrc)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="download-pdf-button me-auto"
             >
               <FontAwesomeIcon icon={faDownload} /> Download PDF
             </a>
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
               <Viewer
-                fileUrl={pdfViewerSrc}
+                fileUrl={ensureHttps(pdfViewerSrc)}
                 plugins={[defaultLayoutPluginInstance]}
                 defaultScale={
                   typeof window !== 'undefined' && window.innerWidth <= 576

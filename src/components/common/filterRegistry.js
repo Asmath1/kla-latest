@@ -21,8 +21,8 @@ export const FILTER_REGISTRY = {
       { value: 12, label: "12th KLA" },
       { value: 11, label: "11th KLA" },
     ],
-    // default to 14 (as requested)
-    defaultValue: 14,
+    // default to 15 (as requested)
+    defaultValue: 15,
   },
   GENDER: {
     key: "GENDER",

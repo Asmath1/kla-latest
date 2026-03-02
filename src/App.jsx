@@ -51,6 +51,7 @@ import SecretariatSectionsPage from "./secretariate/Section";
 import Library from "./secretariate/Library";
 import Museum from "./secretariate/Museum";
 import SabhaTv from "./secretariate/SabhaTv";
+import SabhaTVLive from "./components/SabhaTVLive";
 import Cpst from "./secretariate/Cpst";
 import SpecialSecretary from "./components/parlamentory/SpecialSecretary";
 import Motions from "./components/business/Motions";
@@ -126,6 +127,7 @@ const AppLayout = () => {
           <Route path="/library" element={<Library />} />
           <Route path="/museum" element={<Museum />} />
           <Route path="/sabha-tv" element={<SabhaTv />} />
+          <Route path="/sabha-tv-live" element={<SabhaTVLive />} />
           <Route path="/klamps" element={<Cpst />} />
           <Route path="/special-secretary" element={<SpecialSecretary />} />
           <Route path="/motions" element={<Motions />} />

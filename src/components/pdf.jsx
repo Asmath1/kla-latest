@@ -6,6 +6,7 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import ExportButton from "./common/ExportButton";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import { ensureHttps } from "../utils/urlUtils";
 
 const PdfViewerModal = ({ show, onClose, fileUrl, title }) => {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
@@ -38,7 +39,7 @@ const PdfViewerModal = ({ show, onClose, fileUrl, title }) => {
         {fileUrl && (
           <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
             <Viewer
-              fileUrl={fileUrl}
+              fileUrl={ensureHttps(fileUrl)}
               plugins={[defaultLayoutPluginInstance]}
               defaultScale={
                 typeof window !== "undefined" && window.innerWidth <= 576

@@ -1,4 +1,5 @@
 export { default as ExportButton } from "./ExportButton";
+export { default as TableExport } from "./TableExport";
 export { default as CategoriesNav } from "./CategoriesNav";
 export { default as BreadcrumbNav } from "./BreadcrumbNav";
 export { default as SectionTitle } from "./Title";

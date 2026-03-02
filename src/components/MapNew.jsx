@@ -1477,9 +1477,9 @@ const Map = () => {
                   {/* Your Representative */}
                   പ്രതിനിധികൾ
                 </h2>
-                <p className="paragraph">
+                {/* <p className="paragraph">
                   Most viewed and all-time top-selling services
-                </p>
+                </p> */}
               </div>
             </div>
           </div>

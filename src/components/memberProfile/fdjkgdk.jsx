@@ -673,7 +673,7 @@ const MemberList = () => {
                             className="member-card job-list-style1 bdr1 text-center"
                             key={idx}
                             onClick={() =>
-                              window.open(`pdfs/former-members/${m.name.toLowerCase().replace(/ /g, "-")}.pdf`, "_blank")
+                              window.open(`pdfs/former-members/${m.name.toLowerCase().replace(/ /g, "-")}.pdf`, "_blank", "noopener,noreferrer")
                             }
                             style={{ cursor: "pointer" }}
                           >

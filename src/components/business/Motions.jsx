@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import HomeTest from "../Header";
-import { BreadcrumbNav, CategoriesNav, SectionTitle } from "../common";
+import { BreadcrumbNav, CategoriesNav, SectionTitle, ExportButton } from "../common";
 import { motion, AnimatePresence } from "framer-motion";
 import InlinePdfViewer from "../common/InlinePdfViwer";
 import "./Motions.css";
@@ -123,6 +123,22 @@ const Motions = () => {
           Motions Under Rule 130
         </h3>
 
+        <div className="mb-3">
+          <ExportButton
+            data={motions.map(item => ({
+              'Serial No': item.no,
+              'Date of Discussion': item.date,
+              'Name of Mover': item.mover,
+              'Subject Matter': item.subject
+            }))}
+            filename="motions-rule-130"
+            title="Motions Under Rule 130"
+            exportOptions={["PDF", "Excel", "CSV"]}
+            className=""
+            buttonClassName="btn btn-secondary dropdown-toggle"
+          />
+        </div>
+
         <div className="table-responsive">
           <table className="table table-bordered myTable2 KLAMPS-table">
             <thead>
@@ -226,7 +242,7 @@ const Motions = () => {
                     <a
                       href={item.pdf}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="motion-confidence-link"
                     >
                       {item.statement}
@@ -487,7 +503,7 @@ const Motions = () => {
                     <a
                       href={item.pdf}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="motion-confidence-link"
                     >
                       {item.statement}

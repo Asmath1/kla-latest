@@ -14,6 +14,7 @@ import "../styles/Bills.css";
 import Pagination from "./Pagination";
 import { BreadcrumbNav, CategoriesNav, Filter, SectionTitle } from "./common";
 import { API_ENDPOINTS } from "../utils/config";
+import { ensureHttps } from "../utils/urlUtils";
 
 const dummyPdf = "/pdf1.pdf";
 
@@ -269,7 +270,7 @@ export const BillsTabs = () => {
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
               {pdfUrl && (
                 <Viewer
-                  fileUrl={pdfUrl}
+                  fileUrl={ensureHttps(pdfUrl)}
                   plugins={[defaultLayoutPluginInstance]}
                   defaultScale={
                     typeof window !== "undefined" && window.innerWidth <= 576

@@ -1,6 +1,8 @@
 export const fetchKlaMembers = async (assemblyNumber = 15) => {
   try {
-    const response = await fetch(`https://klademo.cditproject.org/api/kla-members/${assemblyNumber}`, {
+    // const response = await fetch(`https://klademo.cditproject.org/api/kla-members/${assemblyNumber}`, {
+    const response = await fetch(`https://api.niyamasabha.in/api/kla-members/${assemblyNumber}`, {
+
       headers: { Accept: "application/json" },
     });
 
