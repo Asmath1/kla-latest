@@ -195,6 +195,7 @@ const Rti = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
+            { name: "RTI/Contacts", href: "/rti" },
             { name: "RTI", href: "/rti" },
             {
               name: "Officers under RTI Act",

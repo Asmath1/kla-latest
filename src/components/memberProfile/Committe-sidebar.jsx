@@ -1,12 +1,62 @@
 import { useState, useEffect } from "react";
-import { fetchCommittees } from "../../services/MasterService";
+import { fetchCommittees, fetchKlaList } from "../../services/MasterService";
 
-export default function CommitteeSidebar({ onSelectCommittee, onFirstCommitteeLoad }) {
-  const [selectedKLA, setSelectedKLA] = useState("15th");
-  const [activeAccordion, setActiveAccordion] = useState(["0"]);
-  const [ committees,setCommittees] = useState([]);
+export default function CommitteeSidebar({
+  selectedKLA,
+  setSelectedKLA,
+  activeAccordion,
+  setActiveAccordion,
+  onSelectCommittee,
+  onFirstCommitteeLoad,
+}) {
+  const [committees, setCommittees] = useState([]);
+  const [klaOptions, setKlaOptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [groupedCommittees, setGroupedCommittees] = useState({});
+
+  const getKlaDisplayName = (kla) => {
+    const englishLanguage =
+      kla?.languages?.find((language) => language.language_id === 2)?.name ||
+      kla?.languages?.[1]?.name ||
+      kla?.languages?.[0]?.name;
+
+    return englishLanguage || `${kla?.chronological_order || ""} KLA`.trim();
+  };
+console.log(committees,"conniteee");
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadKlaOptions = async () => {
+      try {
+        const data = await fetchKlaList();
+        if (!cancelled) {
+          const klaList = data || [];
+          setKlaOptions(klaList);
+
+          const defaultKla =
+            klaList.find((item) => item.kla_status === "yes") ||
+            klaList[klaList.length - 1] ||
+            null;
+
+          if (defaultKla) {
+            setSelectedKLA(String(defaultKla.id));
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load KLA list:", err);
+        if (!cancelled) {
+          setKlaOptions([]);
+        }
+      }
+    };
+
+    loadKlaOptions();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Fetch committees from API
   useEffect(() => {
@@ -17,10 +67,11 @@ export default function CommitteeSidebar({ onSelectCommittee, onFirstCommitteeLo
       try {
         const data = await fetchCommittees();
         if (!cancelled) {
-          setCommittees(data || []);
+          const committeeList = data || [];
+          setCommittees(committeeList);
           
           // Group committees by category_group
-          const grouped = (data || []).reduce((acc, committee) => {
+          const grouped = committeeList.reduce((acc, committee) => {
             const category = committee.category_group || "Others";
             if (!acc[category]) {
               acc[category] = [];
@@ -32,8 +83,8 @@ export default function CommitteeSidebar({ onSelectCommittee, onFirstCommitteeLo
           setGroupedCommittees(grouped);
           
           // Auto-select first committee
-          if (onFirstCommitteeLoad && data && data.length > 0) {
-            onFirstCommitteeLoad(data[0]);
+          if (onFirstCommitteeLoad && committeeList.length > 0) {
+            onFirstCommitteeLoad(committeeList[0]);
           }
         }
       } catch (err) {
@@ -74,22 +125,31 @@ export default function CommitteeSidebar({ onSelectCommittee, onFirstCommitteeLo
   return (
     <div className="list-sidebar-style1 committi position-relative">
       <div className="form-style1 mb20 mt10">
+        
+        <label className="form-label fw-bold mb-2">
+          KLA
+        </label>
+
         <div className="bootselect-multiselect">
           <select
             className="selectpicker"
             value={selectedKLA}
             onChange={(e) => setSelectedKLA(e.target.value)}
           >
-            <option value="15th">15th</option>
-            <option value="14th">14th</option>
-            <option value="13th">13th</option>
-            <option value="12th">12th</option>
-            <option value="11th">11th</option>
-            <option value="10th">10th</option>
-            <option value="9th">9th</option>
+            {klaOptions.length === 0 ? (
+              <option value="">Select KLA</option>
+            ) : (
+              klaOptions.map((kla) => (
+                <option key={kla.id} value={kla.id}>
+                  {getKlaDisplayName(kla)}
+                </option>
+              ))
+            )}
           </select>
         </div>
+        
       </div>
+
 
       {loading ? (
         <div className="text-center py-4">

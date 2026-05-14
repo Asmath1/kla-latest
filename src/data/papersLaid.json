@@ -1,0 +1,446 @@
+{
+  "reports": {
+    "tab": "Reports",
+    "columns": ["Sl. No", "KLA", "Session", "Date", "File"],
+    "items": [
+      {
+        "id": 1,
+        "kla_id": 15,
+        "session_id": 13,
+        "title": "Annual Report of Kerala State Electricity Board 2023-24",
+        "created_at": "2025-07-05",
+        "websitelink": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+      },
+      {
+        "id": 2,
+        "kla_id": 15,
+        "session_id": 13,
+        "title": "Report of the Comptroller and Auditor General of Kerala 2022-23",
+        "created_at": "2025-07-06",
+        "websitelink": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+      },
+      {
+        "id": 3,
+        "kla_id": 15,
+        "session_id": 13,
+        "title": "Annual Report of Kerala Water Authority 2023-24",
+        "created_at": "2025-07-07",
+        "websitelink": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+      },
+      {
+        "id": 4,
+        "kla_id": 15,
+        "session_id": 13,
+        "title": "Annual Report of Kerala State Road Transport Corporation 2023-24",
+        "created_at": "2025-07-08",
+        "websitelink": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+      },
+      {
+        "id": 5,
+        "kla_id": 15,
+        "session_id": 13,
+        "title": "Report of the Kerala Public Service Commission 2022-23",
+        "created_at": "2025-07-09",
+        "websitelink": null
+      },
+      {
+        "id": 6,
+        "kla_id": 15,
+        "session_id": 12,
+        "title": "Annual Report of Kerala State Industrial Development Corporation 2022-23",
+        "created_at": "2024-11-12",
+        "websitelink": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC43.pdf"
+      },
+      {
+        "id": 7,
+        "kla_id": 15,
+        "session_id": 12,
+        "title": "Report of the Kerala Lokayukta 2022-23",
+        "created_at": "2024-11-14",
+        "websitelink": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC43.pdf"
+      },
+      {
+        "id": 8,
+        "kla_id": 15,
+        "session_id": 11,
+        "title": "Annual Report of Kerala Tourism Development Corporation 2022-23",
+        "created_at": "2024-07-22",
+        "websitelink": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC42.pdf"
+      },
+      {
+        "id": 9,
+        "kla_id": 14,
+        "session_id": 10,
+        "title": "Annual Report of Kerala State Beverages Corporation 2019-20",
+        "created_at": "2020-09-15",
+        "websitelink": null
+      },
+      {
+        "id": 10,
+        "kla_id": 14,
+        "session_id": 9,
+        "title": "Report of the Comptroller and Auditor General of Kerala 2018-19",
+        "created_at": "2019-07-18",
+        "websitelink": null
+      }
+    ]
+  },
+
+  "sros": {
+    "tab": "SROs",
+    "columns": ["Sl. No", "SRO No.", "Title", "Date of Issue"],
+    "items": [
+      {
+        "id": 1,
+        "kla_id": 15,
+        "session_id": 13,
+        "sro_no": "SRO 512/2025",
+        "title": "Kerala Motor Vehicles Rules (Amendment) 2025",
+        "date": "2025-06-15",
+        "websitelink": null
+      },
+      {
+        "id": 2,
+        "kla_id": 15,
+        "session_id": 13,
+        "sro_no": "SRO 498/2025",
+        "title": "Kerala Panchayat Raj (Amendment) Rules 2025",
+        "date": "2025-06-10",
+        "websitelink": null
+      },
+      {
+        "id": 3,
+        "kla_id": 15,
+        "session_id": 12,
+        "sro_no": "SRO 1024/2024",
+        "title": "Kerala Municipality (Amendment) Rules 2024",
+        "date": "2024-10-20",
+        "websitelink": null
+      },
+      {
+        "id": 4,
+        "kla_id": 15,
+        "session_id": 12,
+        "sro_no": "SRO 987/2024",
+        "title": "Kerala Co-operative Societies (Amendment) Rules 2024",
+        "date": "2024-10-05",
+        "websitelink": null
+      },
+      {
+        "id": 5,
+        "kla_id": 15,
+        "session_id": 11,
+        "sro_no": "SRO 756/2024",
+        "title": "Kerala Education (Amendment) Rules 2024",
+        "date": "2024-07-18",
+        "websitelink": null
+      }
+    ]
+  },
+
+  "ordinances": {
+    "tab": "Ordinances",
+    "columns": ["Sl. No", "Ordinance No", "Title of the Ordinance", "Date of Promulgation"],
+    "items": [
+      {
+        "id": 1,
+        "kla_id": 15,
+        "no": 20,
+        "title": "The Kerala State Goods And Services Tax (Amendment) Ordinance, 2023",
+        "date": "2024-01-05"
+      },
+      {
+        "id": 2,
+        "kla_id": 15,
+        "no": 19,
+        "title": "Kerala Panchayat Raj (Amendment) Ordinance, 2023",
+        "date": "2023-12-08"
+      },
+      {
+        "id": 3,
+        "kla_id": 15,
+        "no": 18,
+        "title": "The Kerala Municipality (Amendment) Ordinance, 2023",
+        "date": "2023-12-08"
+      },
+      {
+        "id": 4,
+        "kla_id": 15,
+        "no": 17,
+        "title": "The Kerala Taxation Laws (Amendment) Ordinance, 2023",
+        "date": "2023-07-23"
+      },
+      {
+        "id": 5,
+        "kla_id": 15,
+        "no": 16,
+        "title": "The Kerala Healthcare Service Persons And Healthcare Service Institutions (Prevention Of Violence And Damage To Property) Amendment Ordinance, 2023",
+        "date": "2023-05-24"
+      },
+      {
+        "id": 6,
+        "kla_id": 15,
+        "no": 15,
+        "title": "The Kerala Public Health Ordinance, 2022",
+        "date": "2022-10-15"
+      },
+      {
+        "id": 7,
+        "kla_id": 15,
+        "no": 14,
+        "title": "The Kerala Public Enterprises Selection And Recruitment Board Ordinance, 2022",
+        "date": "2022-06-02"
+      },
+      {
+        "id": 8,
+        "kla_id": 15,
+        "no": 13,
+        "title": "The Kerala Public Service Commission (Additional Functions As Respects Certain Corporations And Companies) Amendment Ordinance, 2022",
+        "date": "2022-03-31"
+      },
+      {
+        "id": 9,
+        "kla_id": 15,
+        "no": 12,
+        "title": "The Kerala Public Health Ordinance, 2022",
+        "date": "2022-03-31"
+      },
+      {
+        "id": 10,
+        "kla_id": 15,
+        "no": 11,
+        "title": "The Kerala Co-Operative Societies (Amendment) Ordinance, 2022",
+        "date": "2022-03-31"
+      },
+      {
+        "id": 11,
+        "kla_id": 15,
+        "no": 10,
+        "title": "The Kerala Livestock And Poultry Feed And Mineral Mixture (Regulation Of Manufacture And Sale) Ordinance, 2022",
+        "date": "2022-03-31"
+      },
+      {
+        "id": 12,
+        "kla_id": 15,
+        "no": 9,
+        "title": "The Kerala Maritime Board (Amendment) Ordinance, 2022",
+        "date": "2022-03-31"
+      },
+      {
+        "id": 13,
+        "kla_id": 15,
+        "no": 8,
+        "title": "The Kerala Lok Ayukta (Amendment) Ordinance, 2022",
+        "date": "2022-03-31"
+      },
+      {
+        "id": 14,
+        "kla_id": 15,
+        "no": 7,
+        "title": "The Kerala Private Forests (Vesting And Assignment) Amendment Ordinance, 2022",
+        "date": "2022-03-31"
+      },
+      {
+        "id": 15,
+        "kla_id": 15,
+        "no": 6,
+        "title": "The Kerala Local Self Government Common Service Ordinance, 2022",
+        "date": "2022-03-31"
+      },
+      {
+        "id": 16,
+        "kla_id": 15,
+        "no": 5,
+        "title": "The Kerala Local Self Government Common Service Ordinance, 2022",
+        "date": "2022-03-31"
+      },
+      {
+        "id": 17,
+        "kla_id": 15,
+        "no": 4,
+        "title": "The Kerala Jewellery Workers' Welfare Fund (Amendment) Ordinance, 2022",
+        "date": "2022-03-31"
+      },
+      {
+        "id": 18,
+        "kla_id": 15,
+        "no": 3,
+        "title": "The Kerala Lok Ayukta (Amendment) Ordinance, 2022",
+        "date": "2022-02-07"
+      },
+      {
+        "id": 19,
+        "kla_id": 15,
+        "no": 2,
+        "title": "The Kerala Maritime Board (Amendment) Ordinance, 2022",
+        "date": "2022-01-19"
+      },
+      {
+        "id": 20,
+        "kla_id": 15,
+        "no": 1,
+        "title": "The Kerala Co-Operative Societies (Amendment) Ordinance, 2022",
+        "date": "2022-01-13"
+      }
+    ]
+  },
+
+  "acts": {
+    "tab": "Acts",
+    "columns": ["Sl. No", "Act No.", "Title of the Act", "Date of Assent"],
+    "items": [
+      {
+        "id": 1,
+        "kla_id": 15,
+        "act_no": "Act 12 of 2025",
+        "title": "The Kerala State Goods And Services Tax (Amendment) Act, 2025",
+        "date": "2025-04-10",
+        "websitelink": null
+      },
+      {
+        "id": 2,
+        "kla_id": 15,
+        "act_no": "Act 11 of 2025",
+        "title": "The Kerala Panchayat Raj (Amendment) Act, 2025",
+        "date": "2025-04-08",
+        "websitelink": null
+      },
+      {
+        "id": 3,
+        "kla_id": 15,
+        "act_no": "Act 10 of 2025",
+        "title": "The Kerala Municipality (Amendment) Act, 2025",
+        "date": "2025-04-08",
+        "websitelink": null
+      },
+      {
+        "id": 4,
+        "kla_id": 15,
+        "act_no": "Act 9 of 2024",
+        "title": "The Kerala Co-Operative Societies (Amendment) Act, 2024",
+        "date": "2024-12-15",
+        "websitelink": null
+      },
+      {
+        "id": 5,
+        "kla_id": 15,
+        "act_no": "Act 8 of 2024",
+        "title": "The Kerala Public Health Act, 2024",
+        "date": "2024-11-20",
+        "websitelink": null
+      }
+    ]
+  },
+
+  "list": {
+    "tab": "List",
+    "calendar": {
+      "start_date": "2025-07-02",
+      "end_date": "2025-08-05",
+      "meeting_dates": ["2025-07-04", "2025-07-08", "2025-07-15", "2025-07-20"],
+      "allowed_dates": ["2025-07-02", "2025-07-04", "2025-07-08", "2025-07-15", "2025-07-20", "2025-08-02"]
+    },
+    "daily_papers": [
+      {
+        "date": "2025-07-04",
+        "serial_no": 68,
+        "papers": [
+          {
+            "id": 1,
+            "name": "List 1",
+            "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+          },
+          {
+            "id": 2,
+            "name": "List 2",
+            "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC43.pdf"
+          },
+          {
+            "id": 3,
+            "name": "List 3",
+            "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC42.pdf"
+          }
+        ]
+      },
+      {
+        "date": "2025-07-08",
+        "serial_no": 69,
+        "papers": [
+          {
+            "id": 1,
+            "name": "Report A",
+            "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+          },
+          {
+            "id": 2,
+            "name": "Report B",
+            "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC43.pdf"
+          }
+        ]
+      },
+      {
+        "date": "2025-07-15",
+        "serial_no": 70,
+        "papers": [
+          {
+            "id": 1,
+            "name": "Document X",
+            "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+          },
+          {
+            "id": 2,
+            "name": "Document Y",
+            "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC43.pdf"
+          },
+          {
+            "id": 3,
+            "name": "Document Z",
+            "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC42.pdf"
+          }
+        ]
+      },
+      {
+        "date": "2025-07-20",
+        "serial_no": 71,
+        "papers": [
+          {
+            "id": 1,
+            "name": "Summary Report",
+            "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+          }
+        ]
+      }
+    ]
+  },
+
+  "others": {
+    "tab": "Others",
+    "columns": ["Sl. No", "Title", "Date", "File"],
+    "items": [
+      {
+        "id": 1,
+        "kla_id": 15,
+        "session_id": 13,
+        "title": "Statement of Excess Expenditure 2022-23",
+        "date": "2025-07-05",
+        "websitelink": null
+      },
+      {
+        "id": 2,
+        "kla_id": 15,
+        "session_id": 13,
+        "title": "Statement of Surrender of Grants 2024-25",
+        "date": "2025-07-06",
+        "websitelink": null
+      },
+      {
+        "id": 3,
+        "kla_id": 15,
+        "session_id": 12,
+        "title": "Annual Financial Statement 2024-25",
+        "date": "2024-11-12",
+        "websitelink": null
+      }
+    ]
+  }
+}

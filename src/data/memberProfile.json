@@ -1,0 +1,528 @@
+{
+  "basic_details": {
+    "personal": {
+      "dob": "15-04-1965",
+      "birth_place": "Chadayamangalam, Kollam",
+      "father_name": "Shri. K. Gopalan",
+      "mother_name": "Smt. Sarojini",
+      "marital_status": "Married",
+      "marriage_date": "12-06-1990",
+      "spouse_name": "Shri. P. Rajendran",
+      "hobbies": "Reading, Social Service",
+      "children": {
+        "sons": ["Arun Raj"],
+        "daughters": ["Anjali"]
+      }
+    },
+    "address": {
+      "present": "Chinchurani Bhavan, Chadayamangalam P.O., Kollam - 691 584",
+      "permanent": "Chinchurani Bhavan, Chadayamangalam P.O., Kollam - 691 584",
+      "mla_address": "Kerala Legislative Assembly, Thiruvananthapuram - 695 001",
+      "office_telephone": "0471-2512194"
+    },
+    "personal_assistant": {
+      "name": "Shri. Suresh Kumar",
+      "phone": "9447123456",
+      "email": "pa.chinchurani@niyamasabha.nic.in"
+    },
+    "qualifications": {
+      "education": "B.A., L.L.B.",
+      "profession": "Advocate, Social Worker",
+      "languages_known": "Malayalam, English, Hindi"
+    },
+    "positions_held": [
+      {
+        "title": "Member",
+        "organization": "Kerala Legislative Assembly",
+        "period": "2021–Present"
+      },
+      {
+        "title": "Member",
+        "organization": "Kerala Legislative Assembly",
+        "period": "2016–2021"
+      },
+      {
+        "title": "Vice President",
+        "organization": "Chadayamangalam Grama Panchayat",
+        "period": "2010–2015"
+      },
+      {
+        "title": "President",
+        "organization": "CPI District Committee, Kollam",
+        "period": "2005–2010"
+      }
+    ],
+    "other_positions": "Member, Public Accounts Committee (2021–Present); Member, Estimates Committee (2016–2021); Chairperson, Women's Welfare Board, Kollam (2012–2015)"
+  },
+
+  "voting_results": [
+    {
+      "kla": "16th KLA",
+      "constituency": "Chadayamangalam",
+      "electorate": "2,01,643",
+      "votes_polled": "1,47,177",
+      "candidates": [
+        { "name": "Smt. J. Chinchurani (C.P.I.)", "votes": "67,252", "winner": true },
+        { "name": "Shri M. M. Naseer (I.N.C)", "votes": "53,574", "winner": false },
+        { "name": "Shri Vishnu Pattathanam (B.J.P)", "votes": "22,238", "winner": false },
+        { "name": "Shri Rajan K (I.N.D)", "votes": "4,113", "winner": false }
+      ]
+    },
+    {
+      "kla": "15th KLA",
+      "constituency": "Chadayamangalam",
+      "electorate": "1,98,432",
+      "votes_polled": "1,42,865",
+      "candidates": [
+        { "name": "Smt. J. Chinchurani (C.P.I.)", "votes": "7,252", "winner": false },
+        { "name": "Shri M. M. Naseer (I.N.C)", "votes": "73,574", "winner": true },
+        { "name": "Shri Vishnu Pattathanam (B.J.P)", "votes": "18,238", "winner": false }
+      ]
+    },
+    {
+      "kla": "14th KLA",
+      "constituency": "Chadayamangalam",
+      "electorate": "1,89,210",
+      "votes_polled": "1,35,440",
+      "candidates": [
+        { "name": "Smt. J. Chinchurani (C.P.I.)", "votes": "62,100", "winner": true },
+        { "name": "Shri K. Suresh (I.N.C)", "votes": "48,320", "winner": false },
+        { "name": "Shri Anand R (B.J.P)", "votes": "15,020", "winner": false }
+      ]
+    }
+  ],
+
+  "gist_of_business": [
+    { "session": "Session 1", "date": "June 2021", "kla": "15th KLA", "pdf_url": null },
+    { "session": "Session 2", "date": "July 2021", "kla": "15th KLA", "pdf_url": null },
+    { "session": "Session 3", "date": "October 2021", "kla": "15th KLA", "pdf_url": null },
+    { "session": "Session 4", "date": "February 2022", "kla": "15th KLA", "pdf_url": null },
+    { "session": "Session 5", "date": "July 2022", "kla": "15th KLA", "pdf_url": null },
+    { "session": "Session 6", "date": "November 2022", "kla": "15th KLA", "pdf_url": null },
+    { "session": "Session 7", "date": "March 2023", "kla": "15th KLA", "pdf_url": null },
+    { "session": "Session 8", "date": "July 2023", "kla": "15th KLA", "pdf_url": null },
+    { "session": "Session 1", "date": "March 2024", "kla": "16th KLA", "pdf_url": null },
+    { "session": "Session 2", "date": "June 2023", "kla": "16th KLA", "pdf_url": null },
+    { "session": "Session 3", "date": "December 2022", "kla": "16th KLA", "pdf_url": null },
+    { "session": "Session 4", "date": "August 2022", "kla": "16th KLA", "pdf_url": null }
+  ],
+
+  "attendance": {
+    "calendar_events": {
+      "5":  [{ "type": "house-in-session2", "title": "House Session" }],
+      "12": [{ "type": "present",           "title": "Present in Session" }],
+      "18": [{ "type": "absent",            "title": "Absent from Session" }],
+      "25": [{ "type": "present",           "title": "Present in Committee Meeting" }]
+    },
+    "legend": [
+      { "type": "house-in-session2", "label": "House In Session" },
+      { "type": "present",           "label": "Present" },
+      { "type": "absent",            "label": "Absent" }
+    ],
+    "summary": {
+      "total_sittings": 48,
+      "present": 42,
+      "absent": 6,
+      "percentage": "87.5%"
+    }
+  },
+
+  "debates": {
+    "presented": [
+      {
+        "id": 1,
+        "kla": "15th KLA",
+        "session": "Session 1",
+        "type": "Debate Under Rule 58",
+        "date": "12.05.2021",
+        "title": "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme",
+        "participants": ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
+        "video_url": "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        "pdf_url": null
+      },
+      {
+        "id": 2,
+        "kla": "15th KLA",
+        "session": "Session 1",
+        "type": "Debate Under Rule 58",
+        "date": "25.05.2021",
+        "title": "Need to set up a tex Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+        "participants": ["J Chinchurani"],
+        "video_url": "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        "pdf_url": null
+      },
+      {
+        "id": 3,
+        "kla": "15th KLA",
+        "session": "Session 2",
+        "type": "Debate Under Rule 58",
+        "date": "22.07.2021",
+        "title": "Discussion on the state of roads in Kollam district",
+        "participants": ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
+        "video_url": "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        "pdf_url": null
+      },
+      {
+        "id": 4,
+        "kla": "15th KLA",
+        "session": "Session 3",
+        "type": "Calling Attention",
+        "date": "05.10.2021",
+        "title": "Regarding the delay in completion of Kollam bypass road project",
+        "participants": ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
+        "video_url": "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        "pdf_url": null
+      },
+      {
+        "id": 5,
+        "kla": "16th KLA",
+        "session": "Session 1",
+        "type": "Debate Under Rule 58",
+        "date": "26.05.2021",
+        "title": "Need to set up a tex Bhilwara, Rajasthan",
+        "participants": ["J Chinchurani"],
+        "video_url": "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        "pdf_url": null
+      }
+    ],
+    "participated": [
+      {
+        "id": 1,
+        "kla": "15th KLA",
+        "session": "Session 1",
+        "type": "Debate Under Rule 58",
+        "date": "12.05.2021",
+        "title": "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+        "presenter": "A Prabhakaran",
+        "participants": ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
+        "video_url": "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        "pdf_url": null
+      },
+      {
+        "id": 2,
+        "kla": "15th KLA",
+        "session": "Session 2",
+        "type": "Debate Under Rule 58",
+        "date": "25.05.2021",
+        "title": "Need to set up a tex Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+        "presenter": "Chittayam Gopakumar",
+        "participants": ["J Chinchurani"],
+        "video_url": "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        "pdf_url": null
+      },
+      {
+        "id": 3,
+        "kla": "15th KLA",
+        "session": "Session 3",
+        "type": "Debate Under Rule 58",
+        "date": "12.05.2021",
+        "title": "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+        "presenter": "DR. Mathew Kuzhalnadan",
+        "participants": ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
+        "video_url": "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        "pdf_url": null
+      }
+    ]
+  },
+
+  "special_mentions": [
+    {
+      "id": 1,
+      "kla": "15th KLA",
+      "session": "Session 1",
+      "date": "12.05.2021",
+      "title": "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+      "participants": "J Chinchurani",
+      "keywords": "National Highways, Four Lane Road",
+      "pdf_url": null
+    },
+    {
+      "id": 2,
+      "kla": "15th KLA",
+      "session": "Session 2",
+      "date": "25.07.2021",
+      "title": "Regarding the deteriorating condition of Chadayamangalam-Punalur road",
+      "participants": "J Chinchurani",
+      "keywords": "Roads, Infrastructure, Kollam",
+      "pdf_url": null
+    },
+    {
+      "id": 3,
+      "kla": "15th KLA",
+      "session": "Session 3",
+      "date": "08.10.2021",
+      "title": "Regarding the delay in payment of wages to MGNREGS workers in Kollam",
+      "participants": "J Chinchurani",
+      "keywords": "MGNREGS, Wages, Labour",
+      "pdf_url": null
+    },
+    {
+      "id": 4,
+      "kla": "16th KLA",
+      "session": "Session 1",
+      "date": "12.05.2021",
+      "title": "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+      "participants": "J Chinchurani",
+      "keywords": "National Highways, Four Lane Road",
+      "pdf_url": null
+    }
+  ],
+
+  "questions": [
+    {
+      "id": 1,
+      "kla": "15th KLA",
+      "session": "Session 1",
+      "number": "325",
+      "subject": "Need to set up a textiles park in Bhilwara, Rajasth",
+      "department": "Kerala Water Authority",
+      "type": "Starred",
+      "date": "12.05.2021",
+      "category": "Category 1",
+      "pdf_url": null
+    },
+    {
+      "id": 2,
+      "kla": "15th KLA",
+      "session": "Session 1",
+      "number": "124",
+      "subject": "Need to set up a textiles park in Bhilwara, Rajasth",
+      "department": "Kerala Water Authority",
+      "type": "Unstarred",
+      "date": "12.05.2021",
+      "category": "Category 2",
+      "pdf_url": null
+    },
+    {
+      "id": 3,
+      "kla": "15th KLA",
+      "session": "Session 2",
+      "number": "218",
+      "subject": "Status of drinking water supply in Chadayamangalam constituency",
+      "department": "Kerala Water Authority",
+      "type": "Starred",
+      "date": "22.07.2021",
+      "category": "Category 1",
+      "pdf_url": null
+    },
+    {
+      "id": 4,
+      "kla": "15th KLA",
+      "session": "Session 2",
+      "number": "312",
+      "subject": "Steps taken for flood relief in Kollam district",
+      "department": "Revenue Department",
+      "type": "Unstarred",
+      "date": "28.07.2021",
+      "category": "Category 1",
+      "pdf_url": null
+    },
+    {
+      "id": 5,
+      "kla": "16th KLA",
+      "session": "Session 1",
+      "number": "89",
+      "subject": "Regarding the construction of new government hospital in Chadayamangalam",
+      "department": "Health Department",
+      "type": "Starred",
+      "date": "10.06.2024",
+      "category": "Category 1",
+      "pdf_url": null
+    }
+  ],
+
+  "committee_membership": [
+    {
+      "id": 1,
+      "kla": "15th KLA",
+      "committee": "Public Accounts Committee",
+      "status": "Member",
+      "from_date": "12.12.2021",
+      "to_date": "12.05.2026"
+    },
+    {
+      "id": 2,
+      "kla": "15th KLA",
+      "committee": "Water Resources Committee",
+      "status": "Member",
+      "from_date": "12.12.2021",
+      "to_date": "--"
+    },
+    {
+      "id": 3,
+      "kla": "14th KLA",
+      "committee": "Estimates Committee",
+      "status": "Member",
+      "from_date": "15.06.2016",
+      "to_date": "10.05.2021"
+    },
+    {
+      "id": 4,
+      "kla": "14th KLA",
+      "committee": "Committee on Government Assurances",
+      "status": "Chairperson",
+      "from_date": "20.08.2018",
+      "to_date": "10.05.2021"
+    }
+  ],
+
+  "government_bills": [
+    {
+      "id": 1,
+      "kla": "15th KLA",
+      "session": "Session 1",
+      "title": "The Kerala Water Authority (Amendment) Bill, 2021",
+      "date": "15.06.2021",
+      "participants": "J Chinchurani, A K Saseendran, Antony John, Chittayam Gopakumar",
+      "keywords": "Water Supply, Kerala Water Authority, Amendment",
+      "pdf_url": null
+    },
+    {
+      "id": 2,
+      "kla": "15th KLA",
+      "session": "Session 2",
+      "title": "The Kerala Panchayat Raj (Amendment) Bill, 2021",
+      "date": "28.07.2021",
+      "participants": "J Chinchurani, K N Balagopal, E Chandrasekharan",
+      "keywords": "Panchayat, Local Self Government, Amendment",
+      "pdf_url": null
+    },
+    {
+      "id": 3,
+      "kla": "16th KLA",
+      "session": "Session 1",
+      "title": "Bhartiya Vayuyan Vidheyak, 2024",
+      "date": "30.12.2015",
+      "participants": "A K M Ashraf, A K Saseendran, Antony John, Chittayam Gopakumar, E Chandrasekharan, Kadakampally Surendran, K K Ramachandran",
+      "keywords": "Air India, Airports, Civil Aviation, Natural Calamities",
+      "pdf_url": null
+    },
+    {
+      "id": 4,
+      "kla": "16th KLA",
+      "session": "Session 2",
+      "title": "Bhartiya Vayuyan Vidheyak, 2024",
+      "date": "30.12.2015",
+      "participants": "A K M Ashraf, A K Saseendran, Antony John, Chittayam Gopakumar, E Chandrasekharan, Kadakampally Surendran, K K Ramachandran",
+      "keywords": "Air India, Airports, Civil Aviation, Natural Calamities",
+      "pdf_url": null
+    }
+  ],
+
+  "private_bills": [
+    {
+      "id": 1,
+      "kla": "15th KLA",
+      "session": "Session 3",
+      "title": "The Kerala Advocates Welfare Fund (Amendment) Bill, 2021",
+      "date": "12.10.2021",
+      "participants": "J Chinchurani, V D Satheesan, K Muraleedharan",
+      "keywords": "Advocates, Welfare Fund, Legal Profession",
+      "pdf_url": null
+    },
+    {
+      "id": 2,
+      "kla": "16th KLA",
+      "session": "Session 1",
+      "title": "Bhartiya Vayuyan Vidheyak, 2024",
+      "date": "30.12.2015",
+      "participants": "A K M Ashraf, A K Saseendran, Antony John, Chittayam Gopakumar, E Chandrasekharan, Kadakampally Surendran, K K Ramachandran",
+      "keywords": "Air India, Airports, Civil Aviation, Natural Calamities",
+      "pdf_url": null
+    },
+    {
+      "id": 3,
+      "kla": "16th KLA",
+      "session": "Session 2",
+      "title": "Bhartiya Vayuyan Vidheyak, 2024",
+      "date": "30.12.2015",
+      "participants": "A K M Ashraf, A K Saseendran, Antony John, Chittayam Gopakumar, E Chandrasekharan, Kadakampally Surendran, K K Ramachandran",
+      "keywords": "Air India, Airports, Civil Aviation, Natural Calamities",
+      "pdf_url": null
+    }
+  ],
+
+  "gallery": [
+    { "id": 1, "caption": "Assembly Session - June 2021", "image_url": "/images/prof-dummy.png" },
+    { "id": 2, "caption": "Committee Meeting - July 2021", "image_url": "/images/prof-dummy.png" },
+    { "id": 3, "caption": "Constituency Visit - August 2021", "image_url": "/images/prof-dummy.png" },
+    { "id": 4, "caption": "Public Function - October 2021", "image_url": "/images/prof-dummy.png" },
+    { "id": 5, "caption": "Assembly Session - February 2022", "image_url": "/images/prof-dummy.png" },
+    { "id": 6, "caption": "Study Tour - Canada 2022", "image_url": "/images/prof-dummy.png" }
+  ],
+
+  "tours": [
+    {
+      "id": 1,
+      "kla": "15th KLA",
+      "country": "Canada",
+      "purpose": "Parliamentary Exchange Programme — Study of Federal-Provincial Legislative Relations",
+      "from_date": "12.10.2021",
+      "to_date": "16.10.2021"
+    },
+    {
+      "id": 2,
+      "kla": "15th KLA",
+      "country": "United Kingdom",
+      "purpose": "Commonwealth Parliamentary Association Conference",
+      "from_date": "05.03.2022",
+      "to_date": "12.03.2022"
+    },
+    {
+      "id": 3,
+      "kla": "14th KLA",
+      "country": "Singapore",
+      "purpose": "Study Tour on Urban Development and Water Management",
+      "from_date": "18.09.2019",
+      "to_date": "22.09.2019"
+    }
+  ],
+
+  "filter_options": {
+    "kla": [
+      { "value": "16th KLA", "label": "16th KLA" },
+      { "value": "15th KLA", "label": "15th KLA" },
+      { "value": "14th KLA", "label": "14th KLA" },
+      { "value": "13th KLA", "label": "13th KLA" },
+      { "value": "12th KLA", "label": "12th KLA" },
+      { "value": "11th KLA", "label": "11th KLA" },
+      { "value": "10th KLA", "label": "10th KLA" }
+    ],
+    "session": [
+      { "value": "Session 1", "label": "Session 1" },
+      { "value": "Session 2", "label": "Session 2" },
+      { "value": "Session 3", "label": "Session 3" },
+      { "value": "Session 4", "label": "Session 4" },
+      { "value": "Session 5", "label": "Session 5" },
+      { "value": "Session 6", "label": "Session 6" },
+      { "value": "Session 7", "label": "Session 7" },
+      { "value": "Session 8", "label": "Session 8" }
+    ],
+    "date": [
+      { "value": "10/05/2025", "label": "10/05/2025" },
+      { "value": "11/05/2025", "label": "11/05/2025" },
+      { "value": "12/05/2025", "label": "12/05/2025" },
+      { "value": "13/05/2025", "label": "13/05/2025" }
+    ],
+    "type": [
+      { "value": "Starred",   "label": "Starred" },
+      { "value": "Unstarred", "label": "Unstarred" },
+      { "value": "Short Notice", "label": "Short Notice" }
+    ],
+    "category": [
+      { "value": "Category 1", "label": "Category 1" },
+      { "value": "Category 2", "label": "Category 2" },
+      { "value": "Category 3", "label": "Category 3" }
+    ],
+    "business": [
+      { "value": "Business 1", "label": "Business 1" },
+      { "value": "Business 2", "label": "Business 2" },
+      { "value": "Business 3", "label": "Business 3" }
+    ],
+    "constituency": [
+      { "value": "Chadayamangalam", "label": "Chadayamangalam" },
+      { "value": "Neyyatinkara",    "label": "Neyyatinkara" },
+      { "value": "Kollam",          "label": "Kollam" }
+    ]
+  }
+}

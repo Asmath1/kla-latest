@@ -243,7 +243,6 @@ const Resources = () => {
           breadcrumbs={[
             { name: "Home", href: "/" },
             { name: "Resources", href: "/resources" },
-            { name: "Resources", href: "/resources" },
           ]}
         />
 

@@ -70,6 +70,9 @@ import CallOfAttention from "./components/CallOfAttention";
 import PresidentsRule from "./components/PresidentsRule";
 import DurationOfAssembly from "./components/DurationOfAssembly";
 import PartyChart from "./components/PartyChart";
+import HandBook from "./components/memberProfile/HandBook";
+import BudgetDocs from "./components/BudgetDocs";
+import StatementDemands from "./components/StatementDemands";
 
 const AppLayout = () => {
   const location = useLocation();
@@ -146,7 +149,9 @@ const AppLayout = () => {
           <Route path="/presidents-rule" element={<PresidentsRule />} />
           <Route path="/duration-of-assembly" element={<DurationOfAssembly />} />
           <Route path="/party-chart" element={<PartyChart />} />
-
+          <Route path="/handbook" element={<HandBook />} />
+          <Route path="/budget-documents" element={<BudgetDocs />} />
+          <Route path="/budgetstatement-demands" element={<StatementDemands />} />
 
 
           <Route path="*" element={<Navigate to="/" replace />} />

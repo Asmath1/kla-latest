@@ -125,11 +125,25 @@ const Filter = ({
   // Update KLA value when override defaultValue changes (for controlled behavior)
   useEffect(() => {
     const klaOverride = overrides?.KLA?.defaultValue;
-    if (klaOverride !== undefined && klaOverride !== values.KLA) {
-      setValues(prev => ({ ...prev, KLA: klaOverride }));
+    if (
+      klaOverride !== undefined &&
+      String(klaOverride) !== String(values.KLA ?? "")
+    ) {
+      setValues((prev) => ({ ...prev, KLA: klaOverride }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [overrides?.KLA?.defaultValue]); // Only depend on KLA override to avoid loops
+
+  useEffect(() => {
+    const sessionOverride = overrides?.SESSION_TYPE?.defaultValue;
+    if (
+      sessionOverride !== undefined &&
+      String(sessionOverride) !== String(values.SESSION_TYPE ?? "")
+    ) {
+      setValues((prev) => ({ ...prev, SESSION_TYPE: sessionOverride }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [overrides?.SESSION_TYPE?.defaultValue]);
 
   // Cleanup timeouts on unmount (not needed anymore but keeping for safety)
   useEffect(() => {
@@ -144,6 +158,12 @@ const Filter = ({
   // When the user changes the KLA selection, fetch sessions for that KLA
   useEffect(() => {
     let cancelled = false;
+    const hasExternalSessionOptions =
+      Array.isArray(overrides?.SESSION_TYPE?.options) ||
+      Array.isArray(overrides?.SESSION?.options);
+
+    // If the parent already controls session options, don't run an extra fetch/update loop here.
+    if (hasExternalSessionOptions) return () => {};
 
     const klaValue = values?.KLA ?? overrides?.KLA?.defaultValue ?? masterOverrides?.KLA?.options?.[0]?.value;
     if (klaValue == null || klaValue === "") return () => {};
@@ -178,7 +198,96 @@ const Filter = ({
     return () => {
       cancelled = true;
     };
-  }, [values?.KLA, overrides?.KLA?.defaultValue, masterOverrides?.KLA]);
+  }, [
+    values?.KLA,
+    overrides?.KLA?.defaultValue,
+    overrides?.SESSION?.options,
+    overrides?.SESSION_TYPE?.options,
+    masterOverrides?.KLA,
+  ]);
+
+  // When the KLA changes, fetch members and ministers for that KLA from the
+  // kla-sessions-with-members API — but only when the caller hasn't already
+  // supplied external options for MEMBER or MINISTER.
+  useEffect(() => {
+    let cancelled = false;
+
+    const hasExternalMemberOptions = Array.isArray(overrides?.MEMBER?.options);
+    const hasExternalMinisterOptions = Array.isArray(overrides?.MINISTER?.options);
+
+    // Both are externally controlled — nothing to do
+    if (hasExternalMemberOptions && hasExternalMinisterOptions) return () => {};
+
+    // Skip if neither MEMBER nor MINISTER is in the current filter set
+    const needsMember = filterKeys.includes("MEMBER");
+    const needsMinister = filterKeys.includes("MINISTER");
+    if (!needsMember && !needsMinister) return () => {};
+
+    const klaValue = values?.KLA ?? overrides?.KLA?.defaultValue ?? masterOverrides?.KLA?.options?.[0]?.value;
+    if (klaValue == null || klaValue === "") return () => {};
+
+    const fetchMembersAndMinisters = async (klaIdRaw) => {
+      try {
+        const klaId = /^\d+$/.test(String(klaIdRaw)) ? Number(klaIdRaw) : klaIdRaw;
+        const res = await fetch("https://api.niyamasabha.in/api/kla-sessions-with-members");
+        const json = await res.json();
+        if (cancelled) return;
+
+        const allKlas = Array.isArray(json?.data) ? json.data : [];
+        const klaEntry = allKlas.find((k) => Number(k.kla_id) === Number(klaId));
+
+        const updates = {};
+
+        if (needsMember && !hasExternalMemberOptions) {
+          const rawMembers = (klaEntry?.members || [])
+            .filter((m) => m.name)
+            .map((m) => ({ value: m.name, label: m.name }));
+          const memberMap = new Map();
+          for (const opt of rawMembers) {
+            if (!memberMap.has(opt.value)) memberMap.set(opt.value, opt);
+          }
+          const memberOptions = Array.from(memberMap.values()).sort((a, b) =>
+            a.label.localeCompare(b.label)
+          );
+          updates.MEMBER = {
+            options: [{ value: "", label: "All Members" }, ...memberOptions],
+          };
+        }
+
+        if (needsMinister && !hasExternalMinisterOptions) {
+          const rawMinisters = (klaEntry?.ministers || [])
+            .filter((m) => m.member_name)
+            .map((m) => ({ value: m.member_name, label: m.member_name }));
+          const ministerMap = new Map();
+          for (const opt of rawMinisters) {
+            if (!ministerMap.has(opt.value)) ministerMap.set(opt.value, opt);
+          }
+          const ministerOptions = Array.from(ministerMap.values()).sort((a, b) =>
+            a.label.localeCompare(b.label)
+          );
+          updates.MINISTER = {
+            options: [{ value: "", label: "All Ministers" }, ...ministerOptions],
+          };
+        }
+
+        if (Object.keys(updates).length) {
+          setMasterOverrides((prev) => ({ ...prev, ...updates }));
+        }
+      } catch (err) {
+        console.error("Filter: failed loading members/ministers for kla", klaIdRaw, err);
+      }
+    };
+
+    fetchMembersAndMinisters(klaValue);
+    return () => { cancelled = true; };
+  }, [
+    values?.KLA,
+    overrides?.KLA?.defaultValue,
+    overrides?.MEMBER?.options,
+    overrides?.MINISTER?.options,
+    masterOverrides?.KLA,
+    filterKeys,
+  ]);
 
   const handleChange = (filter, event) => {
     const { type, multiple, key } = filter;

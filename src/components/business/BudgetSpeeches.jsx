@@ -121,8 +121,8 @@ const BudgetSpeeches = () => {
           <BreadcrumbNav
             breadcrumbs={[
               { name: "Home", href: "/" },
-              { name: "Business", href: "/business" },
-              { name: "Budget Speeches", href: "/business/budget-speeches" },
+              { name: "Business", href: "/session-schedule" },
+              { name: "Budget Speeches", href: "/budget-speeches" },
             ]}
           />
 
@@ -158,8 +158,8 @@ const BudgetSpeeches = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
-            { name: "Business", href: "/business" },
-            { name: "Budget Speeches", href: "/business/budget-speeches" },
+            { name: "Business", href: "/session-schedule" },
+            { name: "Budget Speeches", href: "/budget-speeches" },
           ]}
         />
 

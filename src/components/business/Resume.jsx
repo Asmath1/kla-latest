@@ -209,8 +209,8 @@ const Resume = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
-            { name: "Business", href: "/business" },
-            { name: "Resume", href: "/business/resume" },
+            { name: "Business", href: "/session-schedule" },
+            { name: "Resume", href: "/resume" },
           ]}
         />
         {/* ---------------- MAIN CONTENT ---------------- */}

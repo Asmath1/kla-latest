@@ -14,16 +14,21 @@ import { Tabs } from "../common";
 import { BreadcrumbNav, CategoriesNav, Filter, SectionTitle } from "../common";
 import "./MemberProfile.css";
 import { fetchKlaMembers } from "../../services/MemberService"; // your API function
-   import { API_ENDPOINTS, getImageUrl } from "../../utils/config";
+import { fetchKlaSessionsWithMembers } from "../../services/MasterService"; // new API function
+import { API_ENDPOINTS, getImageUrl } from "../../utils/config";
 
 // --------------------------- Helper: safe access ---------------------------
 const safeName = (item) =>
-  item?.member?.langs?.[0]?.name || item?.member?.name || "Unknown Member";
+  item?.member?.langs?.[0]?.name || item?.member?.name || item?.name || "Unknown Member";
 const safeConstituency = (item) =>
-  item?.constituency?.entitle || item?.constituency?.maltitle || "";
+  item?.constituency?.entitle || item?.constituency?.maltitle || item?.constituency?.name || "";
 // const safeDistrict = (item) => item?.district?.name || "";
 const safeGender = (item) =>
-  item?.member?.gender != null ? String(item.member.gender) : "";
+  item?.member?.gender != null
+    ? String(item.member.gender)
+    : item?.gender != null
+    ? String(item.gender)
+    : "";
 const safeImage = (item) => {
   const img =
   item?.member?.image ||
@@ -48,7 +53,6 @@ const MemberCard = ({ member, navigate, selectedKla }) => {
   return (
     <div
       className="member-card job-list-style1 bdr1 text-center"
-      // onClick={() => navigate(`/member-profile/${member.id}`)}
       onClick={() =>
         navigate(`/member-profile/${member.id}?kla=${selectedKla}`)
       }
@@ -62,7 +66,6 @@ const MemberCard = ({ member, navigate, selectedKla }) => {
           style={{ width: 130, height: 180, objectFit: "cover" }}
           onError={(e) => (e.target.src = "/images/prof-dummy.png")}
         />
-        {/* <h6 className="parts">{party}</h6> */}
         <h6 className="parts">__</h6>
       </div>
       <div className="details">
@@ -194,7 +197,6 @@ const AlphabetFilter = ({ onLetterClick, activeLetter }) => {
 };
 
 // --------------------------- FilterControls ---------------------------
-
 const FilterControls = ({ onFilterClick = () => {}, appliedCount = 0 }) => (
   <div className="row align-items-center mb20">
     <div className="col-6 col-sm-6 col-lg-9 pe-0">
@@ -244,68 +246,6 @@ const FilterControls = ({ onFilterClick = () => {}, appliedCount = 0 }) => (
     </div>
 
     <DownloadSelector />
-  </div>
-);
-
-// const FilterControls = ({ onFilterClick = () => {} }) => (
-//   <div className="row align-items-center mb20">
-//     <div className="col-6 col-sm-6 col-lg-9 pe-0">
-//       <div className="text-center text-sm-start">
-//         <div className="dropdown-lists">
-//           <ul className="p-0 mb-0 text-center text-sm-start">
-//             <li className="list-inline-item">
-//               <button
-//                 type="button"
-//                 className="open-btn filter-btn-left mb10"
-//                 onClick={onFilterClick}
-//               >
-//                 <img
-//                   className="me-2"
-//                   src="/images/all-filter-icon.svg"
-//                   alt="Filter"
-//                 />{" "}
-//                 All Filter
-//               </button>
-//             </li>
-//           </ul>
-//         </div>
-//       </div>
-//     </div>
-//     <DownloadSelector />
-//   </div>
-// );
-
-// --------------------------- Parliament selector ---------------------------
-const ParliamentTypeSelector = ({ parliamentType, setParliamentType }) => (
-  <div className="mSearch d-flex">
-    <form>
-      <div className="form-check form-check-inline">
-        <input
-          className="form-check-input"
-          type="radio"
-          name="parliamentType"
-          value="lok"
-          checked={parliamentType === "lok"}
-          onChange={() => setParliamentType("lok")}
-        />
-        <label className="form-check-label">
-          <b>Lok Sabha</b>
-        </label>
-      </div>
-      <div className="form-check form-check-inline">
-        <input
-          className="form-check-input"
-          type="radio"
-          name="parliamentType"
-          value="rajya"
-          checked={parliamentType === "rajya"}
-          onChange={() => setParliamentType("rajya")}
-        />
-        <label className="form-check-label">
-          <b>Rajya Sabha</b>
-        </label>
-      </div>
-    </form>
   </div>
 );
 
@@ -384,8 +324,8 @@ const MemberList = () => {
   const [activeTab, setActiveTab] = useState("pills-profile2"); // current members
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [klaList, setKlaList] = useState([]);
-  const [selectedKla, setSelectedKla] = useState(15);
-  const [assemblySelection, setAssemblySelection] = useState("sitting"); // 'sitting' or 'former' etc.
+  const [selectedKla, setSelectedKla] = useState(null); // Initialize as null
+  const [assemblySelection, setAssemblySelection] = useState("sitting"); // 'sitting' or 'women'
 
   // search & alphabet
   const [searchQuery, setSearchQuery] = useState("");
@@ -393,7 +333,6 @@ const MemberList = () => {
   const [activeLetter, setActiveLetter] = useState("");
 
   // parliament type (lok/rajya)
-  // Set to null by default so we don't filter out members unexpectedly
   const [parliamentType, _setParliamentType] = useState(null);
 
   // members & filters
@@ -420,9 +359,20 @@ const MemberList = () => {
     party: "",
     qualification: "",
     terms: "",
+    ministerMemberId: "",
+    isMinister: false,
   });
 
+  // ministers data
+  const [ministers, setMinisters] = useState([]);
+
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // Helper to get latest KLA ID
+  const getLatestKlaId = useCallback(() => {
+    if (klaList.length === 0) return 15; // fallback
+    return Math.max(...klaList.map(k => k.id));
+  }, [klaList]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -433,53 +383,22 @@ const MemberList = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Update selectedKla when tab changes
+  // Update selectedKla when tab changes or klaList loads
   useEffect(() => {
+    if (klaList.length === 0) return;
+    
+    const latestKlaId = getLatestKlaId();
+    
     if (activeTab === "pills-profile2") {
-      setSelectedKla(15); // Sitting Members - 15th KLA
+      setSelectedKla(latestKlaId);
     } else if (activeTab === "pills-contact3") {
-      setSelectedKla(14); // Former Members - 14th KLA
+      const formerKlas = klaList.filter(k => k.id !== latestKlaId);
+      const latestFormerId = formerKlas.length > 0 
+        ? Math.max(...formerKlas.map(k => k.id)) 
+        : latestKlaId - 1; // fallback
+      setSelectedKla(latestFormerId);
     }
-  }, [activeTab]);
-
-  // --------------------------- Fetch former members when on Former Members tab ---------------------------
-  useEffect(() => {
-    if (activeTab !== "pills-contact3") return;
-
-    let cancelled = false;
-    const loadFormerMembers = async () => {
-      setFormerLoading(true);
-      setFormerError(null);
-      try {
-        const data = await fetchKlaMembers(14); // Always fetch 14th KLA for former members
-        if (cancelled) return;
-        console.log("Former members API response:", data);
-        console.log("Is array?", Array.isArray(data));
-        console.log("Length:", data?.length);
-        if (Array.isArray(data)) {
-          setFormerMembers(data);
-          console.log("Former members loaded successfully:", data.length, "members");
-          console.log("First member sample:", data[0]);
-        } else {
-          console.error("Data is not an array:", data);
-          setFormerMembers([]);
-        }
-      } catch (err) {
-        console.error("Failed to load former members:", err);
-        if (!cancelled) {
-          setFormerMembers([]);
-          setFormerError("Failed to load former members from API.");
-        }
-      } finally {
-        if (!cancelled) setFormerLoading(false);
-      }
-    };
-
-    loadFormerMembers();
-    return () => {
-      cancelled = true;
-    };
-  }, [activeTab]);
+  }, [activeTab, klaList, getLatestKlaId]);
 
   // --------------------------- Fetch KLA list (dynamic) ---------------------------
   useEffect(() => {
@@ -496,13 +415,8 @@ const MemberList = () => {
         const json = await res.json();
         if (!cancelled && json?.status && json?.data) {
           setKlaList(json.data);
-          // if selectedKla not in list, set first available
-          if (!json.data.find((k) => k.id === selectedKla)) {
-            setSelectedKla(json.data[0]?.id || selectedKla);
-          }
         }
       } catch (err) {
-        // silently fail and keep klaList empty; UI will still work
         console.error("Failed to load KLA list", err);
       }
     };
@@ -510,65 +424,115 @@ const MemberList = () => {
     return () => {
       cancelled = true;
     };
-  }, [selectedKla]); // keep selectedKla in deps so effect can react if it changes elsewhere
+  }, []);
 
-  // --------------------------- Fetch members for selected KLA ---------------------------
-  useEffect(() => {
-    let cancelled = false;
-    const loadMembers = async () => {
+// --------------------------- Fetch members for selected KLA ---------------------------
+useEffect(() => {
+  if (!selectedKla) return;
+  
+  let cancelled = false;
+  // Use a unique request ID to handle race conditions
+  const requestId = Date.now();
+  
+  const loadMembers = async () => {
+    // Set loading states based on active tab
+    if (activeTab === "pills-profile2") {
       setLoading(true);
       setError(null);
+    } else {
+      setFormerLoading(true);
+      setFormerError(null);
+    }
+    
+    try {
+      console.log(`Fetching members for KLA ${selectedKla}, tab: ${activeTab}, requestId: ${requestId}`);
+      
+      // Try to fetch from new API with ministers data
+      let data, ministersData = [];
       try {
-        const data = await fetchKlaMembers(selectedKla);
-        if (cancelled) return;
+        const sessionsData = await fetchKlaSessionsWithMembers(selectedKla);
+        data = sessionsData.members || [];
+        ministersData = sessionsData.ministers || [];
+        console.log("Fetched from new API with ministers data");
+      } catch (newApiErr) {
+        console.log("New API failed, falling back to old API:", newApiErr);
+        // Fallback to old API
+        data = await fetchKlaMembers(selectedKla);
+        ministersData = [];
+      }
+      
+      // Check if this request is still valid
+      if (cancelled) {
+        console.log(`Request ${requestId} cancelled`);
+        return;
+      }
+      
+      console.log("=== API DATA RECEIVED ===");
+      console.log("KLA ID:", selectedKla);
+      console.log("Active Tab:", activeTab);
+      console.log("Raw API response type:", typeof data);
+      console.log("Is Array:", Array.isArray(data));
+      
+      // Handle different API response structures
+      let membersArray = [];
+      
+      if (Array.isArray(data)) {
+        membersArray = data;
+      } else if (data?.data && Array.isArray(data.data)) {
+        membersArray = data.data;
+      } else {
+        console.error("Unexpected data structure:", data);
+        throw new Error("Invalid data structure from API");
+      }
+      
+      console.log(`Members array length: ${membersArray.length}`);
+      console.log(`Ministers array length: ${ministersData.length}`);
+      
+      if (!cancelled) {
+        // Store ministers data (always update to avoid stale values)
+        setMinisters(ministersData || []);
         
-        console.log("=== API DATA RECEIVED ===");
-        console.log("KLA ID:", selectedKla);
-        console.log("Raw API response:", data);
-        console.log("Is Array:", Array.isArray(data));
-        console.log("Total count from API:", data?.length);
-        
-        // if API returns objects that are already entries, use as is
-        if (Array.isArray(data)) {
-          setMembers(data);
-          setFilteredMembers(data);
-          console.log("Members set in state:", data.length);
-          console.log("First 3 members sample:", data.slice(0, 3));
+        if (activeTab === "pills-profile2") {
+          setMembers(membersArray);
+          setFilteredMembers(membersArray);
+          setError(null);
+          console.log("Sitting members updated:", membersArray.length);
         } else {
-          console.error("API did not return an array:", data);
-          // fallback: if unexpected shape, try to extract .data or keep empty
+          setFormerMembers(membersArray);
+          setFormerError(null);
+          console.log("Former members updated:", membersArray.length);
+        }
+      }
+    } catch (err) {
+      if (!cancelled) {
+        console.error(`Error loading members for KLA ${selectedKla}:`, err);
+        if (activeTab === "pills-profile2") {
           setMembers([]);
           setFilteredMembers([]);
+          setError("Failed to load members from API.");
+        } else {
+          setFormerMembers([]);
+          setFormerError("Failed to load members from API.");
         }
-      } catch (err) {
-        console.error("Error loading members:", err);
-        // fallback: small mock so page doesn't crash
-        const mock = [
-          {
-            id: 1,
-            kla_id: selectedKla,
-            constituency: { entitle: "Mock (MCK)" },
-            district: { name: "MockDistrict" },
-            member: {
-              langs: [{ name: "Mock Member" }],
-              gender: 1,
-              image: null,
-            },
-          },
-        ];
-        setMembers(mock);
-        setFilteredMembers(mock);
-        setError("Failed to load members from API. Showing fallback data.");
-      } finally {
-        if (!cancelled) setLoading(false);
       }
-    };
+    } finally {
+      if (!cancelled) {
+        if (activeTab === "pills-profile2") {
+          setLoading(false);
+        } else {
+          setFormerLoading(false);
+        }
+      }
+    }
+  };
 
-    loadMembers();
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedKla]);
+  loadMembers();
+  
+  return () => {
+    cancelled = true;
+    console.log(`Cleaning up request ${requestId}`);
+  };
+}, [selectedKla, activeTab]);
 
   // --------------------------- applyFilters (safe string access) ---------------------------
   const applyFilters = useCallback(() => {
@@ -589,14 +553,14 @@ const MemberList = () => {
           ? cname.includes("(")
           : !cname.includes("(");
       });
-      console.log(`Parliament filter (${parliamentType}): ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
+      console.log(`Parliament filter (${parliamentType}): ${beforeCount} -> ${filtered.length}`);
     }
     
     // Assembly selection filter
     if (assemblySelection === "women") {
       const beforeCount = filtered.length;
       filtered = filtered.filter((m) => safeGender(m) === "2"); // female
-      console.log(`Women filter: ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
+      console.log(`Women filter: ${beforeCount} -> ${filtered.length}`);
     }
 
     // search filter
@@ -604,97 +568,78 @@ const MemberList = () => {
       const beforeCount = filtered.length;
       const q = searchQuery.toLowerCase();
       filtered = filtered.filter((m) => {
-        const name = (m.member?.langs?.[0]?.name || "").toLowerCase();
+        const name = safeName(m).toLowerCase();
         const constituency = (safeConstituency(m) || "").toLowerCase();
         return searchType === "name"
           ? name.includes(q)
           : constituency.includes(q);
       });
-      console.log(`Search filter (${searchType}: "${searchQuery}"): ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
+      console.log(`Search filter: ${beforeCount} -> ${filtered.length}`);
     }
 
     // alphabet filter
     if (activeLetter) {
       const beforeCount = filtered.length;
       filtered = filtered.filter((m) => {
-        const name = (m.member?.langs?.[0]?.name || "").toString();
+        const name = safeName(m).toString();
         return name.startsWith(activeLetter);
       });
-      console.log(`Alphabet filter (${activeLetter}): ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
+      console.log(`Alphabet filter: ${beforeCount} -> ${filtered.length}`);
     }
 
-    // left-side filters (district, constituency text, gender, party etc.)
+    // left-side filters
     if (filters) {
       if (filters.district) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter(
           (m) =>
             (m.district?.name || "").toLowerCase() ===
             filters.district.toLowerCase()
         );
-        console.log(`District filter (${filters.district}): ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
       if (filters.constituency) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter((m) =>
           (safeConstituency(m) || "")
             .toLowerCase()
             .includes(filters.constituency.toLowerCase())
         );
-        console.log(`Constituency filter (${filters.constituency}): ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
       if (filters.gender) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter(
           (m) => safeGender(m) === String(filters.gender)
         );
-        console.log(`Gender filter (${filters.gender}): ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
       if (filters.party) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter((m) => {
           const p = (m.party?.entitle || m.party || "").toLowerCase();
           return p === filters.party.toLowerCase();
         });
-        console.log(`Party filter (${filters.party}): ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
-      // Qualification filter
       if (filters.qualification) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter((m) => {
           const qual = (m.member?.qualification || m.qualification || "").toLowerCase();
           return qual.includes(filters.qualification.toLowerCase());
         });
-        console.log(`Qualification filter: ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
-      // Terms filter (number of terms served)
       if (filters.terms) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter((m) => {
           const terms = m.member?.terms || m.terms || 0;
           return Number(terms) === Number(filters.terms);
         });
-        console.log(`Terms filter: ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
-      // Position filter
       if (filters.position) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter((m) => {
           const position = (m.member?.position || m.position || "").toLowerCase();
           return position.includes(filters.position.toLowerCase());
         });
-        console.log(`Position filter: ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
-      // Age filter (age range)
       if (filters.age) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter((m) => {
           const dob = m.member?.dob || m.dob;
           if (!dob) return false;
@@ -709,71 +654,66 @@ const MemberList = () => {
           
           return age >= min && age <= max;
         });
-        console.log(`Age filter: ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
-      // Category filter (constitutional category - multi-select)
       if (filters.category && Array.isArray(filters.category) && filters.category.length > 0) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter((m) => {
           const category = (m.member?.category || m.category || "").toString();
           return filters.category.some(cat => 
             category.toLowerCase().includes(cat.toLowerCase())
           );
         });
-        console.log(`Category filter: ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
-      // Status filter (membership status)
       if (filters.status) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter((m) => {
           const status = (m.reason?.langs?.[0]?.name || m.reason?.name || m.status || "").toLowerCase();
           return status.includes(filters.status.toLowerCase());
         });
-        console.log(`Status filter: ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
-      // Members filter (filter by member name)
       if (filters.members) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter((m) => {
-          const name = (m.member?.langs?.[0]?.name || m.member?.name || "").toLowerCase();
+          const name = safeName(m).toLowerCase();
           return name.includes(filters.members.toLowerCase());
         });
-        console.log(`Members filter: ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
-      // Start date filter
       if (filters.startDate) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter((m) => {
           const startDate = m.start_date || m.startDate;
           if (!startDate) return false;
           return new Date(startDate) >= new Date(filters.startDate);
         });
-        console.log(`Start date filter: ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
-      // End date filter
       if (filters.endDate) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter((m) => {
           const endDate = m.end_date || m.endDate;
           if (!endDate) return false;
           return new Date(endDate) <= new Date(filters.endDate);
         });
-        console.log(`End date filter: ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
       }
 
-      // Session date filter
       if (filters.sessionDate) {
-        const beforeCount = filtered.length;
         filtered = filtered.filter((m) => {
           const sessionId = m.session_id || m.sessionId;
           return String(sessionId) === String(filters.sessionDate);
         });
-        console.log(`Session date filter: ${beforeCount} -> ${filtered.length} (removed ${beforeCount - filtered.length})`);
+      }
+
+      // Minister name filter
+      if (filters.ministerMemberId) {
+        const ministerId = Number(filters.ministerMemberId);
+        filtered = filtered.filter((m) => {
+          return Number(m.member_id || m.id) === ministerId;
+        });
+      } else if (filters.isMinister && ministers.length > 0) {
+        const ministerMemberIds = new Set(ministers.map((min) => Number(min.member_id)));
+        filtered = filtered.filter((m) => {
+          return ministerMemberIds.has(Number(m.member_id || m.id));
+        });
+        console.log(`Minister filter: ${filtered.length} members are ministers`);
       }
     }
 
@@ -789,6 +729,7 @@ const MemberList = () => {
     activeLetter,
     filters,
     assemblySelection,
+    ministers,
   ]);
 
   // Apply filters for former members
@@ -797,29 +738,24 @@ const MemberList = () => {
     
     console.log("Applying former filters. Total former members:", filtered.length);
 
-    // search filter
     if (searchQuery?.trim()) {
       const q = searchQuery.toLowerCase();
       filtered = filtered.filter((m) => {
-        const name = (m.member?.langs?.[0]?.name || "").toLowerCase();
+        const name = safeName(m).toLowerCase();
         const constituency = (safeConstituency(m) || "").toLowerCase();
         return searchType === "name"
           ? name.includes(q)
           : constituency.includes(q);
       });
-      console.log("After search filter:", filtered.length);
     }
 
-    // alphabet filter
     if (activeLetter) {
       filtered = filtered.filter((m) => {
-        const name = (m.member?.langs?.[0]?.name || "").toString();
+        const name = safeName(m).toString();
         return name.startsWith(activeLetter);
       });
-      console.log("After alphabet filter:", filtered.length);
     }
 
-    // Apply same filters as current members
     if (filters) {
       if (filters.district) {
         filtered = filtered.filter(
@@ -827,7 +763,6 @@ const MemberList = () => {
             (m.district?.name || "").toLowerCase() ===
             filters.district.toLowerCase()
         );
-        console.log("After district filter:", filtered.length);
       }
 
       if (filters.constituency) {
@@ -836,14 +771,12 @@ const MemberList = () => {
             .toLowerCase()
             .includes(filters.constituency.toLowerCase())
         );
-        console.log("After constituency filter:", filtered.length);
       }
 
       if (filters.gender) {
         filtered = filtered.filter(
           (m) => safeGender(m) === String(filters.gender)
         );
-        console.log("After gender filter:", filtered.length);
       }
 
       if (filters.party) {
@@ -851,7 +784,6 @@ const MemberList = () => {
           const p = (m.party?.entitle || m.party || "").toLowerCase();
           return p === filters.party.toLowerCase();
         });
-        console.log("After party filter:", filtered.length);
       }
     }
 
@@ -860,9 +792,10 @@ const MemberList = () => {
   }, [formerMembers, searchQuery, searchType, activeLetter, filters]);
 
   useEffect(() => {
-    // Only apply when members changed or filters changed
-    applyFilters();
-  }, [applyFilters]);
+    if (activeTab === "pills-profile2") {
+      applyFilters();
+    }
+  }, [applyFilters, activeTab]);
 
   // --------------------------- pagination derived values ---------------------------
   const totalCurrentMembers = filteredMembers.length;
@@ -872,16 +805,8 @@ const MemberList = () => {
   );
   const currentMembers = useMemo(() => {
     const start = (currentMembersPage - 1) * itemsPerPage;
-    const paged = filteredMembers.slice(start, start + itemsPerPage);
-    console.log("=== PAGINATION INFO ===");
-    console.log("Total filtered members:", totalCurrentMembers);
-    console.log("Items per page:", itemsPerPage);
-    console.log("Total pages:", totalCurrentPages);
-    console.log("Current page:", currentMembersPage);
-    console.log("Showing items:", start + 1, "to", Math.min(start + itemsPerPage, totalCurrentMembers));
-    console.log("Items on this page:", paged.length);
-    return paged;
-  }, [filteredMembers, currentMembersPage, totalCurrentMembers, totalCurrentPages]);
+    return filteredMembers.slice(start, start + itemsPerPage);
+  }, [filteredMembers, currentMembersPage]);
 
   // Former members pagination - WITH FILTERS
   const filteredFormerMembers = useMemo(() => applyFormerFilters(), [applyFormerFilters]);
@@ -892,9 +817,7 @@ const MemberList = () => {
   );
   const pagedFormerMembers = useMemo(() => {
     const start = (formerMembersPage - 1) * itemsPerPage;
-    const paged = filteredFormerMembers.slice(start, start + itemsPerPage);
-    console.log("Paged former members:", paged.length, "items on page", formerMembersPage);
-    return paged;
+    return filteredFormerMembers.slice(start, start + itemsPerPage);
   }, [formerMembersPage, filteredFormerMembers]);
 
   // --------------------------- handlers ---------------------------
@@ -903,16 +826,22 @@ const MemberList = () => {
   const handleLetterClick = (letter) => {
     setActiveLetter(letter);
     setCurrentMembersPage(1);
-    setFormerMembersPage(1); // Reset former members page too
+    setFormerMembersPage(1);
   };
 
-  const handleTabChange = (tabKey) => {
-    setActiveTab(tabKey);
-    setCurrentMembersPage(1);
-    setFormerMembersPage(1);
-    setSearchQuery("");
-    setActiveLetter("");
-  };
+const handleTabChange = (tabKey) => {
+  // Reset all data when switching tabs
+  setMembers([]);
+  setFilteredMembers([]);
+  setFormerMembers([]);
+  setActiveTab(tabKey);
+  setCurrentMembersPage(1);
+  setFormerMembersPage(1);
+  setSearchQuery("");
+  setActiveLetter("");
+  setError(null);
+  setFormerError(null);
+};
 
   const handlePageChange = (page) => {
     if (activeTab === "pills-profile2") setCurrentMembersPage(page);
@@ -929,26 +858,51 @@ const MemberList = () => {
   const handleFilterSubmit = (newFilters) => {
     setFilters(newFilters);
     setIsFilterOpen(false);
-    // applyFilters will run via effect
   };
 
   const handleSearch = () => {
     if (activeTab === "pills-profile2") {
       applyFilters();
     }
-    // For former members, the filters are applied automatically via useMemo
     setCurrentMembersPage(1);
     setFormerMembersPage(1);
   };
+  
   const appliedFilterCount = Object.values(filters).filter(Boolean).length;
+
+  // Don't render content until KLA list is loaded
+  if (klaList.length === 0) {
+    return (
+      <div className="body_content">
+        <header className="header-nav nav-homepage-style2 stricky main-menu">
+          <HomeTest />
+        </header>
+        <CategoriesNav />
+        <BreadcrumbNav
+          breadcrumbs={[
+            { name: "Home", href: "/" },
+            { name: "Members", href: "/members" },
+            {
+              name: "Members of Niyamasabha",
+              href: "/Members/Niyamasabha-Members",
+            },
+          ]}
+        />
+        <section className="pt30 pb-0 pb30-md represent">
+          <div className="container">
+            <SectionTitle title="Members of Niyamasabha" />
+            <div className="text-center py-5">
+              <p>Loading...</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   // --------------------------- UI ---------------------------
   return (
     <div className="body_content">
-      {/* <header className={`header-nav nav-homepage-style2 stricky main-menu`}>
-        <HomeTest />
-      </header> */}
-
       <header
         className={`header-nav nav-homepage-style2 stricky main-menu ${
           isScrolled ? "scrolled-nav slideInDown animated" : "slideIn animated"
@@ -980,8 +934,6 @@ const MemberList = () => {
                 label: "Sitting Members",
                 content: (
                   <section className="mt-2 pt-2">
-                    {/* TOP FILTER ROW: KLA dropdown + Assembly selection + Search */}
-                    {/* TOP FILTER ROW: KLA dropdown + Assembly selection */}
                     <div className="row mb-3 align-items-center memb-list-top-filter">
                       <div className="col-md-12 mb20">
                         <div className="memb-filt-div rounded">
@@ -991,21 +943,19 @@ const MemberList = () => {
                             </label>
                             <select
                               className="form-select w-auto"
-                              value={selectedKla}
+                              value={selectedKla || ""}
                               onChange={(e) =>
                                 setSelectedKla(Number(e.target.value))
                               }
+                              disabled={true} // Only one option for sitting members
                             >
                               {klaList
-                                .filter((kla) => kla.id === 15)
+                                .filter((kla) => kla.id === getLatestKlaId())
                                 .map((kla) => (
                                   <option key={kla.id} value={kla.id}>
-                                    {kla.languages?.[0]?.name || `15th KLA`}
+                                    {kla.languages?.[0]?.name || `${kla.id}th KLA`}
                                   </option>
                                 ))}
-                              {klaList.length === 0 && (
-                                <option value={15}>15th നിയമസഭ</option>
-                              )}
                             </select>
 
                             <label className="heading-color ff-heading fw500 mb0">
@@ -1038,9 +988,6 @@ const MemberList = () => {
                       </div>
                     </div>
 
-                    {/* small gap then controls */}
-                    {/* <FilterControls onFilterClick={toggleFilter} /> */}
-
                     <FilterControls
                       onFilterClick={toggleFilter}
                       appliedCount={appliedFilterCount}
@@ -1051,13 +998,6 @@ const MemberList = () => {
                       activeLetter={activeLetter}
                     />
 
-                    {/* Parliament type radios */}
-                    {/* <ParliamentTypeSelector
-                      parliamentType={parliamentType}
-                      setParliamentType={setParliamentType}
-                    /> */}
-
-                    {/* Member grid */}
                     <div className="member-grid memberList">
                       {loading ? (
                         <p>Loading members...</p>
@@ -1087,6 +1027,8 @@ const MemberList = () => {
                                 party: "",
                                 qualification: "",
                                 terms: "",
+                                ministerMemberId: "",
+                                isMinister: false,
                               });
                             }}
                           >
@@ -1111,7 +1053,6 @@ const MemberList = () => {
                 label: "Former Members",
                 content: (
                   <section className="pt30 pb30">
-                    {/* For former - show similar top filter row if you want */}
                     <div className="row mb-3 align-items-center memb-list-top-filter">
                       <div className="col-md-12 mb20">
                         <div className="memb-filt-div rounded">
@@ -1121,28 +1062,26 @@ const MemberList = () => {
                             </label>
                             <select
                               className="form-select w-auto"
-                              value={selectedKla}
+                              value={selectedKla || ""}
                               onChange={(e) =>
                                 setSelectedKla(Number(e.target.value))
                               }
                             >
                               {klaList
-                                .filter((kla) => kla.id === 14)
+                                .filter((kla) => kla.id !== getLatestKlaId())
+                                .sort((a, b) => b.id - a.id)
                                 .map((kla) => (
                                   <option key={kla.id} value={kla.id}>
-                                    {kla.languages?.[0]?.name || `14th KLA`}
+                                    {kla.languages?.[0]?.name || `${kla.id}th KLA`}
                                   </option>
                                 ))}
-                              {klaList.length === 0 && (
-                                <option value={14}>14th നിയമസഭ</option>
-                              )}
                             </select>
                           </div>
                         </div>
                       </div>
 
                       <div className="col-md-12">
-                        <div className="bg-white  rounded">
+                        <div className="bg-white rounded">
                           <SearchForm
                             searchType={searchType}
                             setSearchType={setSearchType}
@@ -1179,7 +1118,7 @@ const MemberList = () => {
                               key={m.id}
                               member={m}
                               navigate={navigate}
-                              selectedKla={14}
+                              selectedKla={selectedKla}
                             />
                           ))
                         ) : (
@@ -1197,6 +1136,8 @@ const MemberList = () => {
                                   party: "",
                                   qualification: "",
                                   terms: "",
+                                  ministerMemberId: "",
+                                  isMinister: false,
                                 });
                                 setFormerMembersPage(1);
                               }}
@@ -1225,7 +1166,6 @@ const MemberList = () => {
         </div>
       </section>
 
-      {/* Left sliding filter component (your existing Filter component) */}
       {isFilterOpen && (
         <FilterComponent
           isOpen={isFilterOpen}

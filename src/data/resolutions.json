@@ -1,52 +1,219 @@
 {
-  "statutoryresolutions": [{}],
-
-  "privateResolutions": {
-    "kla": "14th",
-    "title": "Private member resolutions",
-    "data": [
+  "statutory_resolutions": {
+    "tab": "Statutory Resolutions",
+    "title": "Statutory Resolutions",
+    "items": [
       {
-        "no": 1,
-        "date": "09-07-1958",
-        "mover": "ശ്രീ. ഇ. ഗോപാലകൃഷ്ണമേനോൻ",
-        "title": "കൊച്ചിയിൽ കപ്പൽ നിർമാണ കേന്ദ്രം",
-        "text": "കൊച്ചിയിൽ കപ്പൽ നിർമാണ കേന്ദ്രം സ്ഥാപിക്കുന്നതിനായി ഇന്ത്യാ ഗവൺമെന്റിനോട് ആവശ്യപ്പെടുന്നു."
+        "id": 1,
+        "title": "Resolution for appointment of Lokayukta under the Kerala Lokayukta Act, 1999",
+        "pdf_url": null
       },
       {
-        "no": 2,
-        "date": "11-01-1968",
-        "mover": "ശ്രീ. ടി. കെ. രാമകൃഷ്ണൻ",
-        "title": "കേന്ദ്രത്തിൽ നിന്മൂല്യ അരിവിതരണം",
-        "text": "കേന്ദ്ര ഗവൺമെന്റ് കേരളത്തിന് വേണ്ടതന്നും അതിന്റെ ആവശ്യമായ അളവിലും അരിവിതരണം ചെയ്യാനുള്ള നടപടി സ്വീകരിക്കണമെന്നാവശ്യപ്പെട്ടുകൊണ്ട് ഈ സഭ കേന്ദ്ര ഗവൺമെന്റിനോട് അഭ്യർത്ഥിക്കുന്നു."
+        "id": 2,
+        "title": "Resolution placing the action taken report on the recommendations of the 5th State Finance Commission",
+        "pdf_url": null
       },
       {
-        "no": 3,
-        "date": "08-11-1968",
-        "mover": "ശ്രീ. സി.ബി. ചന്ദ്രശേഖര വാര്യർ",
-        "title": "അരിയുടെ വില വർദ്ധനവിന് പരിഹാരം",
-        "text": "അരിയുടെ വില വർദ്ധനവിനെതിരെ ആവശ്യമായ സർക്കാർ നടപടികൾ സ്വീകരിക്കണമെന്ന് ആവശ്യപ്പെടുന്നു."
-      },
-      {
-        "no": 4,
-        "date": "10-01-1969",
-        "mover": "ശ്രീ. കെ. ടി. ജേക്കബ്",
-        "title": "കുരുമുളക് കൃഷിക്ക് സംരക്ഷണം",
-        "text": "കേരളത്തിലെ പ്രധാനപ്പെട്ട നാണ്യവിളയായ കുരുമുളകിന്റെ വിലയിടിവുമൂലം കുരുമുളകു കൃഷിക്കാര്‍ക്ക് നേരിട്ടിരിക്കുന്ന വിഷമസന്ധി തരണം ചെയ്യുന്നതിനായി കേന്ദ്ര വാണിജ്യവകുപ്പ് അടിയന്തിരമായി നടപടികൾ സ്വീകരിക്കണമെന്ന് അഭ്യര്‍ത്ഥിക്കുന്നു."
-      },
-      {
-        "no": 5,
-        "date": "18-02-1969",
-        "mover": "ശ്രീ. ടി. എം. മീതിയന്‍",
-        "title": "അഭ്യസ്തവിദ്യരുടെ തൊഴിലില്ലായ്മയ്ക്ക് പരിഹാരം",
-        "text": "കേരളത്തിലെ അഭ്യസ്തവിദ്യരുടെ തൊഴിലില്ലായ്മ പരിഗണിച്ച് വ്യവസായങ്ങള്‍ ആരംഭിക്കാന്‍ കേന്ദ്ര ഗവണ്‍മെന്റിനോട് സഭ ആവശ്യപ്പെടുന്നു."
+        "id": 3,
+        "title": "Resolution for enhancement of borrowing limit of Kerala Infrastructure Investment Fund Board",
+        "pdf_url": null
       }
     ]
   },
 
-  "governmentResolutions": [
-    {
-      "title": "സംസ്ഥാനത്തിന്റെ നാമധേയം കേരളം എന്നാക്കുന്നത് സംബന്ധിച്ച് 2024 ജൂൺ 24-ന് നിയമസഭ ഐകകണ്ഠ്യേന പാസ്സാക്കിയ പ്രമേയം",
-      "pdf": "/images/state-name-kerala.pdf"
-    }
-  ]
+  "government_resolutions": {
+    "tab": "Government Resolutions",
+    "title": "Government Resolutions",
+    "items": [
+      {
+        "id": 1,
+        "title": "സംസ്ഥാനത്തിന്റെ നാമധേയം കേരളം എന്നാക്കുന്നത് സംബന്ധിച്ച് 2024 ജൂൺ 24-ന് നിയമസഭ ഐകകണ്ഠ്യേന പാസ്സാക്കിയ പ്രമേയം",
+        "pdf_url": "/images/state-name-kerala.pdf"
+      },
+      {
+        "id": 2,
+        "title": "സംസ്ഥാനത്തിന്റെ നാമധേയം കേരളം എന്നാക്കുന്നത് സംബന്ധിച്ച് 2024 ജൂൺ 24-ന് നിയമസഭ ഐകകണ്ഠ്യേന പാസ്സാക്കിയ പ്രമേയം",
+        "pdf_url": "/images/state-name-kerala.pdf"
+      },
+      {
+        "id": 3,
+        "title": "Resolution on the massive flood disaster and the steps to be taken for reconstruction of affected regions in the State of Kerala (30.08.2018)",
+        "pdf_url": null
+      },
+      {
+        "id": 4,
+        "title": "Resolution on the Crisis likely to be evolved in the agriculture and small scale industry sectors consequent to the R.C.E.P Agreement (30.10.2019)",
+        "pdf_url": null
+      },
+      {
+        "id": 5,
+        "title": "Resolution on Demonetisation of 500 and 1000 notes (22.11.2016)",
+        "pdf_url": null
+      }
+    ]
+  },
+
+  "private_resolutions": {
+    "tab": "Private Resolutions",
+    "title": "Private Member Resolutions",
+    "columns": ["Sl. No.", "Date", "Name of Mover", "Title / Subject Matter"],
+    "items": [
+      {
+        "id": 1,
+        "scheduled_date": "2021-08-20",
+        "kla_id": 15,
+        "session_no": 1,
+        "mover_member_id": "Shri. V. D. Satheesan",
+        "constituency": "Paravur",
+        "party": "INC",
+        "title": "Resolution on KSEB Privatisation",
+        "summary": "This House resolves that the Government of Kerala should not proceed with the privatisation of Kerala State Electricity Board and take steps to strengthen the public sector undertaking.",
+        "result": "Negatived",
+        "pdf_url": null
+      },
+      {
+        "id": 2,
+        "scheduled_date": "2021-08-21",
+        "kla_id": 15,
+        "session_no": 1,
+        "mover_member_id": "Shri. K. Muraleedharan",
+        "constituency": "Thrissur",
+        "party": "INC",
+        "title": "Resolution on Unemployment Allowance",
+        "summary": "This House resolves that the Government of Kerala should introduce a comprehensive unemployment allowance scheme for educated youth who have been unemployed for more than two years.",
+        "result": "Negatived",
+        "pdf_url": null
+      },
+      {
+        "id": 3,
+        "scheduled_date": "2021-08-23",
+        "kla_id": 15,
+        "session_no": 1,
+        "mover_member_id": "Shri. P. T. Thomas",
+        "constituency": "Thrikkakara",
+        "party": "INC",
+        "title": "Resolution on Farmers Debt Relief",
+        "summary": "This House resolves that the Government of Kerala should implement a comprehensive debt relief scheme for farmers who have taken agricultural loans from cooperative banks and nationalised banks.",
+        "result": "Negatived",
+        "pdf_url": null
+      },
+      {
+        "id": 4,
+        "scheduled_date": "2022-03-18",
+        "kla_id": 15,
+        "session_no": 2,
+        "mover_member_id": "Shri. M. K. Muneer",
+        "constituency": "Kondotty",
+        "party": "IUML",
+        "title": "Resolution on Minority Welfare Fund",
+        "summary": "This House resolves that the Government of Kerala should establish a dedicated Minority Welfare Fund with adequate allocation to address the educational and economic needs of minority communities.",
+        "result": "Negatived",
+        "pdf_url": null
+      },
+      {
+        "id": 5,
+        "scheduled_date": "2022-03-19",
+        "kla_id": 15,
+        "session_no": 2,
+        "mover_member_id": "Shri. N. K. Akbar",
+        "constituency": "Aluva",
+        "party": "CPI(M)",
+        "title": "Resolution on IT Sector Employment",
+        "summary": "This House resolves that the Government of Kerala should take steps to attract more IT companies to the State and create at least one lakh new jobs in the IT sector within the next three years.",
+        "result": "Adopted",
+        "pdf_url": null
+      },
+      {
+        "id": 6,
+        "scheduled_date": "2022-09-12",
+        "kla_id": 15,
+        "session_no": 3,
+        "mover_member_id": "Shri. K. J. Maxy",
+        "constituency": "Kottayam",
+        "party": "KC(M)",
+        "title": "Resolution on Rubber Price Support",
+        "summary": "This House resolves that the Government of Kerala should take immediate steps to ensure a minimum support price of Rs. 250 per kg for rubber and provide adequate compensation to rubber farmers.",
+        "result": "Negatived",
+        "pdf_url": null
+      },
+      {
+        "id": 7,
+        "scheduled_date": "2022-09-14",
+        "kla_id": 15,
+        "session_no": 3,
+        "mover_member_id": "Shri. R. Rajesh",
+        "constituency": "Ernakulam",
+        "party": "CPI(M)",
+        "title": "Resolution on Metro Rail Extension",
+        "summary": "This House resolves that the Government of Kerala should take steps to extend the Kochi Metro Rail to Aluva and Tripunithura and also initiate metro rail projects in Thiruvananthapuram and Kozhikode.",
+        "result": "Adopted",
+        "pdf_url": null
+      },
+      {
+        "id": 8,
+        "scheduled_date": "2023-02-08",
+        "kla_id": 15,
+        "session_no": 4,
+        "mover_member_id": "Shri. P. K. Kunhalikutty",
+        "constituency": "Vengara",
+        "party": "IUML",
+        "title": "Resolution on Fishermen Welfare",
+        "summary": "This House resolves that the Government of Kerala should implement a comprehensive welfare scheme for traditional fishermen including housing, insurance, and pension benefits.",
+        "result": "Negatived",
+        "pdf_url": null
+      },
+      {
+        "id": 9,
+        "scheduled_date": "2023-02-10",
+        "kla_id": 15,
+        "session_no": 4,
+        "mover_member_id": "Shri. S. Sharma",
+        "constituency": "Palakkad",
+        "party": "BJP",
+        "title": "Resolution on Uniform Civil Code",
+        "summary": "This House resolves that the Government of Kerala should support the implementation of a Uniform Civil Code as directed by the Supreme Court of India.",
+        "result": "Negatived",
+        "pdf_url": null
+      },
+      {
+        "id": 10,
+        "scheduled_date": "2023-09-22",
+        "kla_id": 15,
+        "session_no": 5,
+        "mover_member_id": "Shri. V. Joy",
+        "constituency": "Kollam",
+        "party": "CPI(M)",
+        "title": "Resolution on Cashew Industry Revival",
+        "summary": "This House resolves that the Government of Kerala should take immediate steps to revive the cashew processing industry in the State and provide adequate support to cashew workers.",
+        "result": "Adopted",
+        "pdf_url": null
+      },
+      {
+        "id": 11,
+        "scheduled_date": "2023-09-24",
+        "kla_id": 15,
+        "session_no": 5,
+        "mover_member_id": "Shri. P. Mammikutty",
+        "constituency": "Malappuram",
+        "party": "IUML",
+        "title": "Resolution on Madrassa Education",
+        "summary": "This House resolves that the Government of Kerala should take steps to modernise Madrassa education and integrate it with the mainstream education system.",
+        "result": "Negatived",
+        "pdf_url": null
+      },
+      {
+        "id": 12,
+        "scheduled_date": "2024-01-15",
+        "kla_id": 15,
+        "session_no": 6,
+        "mover_member_id": "Shri. K. N. Unnikrishnan",
+        "constituency": "Thiruvananthapuram",
+        "party": "CPI(M)",
+        "title": "Resolution on Space Technology Park",
+        "summary": "This House resolves that the Government of Kerala should establish a dedicated Space Technology Park in Thiruvananthapuram to leverage the presence of ISRO and related institutions.",
+        "result": "Adopted",
+        "pdf_url": null
+      }
+    ]
+  }
 }

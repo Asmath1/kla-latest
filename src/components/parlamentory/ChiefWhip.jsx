@@ -93,7 +93,8 @@ const ChiefWhip = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
-            { name: "Parlamentory Functionaries", href: "/parlamentory" },
+            { name: "Parliamentary Functionaries", href: "/governor" },
+            { name: "Chief Whip", href: "/chief-whip" },
             { name: "Chief Whip", href: "/chief-whip" },
           ]}
         />

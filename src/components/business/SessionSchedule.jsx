@@ -442,6 +442,7 @@ const SessionSchedule = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
+            { name: "Business", href: "/session-schedule" },
             { name: "Session Schedule", href: "/session-schedule" },
           ]}
         />

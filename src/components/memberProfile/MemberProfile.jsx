@@ -383,6 +383,8 @@ const MemberProfile = () => {
     const email = m?.addresses?.email_ids || m?.member?.contact?.email || m?.email || "";
     return email || "---";
   };
+  console.log(memberError);
+  
   const getPAName = (m) => m?.addresses?.address_langs?.[0]?.pa_name || "---";
   const getPAPhone = (m) => m?.addresses?.pa_phone || "---";
   const getPAEmail = (m) => m?.addresses?.pa_email || "---";
@@ -453,6 +455,7 @@ const MemberProfile = () => {
       cancelled = true;
     };
   }, [memberId]);
+console.log(getMLAAddress);
 
 
 
@@ -2422,17 +2425,17 @@ const MemberProfile = () => {
                     >
                       {[
                         "basic-details",
-                        // "voting-results",
-                        // "GIST of Business",
-                        // "attendance",
-                        // "debates",
-                        // "special Mentions",
-                        // "question",
-                        // "Committee Membership",
-                        // "govt Bills",
-                        // "private Bills",
-                        // "gallery",
-                        // "tour",
+                        "voting-results",
+                        "GIST of Business",
+                        "attendance",
+                        "debates",
+                        "special Mentions",
+                        "question",
+                        "Committee Membership",
+                        "govt Bills",
+                        "private Bills",
+                        "gallery",
+                        "tour",
                       ].map((tab) => (
                         <motion.button
                           key={tab}

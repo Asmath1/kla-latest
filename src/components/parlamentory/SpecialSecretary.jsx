@@ -121,7 +121,7 @@ const SpecialSecretary = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
-            { name: "Parlamentory Functionaries", href: "/parlamentory" },
+            { name: "Parliamentary Functionaries", href: "/governor" },
             { name: "Special Secretary", href: "/special-secretary" },
           ]}
         />

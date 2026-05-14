@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { BreadcrumbNav } from "../common";
 import InlinePdfViewer from "../common/InlinePdfViwer";
-import { fetchCommitteeById } from "../../services/MasterService";
-import { getImageUrl } from "../../utils/config";
+import { fetchCommitteeById, fetchKlaList } from "../../services/MasterService";
+import { getImageUrl, DEMO_API_BASE_URL } from "../../utils/config";
+import { FaFilePdf } from "react-icons/fa";
 
 export default function CommitteeContent({ committee }) {
   const [activeTab, setActiveTab] = useState("nav-accountpayment");
@@ -12,6 +13,53 @@ export default function CommitteeContent({ committee }) {
   const [committeeData, setCommitteeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [reportSearchTerm, setReportSearchTerm] = useState("");
+  const [selectedReportType, setSelectedReportType] = useState("all");
+  const [reportDateFrom, setReportDateFrom] = useState("");
+  const [reportDateTo, setReportDateTo] = useState("");
+  const [reportCurrentPage, setReportCurrentPage] = useState(1);
+  const REPORT_ITEMS_PER_PAGE = 10;
+  const [selectedKla, setSelectedKla] = useState(15);
+  const [klaOptions, setKlaOptions] = useState([]);
+  const [externalReports, setExternalReports] = useState([]);
+  const [reportsLoading, setReportsLoading] = useState(false);
+
+  // Load KLA list for the reports filter
+  useEffect(() => {
+    fetchKlaList()
+      .then((list) => {
+        const opts = (list || []).map((k) => ({
+          value: k.id,
+          label: k.languages?.[0]?.name || `KLA ${k.id}`,
+        }));
+        setKlaOptions(opts);
+      })
+      .catch(() => {});
+  }, []);
+
+  // Fetch reports from the dedicated API whenever KLA changes
+  useEffect(() => {
+    let cancelled = false;
+    const fetchReports = async () => {
+      setReportsLoading(true);
+      try {
+        const url = `${DEMO_API_BASE_URL}/api/committee-reports?kla_id=${selectedKla}`;
+        const res = await fetch(url);
+        const json = await res.json();
+        if (!cancelled) {
+          setExternalReports(json?.reports?.list || []);
+          setReportCurrentPage(1);
+        }
+      } catch (err) {
+        console.error("Failed to fetch committee reports:", err);
+        if (!cancelled) setExternalReports([]);
+      } finally {
+        if (!cancelled) setReportsLoading(false);
+      }
+    };
+    fetchReports();
+    return () => { cancelled = true; };
+  }, [selectedKla]);
 
   // Fetch committee details when committee prop changes
   useEffect(() => {
@@ -87,7 +135,44 @@ export default function CommitteeContent({ committee }) {
     );
   }
 
-  const { committee: committeeInfo, members, ex_officio_members, subjects_selected, bills_referred, sittings, schedules, study_tours, reports_presented, press_releases } = committeeData;
+  const { committee: committeeInfo, members, ex_officio_members, subjects_selected, bills_referred, sittings, schedules, study_tours, press_releases } = committeeData;
+
+  // Reports come from the dedicated committee-reports API (filtered by KLA)
+  const reportList = externalReports;
+  const normalizedReportSearch = reportSearchTerm.trim().toLowerCase();
+  const reportTypes = [
+    ...new Set(reportList.map((r) => r?.type).filter(Boolean)),
+  ];
+  const filteredReports = reportList.filter((report) => {
+    const reportType = report?.type;
+    const reportDate = report?.date;
+    const matchesType = selectedReportType === "all" || reportType === selectedReportType;
+
+    const reportDateValue = reportDate ? new Date(reportDate) : null;
+    const reportTime = reportDateValue && !Number.isNaN(reportDateValue.getTime())
+      ? reportDateValue.getTime() : null;
+    const fromTime = reportDateFrom ? new Date(reportDateFrom).getTime() : null;
+    const toTime = reportDateTo ? new Date(`${reportDateTo}T23:59:59`).getTime() : null;
+
+    const matchesDate =
+      reportTime === null
+        ? !reportDateFrom && !reportDateTo
+        : (!fromTime || reportTime >= fromTime) && (!toTime || reportTime <= toTime);
+
+    const matchesSearch =
+      !normalizedReportSearch ||
+      [report?.reportNo, report?.title, report?.committee, reportType, reportDate]
+        .filter(Boolean)
+        .some((v) => v.toString().toLowerCase().includes(normalizedReportSearch));
+
+    return matchesType && matchesSearch && matchesDate;
+  });
+
+  const reportTotalPages = Math.ceil(filteredReports.length / REPORT_ITEMS_PER_PAGE);
+  const pagedReports = filteredReports.slice(
+    (reportCurrentPage - 1) * REPORT_ITEMS_PER_PAGE,
+    reportCurrentPage * REPORT_ITEMS_PER_PAGE
+  );
   return (
     <div className="rightSide">
       <BreadcrumbNav
@@ -728,53 +813,235 @@ export default function CommitteeContent({ committee }) {
                     </div>
                   </div>
 
-                  {/* Reports Presented Tab */}
-                  <div
-                    className={`tab-pane fade ${
-                      activeTab === "nav-membership" ? "show active" : ""
-                    }`}
-                    id="nav-membership"
-                    role="tabpanel"
-                    aria-labelledby="nav-membership-tab"
-                  >
-                    <div className="grids votingResult">
-                      <h4 className="tabDet title mb20">Reports Presented</h4>
-                      {reports_presented && reports_presented.length > 0 ? (
-                        <div className="tabley">
-                          <table className="table table myTable2">
-                            <thead>
-                              <tr>
-                                <th scope="col">Sl No</th>
-                                <th scope="col">Report No.</th>
-                                <th scope="col">Subject</th>
-                                <th scope="col">Date Presented</th>
-                                <th>Report Type</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {reports_presented.map((report, index) => (
-                                <tr key={report.id} className="debate">
-                                  <td>{index + 1}</td>
-                                  <td>{report.report_no}</td>
-                                  <td>{report.subject}</td>
-                                  <td>
-                                    {report.date_presented ? new Date(report.date_presented).toLocaleDateString('en-GB', {
-                                      day: '2-digit',
-                                      month: '2-digit',
-                                      year: 'numeric'
-                                    }) : "N/A"}
-                                  </td>
-                                  <td>{report.report_type}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+              {/* Reports Presented Tab -----------------------------TS-------------------------------------start*/}
+               <div
+                  className={`tab-pane fade ${
+                    activeTab === "nav-membership" ? "show active" : ""
+                  }`}
+                  id="nav-membership"
+                  role="tabpanel"
+                  aria-labelledby="nav-membership-tab"
+                >
+                  <div className="grids votingResult">
+                    <h4 className="tabDet title mb20">Reports Presented</h4>
+
+                    {reportsLoading ? (
+                      <div className="text-center py-5">
+                        <div className="spinner-border text-primary" role="status">
+                          <span className="visually-hidden">Loading...</span>
                         </div>
-                      ) : (
-                        <p className="text-muted">No reports presented available.</p>
-                      )}
-                    </div>
+                      </div>
+                    ) : reportList.length > 0 ? (
+                      <>
+                        <div className="report-filters mb20">
+                          <div className="report-filter-item">
+                            <label className="report-filter-label">KLA</label>
+                            <select
+                              className="form-select"
+                              value={selectedKla}
+                              onChange={(e) => { setSelectedKla(Number(e.target.value)); setReportCurrentPage(1); }}
+                            >
+                              {klaOptions.map((opt) => (
+                                <option key={opt.value} value={opt.value}>
+                                  {opt.label}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="report-filter-item">
+                            <label className="report-filter-label">Search</label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Report no, title, committee..."
+                              value={reportSearchTerm}
+                              onChange={(e) => { setReportSearchTerm(e.target.value); setReportCurrentPage(1); }}
+                            />
+                          </div>
+                          <div className="report-filter-item">
+                            <label className="report-filter-label">Report Type</label>
+                            <select
+                              className="form-select"
+                              value={selectedReportType}
+                              onChange={(e) => { setSelectedReportType(e.target.value); setReportCurrentPage(1); }}
+                            >
+                              <option value="all">All report types</option>
+                              {reportTypes.map((type) => (
+                                <option key={type} value={type}>
+                                  {type}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="report-filter-item">
+                            <label className="report-filter-label">From Date</label>
+                            <input
+                              type="date"
+                              className="form-control"
+                              value={reportDateFrom}
+                              onChange={(e) => { setReportDateFrom(e.target.value); setReportCurrentPage(1); }}
+                              placeholder="From Date"
+                              aria-label="Filter reports from date"
+                              title="From Date"
+                            />
+                          </div>
+                          <div className="report-filter-item">
+                            <label className="report-filter-label">To Date</label>
+                            <input
+                              type="date"
+                              className="form-control"
+                              value={reportDateTo}
+                              onChange={(e) => { setReportDateTo(e.target.value); setReportCurrentPage(1); }}
+                              placeholder="To Date"
+                              aria-label="Filter reports to date"
+                              title="To Date"
+                            />
+                          </div>
+                          <div className="report-filter-actions">
+                            <button
+                              type="button"
+                              className="report-reset-btn"
+                              onClick={() => {
+                                setReportSearchTerm("");
+                                setSelectedReportType("all");
+                                setReportDateFrom("");
+                                setReportDateTo("");
+                                setSelectedKla(15);
+                                setReportCurrentPage(1);
+                              }}
+                            >
+                              Reset Filters
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="report-filter-summary mb15">
+                          Showing {filteredReports.length === 0 ? 0 : (reportCurrentPage - 1) * REPORT_ITEMS_PER_PAGE + 1}–{Math.min(reportCurrentPage * REPORT_ITEMS_PER_PAGE, filteredReports.length)} of {filteredReports.length} reports
+                        </div>
+
+                        <div className="tabley">
+                        <table className="table myTable2">
+                          <thead>
+                            <tr>
+                              <th scope="col">Sl No</th>
+                              <th scope="col">Report No.</th>
+                              <th scope="col">Title</th>
+                              <th scope="col">Committee</th>
+                              <th scope="col">Date Presented</th>
+                              <th>Report Type</th>
+                              <th>PDF</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {pagedReports.map((report, index) => (
+                              <tr key={report.id} className="debate">
+                                <td>{(reportCurrentPage - 1) * REPORT_ITEMS_PER_PAGE + index + 1}</td>
+                                <td>{report.reportNo || "N/A"}</td>
+                                <td>{report.title || report.subject || "N/A"}</td>
+                                <td>{report.committee || "N/A"}</td>
+
+                                <td>
+                                  {report.date || report.datePresented
+                                    ? new Date(report.date || report.datePresented).toLocaleDateString("en-GB", {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                      })
+                                    : "N/A"}
+                                </td>
+
+                                <td>{report.type || report.reportType || "N/A"}</td>
+
+                           <td>
+                              {report.pdf ? (
+                                <a
+                                  href={report.pdf}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="View PDF"
+                                  className="pdf-icon-link text-danger"
+                                >
+                                  <FaFilePdf />
+                                </a>
+                              ) : (
+                                <span className="text-muted">—</span>
+                              )}
+                            </td>
+                              </tr>
+                            ))}
+                            {pagedReports.length === 0 && (
+                              <tr>
+                                <td colSpan="7" className="text-center text-muted py-4">
+                                  No reports match the selected filters.
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                        </div>
+
+                        {/* ---- Pagination ---- */}
+                        {reportTotalPages > 1 && (
+                          <div className="mbp_pagination mt30 text-center mb-4">
+                            <ul className="page_navigation">
+                              <li className={`page-item ${reportCurrentPage === 1 ? "disabled" : ""}`}>
+                                <a
+                                  className="page-link"
+                                  href="#"
+                                  onClick={(e) => { e.preventDefault(); if (reportCurrentPage > 1) setReportCurrentPage(reportCurrentPage - 1); }}
+                                >
+                                  &laquo;
+                                </a>
+                              </li>
+                              {Array.from({ length: reportTotalPages }, (_, i) => i + 1)
+                                .filter((p) => p === 1 || p === reportTotalPages || Math.abs(p - reportCurrentPage) <= 1)
+                                .reduce((acc, p, idx, arr) => {
+                                  if (idx > 0 && p - arr[idx - 1] > 1) acc.push("...");
+                                  acc.push(p);
+                                  return acc;
+                                }, [])
+                                .map((page, idx) =>
+                                  page === "..." ? (
+                                    <li key={`ellipsis-${idx}`} className="page-item disabled">
+                                      <span className="page-link">...</span>
+                                    </li>
+                                  ) : (
+                                    <li key={page} className={`page-item ${page === reportCurrentPage ? "active" : ""}`}>
+                                      <a
+                                        className="page-link"
+                                        href="#"
+                                        onClick={(e) => { e.preventDefault(); setReportCurrentPage(page); }}
+                                      >
+                                        {page}
+                                      </a>
+                                    </li>
+                                  )
+                                )}
+                              <li className={`page-item ${reportCurrentPage === reportTotalPages ? "disabled" : ""}`}>
+                                <a
+                                  className="page-link"
+                                  href="#"
+                                  onClick={(e) => { e.preventDefault(); if (reportCurrentPage < reportTotalPages) setReportCurrentPage(reportCurrentPage + 1); }}
+                                >
+                                  &raquo;
+                                </a>
+                              </li>
+                            </ul>
+                            <p className="mt10 mb-0 pagination_page_count text-center">
+                              {(reportCurrentPage - 1) * REPORT_ITEMS_PER_PAGE + 1}–{Math.min(reportCurrentPage * REPORT_ITEMS_PER_PAGE, filteredReports.length)} of {filteredReports.length}
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <p className="text-muted">No reports available for the selected KLA.</p>
+                    )}
                   </div>
+                </div>
+                 {/* Reports Presented Tab --------------------------------TS----------------------------------End*/}
 
                   {/* Press Release Tab */}
                   <div

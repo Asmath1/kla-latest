@@ -98,6 +98,8 @@
     color: var(--clr--dark);
     text-align: left;
 }
+
+
 /* ------first letter color change ------------------ */
 /* .main-title .title::first-letter {
     color: var(--clr--primary);
@@ -709,4 +711,91 @@
     font-weight: normal !important;
     border-bottom: none !important;
     font-weight: 600 !important;
+}
+
+.report-filters {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.report-filter-item {
+    flex: 0 0 180px;
+}
+
+.report-filter-item:first-child {
+    flex: 1 1 320px;
+}
+
+.report-filter-label {
+    display: block;
+    margin-bottom: 6px;
+    color: #5f5648;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.report-filter-item .form-control,
+.report-filter-item .form-select {
+    min-height: 44px;
+    border-radius: 8px;
+    border: 1px solid #d8cfbf;
+    background-color: #fff;
+}
+
+.report-filter-item .form-control:focus,
+.report-filter-item .form-select:focus {
+    border-color: var(--clr--primary);
+    box-shadow: 0 0 0 0.15rem rgba(120, 86, 46, 0.12);
+}
+
+.report-filter-actions {
+    flex: 0 0 auto;
+}
+
+.report-reset-btn {
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid var(--clr--primary);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--clr--primary);
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.report-reset-btn:hover {
+    background: var(--clr--primary);
+    color: #fff;
+}
+
+.report-filter-summary {
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.pdf-icon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    line-height: 1;
+}
+
+@media (max-width: 767px) {
+    .report-filter-item,
+    .report-filter-actions {
+        flex: 1 1 100%;
+    }
+
+    .report-filter-item:first-child {
+        flex: 1 1 100%;
+    }
+
+    .report-reset-btn {
+        width: 100%;
+    }
 }

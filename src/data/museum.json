@@ -1,0 +1,157 @@
+{
+  "overview": {
+    "full_name": "Kerala Legislature Golden Jubilee Museum",
+    "location": "Kerala Legislative Assembly Complex, Thiruvananthapuram",
+    "inauguration_date": "05 May 2006",
+    "expansion_date": "15 April 2013",
+    "original_building": "Headquarters of the Travancore Nair Brigade since 1868; later served as a military hospital",
+    "official_url": "https://www.niyamasabha.nic.in/index.php/museum/index/museum_vision"
+  },
+
+  "vision_mission": {
+    "vision": [
+      "To collect objects of historical and parliamentary significance for display, protection, preservation and research.",
+      "To disseminate knowledge about the significance of the objects in respect of history and institutions of democracy.",
+      "To serve as a centre for enjoyment and interaction of people in parliamentary and cultural activity."
+    ],
+    "history": "A cultural and architectural landmark in the state of Kerala, the Kerala Legislature Golden Jubilee Museum inspires a passion for democracy and learning. The museum opened at the Kerala Legislative Assembly Complex and is unique — widely acclaimed as a role model for state assemblies elsewhere in the country. The building that housed the museum was the headquarters of the Travancore Nair Brigade since 1868 and later served as a military hospital. It was converted to the Legislative Assembly Museum and inaugurated on 05 May 2006. The museum was expanded with a new building on 15 April 2013.",
+    "description": "The museum displays photos, objects and artefacts that showcase the rich heritage of democratic institutions of the land. It includes a model assembly hall, mini theatre, library, research centre, multimedia hall and touch-screen kiosks — designed to give every visitor insight into milestones of the Kerala Assembly."
+  },
+
+  "visitor_info": {
+    "working_hours": "11:00 AM – 4:00 PM (All working days)",
+    "services": [
+      "Resource Centre",
+      "Sales Division",
+      "Children's Library"
+    ],
+    "quick_tour_highlights": [
+      "Model of the Assembly Hall",
+      "Mini theatre & multimedia displays",
+      "Research centre & children's library",
+      "Touch-screen kiosks",
+      "Historical photos and artefacts"
+    ]
+  },
+
+  "what_museum_offers": "The museum is a repository for the rich legislative history of Kerala. Thousands of school students and researchers visit the museum every year as part of education and study tours. Exhibits, multimedia kiosks and a small library make it a practical resource for learning about democratic institutions.",
+
+  "gallery": [
+    {
+      "id": 1,
+      "caption": "Museum Exterior",
+      "image_url": "/images/museum-content.jpg",
+      "thumb_url": "/images/museum-content.jpg"
+    },
+    {
+      "id": 2,
+      "caption": "Model of the Assembly Hall",
+      "image_url": "/images/museum-co.jpg",
+      "thumb_url": "/images/museum-co.jpg"
+    },
+    {
+      "id": 3,
+      "caption": "Mini Theatre",
+      "image_url": "/images/abstract.jpg",
+      "thumb_url": "/images/abstract.jpg"
+    },
+    {
+      "id": 4,
+      "caption": "Multimedia Hall",
+      "image_url": "/images/abstract.jpg",
+      "thumb_url": "/images/abstract.jpg"
+    },
+    {
+      "id": 5,
+      "caption": "Touch-screen Kiosks",
+      "image_url": "/images/abstract.jpg",
+      "thumb_url": "/images/abstract.jpg"
+    },
+    {
+      "id": 6,
+      "caption": "Historical Artefacts Gallery",
+      "image_url": "/images/abstract.jpg",
+      "thumb_url": "/images/abstract.jpg"
+    },
+    {
+      "id": 7,
+      "caption": "Research Centre",
+      "image_url": "/images/abstract.jpg",
+      "thumb_url": "/images/abstract.jpg"
+    },
+    {
+      "id": 8,
+      "caption": "Children's Library",
+      "image_url": "/images/abstract.jpg",
+      "thumb_url": "/images/abstract.jpg"
+    },
+    {
+      "id": 9,
+      "caption": "Entrance Hall",
+      "image_url": "/images/abstract.jpg",
+      "thumb_url": "/images/abstract.jpg"
+    }
+  ],
+
+  "how_to_visit": {
+    "address": "Kerala Legislature Golden Jubilee Museum, Kerala Legislative Assembly Complex, Thiruvananthapuram – 695 001",
+    "phone": "0471-2512002",
+    "email": "museum@niyamasabha.nic.in",
+    "by_road": "The museum is located inside the Kerala Legislative Assembly Complex, accessible from Vikas Bhavan Road, Thiruvananthapuram.",
+    "by_rail": "Nearest railway station: Thiruvananthapuram Central (approx. 3 km)",
+    "by_air": "Nearest airport: Trivandrum International Airport (approx. 8 km)",
+    "entry": "Free entry for all visitors",
+    "guided_tours": "Available on request for school groups and study tours"
+  },
+
+  "what_is_here": [
+    {
+      "id": 1,
+      "title": "Model Assembly Hall",
+      "description": "A scale model of the Kerala Legislative Assembly Hall that gives visitors a realistic view of the chamber where laws are made.",
+      "image": "/images/abstract.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Mini Theatre",
+      "description": "Screens documentary films on the history of the Kerala Legislature and democratic institutions of the state.",
+      "image": "/images/abstract.jpg"
+    },
+    {
+      "id": 3,
+      "title": "Multimedia Hall",
+      "description": "Interactive multimedia presentations on the evolution of democracy in Kerala from ancient times to the present.",
+      "image": "/images/abstract.jpg"
+    },
+    {
+      "id": 4,
+      "title": "Touch-screen Kiosks",
+      "description": "Self-guided interactive kiosks that allow visitors to explore milestones of the Kerala Assembly at their own pace.",
+      "image": "/images/abstract.jpg"
+    },
+    {
+      "id": 5,
+      "title": "Research Centre",
+      "description": "A dedicated space for researchers and scholars to access archival materials and historical documents related to the Kerala Legislature.",
+      "image": "/images/abstract.jpg"
+    },
+    {
+      "id": 6,
+      "title": "Historical Photos & Artefacts",
+      "description": "A curated collection of photographs, objects and artefacts that showcase the rich heritage of democratic institutions of Kerala.",
+      "image": "/images/abstract.jpg"
+    },
+    {
+      "id": 7,
+      "title": "Sales Division",
+      "description": "Offers publications, souvenirs and educational materials related to the Kerala Legislature and its history.",
+      "image": "/images/abstract.jpg"
+    },
+    {
+      "id": 8,
+      "title": "Children's Library",
+      "description": "A dedicated library section for young visitors with books and resources on democracy, history and Kerala's legislative heritage.",
+      "image": "/images/abstract.jpg"
+    }
+  ]
+}

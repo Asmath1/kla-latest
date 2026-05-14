@@ -21,8 +21,8 @@ export const FILTER_REGISTRY = {
       { value: 12, label: "12th KLA" },
       { value: 11, label: "11th KLA" },
     ],
-    // default to 15 (as requested)
-    defaultValue: 15,
+    // default to 14
+    defaultValue: 14,
   },
   GENDER: {
     key: "GENDER",
@@ -155,7 +155,7 @@ export const FILTER_REGISTRY = {
     label: "Member",
     type: "select",
     multiple: false,
-    options: ["Member 1", "Member 2", "Memeber 3"],
+    options: [],
   },
   CHAIRMAN: {
     key: "CHAIRMAN",
@@ -169,7 +169,7 @@ export const FILTER_REGISTRY = {
     label: "Minister",
     type: "select",
     multiple: false,
-    options: ["Minister 1", "Minister 2", "Minister 3"],
+    options: [],
   },
   DEPARTMENT: {
     key: "DEPARTMENT",
@@ -330,6 +330,32 @@ export const FILTER_REGISTRY = {
     type: "select",
     multiple: false,
     options: ["Answered", "Unanswered"],
+  },
+  EVENT: {
+    key: "EVENT",
+    label: "Event",
+    type: "select",
+    multiple: false,
+    options: [
+      { value: "", label: "-Select Event-" },
+      { value: "budget", label: "Budget Presentation" },
+      { value: "vote_on_account", label: "Vote on Account" },
+      { value: "supplementary", label: "Supplementary Demands" },
+      { value: "finance_bill", label: "Finance Bill" },
+      { value: "appropriation_bill", label: "Appropriation Bill" },
+    ],
+  },
+  DATE_FROM: {
+    key: "DATE_FROM",
+    label: "Date From",
+    type: "date",
+    multiple: false,
+  },
+  DATE_TO: {
+    key: "DATE_TO",
+    label: "Date To",
+    type: "date",
+    multiple: false,
   },
 };
 

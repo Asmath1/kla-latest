@@ -438,8 +438,8 @@ const Proceedings = () => {
 
   // Proceedings list (for "Final Proceedings" tab)
   const proceedings = [
-    { id: 1, title: "Proceeding No 101", fileUrl: "/proceeding101.pdf" },
-    { id: 2, title: "Proceeding No 102", fileUrl: "/proceeding102.pdf" },
+    { id: 1, title: "Proceeding No 101", fileUrl: "/dummy.pdf" },
+    { id: 2, title: "Proceeding No 102", fileUrl: "/dummy.pdf" },
     { id: 3, title: "Proceeding No 103", fileUrl: "/dummy.pdf" },
     { id: 4, title: "Proceeding No 104", fileUrl: "/dummy.pdf" },
   ];
@@ -558,8 +558,8 @@ const Proceedings = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
-            { name: "Business", href: "/business" },
-            { name: "Proceedings", href: "/business/proceedings" },
+            { name: "Business", href: "/session-schedule" },
+            { name: "Proceedings", href: "/proceedings" },
           ]}
         />
 

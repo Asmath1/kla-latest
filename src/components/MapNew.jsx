@@ -767,75 +767,41 @@ const DistrictImage = ({ districtData }) => (
   </div>
 );
 
-// Component for the representatives table
-
-// const RepresentativesTable = ({ representatives = [] }) => {
-//   const navigate = useNavigate();
-
-//   const handleMemberClick = (memberId) => {
-//     navigate(`/member-profile/${memberId}`);
-//   };
-
-//   return (
-//     <div className="table-responsive">
-//       <table className="table table-striped myTable">
-//         <thead>
-//           <tr>
-//             <th scope="col">No</th>
-//             <th scope="col">Photo</th>
-//             <th scope="col">Member Name</th>
-//             <th className="" width="20%" scope="col">Constituency</th>
-//             <th scope="col">Constituency No</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {representatives.length > 0 ? (
-//             representatives.map((rep, index) => (
-//               <tr key={rep.id}>
-//                 <td>{index + 1}</td>
-//                 <td>
-//                   <img src={rep.image} width={40} alt={rep.name} />
-//                 </td>
-//                 <td>
-//                   <button
-//                     className="btn btn-link p-0 text-decoration-none"
-//                     onClick={() => handleMemberClick(rep.id)}
-//                     style={{ color: 'inherit', background: 'none', border: 'none' }}
-//                   >
-//                     {rep.name}
-//                   </button>
-//                 </td>
-//                 <td>{rep.constituency}</td>
-//                 <td>{rep.constituencyNo}</td>
-//               </tr>
-//             ))
-//           ) : (
-//             <tr>
-//               <td colSpan="5" className="text-center">No representatives data available</td>
-//               </tr>
-//             )}
-//           </tbody>
-//         </table>
-//       </div>
-//     );
-// };
-
-const RepresentativesTable = () => {
-  const [representatives, setRepresentatives] = useState([]);
+// Component for the representatives table - receives selectedDistrict as prop
+const RepresentativesTable = ({ selectedDistrict }) => {
+  const [allRepresentatives, setAllRepresentatives] = useState([]);
+  const [filteredRepresentatives, setFilteredRepresentatives] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  // District name mapping from district IDs to API district names
+  const districtNameMap = {
+    thiruvananthapuram: "Thiruvananthapuram",
+    kollam: "Kollam",
+    pathanamthitta: "Pathanamthitta",
+    alapuzha: "Alappuzha",
+    kottayam: "Kottayam",
+    idukki: "Idukki",
+    ernakulam: "Ernakulam",
+    thrisrur: "Thrissur",
+    palakkadu: "Palakkad",
+    malappuram: "Malappuram",
+    kozhikod: "Kozhikode",
+    wayanadu: "Wayanad",
+    kannur: "Kannur",
+    kazarkode: "Kasaragod"
+  };
+
+  // Load all representatives once
   useEffect(() => {
     const loadReps = async () => {
       try {
         const data = await fetchKlaMembers(15);
-        // console.log(data,"dataa");
-
-        setRepresentatives(data);
+        setAllRepresentatives(data);
       } catch (err) {
         setError("Failed to load representatives");
-        console.log(err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -843,13 +809,27 @@ const RepresentativesTable = () => {
     loadReps();
   }, []);
 
+  // Filter representatives when district changes
+  useEffect(() => {
+    if (allRepresentatives.length > 0 && selectedDistrict) {
+      const districtName = districtNameMap[selectedDistrict];
+      
+      const filtered = allRepresentatives.filter((rep) => {
+        const repDistrictName = rep.district?.name || rep.district?.entitle || "";
+        // Case-insensitive comparison
+        return repDistrictName.toLowerCase() === districtName?.toLowerCase();
+      });
+      
+      setFilteredRepresentatives(filtered);
+    }
+  }, [selectedDistrict, allRepresentatives]);
+
   const handleMemberClick = (memberId) => {
     navigate(`/member-profile/${memberId}`);
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-danger">{error}</p>;
-  // console.log(representatives, "rep");
+  if (loading) return <p className="text-center py-4">Loading...</p>;
+  if (error) return <p className="text-danger text-center py-4">{error}</p>;
 
   return (
     <div className="table-responsive">
@@ -866,33 +846,41 @@ const RepresentativesTable = () => {
           </tr>
         </thead>
         <tbody>
-          {representatives.map((rep, index) => (
-            <tr key={rep.id}>
-              <td>{index + 1}</td>
-              <td>
-                <img
-                  src={rep.member?.image ||rep.member?.image_url || "/images/prof-dummy.png"}
-                  width={40}
-                  alt={rep.member?.langs?.[0]?.name}
-                />
+          {filteredRepresentatives.length > 0 ? (
+            filteredRepresentatives.map((rep, index) => (
+              <tr key={rep.id}>
+                <td>{index + 1}</td>
+                <td>
+                  <img
+                    src={rep.member?.image || rep.member?.image_url || "/images/prof-dummy.png"}
+                    width={40}
+                    alt={rep.member?.langs?.[0]?.name}
+                  />
+                </td>
+                <td>
+                  <button
+                    className="btn btn-link p-0 text-decoration-none"
+                    onClick={() => handleMemberClick(rep.member?.id)}
+                    style={{
+                      color: "inherit",
+                      background: "none",
+                      border: "none",
+                    }}
+                  >
+                    {rep.member?.langs?.[0]?.name}
+                  </button>
+                </td>
+                <td>{rep.constituency?.entitle}</td>
+                <td>{rep.constituency?.id}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" className="text-center py-4">
+                No representatives found for this district
               </td>
-              <td>
-                <button
-                  className="btn btn-link p-0 text-decoration-none"
-                  onClick={() => handleMemberClick(rep.member?.id)}
-                  style={{
-                    color: "inherit",
-                    background: "none",
-                    border: "none",
-                  }}
-                >
-                  {rep.member?.langs?.[0]?.name}
-                </button>
-              </td>
-              <td>{rep.constituency?.entitle}</td>
-              <td>{rep.constituency?.id}</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>
@@ -943,7 +931,7 @@ const DistrictTabContent = () => {
           <div className="mapDetails d-flex gap-4">
             <div className="constDetails w-100">
               <RepresentativesTable
-                representatives={currentDistrictData?.representatives || []}
+                selectedDistrict={selectedDistrict}
               />
             </div>
           </div>
@@ -1477,9 +1465,9 @@ const Map = () => {
                   {/* Your Representative */}
                   പ്രതിനിധികൾ
                 </h2>
-                {/* <p className="paragraph">
+                <p className="paragraph">
                   Most viewed and all-time top-selling services
-                </p> */}
+                </p>
               </div>
             </div>
           </div>
@@ -1497,7 +1485,7 @@ const Map = () => {
                       onClick={() => setActiveTab("district")}
                     >
                       {/* District-wise Representative */}
-                     ജില്ല തിരിച്ചുള്ള പ്രതിനിധികൾ
+                      ജില്ലാ തല പ്രതിനിധികൾ
                     </button>
                   </li>
                   <li className="nav-item" role="presentation">
@@ -1554,3 +1542,1562 @@ const Map = () => {
 };
 
 export default Map;
+
+
+
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import { useNavigate, useLocation } from "react-router-dom";
+// import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
+// import "../styles/Map.css";
+// import "../css/slider.css";
+// import SimpleSlider from "./Party-slider";
+// import Pagination from "./Pagination";
+// import { fetchKlaMembers } from "../services/MemberService";
+// import { Link } from "react-router-dom";
+
+// // District data with images and representatives
+// const districtData = {
+//   thiruvananthapuram: {
+//     name: "തിരുവനന്തപുരം ",
+//     image: "/images/thiruvananthapuram.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "V.Joy",
+//         constituency: "Varkala",
+//         constituencyNo: "127",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "O.S. Ambika",
+//         constituency: "Attingal",
+//         constituencyNo: "128",
+//         image: "images/o-s-ambika_member_15_57.jpg",
+//       },
+//       {
+//         id: 3,
+//         name: "V Sasi",
+//         constituency: "Chirayinkeezhu",
+//         constituencyNo: "129",
+//         image: "images/v_sasi.jpg",
+//       },
+//       {
+//         id: 4,
+//         name: "G.R. Anil",
+//         constituency: "Nedumangad",
+//         constituencyNo: "130",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 5,
+//         name: "D.K Murali",
+//         constituency: "Vamanapuram",
+//         constituencyNo: "131",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 6,
+//         name: "Kadakampally Surendran",
+//         constituency: "Kazhakkoottam",
+//         constituencyNo: "132",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 7,
+//         name: "V K Prasanth",
+//         constituency: "Vattiyoorkavu",
+//         constituencyNo: "133",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 8,
+//         name: "Antony Raj",
+//         constituency: "Thiruvananthapuram",
+//         constituencyNo: "134",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 9,
+//         name: "V. Sivankutty",
+//         constituency: "Nemom",
+//         constituencyNo: "135",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 10,
+//         name: "G. Stephen",
+//         constituency: "Aruvikkara",
+//         constituencyNo: "136",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 11,
+//         name: "C K Hareendran",
+//         constituency: "Parasala",
+//         constituencyNo: "137",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 12,
+//         name: "I.B Satheesh",
+//         constituency: "Kattakada",
+//         constituencyNo: "138",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 13,
+//         name: "M. Vincent",
+//         constituency: "Kovalam",
+//         constituencyNo: "139",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 14,
+//         name: "K Ansalan",
+//         constituency: "Neyyattinkara",
+//         constituencyNo: "140",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   kollam: {
+//     name: "Kollam",
+//     image: "/images/kollam.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "K. Ansalan",
+//         constituency: "Chadayamangalam",
+//         constituencyNo: "141",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. Raju",
+//         constituency: "Kundara",
+//         constituencyNo: "142",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "M. Mukesh",
+//         constituency: "Eravipuram",
+//         constituencyNo: "143",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 4,
+//         name: "K. S. Sabarinadhan",
+//         constituency: "Chavara",
+//         constituencyNo: "144",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 5,
+//         name: "P. K. Gurudasan",
+//         constituency: "Kollam",
+//         constituencyNo: "145",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   pathanamthitta: {
+//     name: "Pathanamthitta",
+//     image: "/images/pathanamthitta.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "K. Sivadasan Nair",
+//         constituency: "Adoor",
+//         constituencyNo: "146",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. K. Shaju",
+//         constituency: "Aranmula",
+//         constituencyNo: "147",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "Anto Antony",
+//         constituency: "Konni",
+//         constituencyNo: "148",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 4,
+//         name: "K. K. Shaju",
+//         constituency: "Pathanamthitta",
+//         constituencyNo: "149",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   alapuzha: {
+//     name: "Alappuzha",
+//     image: "/images/alappuzha.jpg",
+
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "P. Prasad",
+//         constituency: "Aroor",
+//         constituencyNo: "150",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. S. Manoj",
+//         constituency: "Cherthala",
+//         constituencyNo: "151",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "K. K. Shaju",
+//         constituency: "Alappuzha",
+//         constituencyNo: "152",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 4,
+//         name: "K. K. Shaju",
+//         constituency: "Ambalappuzha",
+//         constituencyNo: "153",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 5,
+//         name: "K. K. Shaju",
+//         constituency: "Kuttanad",
+//         constituencyNo: "154",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   kottayam: {
+//     name: "Kottayam",
+//     image: "/images/kottayam.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "K. K. Shaju",
+//         constituency: "Changanassery",
+//         constituencyNo: "155",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. K. Shaju",
+//         constituency: "Kottayam",
+//         constituencyNo: "156",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "K. K. Shaju",
+//         constituency: "Ettumanoor",
+//         constituencyNo: "157",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 4,
+//         name: "K. K. Shaju",
+//         constituency: "Puthuppally",
+//         constituencyNo: "158",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 5,
+//         name: "K. K. Shaju",
+//         constituency: "Pala",
+//         constituencyNo: "159",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   idukki: {
+//     name: "Idukki",
+//     image: "/images/idukki.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "K. K. Shaju",
+//         constituency: "Idukki",
+//         constituencyNo: "160",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. K. Shaju",
+//         constituency: "Udumbanchola",
+//         constituencyNo: "161",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "K. K. Shaju",
+//         constituency: "Peermade",
+//         constituencyNo: "162",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 4,
+//         name: "K. K. Shaju",
+//         constituency: "Devikulam",
+//         constituencyNo: "163",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   ernakulam: {
+//     name: "Ernakulam",
+//     image: "/images/ernakulam.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "K. K. Shaju",
+//         constituency: "Angamaly",
+//         constituencyNo: "164",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. K. Shaju",
+//         constituency: "Perumbavoor",
+//         constituencyNo: "165",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "K. K. Shaju",
+//         constituency: "Kunnathunad",
+//         constituencyNo: "166",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 4,
+//         name: "K. K. Shaju",
+//         constituency: "Piravom",
+//         constituencyNo: "167",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 5,
+//         name: "K. K. Shaju",
+//         constituency: "Muvattupuzha",
+//         constituencyNo: "168",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   thrisrur: {
+//     name: "Thrissur",
+//     image: "/images/thrissur.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "Ramachandran Kadannappalli",
+//         constituency: "Angamali",
+//         constituencyNo: "169",
+//         image: "images/rama.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. K. Shaju",
+//         constituency: "Thrissur",
+//         constituencyNo: "170",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "K. K. Shaju",
+//         constituency: "Ollur",
+//         constituencyNo: "171",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 4,
+//         name: "K. K. Shaju",
+//         constituency: "Guruvayur",
+//         constituencyNo: "172",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 5,
+//         name: "K. K. Shaju",
+//         constituency: "Manalur",
+//         constituencyNo: "173",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   palakkadu: {
+//     name: "Palakkad",
+//     image: "/images/palakkad.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "K. K. Shaju",
+//         constituency: "Palakkad",
+//         constituencyNo: "174",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. K. Shaju",
+//         constituency: "Chittur",
+//         constituencyNo: "175",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "K. K. Shaju",
+//         constituency: "Nenmara",
+//         constituencyNo: "176",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 4,
+//         name: "K. K. Shaju",
+//         constituency: "Alathur",
+//         constituencyNo: "177",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 5,
+//         name: "K. K. Shaju",
+//         constituency: "Thrithala",
+//         constituencyNo: "178",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   malappuram: {
+//     name: "Malappuram",
+//     image: "/images/malappuram.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "K. K. Shaju",
+//         constituency: "Malappuram",
+//         constituencyNo: "179",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. K. Shaju",
+//         constituency: "Vengara",
+//         constituencyNo: "180",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "K. K. Shaju",
+//         constituency: "Vallikkunnu",
+//         constituencyNo: "181",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 4,
+//         name: "K. K. Shaju",
+//         constituency: "Tirurangadi",
+//         constituencyNo: "182",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 5,
+//         name: "K. K. Shaju",
+//         constituency: "Tirur",
+//         constituencyNo: "183",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   kozhikod: {
+//     name: "Kozhikode",
+//     image: "/images/kozhikode.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "K. K. Shaju",
+//         constituency: "Kozhikode North",
+//         constituencyNo: "184",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. K. Shaju",
+//         constituency: "Kozhikode South",
+//         constituencyNo: "185",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "K. K. Shaju",
+//         constituency: "Beypore",
+//         constituencyNo: "186",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 4,
+//         name: "K. K. Shaju",
+//         constituency: "Kunnamangalam",
+//         constituencyNo: "187",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 5,
+//         name: "K. K. Shaju",
+//         constituency: "Koduvally",
+//         constituencyNo: "188",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   wayanadu: {
+//     name: "Wayanad",
+//     image: "/images/wayanad.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "K. K. Shaju",
+//         constituency: "Sulthan Bathery",
+//         constituencyNo: "189",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. K. Shaju",
+//         constituency: "Kalpetta",
+//         constituencyNo: "190",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "K. K. Shaju",
+//         constituency: "Mananthavady",
+//         constituencyNo: "191",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   kannur: {
+//     name: "Kannur",
+//     image: "/images/kannur.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "K. K. Shaju",
+//         constituency: "Kannur",
+//         constituencyNo: "192",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. K. Shaju",
+//         constituency: "Dharmadam",
+//         constituencyNo: "193",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "K. K. Shaju",
+//         constituency: "Thalassery",
+//         constituencyNo: "194",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 4,
+//         name: "K. K. Shaju",
+//         constituency: "Kuthuparamba",
+//         constituencyNo: "195",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 5,
+//         name: "K. K. Shaju",
+//         constituency: "Mattannur",
+//         constituencyNo: "196",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+//   kazarkode: {
+//     name: "Kasaragod",
+//     image: "/images/kasaragod.jpg",
+//     representatives: [
+//       {
+//         id: 1,
+//         name: "K. K. Shaju",
+//         constituency: "Kasaragod",
+//         constituencyNo: "197",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 2,
+//         name: "K. K. Shaju",
+//         constituency: "Nileshwaram",
+//         constituencyNo: "198",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 3,
+//         name: "K. K. Shaju",
+//         constituency: "Kanhangad",
+//         constituencyNo: "199",
+//         image: "images/prof.png",
+//       },
+//       {
+//         id: 4,
+//         name: "K. K. Shaju",
+//         constituency: "Manjeshwaram",
+//         constituencyNo: "200",
+//         image: "images/prof.png",
+//       },
+//     ],
+//   },
+// };
+
+// // Component for the district map
+// const DistrictMap = ({ onDistrictClick, selectedDistrict }) => (
+//   <svg viewBox="0 0 1005 1831" fill="none" xmlns="http://www.w3.org/2000/svg">
+//     {/* All the path elements for different districts */}
+//     <path
+//       id="idukki"
+//       className={`district-path ${
+//         selectedDistrict === "idukki" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("idukki")}
+//       d="M692 1164.46C696.7 1164.46 699.8 1164.46 702.9 1164.46C710.4 1164.26 713.9 1160.96 714.1 1153.46C714.2 1151.16 714.1 1148.76 713.8 1146.56C712.9 1138.96 714.7 1136.56 721.1 1133.16C729.8 1128.66 738.3 1123.46 746.6 1118.06C750.7 1115.46 751 1111.36 747.4 1107.66C744.3 1104.36 740.5 1101.56 736.8 1098.96C725.6 1091.36 714.3 1083.76 702.9 1076.36C697.2 1072.76 696 1070.76 698.8 1064.76C701.2 1059.66 704.5 1055.06 707.3 1050.16C710.9 1044.06 714.2 1037.86 718 1031.86C719 1030.26 721.1 1028.86 723 1028.16C726.6 1026.96 730.4 1026.36 734.2 1025.56C735.1 1025.36 735.9 1024.66 736.7 1024.66C745.9 1025.26 754.6 1022.56 763.4 1020.66C767.3 1019.86 771.5 1020.46 775.5 1019.76C784.2 1018.36 790.6 1022.06 795.9 1028.36C798.8 1031.76 801.3 1035.46 804.3 1038.66C808.8 1043.46 812.2 1042.76 815.1 1036.46C819.4 1036.96 823.7 1037.36 828.3 1037.86C828.4 1038.96 828.5 1039.76 828.6 1040.66C829.2 1046.06 830.7 1046.66 835.3 1043.86C838.9 1041.66 842.5 1039.16 846.4 1037.66C855.4 1034.16 860.8 1027.56 864 1018.96C866.5 1012.26 871.3 1008.76 877.7 1006.06C885.4 1002.66 892.8 998.457 899.9 993.857C912.3 986.057 922.5 988.557 929.1 1001.66C932.4 1008.06 936 1014.36 939.2 1020.86C940.4 1023.46 941.1 1026.56 941.6 1029.46C942.3 1033.46 943.9 1036.56 948.1 1037.66C951.9 1038.66 953.4 1041.46 952.5 1044.86C949.8 1054.96 947 1064.96 943.4 1074.66C942.6 1076.86 938.6 1078.36 935.7 1079.06C930.9 1080.26 925.5 1080.16 923.5 1085.86C921.3 1091.86 923.2 1097.36 927.4 1101.96C934.1 1109.46 939.6 1117.36 940.9 1127.86C941.3 1131.16 943.9 1134.56 946.4 1137.06C949.5 1140.16 950.7 1143.46 949 1147.06C946.2 1153.06 943.3 1159.26 939.3 1164.46C933.8 1171.56 930.3 1178.76 931.6 1187.86C932.1 1191.56 931.6 1195.26 931.7 1198.96C931.7 1203.16 930.9 1207.26 936.1 1209.76C937.9 1210.56 938.8 1214.66 938.7 1217.26C938.6 1221.06 937.8 1225.06 936.5 1228.66C930.4 1244.46 924.3 1260.36 917.7 1275.96C913 1287.06 913.9 1290.16 923 1297.56C930.6 1303.86 939.8 1304.86 948.5 1306.86C952.7 1307.86 957.9 1304.86 962.5 1303.06C966.9 1301.36 971 1298.56 975.5 1297.16C983.2 1294.76 987.5 1297.96 987.6 1306.16C987.7 1316.26 992.3 1323.86 1000.6 1329.06C1004.5 1331.46 1004.9 1334.16 1002.6 1337.26C997.2 1344.46 991.5 1351.36 985.7 1358.26C985 1359.06 982.7 1358.86 981.4 1358.46C972.2 1355.96 963.1 1355.26 953.6 1356.66C950.2 1357.16 945.4 1356.56 943.2 1354.36C935.5 1346.86 928.3 1351.16 920.8 1353.76C918.1 1354.66 915 1355.96 912.6 1355.26C897.7 1351.26 886.1 1358.16 874.6 1365.66C873.6 1366.36 872.9 1367.46 872.2 1368.46C871.1 1370.36 870.5 1373.76 869.2 1373.96C866 1374.56 862.2 1374.56 859.3 1373.36C850.8 1369.66 842.3 1368.06 833.1 1372.56C829.7 1366.56 826.4 1360.76 823.1 1354.96C820.9 1351.36 821.4 1347.96 823.7 1344.66C825.2 1342.46 826.8 1340.36 828.2 1338.06C831.3 1332.86 831.5 1327.66 828.8 1321.96C826 1316.16 823.9 1309.96 821.7 1303.76C818.2 1293.86 815.3 1283.66 811.2 1273.86C806.2 1261.96 800.1 1250.56 794.7 1238.86C792.7 1234.66 790.7 1231.56 785.2 1232.46C783.5 1232.76 781.2 1231.16 779.7 1229.96C772.3 1223.66 765.3 1216.76 757.5 1211.16C754.4 1208.96 748.9 1208.36 745.1 1209.36C737.3 1211.36 731 1209.56 724.6 1205.36C717.1 1200.36 709.2 1196.06 701.6 1191.26C700.5 1190.56 699.2 1188.26 699.6 1187.36C703.6 1178.26 700.4 1171.26 692 1164.46Z"
+//     />
+//     <path
+//       id="palakkadu"
+//       className={`district-path ${
+//         selectedDistrict === "palakkadu" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("palakkadu")}
+//       d="M515.3 841.457C511.6 840.957 508.1 840.957 504.8 840.157C499.3 838.757 494 836.857 488.5 835.457C485.5 834.657 482.2 833.857 479.3 834.257C469.9 835.657 462.1 829.457 461.9 819.757C461.8 812.357 462.9 804.857 456.7 797.657C461.3 796.457 465 795.557 468.6 794.357C472.9 792.957 479.1 792.357 480.8 789.357C484.3 783.357 490.9 781.257 494.2 776.257C498.4 769.857 504.1 770.157 510.1 769.157C514.1 768.457 518.3 767.657 522 765.957C525.6 764.257 527.6 765.457 529.7 767.957C536.7 776.157 538.7 776.457 547 769.757C552.4 765.357 558.1 764.757 564.3 767.157C565.3 767.557 566.6 768.357 567.3 768.057C573 765.357 579.7 763.457 584 759.257C586.9 756.357 586.8 750.157 587.4 745.357C587.6 744.057 586 742.057 584.7 741.157C581 738.757 582.6 736.957 585 735.157C585.7 734.657 586.5 734.157 587.2 733.657C594.8 728.457 594.7 721.957 586.9 717.057C583.3 714.857 579.4 713.157 574.9 710.857C576.7 709.257 578.2 707.857 579.9 706.457C584.3 702.957 589 699.857 593 695.957C596.5 692.557 600.1 690.457 605.1 690.357C608.4 690.257 611.8 689.757 615.1 689.357C627.5 687.857 631.9 683.157 631.4 670.657C631.1 664.657 629.6 658.857 628.8 653.357C631 650.357 633.7 647.557 635.4 644.257C637.8 639.657 641.2 638.457 645.9 639.557C647.6 639.957 649.4 640.257 651 640.957C672.9 650.757 693.4 645.457 713.6 635.657C718 633.557 722.3 631.457 727.5 628.857C727.7 635.957 724.5 639.857 721.6 643.957C718.8 647.757 715.7 651.557 713.5 655.757C712.3 658.157 712.4 661.257 712.1 663.257C718.5 665.157 724 666.357 729.1 668.557C734.8 670.957 736.5 674.857 735.7 680.957C735.5 682.891 735.234 684.824 734.9 686.757C733.8 692.757 736.2 697.057 741.4 699.957C744.1 701.357 747.1 702.357 749.2 704.357C751.3 706.257 752.5 709.057 754.1 711.557C753.7 712.091 753.267 712.624 752.8 713.157C749.4 712.757 745.9 712.757 742.6 712.057C722.5 707.557 719.2 709.357 712.6 728.557C711.5 731.657 709.4 734.457 707.5 737.157C706.5 738.757 704.9 740.057 703.7 741.557C697 749.757 697.6 752.557 707.9 754.257C729.1 757.757 747 768.657 765.1 778.857C771 782.157 775.3 789.357 779 795.557C782.2 800.957 785.9 805.257 791.2 808.357C800.8 813.957 801.4 817.357 798.1 828.057C794.4 840.357 791.6 852.957 788.8 865.457C787.9 869.657 786.8 871.657 782 870.957C778.4 870.457 774.6 870.857 770.9 871.457C764.2 872.557 762.7 876.157 766.5 881.957C768.1 884.457 770.1 886.957 772.4 888.657C778.3 893.257 779.9 899.357 778.9 906.157C777.6 915.657 775.7 924.957 774.1 934.357C773.4 938.057 772.6 941.657 771.8 945.357C770.1 954.057 770.5 962.457 774.9 970.557C777.8 975.857 780.1 981.557 777.5 987.757C776.9 989.157 775.1 990.057 773.8 991.057C773.4 991.357 772.6 991.057 772.2 991.357C767 994.757 761.7 994.857 755.5 993.157C753.1 992.557 749.6 995.757 746.2 997.357C744.4 992.457 749.8 990.857 751.6 986.857C743.1 984.057 735.6 977.857 726.1 983.957C724.5 985.057 721.5 984.357 719.3 983.857C714.4 982.557 709.3 979.157 704.8 979.857C699.5 980.657 695.2 979.757 690.7 978.057C686 976.357 681.8 974.757 684.4 967.957C685.1 966.157 682.8 961.957 680.7 960.557C666.6 951.457 652.2 942.857 638 933.857C636.4 932.857 635.2 931.057 634.2 929.457C633.3 928.157 633.4 925.857 632.3 925.157C624.9 920.257 622.6 911.357 616.7 905.257C613.1 901.557 611.6 897.357 612.3 892.257C612.4 891.457 612.8 890.557 612.7 889.657C611.4 877.257 615.8 867.257 624.4 858.357C626.5 856.057 625.8 851.057 626.4 847.357C627.1 843.457 627.8 839.657 628.4 835.757C628.8 833.257 630 830.057 628.9 828.457C627.8 826.857 624.3 826.357 621.9 826.457C613 826.557 604 827.057 595.1 827.457C593.5 827.557 592 827.857 590.4 828.057C582.2 828.857 574 829.757 565.8 830.557C564.4 830.657 562.7 830.857 561.6 830.157C556.4 826.857 551.2 827.857 545.8 829.357C542.4 830.257 540.4 828.857 539 825.357C537.8 822.457 535.7 819.457 533.1 817.657C526.3 812.957 521.8 815.557 521.5 823.957C521.4 825.657 520.9 828.057 519.7 828.957C513.7 833.757 513.6 833.657 515.3 841.457Z"
+//     />
+//     <path
+//       id="malappuram"
+//       className={`district-path ${
+//         selectedDistrict === "malappuram" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("malappuram")}
+//       d="M542.8 515.958C542.8 519.758 542.6 523.258 542.8 526.758C543 532.358 545.2 535.158 550.8 535.458C557.6 535.758 563.4 538.258 568.8 542.258C572.5 544.958 576.6 545.558 581.5 545.858C590.7 546.458 600.4 546.658 608 554.258C613.9 560.158 621.2 564.758 628.2 569.558C636.2 575.058 644.4 580.258 652.6 585.558C656.3 587.958 657.6 591.158 656.5 595.558C653.1 608.058 647.7 618.758 633.8 622.258C633.4 622.358 633.1 622.558 632.8 622.658C617.9 628.558 616.4 633.758 623.3 648.358C626.5 655.258 628.5 662.958 629.6 670.558C631 680.658 626.5 685.658 616.3 687.158C612.8 687.658 609.3 688.058 605.7 688.258C599.8 688.558 595.1 690.758 590.9 695.258C587.6 698.758 583.3 701.358 579.5 704.458C577 706.558 574.6 708.858 571.6 711.658C577 714.258 581.1 715.858 584.8 718.158C592.6 722.758 592.7 727.358 585.5 732.358C584.2 733.258 582.8 734.158 581.8 735.358C579.7 737.858 579.5 739.858 582.5 742.458C584.3 743.958 585.7 747.558 585.3 749.958C584.6 753.458 585.1 758.458 579.6 759.458C577.9 759.858 575.7 760.258 574.7 761.458C570.8 766.258 566.5 766.158 561.1 764.258C556 762.458 551 763.958 546.8 767.458C539.9 773.358 536.1 774.858 530.5 766.258C529.2 764.358 524.2 762.758 523 763.658C516.2 768.958 507.8 766.058 500.7 768.858C498.5 769.658 496.4 771.258 494.5 772.758C492.8 774.158 491.6 776.358 489.8 777.658C486.1 780.158 482.2 781.458 480.5 786.858C479.6 789.558 473.5 790.758 469.6 792.158C464.9 793.758 459.9 794.858 453.3 796.658C461.7 804.658 459.2 813.658 460.4 822.158C460.9 826.258 464.8 830.158 467.5 833.858C468.7 835.458 470.9 836.358 473.8 838.358C469.2 842.458 464.9 846.158 460.7 850.058C458 852.658 455.5 855.558 452.9 858.258C453.233 858.791 453.533 859.291 453.8 859.758C451.8 859.358 449.7 858.558 447.7 858.558C446 858.558 443.6 858.858 442.6 859.958C438.2 864.958 435.4 865.558 430 862.058C429 861.358 427.8 860.858 426.6 860.558C419.2 858.458 416.2 851.858 419.5 844.858C420.3 843.158 420.7 841.358 421.6 838.258C418.6 839.158 416.8 839.658 414.7 840.258C412.766 836.458 410.8 832.558 408.8 828.558C417.7 825.858 422.5 819.958 421.3 812.758C418 814.958 415 816.958 411.7 819.058C408.6 815.258 408 810.858 408.5 805.958C408.8 802.758 409 799.358 404.1 799.158C403.5 799.158 402.5 798.258 402.3 797.658C400.3 790.558 397.9 783.558 396.7 776.358C394.5 762.558 392.7 748.858 388.4 735.458C384.5 723.158 381.6 710.558 378.2 698.158C377.6 695.758 377 693.258 375.7 691.258C373.3 687.258 374.6 684.758 377.8 682.158C381.4 679.358 382.7 682.758 384.6 684.458C385.3 685.158 386.3 685.558 387.1 686.058C387.633 685.724 388.166 685.391 388.7 685.058C387.5 682.758 386.7 680.058 385.1 677.958C380.9 672.858 381.5 666.858 386.9 662.958C388.4 661.958 390.1 661.458 391.5 660.358C392.9 659.358 395.1 657.758 395 656.658C394.8 654.658 393.5 652.358 391.8 651.158C387.8 648.358 387.2 645.458 391.2 642.758C396.4 639.158 402.1 636.358 407.3 632.958C418.6 625.558 432.4 622.058 440.6 609.858C442.8 606.558 448.2 604.258 452.4 603.758C464.6 602.258 474.4 596.458 483.9 589.458C488.1 586.458 490.3 582.758 489.2 577.758C486.6 566.058 491.1 557.758 500.5 550.958C503.8 548.558 505.7 544.158 508.2 540.658C509.2 539.258 510.1 537.758 511.1 536.458C514.2 532.158 517.5 528.058 520.5 523.658C526.3 515.058 532.2 512.858 542.8 515.958Z"
+//     />
+//     <path
+//       id="thrisrur"
+//       className={`district-path ${
+//         selectedDistrict === "thrisrur" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("thrisrur")}
+//       d="M530.7 1048.76C529.3 1046.16 525.2 1042.86 529.9 1038.26C530.4 1037.76 529.7 1034.96 528.7 1034.16C524.4 1030.46 519.4 1028.16 511.8 1027.56C514 1030.96 515.4 1033.26 516.8 1035.36C520 1040.26 523.4 1045.06 526.3 1049.96C528.2 1052.96 527.6 1055.76 524.3 1057.56C520 1059.96 515.9 1062.96 510.5 1060.66C509.3 1060.16 507.3 1061.66 504.7 1062.56C499.6 1017.66 485.3 975.757 460.5 937.157C467.3 937.257 468 943.457 472 946.957C476.8 939.157 467 936.157 466.4 928.757C470.6 932.257 474.4 934.457 476.7 937.657C478.9 940.657 479.6 944.757 481.1 948.857C483.1 943.257 484.8 938.457 486.7 933.057C479.6 932.657 477 927.757 474.3 921.757C472.4 917.757 467.2 915.357 462.5 912.757C464.8 919.057 464.8 924.257 459.2 929.357C458.5 926.657 457.3 924.257 457.4 921.857C457.5 915.257 454.4 910.557 449.9 906.157C438.4 894.957 429.8 881.957 424.9 866.657C424.6 865.657 424.4 864.657 423.9 862.457C426.4 863.257 428.2 863.457 429.6 864.457C434.1 867.657 440.4 866.457 443.9 861.957C444.7 860.957 446.8 860.657 448.4 860.657C450.1 860.657 451.8 861.357 453.5 861.557C454.4 861.657 455.2 861.357 456.6 861.257C454.9 855.457 459.2 853.657 462.8 851.057C466.6 848.057 470.2 844.557 473.4 840.757C477.7 835.757 480.6 834.857 487.2 836.957C494.2 839.157 501.4 840.857 508.6 842.757C510.1 843.157 511.8 843.157 513.3 843.157C517 842.957 518.9 841.557 516.7 837.757C514.8 834.557 515.6 833.057 519.1 831.357C521.1 830.357 522.3 827.357 523.4 825.157C524.6 822.857 525.3 820.257 526.2 817.857C529.3 819.157 532.5 820.457 535.4 822.057C536.2 822.457 536.5 823.757 536.9 824.757C539.7 831.657 541.2 832.257 548.5 830.957C551.9 830.357 555.5 831.157 559.1 831.457C561.2 831.657 563.3 832.757 565.3 832.557C573.7 831.857 582 830.857 590.4 829.957C593 829.657 595.7 829.757 598.3 829.657C605.9 829.257 613.4 828.757 621 828.557C623.1 828.457 625.3 829.157 627.4 829.557C627 831.657 626.4 833.757 626.1 835.857C625.4 839.457 624.1 843.057 624.5 846.557C625.2 852.457 624.1 857.557 619.8 861.557C612.9 867.857 609.5 875.257 611.1 884.757C611.4 886.757 611 888.957 610.6 891.057C609.4 897.057 611.1 901.957 615.2 906.557C617.8 909.557 619.3 913.457 621.4 916.857C622.4 918.357 623.8 919.557 625 920.957C627.3 923.657 630.6 926.057 631.7 929.257C633 932.757 634.5 935.157 638.1 936.157C639.3 936.457 640.4 936.957 641.5 937.657C653.9 945.524 666.267 953.424 678.6 961.357C682 963.557 684.1 965.957 681.9 970.557C681.3 972.057 682.6 975.957 684 976.657C690.3 979.957 696.3 984.457 704.6 981.757C707.7 980.757 712.1 982.957 715.6 984.557C720.5 986.757 724.7 987.557 730 984.457C736 980.957 741.8 985.357 747.9 987.457C746.4 989.857 744.7 991.957 744.1 994.357C743.7 995.857 744.9 997.857 745.3 999.557C746.9 999.057 749 999.057 749.9 998.057C752.9 994.457 756.1 993.957 760.2 995.957C763.2 997.557 766 997.757 768.9 994.957C770.3 993.657 772.9 993.557 775.7 992.657C774.6 1001.76 770.1 1010.06 778.5 1017.66C775.2 1017.96 772.6 1018.46 770.1 1018.46C763.7 1018.46 757.3 1018.06 751.7 1021.96C751.3 1022.26 750.6 1022.46 750.1 1022.36C739.5 1020.56 729.8 1026.46 719.5 1026.36C715.8 1026.36 711.6 1024.16 708.6 1021.76C704.2 1018.46 700 1017.76 694.7 1018.66C691.3 1019.26 687.4 1018.46 684.1 1017.36C680.3 1016.06 677 1015.46 673.5 1017.76C672.5 1018.46 671.3 1019.16 670.1 1019.26C660.3 1019.76 650.4 1020.66 640.6 1020.26C636.8 1020.16 633.2 1016.96 629.3 1015.66C626.2 1014.56 623.8 1014.96 621.8 1018.86C620.5 1021.26 616.5 1022.96 613.4 1023.56C604 1025.36 597.5 1031.46 590.9 1037.56C590 1038.36 589.3 1039.66 588.3 1040.06C578.8 1043.96 571.4 1049.66 566.8 1059.26C564.2 1064.86 555 1065.06 550.6 1060.66C547.8 1057.96 544.5 1055.96 541.5 1053.56C540.4 1052.56 539.9 1050.66 538.8 1050.16C536.7 1049.36 534.2 1049.26 530.7 1048.76Z"
+//     />
+//     <path
+//       id="kannur"
+//       className={`district-path ${
+//         selectedDistrict === "kannur" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("kannur")}
+//       d="M172.9 337.557C172.6 338.957 172.2 340.357 171.9 341.457C166.9 334.457 162 327.457 157.1 320.457C157.3 320.123 157.533 319.823 157.8 319.557C160 321.257 162.2 322.857 164.3 324.657C170.8 330.257 180.5 329.157 184.8 321.457C181.6 321.457 178.9 321.757 176.3 321.357C174.4 321.057 172.7 319.857 170.9 318.957C171.9 317.457 172.9 315.857 174 314.457C175.4 312.657 177 310.957 178.5 309.157C176.2 307.757 174 305.457 171.6 305.057C169.9 304.657 167.6 306.757 165.8 307.957C163.1 309.757 160.7 312.157 157.8 313.557C151.5 316.557 150.4 320.257 155.1 325.357C157.2 327.657 159.8 329.557 162.2 331.657C161.867 331.99 161.5 332.357 161.1 332.757C154.9 327.557 148.5 322.657 142.7 317.057C141.5 315.957 142 312.557 142.5 310.357C143 307.857 144.3 305.557 145.3 302.857C140.8 301.557 138.9 303.957 137.6 306.657C136 309.757 135.1 313.257 134 316.557C132.7 320.057 130.4 320.757 128.1 317.957C124.3 313.257 120.8 308.057 117.5 302.957C116.7 301.757 116.6 298.857 117.4 298.157C118.5 297.157 120.9 296.857 122.6 297.057C126.7 297.657 130.6 298.757 134.7 299.557C134.967 298.957 135.267 298.357 135.6 297.757C134.3 296.557 133.3 295.157 131.9 294.257C125.5 290.257 123.9 286.257 124.3 279.057C124.8 270.857 124.6 262.557 124.1 254.357C123.7 247.657 125.1 243.857 131.3 241.157C137.6 238.457 144.2 236.357 150.6 233.757C157.2 231.057 158.3 229.257 156.9 222.457C156 218.257 157.5 215.857 161.4 214.957C163.9 214.357 166.6 214.157 169.2 214.157C174.3 214.057 179.5 214.457 184.6 214.157C191.1 213.857 196.9 211.757 201.7 206.957C207.6 201.057 214.1 199.657 221.9 203.657C226.4 205.957 231.5 205.757 236.7 201.057C243.4 210.557 250 219.957 256.5 229.357C259.8 234.157 262.9 238.957 266.1 243.757C269.5 248.857 273.3 253.757 276.3 259.057C278.3 262.557 280.3 264.257 284.7 263.057C293.8 260.657 303.8 266.557 306.9 275.557C307.3 276.857 307.6 278.257 308 279.657C310.2 286.357 313.1 287.257 319 283.157C319.7 282.657 320.4 282.057 321.1 281.557C326.1 278.357 328.8 279.557 330.3 285.157C332.9 294.557 338.6 297.157 344.9 295.557C346.8 295.057 348.7 294.857 350.7 294.557C360.7 292.957 366 296.857 367.8 307.157C368.933 313.823 370.233 320.49 371.7 327.157C372 328.557 373 330.057 374.1 331.157C381.5 338.557 389.9 344.357 400.6 345.557C403.6 345.857 405.3 346.657 405 349.957C404.9 350.857 405 351.857 405.4 352.557C408.7 357.557 406.4 361.057 402.5 364.357C398.7 367.557 398.3 371.457 401.1 375.657C402.1 377.257 402.7 379.057 404.2 382.457C397.2 381.857 391.6 381.357 385.9 380.957C379.9 380.457 373.8 379.257 368 380.157C362 380.957 356.3 383.657 350.5 385.857C347.5 386.957 346.9 389.457 348.3 392.357C349.5 394.657 350.7 396.957 352.2 399.757C349.5 400.157 347.5 400.457 345.5 400.757C343.2 409.157 339.1 410.557 331.9 405.357C327.9 402.457 325.3 402.857 323.5 407.257C320.7 413.957 315.7 418.057 309.6 421.157C306.4 422.757 303.4 424.557 300.3 426.257C292.3 430.657 286.7 436.557 288 446.257C284 447.557 280.6 448.657 278 449.457C274.8 446.557 272 442.157 268.6 441.557C265 441.057 260.9 444.157 256.6 445.857C251 440.057 244.8 433.857 239 427.257C237.9 425.957 238.2 423.057 238.4 420.957C238.5 418.857 239.3 416.757 239.8 414.657C239.2 414.323 238.633 413.99 238.1 413.657C235.8 416.157 233.4 418.757 229.9 422.657C229.9 418.457 229.9 415.557 229.9 412.057C228.1 412.757 226.5 413.357 224.4 414.057C225.8 408.657 223.4 404.857 219.4 401.657C217.9 400.457 216.7 398.857 215.7 397.257C212 391.357 207.1 387.457 199.9 386.957C194.9 386.557 191.7 383.557 189.3 379.157C185 370.957 180.3 362.957 175.1 353.557C177.6 354.357 179 355.057 180.4 355.257C184.3 355.857 188.5 357.257 192.1 356.457C197 355.357 200.7 355.857 204.4 358.857C205.7 359.957 207.6 360.257 209.2 360.957C209.533 360.49 209.867 360.023 210.2 359.557C208.2 357.757 206.5 355.257 204.1 354.357C199.6 352.457 200.4 350.257 202.3 346.957C205 342.457 207.5 337.757 209.8 333.057C210.5 331.557 210.8 329.557 210.6 327.857C210.4 326.357 209.2 325.057 208.5 323.657C207.8 324.857 206.6 325.857 206.3 327.157C204.5 335.057 201.2 342.157 195.3 347.957C188.5 354.457 179.3 351.757 176.9 342.557C176.4 340.657 175.6 338.857 174.9 336.957C174.233 337.157 173.567 337.357 172.9 337.557Z"
+//     />
+//     <path
+//       id="kollam"
+//       className={`district-path ${
+//         selectedDistrict === "kollam" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("kollam")}
+//       d="M751.6 1603.36C753 1607.16 754.5 1610.96 756.4 1615.66C753.4 1616.26 750.8 1616.96 748.1 1617.06C738.4 1617.36 729.1 1618.86 722 1626.46C721.5 1626.96 720.9 1627.26 720.3 1627.66C711.3 1633.66 702.7 1629.56 700.9 1618.36C714 1617.26 714.2 1616.96 711.4 1605.46C709.2 1606.96 707.3 1608.46 705.3 1609.86C704.3 1610.46 703.2 1611.06 702.1 1611.36C700.1 1611.96 698.1 1612.26 695.3 1612.86C684.5 1602.76 672.7 1591.66 660.2 1579.96C663.3 1577.96 665.2 1576.76 667.9 1575.06C671.4 1583.86 678.1 1586.06 686 1583.06C687.9 1582.26 688.3 1577.66 689.7 1574.06C682.9 1573.36 679.6 1583.26 673.3 1576.76C675.4 1575.66 678.1 1575.06 679.3 1573.36C680.3 1571.86 679.5 1569.16 679.5 1565.66C682.6 1561.36 687.6 1560.56 693 1564.56C694.2 1565.46 695.9 1565.56 697.6 1566.16C697.9 1564.76 698.1 1564.26 698 1563.76C697.7 1562.16 697.3 1560.56 696.9 1558.96C698.7 1559.26 700.5 1559.66 702.2 1559.76C704.3 1559.86 706.3 1559.76 708.3 1559.76C706.9 1558.06 705.7 1556.06 704.1 1554.56C703 1553.66 701.3 1553.46 699.2 1552.76C700.7 1551.36 702.1 1550.46 702.9 1549.16C703.7 1547.86 703.9 1546.16 704.3 1544.66C702.7 1544.56 700.8 1543.86 699.5 1544.46C697 1545.66 694.9 1547.76 692.5 1549.26C690 1550.76 687.3 1552.06 684.1 1552.86C687.4 1548.76 689.6 1544.86 686.2 1540.26C685.3 1539.16 683.8 1537.66 682.9 1537.76C681.7 1537.96 680.6 1539.56 679.9 1540.86C677.5 1544.86 675.2 1548.96 672.5 1553.66C668.8 1548.56 665.1 1548.66 663.3 1552.96C661.9 1556.26 661.7 1560.06 661.1 1563.76C660.7 1566.26 660.4 1568.86 660.1 1571.46C659.433 1571.59 658.733 1571.76 658 1571.96C656.8 1568.56 655.1 1565.26 654.5 1561.86C652.7 1550.36 651.3 1538.96 648.8 1527.36C650.4 1529.16 651.8 1531.06 653.6 1532.46C654.7 1533.26 656.5 1533.06 657.9 1533.26C657.8 1531.86 658.1 1530.16 657.5 1529.06C651.5 1517.46 645.3 1506.06 639.2 1494.66C638.9 1494.16 638.8 1493.66 639.1 1494.36C640.3 1492.16 641.1 1490.76 641.9 1489.46C642.3 1488.96 642.7 1488.36 643.2 1488.06C648.7 1484.46 659.1 1485.16 663.7 1489.26C671.3 1496.06 672.2 1495.76 681.2 1491.16C692 1485.66 703.2 1480.76 714.5 1476.36C717.1 1475.36 721.3 1476.46 724 1477.96C737.8 1485.06 752.9 1486.16 767.8 1487.36C773.6 1487.76 779.9 1485.86 785.7 1484.06C790.7 1482.46 795.2 1481.56 800.6 1482.96C805.1 1484.06 810 1483.56 814.8 1483.36C820.1 1483.16 825.1 1483.16 830.1 1486.06C832.6 1487.56 836.9 1487.06 840.1 1486.16C844.7 1484.96 849 1484.76 852.3 1488.46C859.6 1496.46 868.7 1497.46 878.6 1496.16C899.6 1493.42 920.633 1490.69 941.7 1487.96C942.3 1487.96 943 1487.96 944 1487.96C940.6 1496.26 937.6 1504.46 933.9 1512.36C931.6 1517.46 927.3 1520.16 921.6 1521.46C907.1 1524.56 903.8 1531.76 912.4 1543.96C921.6 1556.76 932 1568.66 941.9 1580.86C942.9 1582.06 944 1583.16 945.1 1584.36C955.5 1596.26 955.6 1602.06 946.2 1614.56C943.4 1618.36 941.4 1622.76 939.4 1627.06C937.6 1630.76 935.6 1631.46 931.5 1630.46C914.3 1626.56 899.7 1617.96 886 1607.36C883.2 1605.16 879.6 1603.56 876.2 1602.36C863.8 1598.16 851.7 1606.96 851.8 1620.16C851.9 1628.76 851 1628.76 842.4 1629.06C835.4 1629.36 828.4 1631.76 821.4 1633.26C818.6 1633.96 815.8 1634.96 812.1 1636.06C812.3 1632.96 812.4 1630.96 812.6 1628.96C813.4 1622.46 811.1 1619.26 804.7 1618.16C802.2 1617.76 799.7 1617.66 797.3 1617.56C790.4 1617.16 784.4 1614.86 778.7 1610.66C771.1 1604.96 761.6 1604.26 752.8 1602.06C752.4 1602.52 752 1602.96 751.6 1603.36Z"
+//     />
+//     <path
+//       id="pathanamthitta"
+//       className={`district-path ${
+//         selectedDistrict === "pathanamthitta" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("pathanamthitta")}
+//       d="M719.2 1474.96C719.1 1463.36 716.5 1453.86 710.1 1445.56C707.2 1441.76 709.8 1438.96 711.7 1435.56C715.4 1429.06 719.1 1422.46 721.6 1415.36C724 1408.66 719.9 1404.86 713.2 1407.36C707.3 1409.46 701.9 1409.76 696.3 1407.26C695 1406.76 693.5 1406.36 692.1 1406.46C680.4 1407.66 673.7 1400.06 667 1392.26C666.1 1391.26 665.9 1389.56 665.3 1388.16C666.7 1387.66 668.2 1386.86 669.6 1386.86C672.2 1386.96 674.7 1387.46 677.9 1387.96C675.6 1383.26 673.5 1379.06 671.1 1374.36C676.1 1374.36 681.2 1375.86 683.7 1373.96C686.3 1371.96 686.2 1366.66 687.7 1362.86C689.7 1357.36 693 1352.96 699.3 1351.56C700.5 1351.26 701.8 1350.36 702.8 1349.36C709.3 1342.96 717.4 1343.46 723.3 1350.56C724 1351.36 724.6 1352.26 725.3 1353.06C730.3 1358.46 733 1358.56 739 1354.36C741.9 1352.26 745.2 1350.76 748.3 1348.96C748.633 1349.49 748.966 1349.99 749.3 1350.46C747.4 1353.06 744.9 1355.36 743.5 1358.26C741.4 1362.76 743 1364.76 747.8 1363.66C751.7 1362.76 755.7 1361.56 759.3 1359.86C764 1357.66 768.5 1356.86 773.6 1358.86C775.6 1359.66 778.2 1360.16 780.3 1359.56C791.2 1356.76 800.5 1360.76 809.3 1366.26C816.5 1370.76 823.8 1374.16 832.4 1374.16C833.3 1374.16 834.3 1374.36 835 1374.06C843.2 1370.06 850.8 1371.86 858.7 1375.26C861.8 1376.56 865.6 1376.46 869.1 1376.26C870.5 1376.16 872 1374.36 873 1372.96C874.1 1371.36 874.1 1368.86 875.4 1367.86C884.7 1360.76 894.8 1354.26 906.8 1356.56C915.1 1358.16 921.9 1356.56 928.9 1352.96C932.5 1351.16 935.8 1351.36 938.7 1353.96C944.8 1359.46 951.7 1359.36 959.1 1358.06C967.5 1356.56 975.4 1358.56 982 1361.06C980.3 1370.16 978.4 1378.56 977 1387.06C976.1 1392.76 974.2 1396.86 968.5 1399.96C960.3 1404.26 958.7 1412.66 959 1421.46C959.2 1426.86 959.6 1432.36 959 1437.76C958.6 1441.76 956.4 1445.46 955.6 1449.46C954.4 1455.56 952.8 1461.76 952.9 1467.96C953.1 1479.66 950.3 1484.86 938.9 1486.36C916.2 1489.56 893.4 1491.86 870.6 1494.36C865 1495.06 860.1 1493.06 856.2 1489.06C851 1483.66 845.2 1481.86 838 1484.86C836.1 1485.66 833 1485.76 831.4 1484.66C825.2 1480.16 818.4 1481.26 811.5 1481.66C807.7 1481.86 803.8 1481.16 800 1480.96C796.4 1480.76 792 1479.36 789.2 1480.86C776.3 1487.96 763 1485.76 749.9 1483.16C739.4 1481.16 729.2 1477.76 719.2 1474.96Z"
+//     />
+//     <path
+//       id="kottayam"
+//       className={`district-path ${
+//         selectedDistrict === "kottayam" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("kottayam")}
+//       d="M651.5 1192.96C650.8 1195.36 649.8 1197.06 649.9 1198.66C650 1200.76 650.2 1203.86 651.6 1204.76C655.8 1207.56 660.4 1210.06 665.2 1211.56C670.3 1213.16 675.6 1209.66 676.9 1204.16C678.1 1198.86 681.4 1196.66 686.2 1195.26C695.5 1192.56 704.1 1192.76 712.1 1199.06C716.5 1202.66 721.4 1205.56 726.2 1208.66C731.6 1212.26 737.5 1213.46 743.8 1211.36C750 1209.26 755 1210.76 759.7 1215.36C765.9 1221.36 772.6 1226.96 779.3 1232.36C781 1233.76 783.9 1233.46 786.1 1234.36C788.2 1235.26 790.7 1236.26 791.8 1237.96C793.9 1241.36 794.9 1245.46 796.7 1249.06C798.8 1253.26 801.5 1257.16 803.5 1261.46C806.8 1268.06 810.2 1274.56 812.7 1281.46C815.9 1290.56 818.1 1300.06 821.1 1309.36C822.5 1313.66 824.2 1317.96 826.4 1321.86C829.4 1327.26 830.2 1332.86 826.1 1337.26C816.5 1347.46 820.3 1356.66 826.8 1366.16C827.8 1367.56 828.7 1369.06 829.1 1372.06C826 1371.36 822.8 1371.06 820 1369.76C814.3 1367.06 808.8 1363.86 803.2 1360.86C796.6 1357.26 789.7 1355.96 782.2 1357.46C780.3 1357.86 778.1 1358.26 776.5 1357.56C768.9 1354.46 762 1356.06 755.1 1359.56C752.2 1360.96 748.8 1361.46 745.7 1362.46C745.234 1361.92 744.734 1361.42 744.2 1360.96C746 1358.56 748 1356.16 749.6 1353.66C750.6 1352.16 751.2 1350.46 751.9 1348.86C750.3 1348.46 748.4 1347.46 747 1347.96C743.8 1349.16 740.7 1350.76 737.8 1352.76C732.4 1356.46 730.7 1356.66 726.5 1351.16C722.8 1346.26 718.1 1343.66 712.3 1342.66C708.5 1341.96 705.4 1342.66 703 1345.96C702 1347.36 700.6 1349.16 699.2 1349.46C690.1 1351.66 686.6 1358.56 684.4 1366.56C682.3 1373.76 682.4 1373.76 674.7 1372.26C670.1 1371.36 665.3 1370.86 660.7 1369.76C649.6 1367.06 646.7 1361.96 648.9 1352.96C650.3 1347.16 649.3 1342.06 643.1 1339.16C641.2 1338.26 639.4 1336.96 638.1 1335.36C632.1 1328.36 624.4 1325.96 615.6 1325.26C603.9 1324.26 601.1 1320.46 601.7 1308.66C602.1 1299.66 602.7 1290.66 602.7 1281.66C602.6 1274.06 600.5 1266.96 595.6 1260.86C591.2 1255.46 589.6 1249.46 592.8 1242.66C594.4 1239.16 594.2 1235.76 591.9 1232.16C587.8 1225.76 587.9 1218.66 590.8 1211.86C591.5 1210.46 593.6 1208.76 595.1 1208.76C607 1208.76 617.6 1205.96 627.2 1198.46C634 1193.06 642.4 1192.16 651.5 1192.96Z"
+//     />
+//     <path
+//       id="trivandrum"
+//       className={`district-path ${
+//         selectedDistrict === "thiruvananthapuram" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("thiruvananthapuram")}
+//       d="M715 1640.06C720.3 1638.46 720.7 1635.96 716.8 1633.06C720.2 1630.26 723.6 1627.76 726.8 1624.96C733.2 1619.36 741.2 1619.86 748.8 1618.76C749.8 1618.66 750.9 1618.76 752 1618.66C757.7 1618.16 759.2 1615.66 756.7 1610.56C755.9 1608.86 755 1607.26 754.1 1605.56C754.433 1605.02 754.733 1604.49 755 1603.96C762.1 1606.36 770.1 1607.66 776.2 1611.56C784 1616.66 791.7 1619.56 800.9 1619.66C809 1619.76 811 1622.26 810.4 1630.46C809.9 1637.26 811.5 1638.66 818.3 1636.56C823.4 1634.96 828.2 1632.66 833.3 1631.36C836.6 1630.56 840.3 1630.66 843.7 1631.06C850.5 1631.96 853.9 1629.26 853.9 1622.46C853.9 1606.06 865.6 1598.76 880.1 1606.26C885 1608.76 889.6 1611.76 893.8 1615.26C902.8 1622.56 913 1627.06 924 1630.06C927.4 1630.96 930.7 1632.16 935.7 1633.66C930.7 1637.36 927.2 1640.66 923 1642.86C917.5 1645.66 916.7 1649.36 917.9 1654.96C920.8 1667.46 927.2 1678.16 934.5 1688.46C940.9 1697.56 947.3 1706.66 953.5 1715.96C957 1721.06 959.6 1726.96 955.8 1732.76C951.9 1738.86 945.9 1742.66 938.1 1742.56C934.9 1742.56 931.7 1743.26 928 1743.66C931.6 1750.36 935 1755.86 937.6 1761.56C938.2 1762.86 937 1766.26 935.6 1767.06C929.7 1770.66 926.2 1776.06 923.3 1781.96C918 1792.66 911.1 1802.76 910.3 1815.26C910.3 1816.46 908.4 1817.96 907 1818.46C904.7 1819.16 902.2 1819.36 899.8 1819.66C896.8 1819.96 894.9 1820.66 893.9 1824.36C892.5 1829.76 882.4 1832.06 878.4 1828.26C869.7 1820.16 861.6 1811.56 852.8 1803.76C848.7 1800.06 843.5 1797.66 838.9 1794.56C836.9 1793.16 834.2 1791.96 833.3 1789.96C830.3 1782.86 825.1 1777.86 819.8 1772.66C816.4 1769.46 813.6 1765.26 811.8 1760.96C807.6 1751.06 800.9 1743.36 792.8 1736.46C788.7 1732.96 785 1728.76 781.7 1724.56C762.3 1700.06 745.3 1673.66 722.8 1651.56C720.9 1649.76 719.3 1647.56 717.8 1645.36C716.8 1643.96 716.2 1642.26 715 1640.06Z"
+//     />
+//     <path
+//       id="kozhikod"
+//       className={`district-path ${
+//         selectedDistrict === "kozhikod" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("kozhikod")}
+//       d="M336.4 583.657C334.4 581.157 332.1 578.957 330.5 576.357C327.7 571.857 325.5 566.957 322.9 562.357C317 552.157 309.3 543.857 297.8 539.857C290.8 537.357 288.3 530.857 284.6 525.257C279.5 517.357 279.1 516.757 278.3 506.957C282.9 506.357 287.6 505.757 293.3 505.157C292 503.257 291.3 501.457 290.1 500.757C285.6 497.957 280.9 495.657 276.4 492.957C275.3 492.257 274.2 490.857 274 489.657C271.7 476.357 266.2 464.357 260 452.557C257.9 448.657 259.3 446.357 265.1 443.857C268.5 442.357 271.4 442.857 272.8 446.757C274.4 451.357 276 451.657 281.5 450.657C289.6 449.257 289.7 444.957 290.8 439.157C291.3 436.457 293.7 433.457 296.1 431.757C301.2 428.057 306.8 424.957 312.4 421.857C317.9 418.957 322.3 415.157 324.6 409.157C326.1 405.057 328.1 405.457 331.8 407.557C335.2 409.457 339.7 409.357 343.8 409.557C344.5 409.657 345.8 407.457 346.2 406.157C347.7 401.657 354.3 399.757 357.9 402.957C360.6 405.257 360.9 407.957 359.3 411.057C357.7 414.257 359.1 416.557 361 419.557C364.6 425.557 368.3 430.157 374.6 433.957C379.4 436.857 382.2 443.157 389.2 443.857C390.4 443.957 391.5 446.657 392.2 448.357C393.5 451.357 393.8 454.957 395.5 457.757C398.9 462.957 399.2 468.357 397.9 473.957C396.8 478.857 397.3 482.157 402 485.657C407.8 490.057 412.2 496.357 417.6 501.457C419.8 503.557 423.1 504.457 425.6 506.257C428.6 508.357 431.6 510.557 434.1 513.157C440.8 520.357 443.4 520.257 452.5 516.657C457.4 514.757 463.5 515.557 468.9 516.057C471.8 516.257 472.1 519.057 470.8 521.957C469.9 524.257 469 526.957 469.4 529.257C469.9 532.257 471.8 534.457 475.5 531.757C476.5 530.957 479.1 531.157 480.3 531.957C484.5 534.657 488.2 537.957 492.3 540.857C496 543.457 500 545.757 503.4 540.157C503.6 539.757 504.7 539.857 506.3 539.557C505.5 541.657 505.2 543.457 504.2 544.657C502.3 546.857 500.3 549.257 497.8 550.857C487.8 557.457 485.1 566.557 487.1 578.057C487.5 580.757 485.8 584.857 483.7 586.657C474.7 594.157 465.1 600.357 452.7 601.557C445.7 602.257 440.4 606.357 435.7 612.057C430.8 617.857 424.5 622.057 417.1 625.257C407.1 629.557 397.9 636.057 388.8 642.257C385 644.857 386.1 650.157 390.1 652.657C391.5 653.557 392.4 655.157 394.5 657.357C391.1 657.857 389.3 658.157 387.4 658.457C381.9 659.157 380.8 660.857 380.6 666.457C380.5 669.157 379.7 672.257 378.1 674.457C377 676.257 373.5 678.357 372.4 677.757C370.4 676.657 368.5 673.857 368.2 671.557C367.8 668.657 369.2 665.457 369.7 662.457C369.9 660.857 369.8 659.257 369.8 657.757C368.3 658.457 366.8 659.057 365.3 659.957C364.6 660.357 364.2 661.157 363.4 662.257C362.6 660.957 362 660.157 361.6 659.357C357.5 650.157 353.4 640.957 349.4 631.657C348.2 628.957 346.8 626.057 346.4 623.157C345 613.357 341.9 604.457 335.4 596.657C333.7 594.657 330 590.457 335.7 588.157C337.3 587.557 340 588.457 341.5 589.557C343.4 590.857 344.5 593.157 346.1 595.257C350.4 588.657 354.3 582.657 358.3 576.657C357.9 576.19 357.533 575.69 357.2 575.157C353.8 577.157 350.5 579.057 346.8 581.157C344.5 577.257 342.5 573.557 343.9 568.457C345.1 563.857 340.7 562.157 337.3 559.557C337.7 567.757 338 575.257 338.3 582.757C337.7 583.024 337.067 583.324 336.4 583.657Z"
+//     />
+//     <path
+//       id="wayanadu"
+//       className={`district-path ${
+//         selectedDistrict === "wayanadu" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("wayanadu")}
+//       d="M406.5 345.657C413.6 347.457 419.2 348.257 424.4 350.357C429.5 352.357 434.4 352.757 439.3 350.857C452 345.957 464.6 340.957 477.1 335.657C481.6 333.757 484.3 335.457 485.3 339.357C486.9 345.057 487.9 351.057 488.5 356.957C489 362.757 488.8 368.657 488.7 374.457C488.6 377.757 490.2 379.157 493.2 378.557C497.7 377.757 502.1 376.557 506.5 375.257C515.2 372.657 519.2 374.357 523 382.657C525 387.157 526.8 391.857 529 396.257C531.7 401.857 534.5 403.457 540 401.157C546 398.557 549.3 400.357 552.6 405.557C555.9 410.857 559.9 415.957 564.1 420.657C573.7 431.257 584.1 431.857 595.4 422.957C596.5 422.157 597.6 421.257 599.4 419.757C601.6 422.357 604 424.657 605.7 427.457C608.8 432.457 608 434.757 602.9 437.657C597.7 440.657 596.6 447.257 601.2 451.557C603.9 454.257 607.4 456.057 610.8 457.957C613.9 459.557 617.1 460.757 616.4 465.157C615.7 469.457 613.3 472.157 609.2 473.457C608.6 473.657 607.8 473.757 607.1 473.757C596.4 473.257 590.3 478.357 587.7 488.557C587.3 489.957 584.7 491.857 583.3 491.657C578.2 491.157 573.9 492.057 569.9 495.257C566.9 497.657 563.7 497.257 560.5 495.157C557.8 493.257 555 491.257 552 489.857C547.7 487.657 544.1 489.057 541.5 493.057C538.4 497.657 538.9 501.957 542.1 505.557C543.3 506.957 543.7 509.257 544.5 511.157C542.7 511.757 540.9 512.957 539.2 512.757C529.6 511.557 523 515.557 518.1 523.657C515.3 528.057 511.8 532.157 508.2 535.857C505.9 538.157 502.7 539.857 499.7 541.157C498.5 541.657 496.2 541.057 494.9 540.157C490.8 537.457 487 534.257 483 531.257C479.7 528.857 476.4 525.757 472.6 531.357C472.134 531.024 471.7 530.724 471.3 530.457C471.6 528.157 471.3 525.657 472.2 523.557C474.8 517.457 473.1 513.957 466.5 513.257C460.3 512.557 454.2 511.957 448.7 516.157C444.6 519.257 440.7 517.357 437.8 514.057C433.5 509.157 428.5 505.457 422.5 502.357C417.3 499.657 413.9 493.657 409.1 489.957C401.2 483.857 397.6 476.757 400.4 466.657C401 464.657 399.5 461.957 398.7 459.657C397.9 457.657 396.3 455.957 395.9 453.957C394.6 446.557 392.3 440.557 383.2 439.857C381.5 439.757 380.1 436.357 378.2 434.857C375.6 432.657 372.8 430.857 370 428.957C369.6 428.657 369 428.757 368.5 428.557C367 427.957 360.6 413.057 361.3 411.557C363.8 406.257 361.4 402.757 357.2 399.857C355.6 398.757 353.9 397.757 352.8 396.257C348 389.557 349 389.157 356.3 385.657C367.2 380.557 377.8 381.357 388.9 383.257C392.7 383.857 396.7 383.957 400.6 383.857C405.3 383.857 407.1 381.457 404.3 377.557C399.8 371.357 401.3 367.157 406.6 362.757C409.2 360.657 410.3 357.857 408.3 354.257C407.1 352.357 407.3 349.657 406.5 345.657Z"
+//     />
+//     <path
+//       id="ernakulam"
+//       className={`district-path ${
+//         selectedDistrict === "ernakulam" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("ernakulam")}
+//       d="M565.4 1158.76C565.4 1161.86 565.4 1164.96 565.4 1169.76C563.6 1167.56 562.7 1166.66 562 1165.66C559.9 1163.06 558.2 1159.96 555.7 1157.86C551.3 1154.26 550.9 1150.06 551.9 1145.06C552.8 1140.46 553.1 1135.66 554.1 1131.06C554.4 1129.66 556 1128.46 557 1127.16C558 1125.76 558.9 1124.46 559.9 1123.06C558.3 1122.16 556.7 1121.26 555.1 1120.46C554.7 1120.26 554 1120.36 553.5 1120.36C545.1 1120.16 543.2 1117.96 544.7 1109.76C545.7 1103.56 542.4 1097.26 535.8 1094.26C536.2 1096.56 536.4 1098.36 537 1099.96C537.7 1101.66 538.8 1103.16 539.7 1104.76C539.3 1105.16 538.867 1105.52 538.4 1105.86C537 1104.16 535.1 1102.76 534.4 1100.76C532.5 1096.26 531.3 1091.36 529.5 1086.76C527.2 1080.36 524.5 1074.06 521.9 1067.36C525.4 1064.96 529.1 1065.66 532.8 1067.16C541.2 1070.46 549.5 1073.76 557.9 1077.06C564.8 1079.76 571.6 1081.56 579.1 1079.06C580.5 1078.66 582.7 1080.26 584.3 1081.36C585.5 1082.26 586.3 1083.86 587.6 1085.46C589.7 1079.66 584.9 1073.06 579.3 1074.66C567.9 1077.86 559.6 1072.86 550.7 1067.46C546.2 1064.66 540.8 1063.36 534.9 1060.96C537.1 1059.76 538.4 1059.06 540 1058.16C539.1 1056.96 538.4 1055.96 537.7 1054.96C537.967 1054.56 538.267 1054.16 538.6 1053.76C542.2 1056.66 546.1 1059.16 549.4 1062.36C555.3 1068.06 565.8 1066.36 569.3 1058.96C573 1051.06 579.7 1046.56 587.1 1042.56C590.7 1040.66 593.6 1037.56 596.8 1034.86C602.6 1029.86 609 1025.96 616.8 1024.56C619.2 1024.16 621.7 1022.46 623.4 1020.56C626.3 1017.46 631.1 1016.06 634.1 1019.06C638 1023.16 642.4 1022.96 647.3 1022.56C652.7 1022.26 658.2 1022.36 663.6 1021.76C667.2 1021.46 671 1020.96 674.3 1019.46C677.5 1017.96 680 1018.36 683.3 1019.16C687.5 1020.36 692.1 1020.06 696.6 1020.56C699.4 1020.86 702.5 1020.86 705 1022.06C708.9 1023.86 712.5 1026.56 717.3 1029.66C713.8 1035.56 710.1 1041.86 706.4 1048.06C703.2 1053.36 699.5 1058.46 697 1063.96C693.8 1070.86 695.1 1074.96 701.9 1077.86C717.6 1084.76 729.6 1096.66 743.3 1106.36C749.8 1110.96 749.2 1114.56 742.3 1118.56C733.7 1123.36 725.2 1128.46 716.7 1133.36C712.2 1135.96 711.2 1140.06 711.6 1144.76C711.8 1147.86 712.4 1151.06 712.1 1154.26C711.6 1159.96 709 1162.36 703.2 1162.66C700.4 1162.76 697.6 1162.46 694.7 1162.56C693.6 1162.66 691.8 1163.16 691.7 1163.76C691.4 1164.96 691.6 1166.96 692.4 1167.56C700.1 1173.16 700.7 1180.26 697 1188.26C696.4 1189.66 694.9 1191.16 693.5 1191.66C690.7 1192.66 687.6 1192.86 684.7 1193.66C679.9 1195.06 676.2 1197.36 675.2 1203.06C674.2 1208.06 669.9 1210.86 665.2 1209.46C660.9 1208.16 656.8 1205.76 653 1203.26C652 1202.66 651.9 1199.46 652.4 1197.76C654.3 1191.06 654 1190.46 646.9 1190.66C638.2 1190.86 630.4 1193.26 623.3 1198.76C616 1204.46 607.2 1206.66 597.9 1206.46C596.4 1206.46 594.1 1204.76 593.6 1203.36C589.3 1191.06 583.8 1179.46 575.4 1169.36C574 1167.66 573.3 1165.36 572 1163.46C570.6 1161.46 568.9 1159.66 567.3 1157.76C566.7 1158.09 566.067 1158.42 565.4 1158.76Z"
+//     />
+//     <path
+//       id="kazarkode"
+//       className={`district-path ${
+//         selectedDistrict === "kazarkode" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("kazarkode")}
+//       d="M100.9 237.758C102.8 234.758 103.9 233.058 104.9 231.158C105 231.058 102.9 229.458 102.6 229.658C99.8 231.458 97.1 233.457 94.5 235.357C92.2 228.357 89 220.158 86.8 211.658C83.4 198.858 77.8 187.258 70.8 176.058C64.4 165.758 59 154.757 53.5 143.857C52.8 142.357 53.9 139.857 54.3 137.857C54.7 136.257 55.3 134.558 55.7 132.958C54 133.158 52.3 133.358 50.6 133.758C49.6 133.958 48.7 134.558 47.8 135.058C45.5 129.958 43.4 124.958 41.2 120.058C37.5 111.658 33.5 103.458 30 94.9575C28.3 90.9575 24.6 86.8575 30.2 82.3575C32.6 80.4575 30.6 77.2575 27.6 77.2575C23.1 77.2575 22 74.4575 21.2 70.9575C19.1 61.8575 15.8 53.3575 11.1 45.0575C6.29998 36.4575 3.6 26.6575 0 17.3575C5.2 15.1575 10.5 13.0575 15.7 10.8575C20.5 8.85751 25.5 7.15752 30.1 4.65752C34.1 2.45752 37.7 0.657513 42.5 2.85751C44 3.55751 46.4 2.4575 48.3 1.9575C50.3 1.4575 53.7 -0.34249 53.9 0.0575103C55.5 2.35751 56.8 5.15751 57.2 7.85751C57.4 9.55751 55.9 11.4575 55.1 13.1575C51.9 19.8575 53.4 24.1575 60.4 27.2575C63.4 28.5575 66.7 29.4575 69.7 30.9575C75.3 33.5575 75.9 36.2575 72.3 41.2575C68.9 45.9575 69.8 49.3575 75.5 50.6575C78.4 51.3575 81.8 50.8575 84.8 50.1575C89.2 49.2575 87.3 45.4575 87.6 42.7575C88 38.3575 89.6 37.4575 93.4 39.6575C95.2 40.6575 96.7 42.3575 98.6 43.3575C103.1 45.7575 107.7 48.4575 112.5 50.2575C116.2 51.5575 117.1 52.8575 114.9 56.2575C112.7 59.6575 108.8 63.1575 112.6 67.5575C116.3 71.9575 120.5 68.8575 124.6 67.4575C126.9 66.7575 130.3 66.5575 131.8 67.8575C133.4 69.1575 134.2 72.5575 133.9 74.8575C132.4 85.8575 137.4 90.3575 147.7 85.8575C151.9 84.1575 155.9 80.9575 158.9 77.4575C164.1 71.2575 164.5 70.8575 170.1 76.6575C171.3 77.8575 172.9 78.5575 174.3 79.7575C175.9 81.0575 177.4 82.6575 179.2 84.3575C173.8 88.9575 162.5 84.2575 163.2 94.8575C163.6 101.157 163.2 109.358 172.7 111.558C172.3 112.958 172 114.058 171.7 115.158C171 118.958 172.1 122.058 176.3 121.758C184.3 121.258 187.6 125.957 190.1 132.357C191 134.357 192.6 136.058 194 138.058C198.1 135.258 200.6 132.358 200.7 127.458C200.8 121.758 203.3 119.857 208.8 120.357C217.4 121.057 218.3 121.958 218 130.558C218 133.258 217.6 135.957 217.3 138.857C216 138.657 215.5 138.758 215 138.558C204.7 135.158 201.7 137.358 199.9 148.158C198.3 157.458 200.7 163.958 209.8 167.658C215.7 170.058 218.7 174.058 216.9 181.058C216.3 183.558 218.1 186.758 218.7 189.658C219.3 192.858 219.9 196.058 220.7 200.658C210.2 197.758 204.2 202.358 197.7 207.558C193.8 210.558 188 211.458 182.9 212.258C178.2 212.958 173.4 212.158 168.6 212.258C165.5 212.358 162.2 212.658 159.3 213.658C155.6 214.858 153.4 217.658 154.9 221.958C156.7 227.258 154.7 230.258 149.6 232.058C143.4 234.191 137.3 236.491 131.3 238.958C123.6 242.158 122.2 244.858 122.3 253.258C122.5 261.558 122.4 269.757 122.3 278.057C122.3 278.857 122 279.657 121.8 280.557C121.267 280.757 120.767 280.958 120.3 281.158C117.6 275.958 113.8 271.158 112.5 265.658C109.9 255.358 109.2 244.658 100.9 237.758Z"
+//     />
+//     <path
+//       id="alapuzha"
+//       className={`district-path ${
+//         selectedDistrict === "alapuzha" ? "selected" : ""
+//       }`}
+//       onClick={() => onDistrictClick("alapuzha")}
+//       d="M608.5 1443.86C600.6 1427.16 591.8 1410.66 584.9 1393.56C579.7 1380.56 576.6 1366.66 573.1 1353.06C569.4 1338.96 565.2 1324.76 563.2 1310.36C561.6 1299.26 563.1 1287.76 562.8 1276.46C562.8 1273.06 561.5 1269.76 560.6 1266.36C559.7 1262.86 558.2 1259.36 557.7 1255.76C555.7 1240.56 554 1225.26 552.2 1210.06C553.9 1208.66 556 1207.06 558.6 1204.96C559.2 1205.16 560.7 1205.76 562.8 1206.66C565.2 1200.96 556.8 1195.46 563.3 1189.76C564.1 1191.46 565.1 1192.86 565.5 1194.36C568.5 1207.06 571.8 1219.76 574.2 1232.56C575.4 1238.86 574.9 1245.46 575.2 1251.96C575.3 1254.76 575.5 1257.66 575.7 1260.46C578.4 1259.36 581 1258.16 583.9 1256.96C584.6 1262.96 588.1 1268.06 594.7 1270.96C595.4 1271.26 595.4 1275.16 594.5 1276.56C592.7 1279.46 591.2 1281.86 594.4 1284.86C595.1 1285.56 594.8 1288.36 594 1289.36C586.9 1298.16 585.5 1309.06 582.7 1319.36C581.1 1325.36 586 1332.06 592.9 1335.06C598.2 1337.36 603.7 1341.06 608.6 1333.76C609.5 1335.16 610.3 1336.06 610.8 1337.06C614.2 1343.36 615.6 1343.56 620.6 1338.66C621.6 1337.66 623.7 1337.56 625.2 1337.56C629 1337.46 632.7 1337.86 636.5 1337.76C639.2 1337.76 647 1344.56 647.1 1347.46C647.1 1349.96 646.9 1352.46 646.6 1354.86C645.6 1363.36 647.9 1367.26 656 1370.36C657.3 1370.86 658.7 1371.76 660 1371.66C669.6 1370.86 670.8 1378.36 673.6 1384.46C673.2 1384.76 673 1384.86 672.9 1384.96C669.634 1385.69 666.367 1386.42 663.1 1387.16C664.8 1390.26 665.9 1393.76 668.1 1396.46C674.2 1404.06 681.6 1409.36 692.1 1408.46C693.5 1408.36 695 1408.86 696.3 1409.36C701.9 1411.66 707.4 1411.66 713.2 1409.36C718.9 1407.16 721.8 1409.86 719.7 1415.56C717.4 1421.96 714.3 1428.16 710.5 1433.86C705.9 1440.66 706 1441.86 709.9 1448.86C713.2 1454.76 715.1 1461.56 716.8 1468.16C717.2 1469.86 715.2 1473.26 713.4 1474.16C703.9 1478.86 694.2 1482.86 684.5 1487.26C682 1488.36 679.5 1489.86 677.1 1491.26C673.6 1493.36 670.1 1493.36 667.5 1490.16C660.9 1482.16 652.8 1482.96 644.3 1485.66C638.4 1487.56 637.3 1487.46 632.2 1482.86C632.8 1481.96 633.4 1480.86 634.1 1479.66C625.6 1472.86 623.3 1463.86 624.2 1453.26C624.8 1445.36 620.2 1439.46 614 1433.36C612.5 1437.36 611.4 1440.46 610.2 1443.56C609.667 1443.69 609.1 1443.79 608.5 1443.86Z"
+//     />
+//   </svg>
+// );
+
+// // Component for the district image with zoom functionality
+// const DistrictImage = ({ districtData }) => (
+//   <div className="constImg">
+//     <h4>{districtData?.name || "തിരുവനന്തപുരം"}</h4>
+//     <TransformWrapper initialScale={1}>
+//       {({ zoomIn, zoomOut, resetTransform }) => (
+//         <>
+//           <TransformComponent>
+//             <img
+//               className="w-100"
+//               id="dist-map"
+//               src={districtData?.image || "/images/thiruvananthapuram.jpg"}
+//               alt={districtData?.name || "Thiruvananthapuram"}
+//             />
+//           </TransformComponent>
+//           <div className="controls">
+//             <button onClick={() => zoomIn()}>+</button>
+//             <button onClick={() => zoomOut()}>-</button>
+//             <button onClick={() => resetTransform()}>
+//               {/* Reset */}
+//               പുനഃക്രമീകരിക്കുക
+//             </button>
+//           </div>
+//         </>
+//       )}
+//     </TransformWrapper>
+//   </div>
+// );
+
+// // Component for the representatives table
+
+// // const RepresentativesTable = ({ representatives = [] }) => {
+// //   const navigate = useNavigate();
+
+// //   const handleMemberClick = (memberId) => {
+// //     navigate(`/member-profile/${memberId}`);
+// //   };
+
+// //   return (
+// //     <div className="table-responsive">
+// //       <table className="table table-striped myTable">
+// //         <thead>
+// //           <tr>
+// //             <th scope="col">No</th>
+// //             <th scope="col">Photo</th>
+// //             <th scope="col">Member Name</th>
+// //             <th className="" width="20%" scope="col">Constituency</th>
+// //             <th scope="col">Constituency No</th>
+// //           </tr>
+// //         </thead>
+// //         <tbody>
+// //           {representatives.length > 0 ? (
+// //             representatives.map((rep, index) => (
+// //               <tr key={rep.id}>
+// //                 <td>{index + 1}</td>
+// //                 <td>
+// //                   <img src={rep.image} width={40} alt={rep.name} />
+// //                 </td>
+// //                 <td>
+// //                   <button
+// //                     className="btn btn-link p-0 text-decoration-none"
+// //                     onClick={() => handleMemberClick(rep.id)}
+// //                     style={{ color: 'inherit', background: 'none', border: 'none' }}
+// //                   >
+// //                     {rep.name}
+// //                   </button>
+// //                 </td>
+// //                 <td>{rep.constituency}</td>
+// //                 <td>{rep.constituencyNo}</td>
+// //               </tr>
+// //             ))
+// //           ) : (
+// //             <tr>
+// //               <td colSpan="5" className="text-center">No representatives data available</td>
+// //               </tr>
+// //             )}
+// //           </tbody>
+// //         </table>
+// //       </div>
+// //     );
+// // };
+
+// const RepresentativesTable = () => {
+//   const [representatives, setRepresentatives] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const loadReps = async () => {
+//       try {
+//         const data = await fetchKlaMembers(15);
+//         // console.log(data,"dataa");
+
+//         setRepresentatives(data);
+//       } catch (err) {
+//         setError("Failed to load representatives");
+//         console.log(err);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     loadReps();
+//   }, []);
+
+//   const handleMemberClick = (memberId) => {
+//     navigate(`/member-profile/${memberId}`);
+//   };
+
+//   if (loading) return <p>Loading...</p>;
+//   if (error) return <p className="text-danger">{error}</p>;
+//   // console.log(representatives, "rep");
+
+//   return (
+//     <div className="table-responsive">
+//       <table className="table table-striped myTable">
+//         <thead>
+//           <tr>
+//             <th scope="col">No</th>
+//             <th scope="col">Photo</th>
+//             <th scope="col">Member Name</th>
+//             <th scope="col" width="20%">
+//               Constituency
+//             </th>
+//             <th scope="col">Constituency No</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {representatives.map((rep, index) => (
+//             <tr key={rep.id}>
+//               <td>{index + 1}</td>
+//               <td>
+//                 <img
+//                   src={rep.member?.image ||rep.member?.image_url || "/images/prof-dummy.png"}
+//                   width={40}
+//                   alt={rep.member?.langs?.[0]?.name}
+//                 />
+//               </td>
+//               <td>
+//                 <button
+//                   className="btn btn-link p-0 text-decoration-none"
+//                   onClick={() => handleMemberClick(rep.member?.id)}
+//                   style={{
+//                     color: "inherit",
+//                     background: "none",
+//                     border: "none",
+//                   }}
+//                 >
+//                   {rep.member?.langs?.[0]?.name}
+//                 </button>
+//               </td>
+//               <td>{rep.constituency?.entitle}</td>
+//               <td>{rep.constituency?.id}</td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// };
+
+// // function useIsMobile(breakpoint = 768) {
+// //   const [isMobile, setIsMobile] = useState(window.innerWidth <= breakpoint);
+
+// //   useEffect(() => {
+// //     const handleResize = () => {
+// //       setIsMobile(window.innerWidth <= breakpoint);
+// //     };
+
+// //     window.addEventListener("resize", handleResize);
+// //     return () => window.removeEventListener("resize", handleResize);
+// //   }, [breakpoint]);
+
+// //   return isMobile;
+// // }
+
+// // Component for the district tab content
+// const DistrictTabContent = () => {
+//   const [selectedDistrict, setSelectedDistrict] =
+//     useState("thiruvananthapuram");
+
+//   const handleDistrictClick = (districtId) => {
+//     setSelectedDistrict(districtId);
+//   };
+
+//   // Get the current district data
+//   const currentDistrictData =
+//     districtData[selectedDistrict] || districtData.thiruvananthapuram;
+
+//   return (
+//     <div className="tab-pane show active" role="tabpanel">
+//       <div className="row mapingc">
+//         <div className="col-lg-3 col-md-6 box">
+//           <DistrictMap
+//             onDistrictClick={handleDistrictClick}
+//             selectedDistrict={selectedDistrict}
+//           />
+//         </div>
+//         <div className="col-lg-3 col-md-6 canva box">
+//           <DistrictImage districtData={currentDistrictData} />
+//         </div>
+//         <div className="col-lg-6 box">
+//           <div className="mapDetails d-flex gap-4">
+//             <div className="constDetails w-100">
+//               <RepresentativesTable
+//                 representatives={currentDistrictData?.representatives || []}
+//               />
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// // Component for the member card
+// const MemberCard = ({ member }) => (
+//   <div className="col-12 col-md-6 col-lg-6 col-xl-4">
+//     <a href={`/member-profile/${member.id}`}>
+//       <div className="memb iconbox-style1 d-flex">
+//         <div className="icon">
+//           <img src={member.image || "/placeholder.svg"} alt={member.name} />
+//         </div>
+//         <div className="details ms-3">
+//           <h4 className="title mb0">{member.name}</h4>
+//           <p className="text mb-1">{member.party}</p>
+//           <p className="memb-location mb-0">{member.location}</p>
+//         </div>
+//       </div>
+//     </a>
+//   </div>
+// );
+
+// // Sample data for members
+
+// // Component for the members tab content
+
+// const MemberList = () => {
+//   const [members, setMembers] = useState([]);
+//   const [filteredMembers, setFilteredMembers] = useState([]);
+//   const [searchType, setSearchType] = useState("name");
+//   const [searchValue, setSearchValue] = useState("");
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [currentPage, setCurrentPage] = useState(1);
+
+//   const itemsPerPage = 9;
+//   const navigate = useNavigate();
+
+//   // ✅ Fetch members from service
+//   useEffect(() => {
+//     const loadMembers = async () => {
+//       try {
+//         const data = await fetchKlaMembers(15);
+//         setMembers(data);
+//         setFilteredMembers(data);
+//       } catch (err) {
+//         setError("Failed to fetch members. Please try again.");
+//         console.log(err);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     loadMembers();
+//   }, []);
+//   useEffect(() => {
+//     if (!searchValue.trim()) {
+//       setFilteredMembers(members);
+//       setCurrentPage(1);
+//       return;
+//     }
+
+//     const lowerSearch = searchValue.toLowerCase();
+
+//     const filtered = members.filter((item) => {
+//       const name = item.member?.langs?.[0]?.name?.toLowerCase() || "";
+//       const constituency = item.constituency?.entitle?.toLowerCase() || "";
+//       const district = item.district?.name?.toLowerCase() || "";
+
+//       if (searchType === "name") return name.includes(lowerSearch);
+//       if (searchType === "constituency")
+//         return constituency.includes(lowerSearch);
+//       if (searchType === "district") return district.includes(lowerSearch);
+//       return false;
+//     });
+
+//     setFilteredMembers(filtered);
+//     setCurrentPage(1);
+//   }, [searchValue, searchType, members]);
+
+//   const handleMemberClick = (memberId) => {
+//     navigate(`/member-profile/${memberId}`);
+//   };
+
+//   // ✅ Pagination setup
+//   const totalPages = Math.ceil(filteredMembers.length / itemsPerPage);
+//   const totalItems = filteredMembers.length;
+//   const startIndex = (currentPage - 1) * itemsPerPage;
+//   const currentItems = filteredMembers.slice(
+//     startIndex,
+//     startIndex + itemsPerPage
+//   );
+
+//   // ✅ Updated handlePageChange to scroll only to memberlist container
+//   const handlePageChange = (page) => {
+//     setCurrentPage(page);
+
+//     // Smooth scroll to member list container with manual offset correction
+//     const listContainer = document.querySelector(".memberlist-container");
+//     if (listContainer) {
+//       const headerOffset = 100; // adjust this number if you have a sticky header
+//       const elementPosition =
+//         listContainer.getBoundingClientRect().top + window.pageYOffset;
+//       const offsetPosition = elementPosition - headerOffset;
+
+//       window.scrollTo({
+//         top: offsetPosition,
+//         behavior: "smooth",
+//       });
+//     }
+//   };
+
+//   return (
+//     <div className="tab-pane show active library" role="tabpanel">
+//       {/* 🔍 Search Section */}
+//       <div className="MSearch mb-4">
+//         <form>
+//           <h5 className="mb-3">Search your Representative By</h5>
+
+//           <div className="radio-row mb-3">
+//             {[
+//               { label: "Name", value: "name" },
+//               { label: "Constituency", value: "constituency" },
+//               { label: "District", value: "district" },
+//             ].map((opt) => (
+//               <div className="form-check form-check-inline" key={opt.value}>
+//                 <input
+//                   className="form-check-input"
+//                   type="radio"
+//                   name="searchOption"
+//                   id={`radio-${opt.value}`}
+//                   value={opt.value}
+//                   checked={searchType === opt.value}
+//                   onChange={(e) => setSearchType(e.target.value)}
+//                 />
+//                 <label
+//                   className="form-check-label"
+//                   htmlFor={`radio-${opt.value}`}
+//                 >
+//                   {opt.label}
+//                 </label>
+//               </div>
+//             ))}
+//           </div>
+
+//           <div className="search-row">
+//             <div className="col-md-4 col-xl-3 col-sm-12">
+//               <div className="memberSearch">
+//                 <input
+//                   type="text"
+//                   className="form-control py-2"
+//                   placeholder={`Search by ${searchType}`}
+//                   value={searchValue}
+//                   onChange={(e) => setSearchValue(e.target.value)}
+//                 />
+//               </div>
+//             </div>
+//           </div>
+//         </form>
+//       </div>
+
+//       {/* 📦 Member List Section */}
+//       {loading && <p className="text-center my-4">Loading members...</p>}
+//       {error && <p className="text-center text-danger my-4">{error}</p>}
+
+//       {!loading && !error && (
+//         <>
+//           <div className="memberlist-container">
+//             <div className="row d-lg-flex member library">
+//               <div className="text-start text-lg-end mb20 mb-lg-2 viewAll">
+//                 {/* <a className="ud-btn2" href="#">
+//                   View All <FontAwesomeIcon icon={faArrowRightLong} />
+//                 </a> */}
+//                 <Link to="/memberlist" className="ud-btn2">
+//                   View All <FontAwesomeIcon icon={faArrowRightLong} />
+//                 </Link>
+//               </div>
+
+//               {currentItems.length > 0 ? (
+//                 currentItems.map((item, index) => (
+//                   <div
+//                     key={index}
+//                     className="col-12 col-md-6 col-lg-6 col-xl-4"
+//                     onClick={() =>
+//                       handleMemberClick(item.member?.id || item.id)
+//                     }
+//                     style={{ cursor: "pointer" }}
+//                   >
+//                     <div className="memb iconbox-style1 d-flex align-items-center">
+//                       <div className="icon">
+//                         <img
+//                           src={
+//                             item.member?.image || item.member?.image_url || "/images/prof-dummy.png"
+//                           }
+//                           alt={item.member?.langs?.[0]?.name || "Member"}
+//                           className="member-photo"
+//                         />
+//                       </div>
+//                       <div className="details ms-3">
+//                         <h4 className="title mb0">
+//                           {item.member?.langs?.[0]?.name}
+//                         </h4>
+//                         <p className="text mb-1">
+//                           {item.constituency?.entitle}
+//                         </p>
+//                         <p className="memb-location mb-0">
+//                           {item.district?.name}
+//                         </p>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 ))
+//               ) : (
+//                 <p className="text-center my-4">No members found.</p>
+//               )}
+//             </div>
+//           </div>
+
+//           {/* ✅ Pagination */}
+//           {totalPages > 1 && (
+//             <Pagination
+//               currentPage={currentPage}
+//               totalPages={totalPages}
+//               onPageChange={handlePageChange}
+//               itemsPerPage={itemsPerPage}
+//               totalItems={totalItems}
+//               showItemsPerPage={false}
+//               showTotalItems={true}
+//               className="pagination-container text-center my-4"
+//             />
+//           )}
+//         </>
+//       )}
+//     </div>
+//   );
+// };
+
+// // const MemberList = () => {
+// //   const [members, setMembers] = useState([]);
+// //   const [filteredMembers, setFilteredMembers] = useState([]);
+// //   const [searchType, setSearchType] = useState("name");
+// //   const [searchValue, setSearchValue] = useState("");
+// //   const [loading, setLoading] = useState(true);
+// //   const [error, setError] = useState(null);
+// //   const [currentPage, setCurrentPage] = useState(1);
+
+// //   const itemsPerPage = 9;
+// //   const navigate = useNavigate();
+
+// //   // ✅ Fetch members
+// //   useEffect(() => {
+// //     const fetchMembers = async () => {
+// //       try {
+// //         const res = await fetch("https://klademo.cditproject.org/api/kla-members/14", {
+// //           headers: { Accept: "application/json" },
+// //         });
+// //         const data = await res.json();
+// //         if (data.status && data.data) {
+// //           setMembers(data.data);
+// //           setFilteredMembers(data.data);
+// //         } else {
+// //           setError("No member data found.");
+// //         }
+// //       } catch (err) {
+// //         console.error(err);
+// //         setError("Failed to fetch members. Please try again.");
+// //       } finally {
+// //         setLoading(false);
+// //       }
+// //     };
+// //     fetchMembers();
+// //   }, []);
+
+// //   // ✅ Handle search
+// //   useEffect(() => {
+// //     if (!searchValue.trim()) {
+// //       setFilteredMembers(members);
+// //       setCurrentPage(1);
+// //       return;
+// //     }
+
+// //     const lowerSearch = searchValue.toLowerCase();
+
+// //     const filtered = members.filter((item) => {
+// //       const name = item.member?.langs?.[0]?.name?.toLowerCase() || "";
+// //       const constituency = item.constituency?.entitle?.toLowerCase() || "";
+// //       const district = item.district?.name?.toLowerCase() || "";
+
+// //       if (searchType === "name") return name.includes(lowerSearch);
+// //       if (searchType === "constituency") return constituency.includes(lowerSearch);
+// //       if (searchType === "district") return district.includes(lowerSearch);
+// //       return false;
+// //     });
+
+// //     setFilteredMembers(filtered);
+// //     setCurrentPage(1);
+// //   }, [searchValue, searchType, members]);
+
+// //   const handleMemberClick = (memberId) => {
+// //     navigate(`/member-profile/${memberId}`);
+// //   };
+
+// //   // ✅ Pagination setup
+// //   const totalPages = Math.ceil(filteredMembers.length / itemsPerPage);
+// //   const totalItems = filteredMembers.length;
+// //   const startIndex = (currentPage - 1) * itemsPerPage;
+// //   const currentItems = filteredMembers.slice(startIndex, startIndex + itemsPerPage);
+
+// //   // ✅ Updated handlePageChange to scroll only to memberlist container
+// // const handlePageChange = (page) => {
+// //   setCurrentPage(page);
+
+// //   // Smooth scroll to member list container with manual offset correction
+// //   const listContainer = document.querySelector(".memberlist-container");
+// //   if (listContainer) {
+// //     const headerOffset = 100; // adjust this number if you have a sticky header
+// //     const elementPosition = listContainer.getBoundingClientRect().top + window.pageYOffset;
+// //     const offsetPosition = elementPosition - headerOffset;
+
+// //     window.scrollTo({
+// //       top: offsetPosition,
+// //       behavior: "smooth",
+// //     });
+// //   }
+// // };
+
+// //   return (
+// //     <div className="tab-pane show active library" role="tabpanel">
+// //       {/* 🔍 Search Section */}
+// //       <div className="mSearch mb-4">
+// //         <form>
+// //           <h5 className="mb-3">Search your Representative By</h5>
+
+// //           <div className="radio-row mb-3">
+// //             {[
+// //               { label: "Name", value: "name" },
+// //               { label: "Constituency", value: "constituency" },
+// //               { label: "District", value: "district" },
+// //             ].map((opt) => (
+// //               <div className="form-check form-check-inline" key={opt.value}>
+// //                 <input
+// //                   className="form-check-input"
+// //                   type="radio"
+// //                   name="searchOption"
+// //                   id={`radio-${opt.value}`}
+// //                   value={opt.value}
+// //                   checked={searchType === opt.value}
+// //                   onChange={(e) => setSearchType(e.target.value)}
+// //                 />
+// //                 <label className="form-check-label" htmlFor={`radio-${opt.value}`}>
+// //                   {opt.label}
+// //                 </label>
+// //               </div>
+// //             ))}
+// //           </div>
+
+// //           <div className="search-row">
+// //             <div className="col-md-4 col-xl-3 col-sm-12">
+// //               <div className="memberSearch">
+// //                 <input
+// //                   type="text"
+// //                   className="form-control py-2"
+// //                   placeholder={`Search by ${searchType}`}
+// //                   value={searchValue}
+// //                   onChange={(e) => setSearchValue(e.target.value)}
+// //                 />
+// //               </div>
+// //             </div>
+// //           </div>
+// //         </form>
+// //       </div>
+
+// //       {/* 📦 Member List Section */}
+// //       {loading && <p className="text-center my-4">Loading members...</p>}
+// //       {error && <p className="text-center text-danger my-4">{error}</p>}
+
+// //       {!loading && !error && (
+// //         <>
+// //           <div className="memberlist-container">
+// //             <div className="row d-lg-flex member library">
+// //               <div className="text-start text-lg-end mb20 mb-lg-2 viewAll">
+// //                 <a className="ud-btn2" href="#">
+// //                   View All <FontAwesomeIcon icon={faArrowRightLong} />
+// //                 </a>
+// //               </div>
+
+// //               {currentItems.length > 0 ? (
+// //                 currentItems.map((item, index) => (
+// //                   <div
+// //                     key={index}
+// //                     className="col-12 col-md-6 col-lg-6 col-xl-4"
+// //                     onClick={() => handleMemberClick(item.member?.id || item.id)}
+// //                     style={{ cursor: "pointer" }}
+// //                   >
+// //                     <div className="memb iconbox-style1 d-flex align-items-center">
+// //                       <div className="icon">
+// //                         <img
+// //                           src={item.member?.photo || "/images/prof-dummy.png"}
+// //                           alt={item.member?.langs?.[0]?.name || "Member"}
+// //                           className="member-photo"
+// //                         />
+// //                       </div>
+// //                       <div className="details ms-3">
+// //                         <h4 className="title mb0">{item.member?.langs?.[0]?.name}</h4>
+// //                         <p className="text mb-1">{item.constituency?.entitle}</p>
+// //                         <p className="memb-location mb-0">{item.district?.name}</p>
+// //                       </div>
+// //                     </div>
+// //                   </div>
+// //                 ))
+// //               ) : (
+// //                 <p className="text-center my-4">No members found.</p>
+// //               )}
+// //             </div>
+// //           </div>
+
+// //           {/* ✅ Pagination */}
+// //           {totalPages > 1 && (
+// //             <Pagination
+// //               currentPage={currentPage}
+// //               totalPages={totalPages}
+// //               onPageChange={handlePageChange}
+// //               itemsPerPage={itemsPerPage}
+// //               totalItems={totalItems}
+// //               showItemsPerPage={false}
+// //               showTotalItems={true}
+// //               className="pagination-container text-center my-4"
+// //             />
+// //           )}
+// //         </>
+// //       )}
+// //     </div>
+// //   );
+// // };
+
+// // Main Map component
+
+// const Map = () => {
+//   const location = useLocation();
+//   const [activeTab, setActiveTab] = useState("district");
+
+//   // Handle hash-based navigation from menu
+//   useEffect(() => {
+//     const handleHashNavigation = () => {
+//       const hash = window.location.hash;
+      
+//       // Map menu targets to tab names
+//       if (hash === "#sittingmembers") {
+//         setActiveTab("district");
+        
+//         // Scroll to element with retry mechanism
+//         let attempts = 0;
+//         const maxAttempts = 20;
+        
+//         const scrollToElement = () => {
+//           const mapElement = document.querySelector("#sittingmembers");
+//           if (mapElement) {
+//             // Check if element is actually rendered (has height)
+//             const rect = mapElement.getBoundingClientRect();
+//             if (rect.height > 0) {
+//               // Use instant scroll to jump immediately
+//               mapElement.scrollIntoView({ behavior: "auto", block: "start" });
+//               console.log("Scrolled to #sittingmembers");
+//             } else if (attempts < maxAttempts) {
+//               attempts++;
+//               setTimeout(scrollToElement, 100);
+//             }
+//           } else if (attempts < maxAttempts) {
+//             attempts++;
+//             setTimeout(scrollToElement, 100);
+//           }
+//         };
+        
+//         // Start immediately
+//         scrollToElement();
+        
+//       } else if (hash === "#partyposition") {
+//         setActiveTab("party");
+        
+//         // Scroll to element with retry mechanism
+//         let attempts = 0;
+//         const maxAttempts = 20;
+        
+//         const scrollToElement = () => {
+//           const mapElement = document.querySelector("#sittingmembers");
+//           if (mapElement) {
+//             // Check if element is actually rendered (has height)
+//             const rect = mapElement.getBoundingClientRect();
+//             if (rect.height > 0) {
+//               // Use instant scroll to jump immediately
+//               mapElement.scrollIntoView({ behavior: "auto", block: "start" });
+//               console.log("Scrolled to #partyposition");
+//             } else if (attempts < maxAttempts) {
+//               attempts++;
+//               setTimeout(scrollToElement, 100);
+//             }
+//           } else if (attempts < maxAttempts) {
+//             attempts++;
+//             setTimeout(scrollToElement, 100);
+//           }
+//         };
+        
+//         // Start immediately
+//         scrollToElement();
+//       }
+//     };
+
+//     // Check hash on mount and location change
+//     handleHashNavigation();
+
+//     // Listen for hash changes
+//     window.addEventListener("hashchange", handleHashNavigation);
+
+//     return () => {
+//       window.removeEventListener("hashchange", handleHashNavigation);
+//     };
+//   }, [location]);
+
+//   return (
+//     <div className="mapContainer" id="representatives">
+//       <section className="pt30 pb-0 pb30-md mb30 represent" id="sittingmembers">
+//         <div className="container-fluid container">
+//           <div className="row align-items-center wow fadeInUp">
+//             <div className=" mx-auto">
+//               <div className="main-title mb30">
+//                 <h2 className="title">
+//                   {/* Your Representative */}
+//                   പ്രതിനിധികൾ
+//                 </h2>
+//                 {/* <p className="paragraph">
+//                   Most viewed and all-time top-selling services
+//                 </p> */}
+//               </div>
+//             </div>
+//           </div>
+//           <div className="row">
+//             <div className=" mx-auto">
+//               <div className="navpill-style2">
+//                 {/* Tab Navigation */}
+//                 <ul className="nav nav-pills mb-4" role="tablist">
+//                   <li className="nav-item" role="presentation">
+//                     <button
+//                       className={`nav-link fw500 dark-color ${
+//                         activeTab === "district" ? "active" : ""
+//                       }`}
+//                       type="button"
+//                       onClick={() => setActiveTab("district")}
+//                     >
+//                       {/* District-wise Representative */}
+//                      ജില്ല തിരിച്ചുള്ള പ്രതിനിധികൾ
+//                     </button>
+//                   </li>
+//                   <li className="nav-item" role="presentation">
+//                     <button
+//                       className={`nav-link fw500 dark-color ${
+//                         activeTab === "party" ? "active" : ""
+//                       }`}
+//                       type="button"
+//                       onClick={() => setActiveTab("party")}
+//                     >
+//                       {/* Party-wise Representative */}
+//                       പാർട്ടി പ്രതിനിധികൾ
+//                     </button>
+//                   </li>
+//                   <li className="nav-item" role="presentation">
+//                     <button
+//                       className={`nav-link fw500 dark-color ${
+//                         activeTab === "members" ? "active" : ""
+//                       }`}
+//                       type="button"
+//                       onClick={() => setActiveTab("members")}
+//                     >
+//                       {/* Members */}
+//                       അംഗങ്ങൾ
+//                     </button>
+//                   </li>
+//                 </ul>
+
+//                 {/* Tab Content */}
+//                 <div className="tab-content" id="pills-tabContent">
+//                   {/* District Tab Content */}
+//                   {activeTab === "district" && <DistrictTabContent />}
+
+//                   {/* Party Tab Content */}
+//                   {activeTab === "party" && (
+//                     <div
+//                       className="tab-pane party-counter show active"
+//                       role="tabpanel"
+//                     >
+//                       <SimpleSlider />
+//                     </div>
+//                   )}
+
+//                   {/* Members Tab Content */}
+//                   {activeTab === "members" && <MemberList />}
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </section>
+//     </div>
+//   );
+// };
+
+// export default Map;

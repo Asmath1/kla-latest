@@ -15,7 +15,7 @@ import "react-calendar/dist/Calendar.css";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import HomeTest from "./Header";
-import { fetchKlaList, fetchKlaSessions, fetchAllotmentDays, fetchScheduleWebUpdation } from "../services/MasterService";
+import { fetchAllotmentDays, fetchScheduleWebUpdation } from "../services/MasterService";
 import {
   BreadcrumbNav,
   CategoriesNav,
@@ -33,9 +33,9 @@ export const QuestionTabs = () => {
   const [activeTab, setActiveTab] = useState("rules");
   const [showModal, setShowModal] = useState(false);
   const [pdfUrl, setPdfUrl] = useState(null);
-  const [selectedKLA, setSelectedKLA] = useState("16th KLA");
-  const [selectedSession, setSelectedSession] = useState("Session 1");
-  const [selectedMember, setSelectedMember] = useState("");
+  const [selectedKLA, setSelectedKLA] = useState("14th KLA");
+  const [selectedSession, setSelectedSession] = useState("Session 22");
+  const [selectedMember, setSelectedMember] = useState("Anoop Jacob");
   const [selectedDate, setSelectedDate] = useState("");
   const [allotmentDays, setAllotmentDays] = useState([]);
   const [loadingAllotments, setLoadingAllotments] = useState(false);
@@ -879,279 +879,279 @@ export const QuestionTabs = () => {
 
 // Sample questions data
 const questionsData = {
-  starred: [
-    {
-      id: 1,
-      number: 458,
-      title: "ഒരു തദ്ദേശസ്ഥാപനം ഒരു ഉല്‍പ്പന്നം പദ്ധതി",
-      members: [
-        "ശ്രീ. എൻ. കെ. അക്ബര്‍",
-        "ശ്രീ വി ജോയി",
-        "ശ്രീ. പി. മമ്മിക്കുട്ടി",
-      ],
-      askedBy: "ശ്രീ. കെ.എൻ. ഉണ്ണിക്കൃഷ്ണൻ",
-      question:
-        "താഴെ കാണുന്ന ചോദ്യങ്ങൾക്കു നിയമം, വ്യവസായം, കയർ വകുപ്പ് മന്ത്രി സദയം മറുപടി പറയാമോ?",
-      subQuestions: [
-        "പ്രാദേശിക ജനസമൂഹത്തിന്റെ വികസനം സാധ്യമാക്കി രാജ്യത്തിന്റെ മൊത്തത്തിലുളള വികസനം എന്ന ലക്ഷ്യത്തിലധിഷ്ഠിതമായി ഒരു തദ്ദേശസ്ഥാപനം ഒരു ഉല്‍പ്പന്നം എന്ന പദ്ധതി ആവിഷ്കരിച്ച് നടപ്പാക്കിവരുന്നുണ്ടോ; എങ്കില്‍ ഈ പദ്ധതിയുടെ പുരോഗതി വിലയിരുത്തിയിട്ടുണ്ടോ; വിശദാംശം നല്‍കുമോ;",
-        "പ്രസ്തുത പദ്ധതി പ്രകാരം ഏത് മേഖലയിലെ സംരംഭങ്ങളെ പ്രോത്സാഹിപ്പിക്കുന്നതിനാണ് മുന്‍ഗണന നല്‍കിയിട്ടുളളതെന്ന് വ്യക്തമാക്കുമോ",
-        "പദ്ധതി നിര്‍വ്വഹണവുമായി ബന്ധപ്പെട്ട് തദ്ദേശ സ്ഥാപനങ്ങള്‍ക്കും സംരംഭകര്‍ക്കും നല്‍കുന്ന സഹായങ്ങള്‍ എന്തൊക്കെയാണ്; വിശദമാക്കുമോ?",
-      ],
-      isAnswered: true,
-    },
-    {
-      id: 2,
-      number: 459,
-      title: "കേരളത്തിലെ വിദ്യാഭ്യാസ മേഖലയിലെ പുരോഗതി",
-      members: ["ശ്രീ. എം. കെ. മുനീർ", "ശ്രീ. പി. ടി. തോമസ്"],
-      askedBy: "ശ്രീ. കെ. ജെ. മാക്സി",
-      question:
-        "കേരളത്തിലെ വിദ്യാഭ്യാസ മേഖലയിലെ പുരോഗതിയെക്കുറിച്ച് വിദ്യാഭ്യാസ മന്ത്രി വിശദമായി വിവരിക്കാമോ?",
-      subQuestions: [
-        "സർക്കാർ സ്കൂളുകളിലെ വിദ്യാർത്ഥികളുടെ എണ്ണം എത്രയാണ്?",
-        "ഇ-ലേണിംഗ് സംവിധാനങ്ങൾ എത്ര സ്കൂളുകളിൽ നടപ്പിലാക്കിയിട്ടുണ്ട്?",
-        "അധ്യാപകർക്കുള്ള പരിശീലന പരിപാടികൾ എന്തെല്ലാമാണ്?",
-      ],
-      isAnswered: true,
-      isLate: true,
-    },
-    {
-      id: 3,
-      number: 460,
-      title: "ആരോഗ്യ മേഖലയിലെ പുതിയ പദ്ധതികൾ",
-      members: ["ശ്രീ. എസ്. ശർമ്മ", "ശ്രീ. ആർ. രാജേഷ്"],
-      askedBy: "ശ്രീ. വി. എസ്. അച്യുതാനന്ദൻ",
-      question:
-        "കേരളത്തിലെ ആരോഗ്യ മേഖലയിൽ പുതിയ പദ്ധതികൾ എന്തെല്ലാമാണ് നടപ്പിലാക്കിയിട്ടുള്ളത്?",
-      subQuestions: [
-        "പുതിയ ആശുപത്രികൾ എത്ര നിർമ്മിച്ചിട്ടുണ്ട്?",
-        "ആരോഗ്യ കേന്ദ്രങ്ങളുടെ എണ്ണം എത്രയാണ്?",
-        "ഡോക്ടർമാരുടെ ഒഴിവുകൾ എത്രയാണ്?",
-      ],
-      isAnswered: false,
-    },
-    {
-      id: 4,
-      number: 461,
-      title: "കാർഷിക വികസന പദ്ധതികൾ",
-      members: ["ശ്രീ. കെ. പി. മോഹനൻ", "ശ്രീ. എം. സി. ജോസഫ്"],
-      askedBy: "ശ്രീ. പി. കെ. കുഞ്ഞാലിക്കുട്ടി",
-      question:
-        "കേരളത്തിലെ കാർഷിക വികസന പദ്ധതികളെക്കുറിച്ച് കാർഷിക മന്ത്രി വിശദമായി വിവരിക്കാമോ?",
-      subQuestions: [
-        "കാർഷിക വായന കേന്ദ്രങ്ങൾ എത്ര സ്ഥാപിച്ചിട്ടുണ്ട്?",
-        "കർഷകർക്ക് നൽകുന്ന സഹായങ്ങൾ എന്തെല്ലാമാണ്?",
-        "ജൈവ കൃഷി പ്രോത്സാഹന പദ്ധതികൾ എന്തെല്ലാമാണ്?",
-      ],
-      isAnswered: true,
-    },
-    {
-      id: 5,
-      number: 462,
-      title: "പരിസ്ഥിതി സംരക്ഷണ നടപടികൾ",
-      members: ["ശ്രീ. എൻ. ജയരാജൻ", "ശ്രീ. കെ. എം. മാണി"],
-      askedBy: "ശ്രീ. എം. വി. ഗോവിന്ദൻ മാസ്റ്റർ",
-      question:
-        "കേരളത്തിലെ പരിസ്ഥിതി സംരക്ഷണ നടപടികളെക്കുറിച്ച് പരിസ്ഥിതി മന്ത്രി വിശദമായി വിവരിക്കാമോ?",
-      subQuestions: [
-        "വനം സംരക്ഷണ പദ്ധതികൾ എന്തെല്ലാമാണ്?",
-        "ജല സംരക്ഷണ നടപടികൾ എന്തെല്ലാമാണ്?",
-        "ക്ലീൻ കേരള മിഷൻ പുരോഗതി എന്താണ്?",
-      ],
-      isAnswered: false,
-    },
-  ],
-  unstarred: [
-    {
-      id: 6,
-      number: 463,
-      title: "ഗതാഗത മേഖലയിലെ പുതിയ പദ്ധതികൾ",
-      members: ["ശ്രീ. എൻ. എസ്. രാജൻ", "ശ്രീ. പി. എം. ഇബ്രാഹിം"],
-      askedBy: "ശ്രീ. കെ. എം. ജോർജ്ജ്",
-      question: "കേരളത്തിലെ ഗതാഗത മേഖലയിൽ പുതിയ പദ്ധതികൾ എന്തെല്ലാമാണ്?",
-      subQuestions: [
-        "പുതിയ റോഡുകൾ എത്ര നിർമ്മിച്ചിട്ടുണ്ട്?",
-        "പാലങ്ങളുടെ നിർമ്മാണ പുരോഗതി എന്താണ്?",
-        "പബ്ലിക് ട്രാൻസ്പോർട്ട് സംവിധാനങ്ങൾ എങ്ങനെ മെച്ചപ്പെടുത്തിയിട്ടുണ്ട്?",
-      ],
-      isAnswered: false,
-    },
-    {
-      id: 7,
-      number: 464,
-      title: "വിദ്യുതി വിതരണ മേഖല",
-      members: ["ശ്രീ. എം. എം. മണി", "ശ്രീ. കെ. എം. ഷാജി"],
-      askedBy: "ശ്രീ. എൻ. എം. ജോസഫ്",
-      question: "കേരളത്തിലെ വിദ്യുതി വിതരണ മേഖലയിലെ പുരോഗതി എന്താണ്?",
-      subQuestions: [
-        "വിദ്യുതി ഉത്പാദന കേന്ദ്രങ്ങൾ എത്രയാണ്?",
-        "വിദ്യുതി കട്ട് എത്ര ശതമാനം കുറച്ചിട്ടുണ്ട്?",
-        "സോളാർ പവർ പദ്ധതികൾ എന്തെല്ലാമാണ്?",
-      ],
-      isAnswered: true,
-    },
-    {
-      id: 8,
-      number: 465,
-      title: "ജല വിതരണ പദ്ധതികൾ",
-      members: ["ശ്രീ. എം. എം. ഹസ്സൻ", "ശ്രീ. കെ. എം. രാജൻ"],
-      askedBy: "ശ്രീ. പി. എം. ഇബ്രാഹിം",
-      question: "കേരളത്തിലെ ജല വിതരണ പദ്ധതികളെക്കുറിച്ച് വിവരിക്കാമോ?",
-      subQuestions: [
-        "പുതിയ ജല ശേഖരണ കേന്ദ്രങ്ങൾ എത്ര സ്ഥാപിച്ചിട്ടുണ്ട്?",
-        "ജല വിതരണ ശൃംഖല എത്ര കിലോമീറ്റർ വ്യാപിച്ചിരിക്കുന്നു?",
-        "ജല ഗുണനിലവാരം മെച്ചപ്പെടുത്താനുള്ള നടപടികൾ എന്തെല്ലാമാണ്?",
-      ],
-      isAnswered: false,
-    },
-    {
-      id: 9,
-      number: 466,
-      title: "ഗ്രാമീണ വികസന പദ്ധതികൾ",
-      members: ["ശ്രീ. എം. എം. ലതീഫ്", "ശ്രീ. കെ. എം. ജോർജ്ജ്"],
-      askedBy: "ശ്രീ. എൻ. എസ്. രാജൻ",
-      question: "കേരളത്തിലെ ഗ്രാമീണ വികസന പദ്ധതികളെക്കുറിച്ച് വിവരിക്കാമോ?",
-      subQuestions: [
-        "ഗ്രാമീണ റോഡുകൾ എത്ര കിലോമീറ്റർ നിർമ്മിച്ചിട്ടുണ്ട്?",
-        "ഗ്രാമീണ വിദ്യാഭ്യാസ കേന്ദ്രങ്ങൾ എത്രയാണ്?",
-        "ഗ്രാമീണ ആരോഗ്യ കേന്ദ്രങ്ങൾ എത്രയാണ്?",
-      ],
-      isAnswered: false,
-    },
-    {
-      id: 10,
-      number: 467,
-      title: "ശാസ്ത്ര സാങ്കേതിക വിദ്യാ വികസനം",
-      members: ["ശ്രീ. എം. എം. ഹസ്സൻ", "ശ്രീ. കെ. എം. രാജൻ"],
-      askedBy: "ശ്രീ. പി. എം. ഇബ്രാഹിം",
-      question:
-        "കേരളത്തിലെ ശാസ്ത്ര സാങ്കേതിക വിദ്യാ വികസനത്തെക്കുറിച്ച് വിവരിക്കാമോ?",
-      subQuestions: [
-        "സ്റ്റാർട്ടപ്പ് കേന്ദ്രങ്ങൾ എത്ര സ്ഥാപിച്ചിട്ടുണ്ട്?",
-        "ഡിജിറ്റൽ ഇന്ത്യ പദ്ധതിയുടെ പുരോഗതി എന്താണ്?",
-        "ഇ-ഗവൺമെന്റ് സേവനങ്ങൾ എത്രയാണ്?",
-      ],
-      isAnswered: true,
-    },
-    {
-      id: 11,
-      number: 468,
-      title: "വിദ്യുതി വിതരണ മേഖല",
-      members: ["ശ്രീ. എം. എം. മണി", "ശ്രീ. കെ. എം. ഷാജി"],
-      askedBy: "ശ്രീ. എൻ. എം. ജോസഫ്",
-      question: "കേരളത്തിലെ വിദ്യുതി വിതരണ മേഖലയിലെ പുരോഗതി എന്താണ്?",
-      subQuestions: [
-        "വിദ്യുതി ഉത്പാദന കേന്ദ്രങ്ങൾ എത്രയാണ്?",
-        "വിദ്യുതി കട്ട് എത്ര ശതമാനം കുറച്ചിട്ടുണ്ട്?",
-        "സോളാർ പവർ പദ്ധതികൾ എന്തെല്ലാമാണ്?",
-      ],
-      isAnswered: true,
-    },
-    {
-      id: 12,
-      number: 469,
-      title: "ജല വിതരണ പദ്ധതികൾ",
-      members: ["ശ്രീ. എം. എം. ഹസ്സൻ", "ശ്രീ. കെ. എം. രാജൻ"],
-      askedBy: "ശ്രീ. പി. എം. ഇബ്രാഹിം",
-      question: "കേരളത്തിലെ ജല വിതരണ പദ്ധതികളെക്കുറിച്ച് വിവരിക്കാമോ?",
-      subQuestions: [
-        "പുതിയ ജല ശേഖരണ കേന്ദ്രങ്ങൾ എത്ര സ്ഥാപിച്ചിട്ടുണ്ട്?",
-        "ജല വിതരണ ശൃംഖല എത്ര കിലോമീറ്റർ വ്യാപിച്ചിരിക്കുന്നു?",
-        "ജല ഗുണനിലവാരം മെച്ചപ്പെടുത്താനുള്ള നടപടികൾ എന്തെല്ലാമാണ്?",
-      ],
-      isAnswered: true,
-    },
-    {
-      id: 13,
-      number: 470,
-      title: "ജല വിതരണ പദ്ധതികൾ",
-      members: ["ശ്രീ. എം. എം. ഹസ്സൻ", "ശ്രീ. കെ. എം. രാജൻ"],
-      askedBy: "ശ്രീ. പി. എം. ഇബ്രാഹിം",
-      question: "കേരളത്തിലെ ജല വിതരണ പദ്ധതികളെക്കുറിച്ച് വിവരിക്കാമോ?",
-      subQuestions: [
-        "പുതിയ ജല ശേഖരണ കേന്ദ്രങ്ങൾ എത്ര സ്ഥാപിച്ചിട്ടുണ്ട്?",
-        "ജല വിതരണ ശൃംഖല എത്ര കിലോമീറ്റർ വ്യാപിച്ചിരിക്കുന്നു?",
-        "ജല ഗുണനിലവാരം മെച്ചപ്പെടുത്താനുള്ള നടപടികൾ എന്തെല്ലാമാണ്?",
-      ],
-      isAnswered: true,
-    },
-  ],
-  shortnotice: [
-    {
-      id: 11,
-      number: 468,
-      title: "അടിയന്തിര ആരോഗ്യ സംഘടനകൾ",
-      members: ["ശ്രീ. എം. എം. ഹസ്സൻ", "ശ്രീ. കെ. എം. രാജൻ"],
-      askedBy: "ശ്രീ. പി. എം. ഇബ്രാഹിം",
-      question: "കേരളത്തിലെ അടിയന്തിര ആരോഗ്യ സംഘടനകളെക്കുറിച്ച് വിവരിക്കാമോ?",
-      subQuestions: [
-        "അടിയന്തിര ആരോഗ്യ കേന്ദ്രങ്ങൾ എത്രയാണ്?",
-        "ആംബുലൻസ് സേവനങ്ങൾ എത്രയാണ്?",
-        "അടിയന്തിര ഫോൺ നമ്പറുകൾ എന്തെല്ലാമാണ്?",
-      ],
-      isAnswered: false,
-    },
-    {
-      id: 12,
-      number: 469,
-      title: "അടിയന്തിര ഗതാഗത സംവിധാനങ്ങൾ",
-      members: ["ശ്രീ. എൻ. എസ്. രാജൻ", "ശ്രീ. പി. എം. ഇബ്രാഹിം"],
-      askedBy: "ശ്രീ. കെ. എം. ജോർജ്ജ്",
-      question:
-        "കേരളത്തിലെ അടിയന്തിര ഗതാഗത സംവിധാനങ്ങളെക്കുറിച്ച് വിവരിക്കാമോ?",
-      subQuestions: [
-        "അടിയന്തിര റോഡ് റിപ്പയർ സംവിധാനങ്ങൾ എന്തെല്ലാമാണ്?",
-        "അടിയന്തിര ഗതാഗത നിയന്ത്രണ സംവിധാനങ്ങൾ എന്തെല്ലാമാണ്?",
-        "അടിയന്തിര ഗതാഗത ആശയവിനിമയ സംവിധാനങ്ങൾ എന്തെല്ലാമാണ്?",
-      ],
-      isAnswered: false,
-    },
-    {
-      id: 13,
-      number: 470,
-      title: "അടിയന്തിര ആശ്വാസ സംവിധാനങ്ങൾ",
-      members: ["ശ്രീ. എം. എം. ലതീഫ്", "ശ്രീ. കെ. എം. ജോർജ്ജ്"],
-      askedBy: "ശ്രീ. എൻ. എസ്. രാജൻ",
-      question:
-        "കേരളത്തിലെ അടിയന്തിര ആശ്വാസ സംവിധാനങ്ങളെക്കുറിച്ച് വിവരിക്കാമോ?",
-      subQuestions: [
-        "അടിയന്തിര ആശ്വാസ കേന്ദ്രങ്ങൾ എത്രയാണ്?",
-        "അടിയന്തിര ഭക്ഷണ വിതരണ സംവിധാനങ്ങൾ എന്തെല്ലാമാണ്?",
-        "അടിയന്തിര ആശ്വാസ ഫണ്ട് എത്രയാണ്?",
-      ],
-      isAnswered: false,
-    },
-    {
-      id: 14,
-      number: 471,
-      title: "അടിയന്തിര ആശയവിനിമയ സംവിധാനങ്ങൾ",
-      members: ["ശ്രീ. എം. എം. ഹസ്സൻ", "ശ്രീ. കെ. എം. രാജൻ"],
-      askedBy: "ശ്രീ. പി. എം. ഇബ്രാഹിം",
-      question:
-        "കേരളത്തിലെ അടിയന്തിര ആശയവിനിമയ സംവിധാനങ്ങളെക്കുറിച്ച് വിവരിക്കാമോ?",
-      subQuestions: [
-        "അടിയന്തിര ആശയവിനിമയ കേന്ദ്രങ്ങൾ എത്രയാണ്?",
-        "അടിയന്തിര ആശയവിനിമയ ഫോൺ നമ്പറുകൾ എന്തെല്ലാമാണ്?",
-        "അടിയന്തിര ആശയവിനിമയ സംവിധാനങ്ങൾ എങ്ങനെ പ്രവർത്തിക്കുന്നു?",
-      ],
-      isAnswered: false,
-    },
-    {
-      id: 15,
-      number: 472,
-      title: "അടിയന്തിര സുരക്ഷാ സംവിധാനങ്ങൾ",
-      members: ["ശ്രീ. എൻ. എസ്. രാജൻ", "ശ്രീ. പി. എം. ഇബ്രാഹിം"],
-      askedBy: "ശ്രീ. കെ. എം. ജോർജ്ജ്",
-      question:
-        "കേരളത്തിലെ അടിയന്തിര സുരക്ഷാ സംവിധാനങ്ങളെക്കുറിച്ച് വിവരിക്കാമോ?",
-      subQuestions: [
-        "അടിയന്തിര സുരക്ഷാ കേന്ദ്രങ്ങൾ എത്രയാണ്?",
-        "അടിയന്തിര സുരക്ഷാ ഫോഴ്സ് എത്രയാണ്?",
-        "അടിയന്തിര സുരക്ഷാ ഉപകരണങ്ങൾ എന്തെല്ലാമാണ്?",
-      ],
-      isAnswered: false,
-    },
-  ],
+  // starred: [
+  //   {
+  //     id: 1,
+  //     number: 458,
+  //     title: "ഒരു തദ്ദേശസ്ഥാപനം ഒരു ഉല്‍പ്പന്നം പദ്ധതി",
+  //     members: [
+  //       "ശ്രീ. എൻ. കെ. അക്ബര്‍",
+  //       "ശ്രീ വി ജോയി",
+  //       "ശ്രീ. പി. മമ്മിക്കുട്ടി",
+  //     ],
+  //     askedBy: "ശ്രീ. കെ.എൻ. ഉണ്ണിക്കൃഷ്ണൻ",
+  //     question:
+  //       "താഴെ കാണുന്ന ചോദ്യങ്ങൾക്കു നിയമം, വ്യവസായം, കയർ വകുപ്പ് മന്ത്രി സദയം മറുപടി പറയാമോ?",
+  //     subQuestions: [
+  //       "പ്രാദേശിക ജനസമൂഹത്തിന്റെ വികസനം സാധ്യമാക്കി രാജ്യത്തിന്റെ മൊത്തത്തിലുളള വികസനം എന്ന ലക്ഷ്യത്തിലധിഷ്ഠിതമായി ഒരു തദ്ദേശസ്ഥാപനം ഒരു ഉല്‍പ്പന്നം എന്ന പദ്ധതി ആവിഷ്കരിച്ച് നടപ്പാക്കിവരുന്നുണ്ടോ; എങ്കില്‍ ഈ പദ്ധതിയുടെ പുരോഗതി വിലയിരുത്തിയിട്ടുണ്ടോ; വിശദാംശം നല്‍കുമോ;",
+  //       "പ്രസ്തുത പദ്ധതി പ്രകാരം ഏത് മേഖലയിലെ സംരംഭങ്ങളെ പ്രോത്സാഹിപ്പിക്കുന്നതിനാണ് മുന്‍ഗണന നല്‍കിയിട്ടുളളതെന്ന് വ്യക്തമാക്കുമോ",
+  //       "പദ്ധതി നിര്‍വ്വഹണവുമായി ബന്ധപ്പെട്ട് തദ്ദേശ സ്ഥാപനങ്ങള്‍ക്കും സംരംഭകര്‍ക്കും നല്‍കുന്ന സഹായങ്ങള്‍ എന്തൊക്കെയാണ്; വിശദമാക്കുമോ?",
+  //     ],
+  //     isAnswered: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     number: 459,
+  //     title: "കേരളത്തിലെ വിദ്യാഭ്യാസ മേഖലയിലെ പുരോഗതി",
+  //     members: ["ശ്രീ. എം. കെ. മുനീർ", "ശ്രീ. പി. ടി. തോമസ്"],
+  //     askedBy: "ശ്രീ. കെ. ജെ. മാക്സി",
+  //     question:
+  //       "കേരളത്തിലെ വിദ്യാഭ്യാസ മേഖലയിലെ പുരോഗതിയെക്കുറിച്ച് വിദ്യാഭ്യാസ മന്ത്രി വിശദമായി വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "സർക്കാർ സ്കൂളുകളിലെ വിദ്യാർത്ഥികളുടെ എണ്ണം എത്രയാണ്?",
+  //       "ഇ-ലേണിംഗ് സംവിധാനങ്ങൾ എത്ര സ്കൂളുകളിൽ നടപ്പിലാക്കിയിട്ടുണ്ട്?",
+  //       "അധ്യാപകർക്കുള്ള പരിശീലന പരിപാടികൾ എന്തെല്ലാമാണ്?",
+  //     ],
+  //     isAnswered: true,
+  //     isLate: true,
+  //   },
+  //   {
+  //     id: 3,
+  //     number: 460,
+  //     title: "ആരോഗ്യ മേഖലയിലെ പുതിയ പദ്ധതികൾ",
+  //     members: ["ശ്രീ. എസ്. ശർമ്മ", "ശ്രീ. ആർ. രാജേഷ്"],
+  //     askedBy: "ശ്രീ. വി. എസ്. അച്യുതാനന്ദൻ",
+  //     question:
+  //       "കേരളത്തിലെ ആരോഗ്യ മേഖലയിൽ പുതിയ പദ്ധതികൾ എന്തെല്ലാമാണ് നടപ്പിലാക്കിയിട്ടുള്ളത്?",
+  //     subQuestions: [
+  //       "പുതിയ ആശുപത്രികൾ എത്ര നിർമ്മിച്ചിട്ടുണ്ട്?",
+  //       "ആരോഗ്യ കേന്ദ്രങ്ങളുടെ എണ്ണം എത്രയാണ്?",
+  //       "ഡോക്ടർമാരുടെ ഒഴിവുകൾ എത്രയാണ്?",
+  //     ],
+  //     isAnswered: false,
+  //   },
+  //   {
+  //     id: 4,
+  //     number: 461,
+  //     title: "കാർഷിക വികസന പദ്ധതികൾ",
+  //     members: ["ശ്രീ. കെ. പി. മോഹനൻ", "ശ്രീ. എം. സി. ജോസഫ്"],
+  //     askedBy: "ശ്രീ. പി. കെ. കുഞ്ഞാലിക്കുട്ടി",
+  //     question:
+  //       "കേരളത്തിലെ കാർഷിക വികസന പദ്ധതികളെക്കുറിച്ച് കാർഷിക മന്ത്രി വിശദമായി വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "കാർഷിക വായന കേന്ദ്രങ്ങൾ എത്ര സ്ഥാപിച്ചിട്ടുണ്ട്?",
+  //       "കർഷകർക്ക് നൽകുന്ന സഹായങ്ങൾ എന്തെല്ലാമാണ്?",
+  //       "ജൈവ കൃഷി പ്രോത്സാഹന പദ്ധതികൾ എന്തെല്ലാമാണ്?",
+  //     ],
+  //     isAnswered: true,
+  //   },
+  //   {
+  //     id: 5,
+  //     number: 462,
+  //     title: "പരിസ്ഥിതി സംരക്ഷണ നടപടികൾ",
+  //     members: ["ശ്രീ. എൻ. ജയരാജൻ", "ശ്രീ. കെ. എം. മാണി"],
+  //     askedBy: "ശ്രീ. എം. വി. ഗോവിന്ദൻ മാസ്റ്റർ",
+  //     question:
+  //       "കേരളത്തിലെ പരിസ്ഥിതി സംരക്ഷണ നടപടികളെക്കുറിച്ച് പരിസ്ഥിതി മന്ത്രി വിശദമായി വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "വനം സംരക്ഷണ പദ്ധതികൾ എന്തെല്ലാമാണ്?",
+  //       "ജല സംരക്ഷണ നടപടികൾ എന്തെല്ലാമാണ്?",
+  //       "ക്ലീൻ കേരള മിഷൻ പുരോഗതി എന്താണ്?",
+  //     ],
+  //     isAnswered: false,
+  //   },
+  // ],
+  // unstarred: [
+  //   {
+  //     id: 6,
+  //     number: 463,
+  //     title: "ഗതാഗത മേഖലയിലെ പുതിയ പദ്ധതികൾ",
+  //     members: ["ശ്രീ. എൻ. എസ്. രാജൻ", "ശ്രീ. പി. എം. ഇബ്രാഹിം"],
+  //     askedBy: "ശ്രീ. കെ. എം. ജോർജ്ജ്",
+  //     question: "കേരളത്തിലെ ഗതാഗത മേഖലയിൽ പുതിയ പദ്ധതികൾ എന്തെല്ലാമാണ്?",
+  //     subQuestions: [
+  //       "പുതിയ റോഡുകൾ എത്ര നിർമ്മിച്ചിട്ടുണ്ട്?",
+  //       "പാലങ്ങളുടെ നിർമ്മാണ പുരോഗതി എന്താണ്?",
+  //       "പബ്ലിക് ട്രാൻസ്പോർട്ട് സംവിധാനങ്ങൾ എങ്ങനെ മെച്ചപ്പെടുത്തിയിട്ടുണ്ട്?",
+  //     ],
+  //     isAnswered: false,
+  //   },
+  //   {
+  //     id: 7,
+  //     number: 464,
+  //     title: "വിദ്യുതി വിതരണ മേഖല",
+  //     members: ["ശ്രീ. എം. എം. മണി", "ശ്രീ. കെ. എം. ഷാജി"],
+  //     askedBy: "ശ്രീ. എൻ. എം. ജോസഫ്",
+  //     question: "കേരളത്തിലെ വിദ്യുതി വിതരണ മേഖലയിലെ പുരോഗതി എന്താണ്?",
+  //     subQuestions: [
+  //       "വിദ്യുതി ഉത്പാദന കേന്ദ്രങ്ങൾ എത്രയാണ്?",
+  //       "വിദ്യുതി കട്ട് എത്ര ശതമാനം കുറച്ചിട്ടുണ്ട്?",
+  //       "സോളാർ പവർ പദ്ധതികൾ എന്തെല്ലാമാണ്?",
+  //     ],
+  //     isAnswered: true,
+  //   },
+  //   {
+  //     id: 8,
+  //     number: 465,
+  //     title: "ജല വിതരണ പദ്ധതികൾ",
+  //     members: ["ശ്രീ. എം. എം. ഹസ്സൻ", "ശ്രീ. കെ. എം. രാജൻ"],
+  //     askedBy: "ശ്രീ. പി. എം. ഇബ്രാഹിം",
+  //     question: "കേരളത്തിലെ ജല വിതരണ പദ്ധതികളെക്കുറിച്ച് വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "പുതിയ ജല ശേഖരണ കേന്ദ്രങ്ങൾ എത്ര സ്ഥാപിച്ചിട്ടുണ്ട്?",
+  //       "ജല വിതരണ ശൃംഖല എത്ര കിലോമീറ്റർ വ്യാപിച്ചിരിക്കുന്നു?",
+  //       "ജല ഗുണനിലവാരം മെച്ചപ്പെടുത്താനുള്ള നടപടികൾ എന്തെല്ലാമാണ്?",
+  //     ],
+  //     isAnswered: false,
+  //   },
+  //   {
+  //     id: 9,
+  //     number: 466,
+  //     title: "ഗ്രാമീണ വികസന പദ്ധതികൾ",
+  //     members: ["ശ്രീ. എം. എം. ലതീഫ്", "ശ്രീ. കെ. എം. ജോർജ്ജ്"],
+  //     askedBy: "ശ്രീ. എൻ. എസ്. രാജൻ",
+  //     question: "കേരളത്തിലെ ഗ്രാമീണ വികസന പദ്ധതികളെക്കുറിച്ച് വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "ഗ്രാമീണ റോഡുകൾ എത്ര കിലോമീറ്റർ നിർമ്മിച്ചിട്ടുണ്ട്?",
+  //       "ഗ്രാമീണ വിദ്യാഭ്യാസ കേന്ദ്രങ്ങൾ എത്രയാണ്?",
+  //       "ഗ്രാമീണ ആരോഗ്യ കേന്ദ്രങ്ങൾ എത്രയാണ്?",
+  //     ],
+  //     isAnswered: false,
+  //   },
+  //   {
+  //     id: 10,
+  //     number: 467,
+  //     title: "ശാസ്ത്ര സാങ്കേതിക വിദ്യാ വികസനം",
+  //     members: ["ശ്രീ. എം. എം. ഹസ്സൻ", "ശ്രീ. കെ. എം. രാജൻ"],
+  //     askedBy: "ശ്രീ. പി. എം. ഇബ്രാഹിം",
+  //     question:
+  //       "കേരളത്തിലെ ശാസ്ത്ര സാങ്കേതിക വിദ്യാ വികസനത്തെക്കുറിച്ച് വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "സ്റ്റാർട്ടപ്പ് കേന്ദ്രങ്ങൾ എത്ര സ്ഥാപിച്ചിട്ടുണ്ട്?",
+  //       "ഡിജിറ്റൽ ഇന്ത്യ പദ്ധതിയുടെ പുരോഗതി എന്താണ്?",
+  //       "ഇ-ഗവൺമെന്റ് സേവനങ്ങൾ എത്രയാണ്?",
+  //     ],
+  //     isAnswered: true,
+  //   },
+  //   {
+  //     id: 11,
+  //     number: 468,
+  //     title: "വിദ്യുതി വിതരണ മേഖല",
+  //     members: ["ശ്രീ. എം. എം. മണി", "ശ്രീ. കെ. എം. ഷാജി"],
+  //     askedBy: "ശ്രീ. എൻ. എം. ജോസഫ്",
+  //     question: "കേരളത്തിലെ വിദ്യുതി വിതരണ മേഖലയിലെ പുരോഗതി എന്താണ്?",
+  //     subQuestions: [
+  //       "വിദ്യുതി ഉത്പാദന കേന്ദ്രങ്ങൾ എത്രയാണ്?",
+  //       "വിദ്യുതി കട്ട് എത്ര ശതമാനം കുറച്ചിട്ടുണ്ട്?",
+  //       "സോളാർ പവർ പദ്ധതികൾ എന്തെല്ലാമാണ്?",
+  //     ],
+  //     isAnswered: true,
+  //   },
+  //   {
+  //     id: 12,
+  //     number: 469,
+  //     title: "ജല വിതരണ പദ്ധതികൾ",
+  //     members: ["ശ്രീ. എം. എം. ഹസ്സൻ", "ശ്രീ. കെ. എം. രാജൻ"],
+  //     askedBy: "ശ്രീ. പി. എം. ഇബ്രാഹിം",
+  //     question: "കേരളത്തിലെ ജല വിതരണ പദ്ധതികളെക്കുറിച്ച് വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "പുതിയ ജല ശേഖരണ കേന്ദ്രങ്ങൾ എത്ര സ്ഥാപിച്ചിട്ടുണ്ട്?",
+  //       "ജല വിതരണ ശൃംഖല എത്ര കിലോമീറ്റർ വ്യാപിച്ചിരിക്കുന്നു?",
+  //       "ജല ഗുണനിലവാരം മെച്ചപ്പെടുത്താനുള്ള നടപടികൾ എന്തെല്ലാമാണ്?",
+  //     ],
+  //     isAnswered: true,
+  //   },
+  //   {
+  //     id: 13,
+  //     number: 470,
+  //     title: "ജല വിതരണ പദ്ധതികൾ",
+  //     members: ["ശ്രീ. എം. എം. ഹസ്സൻ", "ശ്രീ. കെ. എം. രാജൻ"],
+  //     askedBy: "ശ്രീ. പി. എം. ഇബ്രാഹിം",
+  //     question: "കേരളത്തിലെ ജല വിതരണ പദ്ധതികളെക്കുറിച്ച് വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "പുതിയ ജല ശേഖരണ കേന്ദ്രങ്ങൾ എത്ര സ്ഥാപിച്ചിട്ടുണ്ട്?",
+  //       "ജല വിതരണ ശൃംഖല എത്ര കിലോമീറ്റർ വ്യാപിച്ചിരിക്കുന്നു?",
+  //       "ജല ഗുണനിലവാരം മെച്ചപ്പെടുത്താനുള്ള നടപടികൾ എന്തെല്ലാമാണ്?",
+  //     ],
+  //     isAnswered: true,
+  //   },
+  // ],
+  // shortnotice: [
+  //   {
+  //     id: 11,
+  //     number: 468,
+  //     title: "അടിയന്തിര ആരോഗ്യ സംഘടനകൾ",
+  //     members: ["ശ്രീ. എം. എം. ഹസ്സൻ", "ശ്രീ. കെ. എം. രാജൻ"],
+  //     askedBy: "ശ്രീ. പി. എം. ഇബ്രാഹിം",
+  //     question: "കേരളത്തിലെ അടിയന്തിര ആരോഗ്യ സംഘടനകളെക്കുറിച്ച് വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "അടിയന്തിര ആരോഗ്യ കേന്ദ്രങ്ങൾ എത്രയാണ്?",
+  //       "ആംബുലൻസ് സേവനങ്ങൾ എത്രയാണ്?",
+  //       "അടിയന്തിര ഫോൺ നമ്പറുകൾ എന്തെല്ലാമാണ്?",
+  //     ],
+  //     isAnswered: false,
+  //   },
+  //   {
+  //     id: 12,
+  //     number: 469,
+  //     title: "അടിയന്തിര ഗതാഗത സംവിധാനങ്ങൾ",
+  //     members: ["ശ്രീ. എൻ. എസ്. രാജൻ", "ശ്രീ. പി. എം. ഇബ്രാഹിം"],
+  //     askedBy: "ശ്രീ. കെ. എം. ജോർജ്ജ്",
+  //     question:
+  //       "കേരളത്തിലെ അടിയന്തിര ഗതാഗത സംവിധാനങ്ങളെക്കുറിച്ച് വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "അടിയന്തിര റോഡ് റിപ്പയർ സംവിധാനങ്ങൾ എന്തെല്ലാമാണ്?",
+  //       "അടിയന്തിര ഗതാഗത നിയന്ത്രണ സംവിധാനങ്ങൾ എന്തെല്ലാമാണ്?",
+  //       "അടിയന്തിര ഗതാഗത ആശയവിനിമയ സംവിധാനങ്ങൾ എന്തെല്ലാമാണ്?",
+  //     ],
+  //     isAnswered: false,
+  //   },
+  //   {
+  //     id: 13,
+  //     number: 470,
+  //     title: "അടിയന്തിര ആശ്വാസ സംവിധാനങ്ങൾ",
+  //     members: ["ശ്രീ. എം. എം. ലതീഫ്", "ശ്രീ. കെ. എം. ജോർജ്ജ്"],
+  //     askedBy: "ശ്രീ. എൻ. എസ്. രാജൻ",
+  //     question:
+  //       "കേരളത്തിലെ അടിയന്തിര ആശ്വാസ സംവിധാനങ്ങളെക്കുറിച്ച് വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "അടിയന്തിര ആശ്വാസ കേന്ദ്രങ്ങൾ എത്രയാണ്?",
+  //       "അടിയന്തിര ഭക്ഷണ വിതരണ സംവിധാനങ്ങൾ എന്തെല്ലാമാണ്?",
+  //       "അടിയന്തിര ആശ്വാസ ഫണ്ട് എത്രയാണ്?",
+  //     ],
+  //     isAnswered: false,
+  //   },
+  //   {
+  //     id: 14,
+  //     number: 471,
+  //     title: "അടിയന്തിര ആശയവിനിമയ സംവിധാനങ്ങൾ",
+  //     members: ["ശ്രീ. എം. എം. ഹസ്സൻ", "ശ്രീ. കെ. എം. രാജൻ"],
+  //     askedBy: "ശ്രീ. പി. എം. ഇബ്രാഹിം",
+  //     question:
+  //       "കേരളത്തിലെ അടിയന്തിര ആശയവിനിമയ സംവിധാനങ്ങളെക്കുറിച്ച് വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "അടിയന്തിര ആശയവിനിമയ കേന്ദ്രങ്ങൾ എത്രയാണ്?",
+  //       "അടിയന്തിര ആശയവിനിമയ ഫോൺ നമ്പറുകൾ എന്തെല്ലാമാണ്?",
+  //       "അടിയന്തിര ആശയവിനിമയ സംവിധാനങ്ങൾ എങ്ങനെ പ്രവർത്തിക്കുന്നു?",
+  //     ],
+  //     isAnswered: false,
+  //   },
+  //   {
+  //     id: 15,
+  //     number: 472,
+  //     title: "അടിയന്തിര സുരക്ഷാ സംവിധാനങ്ങൾ",
+  //     members: ["ശ്രീ. എൻ. എസ്. രാജൻ", "ശ്രീ. പി. എം. ഇബ്രാഹിം"],
+  //     askedBy: "ശ്രീ. കെ. എം. ജോർജ്ജ്",
+  //     question:
+  //       "കേരളത്തിലെ അടിയന്തിര സുരക്ഷാ സംവിധാനങ്ങളെക്കുറിച്ച് വിവരിക്കാമോ?",
+  //     subQuestions: [
+  //       "അടിയന്തിര സുരക്ഷാ കേന്ദ്രങ്ങൾ എത്രയാണ്?",
+  //       "അടിയന്തിര സുരക്ഷാ ഫോഴ്സ് എത്രയാണ്?",
+  //       "അടിയന്തിര സുരക്ഷാ ഉപകരണങ്ങൾ എന്തെല്ലാമാണ്?",
+  //     ],
+  //     isAnswered: false,
+  //   },
+  // ],
 };
 
 // const allowedActiveDates = [
@@ -1343,7 +1343,7 @@ const Questions = () => {
   const [showPdfModal, setShowPdfModal] = useState(false);
   const [currentQuestions, setCurrentQuestions] = useState([]);
   const [questionsApiData, setQuestionsApiData] = useState(null);
-  const [klaId, setKlaId] = useState(15);
+  const [klaId, setKlaId] = useState(14);
   const [klaOptions, setKlaOptions] = useState([]);
   const [sessionOptions, setSessionOptions] = useState([]);
   const [sessionNo, setSessionNo] = useState(null);
@@ -1358,12 +1358,81 @@ const Questions = () => {
   const [itemsPerPage] = useState(5);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeMainTab, setActiveMainTab] = useState("starred");
+  // Guard: true while auto-selecting session after KLA change — prevents
+  // fetchQuestions from firing with sessionNo=null during the transition
+  const [sessionReady, setSessionReady] = useState(false);
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentQuestionsPage = currentQuestions.slice(startIndex, endIndex);
-  const [meetingDates, setMeetingDates] = useState([]); // for sitting_date dots
+  const [meetingDates, setMeetingDates] = useState([]);
   const [allowedActiveDates, setAllowedActiveDates] = useState([]);
+  // Cached response from kla-sessions-with-members — used for KLA list,
+  // session options, and calendar dates without extra API calls.
+  const [allKlaSessions, setAllKlaSessions] = useState([]);
+  // Active member/minister filter values (name strings)
+  const [selectedMember, setSelectedMember] = useState("Aisha Potty");
+  const [selectedMinister, setSelectedMinister] = useState("");
+  // Track whether the member/minister options effect has run at least once
+  // so we don't wipe the default selection on initial load
+  const memberOptionsInitialized = React.useRef(false);
+  // Dynamic member/minister options derived from allKlaSessions for the current KLA
+  const [memberOptions, setMemberOptions] = useState([]);
+  const [ministerOptions, setMinisterOptions] = useState([]);
+
+  // When session dates load, move the calendar to the session start date
+  useEffect(() => {
+    if (sessionStartDate) {
+      const d = new Date(sessionStartDate);
+      if (!Number.isNaN(d.getTime())) setSelectedDate(d);
+    }
+  }, [sessionStartDate]);
+
+  // When KLA changes: reset everything, then auto-select the latest session.
+  // Sets sessionReady=false while resolving so fetchQuestions waits.
+  // Uses cached allKlaSessions — no extra API call needed.
+  useEffect(() => {
+    let cancelled = false;
+    setSessionReady(false);
+    setSessionNo(null);
+    setSessionStartDate(null);
+    setSessionEndDate(null);
+    setMeetingDates([]);
+    setAllowedActiveDates([]);
+    setQuestionsApiData(null);
+    setCurrentQuestions([]);
+
+    const autoSelectLatestSession = () => {
+      // Wait until allKlaSessions is populated
+      if (!allKlaSessions.length) {
+        // Will re-run when allKlaSessions loads (dependency below)
+        setSessionReady(true);
+        return;
+      }
+
+      const klaEntry = allKlaSessions.find((k) => Number(k.kla_id) === Number(klaId));
+      const sessions = klaEntry?.sessions || [];
+
+      if (sessions.length === 0) {
+        setSessionReady(true);
+        return;
+      }
+
+      // Pick the session with the highest session_no (latest)
+      const latest = sessions.reduce((max, s) => {
+        return Number(s.session_no) > Number(max.session_no) ? s : max;
+      }, sessions[0]);
+
+      const latestNo = Number(latest.session_no);
+      if (!cancelled && !Number.isNaN(latestNo)) {
+        setSessionNo(latestNo);
+      }
+      if (!cancelled) setSessionReady(true);
+    };
+
+    autoSelectLatestSession();
+    return () => { cancelled = true; };
+  }, [klaId, allKlaSessions]);
 
   const closePdfModal = () => {
     setShowPdfModal(false);
@@ -1387,76 +1456,123 @@ const Questions = () => {
     setCurrentPage(1);
   };
 
+  // Single fetch from kla-sessions-with-members — provides both KLA list and
+  // per-KLA session options without extra round-trips.
+
   useEffect(() => {
     let cancelled = false;
-
-    const loadKlaList = async () => {
+    const loadKlaSessionsWithMembers = async () => {
       try {
-        const list = await fetchKlaList().catch(() => []);
+        const res = await fetch("https://api.niyamasabha.in/api/kla-sessions-with-members");
+        const json = await res.json();
         if (cancelled) return;
-        const options = (list || []).map((k) => ({
-          value: k.id,
-          label: k.languages?.[0]?.name || `KLA ${k.id}`,
+        const data = Array.isArray(json?.data) ? json.data : [];
+        setAllKlaSessions(data);
+
+        // Build KLA dropdown options from the response
+        const opts = data.map((k) => ({
+          value: k.kla_id,
+          label: k.kla_name || `KLA ${k.kla_id}`,
         }));
-        setKlaOptions(options);
+        setKlaOptions(opts);
       } catch (err) {
-        console.error("Failed to load kla list", err);
+        console.error("Failed to load kla-sessions-with-members", err);
       }
     };
+    loadKlaSessionsWithMembers();
+    return () => { cancelled = true; };
+  }, []); // fetch once on mount
 
-    loadKlaList();
-    return () => {
-      cancelled = true;
+  // Whenever klaId changes, derive session options from the cached data
+  useEffect(() => {
+    if (!allKlaSessions.length || klaId == null) return;
+
+    const klaEntry = allKlaSessions.find((k) => Number(k.kla_id) === Number(klaId));
+    const sessions = klaEntry?.sessions || [];
+
+    const formatDate = (dateStr) => {
+      if (!dateStr) return null;
+      const d = new Date(dateStr);
+      if (Number.isNaN(d.getTime())) return null;
+      return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
     };
-  }, [klaId]);
+
+    const raw = sessions.map((s) => {
+      const num = s.session_no ?? null;
+      const value = num != null && !Number.isNaN(Number(num)) ? Number(num) : String(num);
+      const start = formatDate(s.startdate);
+      const end   = formatDate(s.enddate);
+      const dateRange = start && end ? ` (${start} – ${end})` : "";
+      const label = `Session ${num}${dateRange}`;
+      return { value, label };
+    });
+
+    // Deduplicate and sort numerically
+    const map = new Map();
+    for (const opt of raw) {
+      if (!map.has(opt.value)) map.set(opt.value, opt);
+    }
+    const deduped = Array.from(map.values()).sort((a, b) => {
+      const an = typeof a.value === "number" ? a.value : Number(a.value);
+      const bn = typeof b.value === "number" ? b.value : Number(b.value);
+      if (!Number.isNaN(an) && !Number.isNaN(bn)) return an - bn;
+      return String(a.label).localeCompare(String(b.label));
+    });
+    setSessionOptions(deduped);
+  }, [klaId, allKlaSessions]);
+
+  // Derive member and minister options from cached allKlaSessions for the current KLA.
+  // Members are KLA-level (not session-specific); ministers are also KLA-level.
+  useEffect(() => {
+    if (!allKlaSessions.length || klaId == null) {
+      setMemberOptions([]);
+      setMinisterOptions([]);
+      return;
+    }
+
+    const klaEntry = allKlaSessions.find((k) => Number(k.kla_id) === Number(klaId));
+
+    // Members: deduplicate by name, sort alphabetically
+    const rawMembers = (klaEntry?.members || [])
+      .filter((m) => m.name)
+      .map((m) => ({ value: m.name, label: m.name }));
+    const memberMap = new Map();
+    for (const opt of rawMembers) {
+      if (!memberMap.has(opt.value)) memberMap.set(opt.value, opt);
+    }
+    setMemberOptions(
+      Array.from(memberMap.values()).sort((a, b) =>
+        a.label.localeCompare(b.label)
+      )
+    );
+
+    // Ministers: deduplicate by member_name, sort alphabetically
+    const rawMinisters = (klaEntry?.ministers || [])
+      .filter((m) => m.member_name)
+      .map((m) => ({ value: m.member_name, label: m.member_name }));
+    const ministerMap = new Map();
+    for (const opt of rawMinisters) {
+      if (!ministerMap.has(opt.value)) ministerMap.set(opt.value, opt);
+    }
+    setMinisterOptions(
+      Array.from(ministerMap.values()).sort((a, b) =>
+        a.label.localeCompare(b.label)
+      )
+    );
+
+    // Reset selections when KLA changes — but preserve the default on first load
+    if (memberOptionsInitialized.current) {
+      setSelectedMember("");
+      setSelectedMinister("");
+    } else {
+      memberOptionsInitialized.current = true;
+    }
+  }, [klaId, allKlaSessions]);
 
   useEffect(() => {
-    if (klaId == null) return;
-    let cancelled = false;
-    const loadSessions = async () => {
-      try {
-        const sessions = await fetchKlaSessions(klaId).catch(() => []);
-        if (cancelled) return;
-        // Normalize: prefer numeric session_id/session_no, coerce to Number when possible
-        const raw = (sessions || []).map((s) => {
-          const num = s.session_id ?? s.session_no ?? null;
-          const value =
-            num != null && !Number.isNaN(Number(num))
-              ? Number(num)
-              : s.id ?? s.name;
-          const label =
-            num != null && !Number.isNaN(Number(num))
-              ? String(num)
-              : s.name || String(s.id);
-          return { value, label };
-        });
+    // Don't fetch questions until the auto-select has resolved a sessionNo
+    if (!sessionReady) return;
 
-        // Deduplicate by numeric value (if numeric), then by string value; finally sort numerically when possible
-        const map = new Map();
-        for (const opt of raw) {
-          const key =
-            typeof opt.value === "number" ? opt.value : String(opt.value);
-          if (!map.has(key)) map.set(key, opt);
-        }
-        const deduped = Array.from(map.values());
-        deduped.sort((a, b) => {
-          const an = typeof a.value === "number" ? a.value : Number(a.value);
-          const bn = typeof b.value === "number" ? b.value : Number(b.value);
-          if (!Number.isNaN(an) && !Number.isNaN(bn)) return an - bn;
-          return String(a.label).localeCompare(String(b.label));
-        });
-        setSessionOptions(deduped);
-      } catch (err) {
-        console.error("Failed to load kla sessions for kla", klaId, err);
-      }
-    };
-    loadSessions();
-    return () => {
-      cancelled = true;
-    };
-  }, [klaId]);
-
-  useEffect(() => {
     let aborted = false;
     // ensure we only auto-sync klaId from API once to avoid loops
     const initialKlaSynced = { current: false };
@@ -1465,13 +1581,17 @@ const Questions = () => {
       try {
         let normalized;
         
-        // Use separate API for KLA 15
+        // Use separate API for KLA 15 — pass session_no so the API filters server-side
         if (klaId === 15) {
-          const resp = await fetch(`${API_ENDPOINTS.KLA15_QUESTIONS}`);
+          const params15 = new URLSearchParams();
+          if (sessionNo != null) params15.set("session_no", String(sessionNo));
+          if (sittingDate) params15.set("sitting_date", String(sittingDate));
+          const url15 = `${API_ENDPOINTS.KLA15_QUESTIONS}${params15.toString() ? `?${params15}` : ""}`;
+          const resp = await fetch(url15);
           if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
           const payload = await resp.json();
           if (aborted) return;
-          
+
           // Handle KLA 15 API response structure
           if (payload.status && payload.data) {
             normalized = payload.data;
@@ -1641,6 +1761,39 @@ const Questions = () => {
       else setSittingDate("");
     }
 
+    // Member filter
+    const memberRaw = values?.MEMBER;
+    const memberValue = (() => {
+      if (memberRaw == null) return "";
+      if (Array.isArray(memberRaw)) {
+        const first = memberRaw[0];
+        return first && typeof first === "object"
+          ? first.value ?? first.label ?? ""
+          : first;
+      }
+      if (typeof memberRaw === "object") return memberRaw.value ?? memberRaw.label ?? "";
+      return memberRaw;
+    })();
+    setSelectedMember(memberValue ? String(memberValue) : "");
+
+    // Minister filter
+    const ministerRaw = values?.MINISTER;
+    const ministerValue = (() => {
+      if (ministerRaw == null) return "";
+      if (Array.isArray(ministerRaw)) {
+        const first = ministerRaw[0];
+        return first && typeof first === "object"
+          ? first.value ?? first.label ?? ""
+          : first;
+      }
+      if (typeof ministerRaw === "object") return ministerRaw.value ?? ministerRaw.label ?? "";
+      return ministerRaw;
+    })();
+    setSelectedMinister(ministerValue ? String(ministerValue) : "");
+
+    console.log(ministerValue, "ministerrrrrr");
+    
+
     // Try to extract a session id range if the filter provides multiple values
     // Accept shapes: array [from,to], object { from, to } or string "1-3"
     const sessionRangeRaw =
@@ -1700,6 +1853,36 @@ const Questions = () => {
       return Array.from(map.values());
     };
 
+    const applyQuestionFilters = (questions) => {
+      const normalizedMember = String(selectedMember || "").trim().toLowerCase();
+      const normalizedMinister = String(selectedMinister || "").trim().toLowerCase();
+
+      let filtered = filterAndDedupe(questions);
+
+      if (normalizedMember) {
+        filtered = filtered.filter((q) => {
+          const rawMembers = q?.members;
+          const members = Array.isArray(rawMembers)
+            ? rawMembers
+            : typeof rawMembers === "string"
+            ? [rawMembers]
+            : [];
+          return members.some((m) =>
+            String(m || "").trim().toLowerCase().includes(normalizedMember)
+          );
+        });
+      }
+
+      if (normalizedMinister) {
+        filtered = filtered.filter((q) => {
+          const askedTo = String(q?.askedTo || "").trim().toLowerCase();
+          return askedTo.includes(normalizedMinister);
+        });
+      }
+
+      return filtered;
+    };
+
     // when 'all' main tab is selected, merge all lists and deduplicate by id, then apply session filter
     if (activeMainTab === "all") {
       const lists = [
@@ -1709,7 +1892,7 @@ const Questions = () => {
       ];
       const mergedList = [];
       for (const l of lists) mergedList.push(...(Array.isArray(l) ? l : []));
-      const merged = filterAndDedupe(mergedList);
+      const merged = applyQuestionFilters(mergedList);
       setCurrentQuestions(merged);
     } else {
       const dataKey =
@@ -1718,16 +1901,16 @@ const Questions = () => {
         const allStarred = Array.isArray(source.starred) ? source.starred : [];
         // If Session filter is 'All' (sessionNo == null) show ALL starred questions.
         // If sessionNo is provided, show starred questions matching that session (answered or not).
-        const starred = filterAndDedupe(allStarred);
+        const starred = applyQuestionFilters(allStarred);
         setCurrentQuestions(starred);
       } else {
         const list = Array.isArray(source[dataKey]) ? source[dataKey] : [];
-        const filtered = filterAndDedupe(list);
+        const filtered = applyQuestionFilters(list);
         setCurrentQuestions(filtered);
       }
     }
     setCurrentPage(1);
-  }, [questionsApiData, activeMainTab, sessionNo]);
+  }, [questionsApiData, activeMainTab, sessionNo, selectedMember, selectedMinister]);
 
   // Derive SESSION options from questions API data (unique session_id values)
   const sessionOptionsFromQuestions = React.useMemo(() => {
@@ -1755,6 +1938,11 @@ const Questions = () => {
   const finalSessionOptions = sessionOptions.length
     ? sessionOptions
     : sessionOptionsFromQuestions;
+
+  const questionFilterOverrides = {
+    MEMBER: memberOptions,
+    MINISTER: ministerOptions,
+  };
 
   // Calendar date change handler
   const handleDateChange = (date) => {
@@ -1800,107 +1988,42 @@ const Questions = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Derive session start/end dates and sitting dates from cached allKlaSessions.
+  // No extra API call — data is already available from kla-sessions-with-members.
   useEffect(() => {
-    const fetchSessionDates = async () => {
-      // 🔹 If user selected "All", just show a full calendar with no restrictions
-      if (!klaId || !sessionNo || sessionNo === "All") {
-        setSessionStartDate("1957-04-01"); // earliest available period (example)
-        setSessionEndDate(new Date().toISOString().split("T")[0]); // today
-        setMeetingDates([]);
-        setAllowedActiveDates([]);
-        return;
-      }
+    if (!klaId || !sessionNo || sessionNo === "All") {
+      setSessionStartDate(null);
+      setSessionEndDate(null);
+      setMeetingDates([]);
+      setAllowedActiveDates([]);
+      return;
+    }
 
-      try {
-        // 1️⃣ Fetch sessions
-        const response = await fetch(
-          API_ENDPOINTS.KLA_SESSIONS,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify({ kla_id: klaId }),
-          }
-        );
+    const klaEntry = allKlaSessions.find((k) => Number(k.kla_id) === Number(klaId));
+    const sessions = klaEntry?.sessions || [];
 
-        const result = await response.json();
-        const sessions = result.data || [];
+    const matched = sessions.find((s) => Number(s.session_no) === Number(sessionNo));
 
-        const matchedSession = sessions.find(
-          (s) =>
-            Number(s.session_no) === Number(sessionNo) ||
-            Number(s.session_id) === Number(sessionNo)
-        );
+    if (!matched) {
+      setSessionStartDate(null);
+      setSessionEndDate(null);
+      setMeetingDates([]);
+      setAllowedActiveDates([]);
+      return;
+    }
 
-        if (!matchedSession) {
-          setSessionStartDate(null);
-          setSessionEndDate(null);
-          setAllowedActiveDates([]);
-          setMeetingDates([]);
-          return;
-        }
+    // Start / end dates
+    setSessionStartDate(matched.startdate || null);
+    setSessionEndDate(matched.enddate || null);
 
-        setSessionStartDate(
-          matchedSession.startdate || matchedSession.start_date
-        );
-        setSessionEndDate(matchedSession.enddate || matchedSession.end_date);
-        setAllowedActiveDates(
-          Array.isArray(matchedSession.allowed_dates)
-            ? matchedSession.allowed_dates
-            : []
-        );
+    // Sitting dates from the cached response
+    const sitting = Array.isArray(matched.sitting_dates)
+      ? matched.sitting_dates.filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d))
+      : [];
 
-        const selectedKlaId = matchedSession.kla_id || klaId;
-        const selectedSessionNo = matchedSession.session_no;
-
-        // 2️⃣ Fetch sitting days from full dataset
-        const sittingResponse = await fetch(
-          API_ENDPOINTS.SESSION_SITTING_DAYS,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-          }
-        );
-
-        const sittingResult = await sittingResponse.json();
-        const sittingData = sittingResult?.data || [];
-
-        const matchedKla = sittingData.find(
-          (item) => Number(item.kla_id) === Number(selectedKlaId)
-        );
-
-        const matchedSittingSession =
-          matchedKla && Array.isArray(matchedKla.sessions)
-            ? matchedKla.sessions.find(
-                (s) => Number(s.session_no) === Number(selectedSessionNo)
-              )
-            : null;
-
-        const meetingDatesFromAPI =
-          matchedSittingSession &&
-          Array.isArray(matchedSittingSession.sitting_days)
-            ? matchedSittingSession.sitting_days
-                .map((sd) => sd.sitting_date)
-                .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d)) // ✅ filters invalid ones
-            : [];
-
-        setMeetingDates(meetingDatesFromAPI);
-      } catch (error) {
-        console.error("Failed to fetch session data:", error);
-        setSessionStartDate(null);
-        setSessionEndDate(null);
-        setAllowedActiveDates([]);
-        setMeetingDates([]);
-      }
-    };
-
-    fetchSessionDates();
-  }, [klaId, sessionNo]);
+    setMeetingDates(sitting);
+    setAllowedActiveDates(sitting);
+  }, [klaId, sessionNo, allKlaSessions]);
 
   return (
     <div className="wrapper ovh">
@@ -1917,6 +2040,7 @@ const Questions = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
+            { name: "Niyamasabha", href: "/memberlist" },
             { name: "Questions", href: "/questions" },
           ]}
         />
@@ -2014,19 +2138,18 @@ const Questions = () => {
                                 ]}
                                 onFiltersChange={handleFiltersChange}
                                 overrides={{
-                                  // pass kla options and defaultValue from API
                                   KLA: {
                                     options: klaOptions,
                                     defaultValue: klaId,
                                   },
-                                  // prefer kla-session options (finalSessionOptions), fall back to sessionOptionsFromQuestions
                                   SESSION_TYPE: {
-                                    defaultValue: "",
+                                    defaultValue: sessionNo ?? "",
                                     options: [
                                       { value: "", label: "All" },
                                       ...(finalSessionOptions || []),
                                     ],
                                   },
+                                  ...questionFilterOverrides,
                                 }}
                               />
                               <ExportButton />
@@ -2104,6 +2227,7 @@ const Questions = () => {
                               <div className="tab-title">
                                 <h6>Search By Filter</h6>
                               </div>
+
                               <Filter
                                 filterKeys={[
                                   "KLA",
@@ -2121,12 +2245,13 @@ const Questions = () => {
                                     defaultValue: klaId,
                                   },
                                   SESSION_TYPE: {
-                                    defaultValue: "",
+                                    defaultValue: sessionNo ?? "",
                                     options: [
                                       { value: "", label: "All" },
                                       ...(finalSessionOptions || []),
                                     ],
                                   },
+                                  ...questionFilterOverrides,
                                 }}
                               />
                               <ExportButton />
@@ -2274,6 +2399,7 @@ const Questions = () => {
                               <div className="tab-title">
                                 <h6>Search By Filter</h6>
                               </div>
+
                               <Filter
                                 filterKeys={[
                                   "KLA",
@@ -2289,12 +2415,13 @@ const Questions = () => {
                                     defaultValue: klaId,
                                   },
                                   SESSION_TYPE: {
-                                    defaultValue: "",
+                                    defaultValue: sessionNo ?? "",
                                     options: [
                                       { value: "", label: "All" },
                                       ...(finalSessionOptions || []),
                                     ],
                                   },
+                                  ...questionFilterOverrides,
                                 }}
                               />
                               <ExportButton />

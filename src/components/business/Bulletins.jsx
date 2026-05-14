@@ -392,8 +392,8 @@ const Bulletin = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
-            { name: "Business", href: "/business" },
-            { name: "Bulletin", href: "/business/bulletin" },
+            { name: "Business", href: "/session-schedule" },
+            { name: "Bulletin", href: "/bulletins" },
           ]}
         />
 

@@ -285,8 +285,8 @@ const Resolutions = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
-            { name: "Business", href: "/business" },
-            { name: "Resolutions", href: "/business/Resolutions" },
+            { name: "Business", href: "/session-schedule" },
+            { name: "Resolutions", href: "/resolution" },
           ]}
         />
 

@@ -56,7 +56,6 @@ const PresidentsRule = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
-            { name: "About", href: "/about" },
             { name: "President's Rule", href: "/presidents-rule" },
           ]}
         />

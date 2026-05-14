@@ -1,0 +1,304 @@
+[
+  {
+    "id": 1,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 15 (2021-2026)",
+    "kla_id": 15,
+    "session": 1,
+    "event": "General Demands",
+    "subject": "Statement of Demands 2021-22 - General",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "pdf_url_malayalam": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "members": [
+      {
+        "name": "ശ്രീ. കെ.എൻ. ഉണ്ണിക്കൃഷ്ണൻ",
+        "constituency": "Thiruvananthapuram"
+      },
+      { "name": "ശ്രീ. വി. ജോയി", "constituency": "Kollam" }
+    ],
+    "minister": {
+      "name": "ശ്രീ. കെ.എൻ. ബാലഗോപാൽ",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Malampuzha",
+      "party": "CPI(M)"
+    }
+  },
+  {
+    "id": 2,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 15 (2021-2026)",
+    "kla_id": 15,
+    "session": 1,
+    "event": "Supplementary Demands",
+    "subject": "Supplementary Statement of Demands 2021-22",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "pdf_url_malayalam": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "members": [
+      { "name": "ശ്രീ. എം. കെ. മുനീർ", "constituency": "Kondotty" },
+      { "name": "ശ്രീ. പി. ടി. തോമസ്", "constituency": "Thrikkakara" },
+      { "name": "ശ്രീ. പി. മമ്മിക്കുട്ടി", "constituency": "Malappuram" }
+    ],
+    "minister": {
+      "name": "ശ്രീ. കെ.എൻ. ബാലഗോപാൽ",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Malampuzha",
+      "party": "CPI(M)"
+    }
+  },
+  {
+    "id": 3,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 15 (2021-2026)",
+    "kla_id": 15,
+    "session": 2,
+    "event": "General Demands",
+    "subject": "Statement of Demands 2022-23 - General",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "pdf_url_malayalam": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "members": [
+      { "name": "ശ്രീ. എൻ. കെ. അക്ബർ", "constituency": "Aluva" },
+      { "name": "ശ്രീ. കെ. ജെ. മാക്സി", "constituency": "Kottayam" }
+    ],
+    "minister": {
+      "name": "ശ്രീ. കെ.എൻ. ബാലഗോപാൽ",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Malampuzha",
+      "party": "CPI(M)"
+    }
+  },
+  {
+    "id": 4,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 15 (2021-2026)",
+    "kla_id": 15,
+    "session": 3,
+    "event": "Excess Demands",
+    "subject": "Excess Statement of Demands 2022-23",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "pdf_url_malayalam": null,
+    "members": [{ "name": "ശ്രീ. ആർ. രാജേഷ്", "constituency": "Ernakulam" }],
+    "minister": {
+      "name": "ശ്രീ. കെ.എൻ. ബാലഗോപാൽ",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Malampuzha",
+      "party": "CPI(M)"
+    }
+  },
+  {
+    "id": 5,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 15 (2021-2026)",
+    "kla_id": 15,
+    "session": 4,
+    "event": "General Demands",
+    "subject": "Statement of Demands 2023-24 - General",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "pdf_url_malayalam": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "members": [
+      { "name": "ശ്രീ. പി. കെ. കുഞ്ഞാലിക്കുട്ടി", "constituency": "Vengara" },
+      { "name": "ശ്രീ. എസ്. ശർമ്മ", "constituency": "Palakkad" }
+    ],
+    "minister": {
+      "name": "ശ്രീ. കെ.എൻ. ബാലഗോപാൽ",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Malampuzha",
+      "party": "CPI(M)"
+    }
+  },
+  {
+    "id": 6,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 15 (2021-2026)",
+    "kla_id": 15,
+    "session": 5,
+    "event": "Supplementary Demands",
+    "subject": "First Supplementary Statement of Demands 2023-24",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "pdf_url_malayalam": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "members": [
+      {
+        "name": "ശ്രീ. കെ.എൻ. ഉണ്ണിക്കൃഷ്ണൻ",
+        "constituency": "Thiruvananthapuram"
+      },
+      { "name": "ശ്രീ. വി. ജോയി", "constituency": "Kollam" },
+      { "name": "ശ്രീ. എം. കെ. മുനീർ", "constituency": "Kondotty" }
+    ],
+    "minister": {
+      "name": "ശ്രീ. കെ.എൻ. ബാലഗോപാൽ",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Malampuzha",
+      "party": "CPI(M)"
+    }
+  },
+  {
+    "id": 7,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 15 (2021-2026)",
+    "kla_id": 15,
+    "session": 6,
+    "event": "Excess Demands",
+    "subject": "Excess Statement of Demands 2023-24",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "pdf_url_malayalam": null,
+    "members": [
+      { "name": "ശ്രീ. പി. ടി. തോമസ്", "constituency": "Thrikkakara" }
+    ],
+    "minister": {
+      "name": "ശ്രീ. കെ.എൻ. ബാലഗോപാൽ",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Malampuzha",
+      "party": "CPI(M)"
+    }
+  },
+  {
+    "id": 8,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 15 (2021-2026)",
+    "kla_id": 15,
+    "session": 7,
+    "event": "General Demands",
+    "subject": "Statement of Demands 2024-25 - General",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "pdf_url_malayalam": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "members": [
+      { "name": "ശ്രീ. കെ. ജെ. മാക്സി", "constituency": "Kottayam" },
+      { "name": "ശ്രീ. ആർ. രാജേഷ്", "constituency": "Ernakulam" }
+    ],
+    "minister": {
+      "name": "ശ്രീ. കെ.എൻ. ബാലഗോപാൽ",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Malampuzha",
+      "party": "CPI(M)"
+    }
+  },
+  {
+    "id": 9,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 15 (2021-2026)",
+    "kla_id": 15,
+    "session": 8,
+    "event": "Supplementary Demands",
+    "subject": "First Supplementary Statement of Demands 2024-25",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "pdf_url_malayalam": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf",
+    "members": [
+      { "name": "ശ്രീ. എൻ. കെ. അക്ബർ", "constituency": "Aluva" },
+      { "name": "ശ്രീ. പി. കെ. കുഞ്ഞാലിക്കുട്ടി", "constituency": "Vengara" }
+    ],
+    "minister": {
+      "name": "ശ്രീ. കെ.എൻ. ബാലഗോപാൽ",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Malampuzha",
+      "party": "CPI(M)"
+    }
+  },
+  {
+    "id": 10,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 14 (2016-2021)",
+    "kla_id": 14,
+    "session": 9,
+    "event": "General Demands",
+    "subject": "Statement of Demands 2019-20 - General",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC43.pdf",
+    "pdf_url_malayalam": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC43.pdf",
+    "members": [
+      { "name": "ശ്രീ. തോമസ് ഐസക്", "constituency": "Thrippunithura" },
+      { "name": "ശ്രീ. ആർ. ബിന്ദു", "constituency": "Irinjalakuda" }
+    ],
+    "minister": {
+      "name": "ഡോ. തോമസ് ഐസക്",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Thrippunithura",
+      "party": "CPI(M)"
+    }
+  },
+  {
+    "id": 11,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 14 (2016-2021)",
+    "kla_id": 14,
+    "session": 10,
+    "event": "Supplementary Demands",
+    "subject": "Supplementary Statement of Demands 2019-20",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC43.pdf",
+    "pdf_url_malayalam": null,
+    "members": [
+      { "name": "ശ്രീ. വി. ഡി. സതീശൻ", "constituency": "Paravur" },
+      { "name": "ശ്രീ. കെ. മുരളീധരൻ", "constituency": "Thrissur" }
+    ],
+    "minister": {
+      "name": "ഡോ. തോമസ് ഐസക്",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Thrippunithura",
+      "party": "CPI(M)"
+    }
+  },
+  {
+    "id": 12,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 14 (2016-2021)",
+    "kla_id": 14,
+    "session": 11,
+    "event": "General Demands",
+    "subject": "Statement of Demands 2020-21 - General",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC42.pdf",
+    "pdf_url_malayalam": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC42.pdf",
+    "members": [
+      { "name": "ശ്രീ. പി. കെ. കുഞ്ഞാലിക്കുട്ടി", "constituency": "Vengara" }
+    ],
+    "minister": {
+      "name": "ഡോ. തോമസ് ഐസക്",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Thrippunithura",
+      "party": "CPI(M)"
+    }
+  },
+  {
+    "id": 13,
+    "from_date": "10-06-2021",
+    "to_date": "10-07-2021",
+    "assembly": "KLA - 14 (2016-2021)",
+    "kla_id": 14,
+    "session": 12,
+    "event": "Excess Demands",
+    "subject": "Excess Statement of Demands 2020-21",
+    "pdf_url_english": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC42.pdf",
+    "pdf_url_malayalam": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC42.pdf",
+    "members": [
+      { "name": "ശ്രീ. എം. കെ. മുനീർ", "constituency": "Kondotty" },
+      { "name": "ശ്രീ. പി. ടി. തോമസ്", "constituency": "Thrikkakara" }
+    ],
+    "minister": {
+      "name": "ഡോ. തോമസ് ഐസക്",
+      "portfolio": "Finance",
+      "photo": null,
+      "constituency": "Thrippunithura",
+      "party": "CPI(M)"
+    }
+  }
+]

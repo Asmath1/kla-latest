@@ -1,0 +1,54 @@
+.budget-docs-page {
+  overflow-x: hidden;
+}
+
+.budget-docs-page .body_content {
+  padding-bottom: 5rem;
+  overflow: visible !important;
+}
+
+.budget-docs-page .terms_condition_grid,
+.budget-docs-page .bill-content,
+.budget-docs-page .container,
+.budget-docs-page .table-responsive {
+  overflow: visible !important;
+}
+
+.budget-docs-page .bd-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.budget-docs-page .bd-popup-card {
+  position: relative;
+  background: #fff;
+  border-radius: 10px;
+  padding: 24px 28px;
+  min-width: 300px;
+  max-width: 420px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.budget-docs-page .bd-popup-card--minister {
+  padding: 28px 32px;
+  max-width: 380px;
+  text-align: center;
+}
+
+.budget-docs-page .bd-popup-card .btn-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+}
+
+.budget-docs-page .bd-popup-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}

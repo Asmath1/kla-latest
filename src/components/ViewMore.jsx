@@ -204,7 +204,7 @@ const ViewMore = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
-            { name: "Notification", href: "/notification" },
+            { name: "Notifications", href: "/view-more" },
           ]}
         />
 

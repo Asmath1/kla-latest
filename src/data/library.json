@@ -1,0 +1,235 @@
+{
+  "about": {
+    "image": "/images/book-library.jpg",
+    "intro": "The Legislature Library is essentially a special library catering to the needs of the legislators in the discharge of their functions. Library originated in the Dewan's Office Library of the erstwhile Travancore State renamed as the Legislative Library in 1921 and later as Travancore Cochin Assembly Library in 1949. The library got its present name, Kerala Legislature Library in 1956 and has since been exclusively meant to meet the information needs of the Members of the Legislative Assembly. The library with more than One Lakh Thirteen Thousand books, reports, gazettes, back volumes of periodicals and newspapers etc. is one of the best reference libraries in the State.",
+    "working_hours_heading": "Working Hours",
+    "working_hours_paragraphs": [
+      "The Main library shall remain open on all working days between 10.15 a.m. to 5.15 p.m. and on the preceding day during session the library shall remain open from 10.15 a.m. to 8.00 p.m. During periods when Assembly is in session, the library shall open from 8.00 a.m. to 8.00 p.m. or till the House rises for the day. It shall also remain open from 2.00 p.m. to 8.00 p.m. on the preceding day, if that happens to be a holiday and shall open form 2.30 p.m. to 5.30 p.m. for intervening holidays of a session.",
+      "The Members' Reference Branch (Room No. 504 Assembly Building) shall remain open on all working days from 10.15 a.m. to 5.15 p.m. On the preceding day during session, the Library shall remain open from 10.15 a.m. to 5.30 p.m. During periods when Assembly is in session the Members' Reference Branch shall open from 8.00 a.m. to 5.30 p.m. or till the House rises for the day. It shall also open form 2.30 p.m. to 5.30 p.m., on the preceding day, if that happens to be a holiday and on the intervening holidays of a session.",
+      "The MLA Hostel Library extension counter shall remain open on all working days between 7.30 a.m. to 5.30 p.m. During periods when Assembly is in session, the Library shall open from 7.00 a.m. to 8.00 p.m. It shall also remain open from 7.30 a.m. to 8.00 p.m. on the preceding day if it is a working day and it shall also open from 8.00 a.m. to 8.00 p.m. on the preceding day if that happens to be a holiday and on the intervening holidays of a session.",
+      "Children's Library shall remain open from 10.30 a.m. to 4.30 p.m. on all working days including when Assembly is in session."
+    ],
+    "contacts_heading": "Library Contact Numbers",
+    "contacts": [
+      { "id": 1,  "name": "Chief Librarian",                    "phone": "2512522" },
+      { "id": 2,  "name": "Librarian (General)",                "phone": "2512523" },
+      { "id": 3,  "name": "Librarian (Members' Reference)",     "phone": "2512039" },
+      { "id": 4,  "name": "Librarian (Reference)",              "phone": "2512284" },
+      { "id": 5,  "name": "Librarian (K-LAMPS)",                "phone": "2512566" },
+      { "id": 6,  "name": "Members' Reference Branch",          "phone": "2512593" },
+      { "id": 7,  "name": "Reference Section",                  "phone": "2512519" },
+      { "id": 8,  "name": "Circulation Section",                "phone": "2512135" },
+      { "id": 9,  "name": "MLA Hostel Extension Counter",       "phone": "2512259" },
+      { "id": 10, "name": "Technical Section",                  "phone": "2512520" },
+      { "id": 11, "name": "Digitisation Section",               "phone": "2512630" },
+      { "id": 12, "name": "Documentation Section",              "phone": "2512521" },
+      { "id": 13, "name": "Maintenance Section",                "phone": "2512138" },
+      { "id": 14, "name": "Children's Library",                 "phone": "2512640" }
+    ]
+  },
+
+  "lac": {
+    "image": "/images/book-library.jpg",
+    "intro_paragraphs": [
+      "A Library Advisory Committee is constituted from among the Members of the Legislative Assembly in order to suggest ways and means for the proper working of the Library. The committee consists of a Chairman and 6 other Members nominated by the Speaker. The Secretary to the Legislature is an Ex-officio member, who shall be the convenor of the Committee.",
+      "The Library Advisory Committee scrutinizes the merit of documents to be procured for the library and advices the Hon'ble Speaker accordingly. The Committee meets frequently to review matters of importance to accord better facilities for the users of the Library."
+    ],
+    "committee_heading": "Library Advisory Committee Members",
+    "committee": [
+      { "id": 1, "name": "Shri. Thomas K Thomas (Chairman)",                              "phone": "9539239729" },
+      { "id": 2, "name": "Shri. D. K. Murali",                                            "phone": "9447428205" },
+      { "id": 3, "name": "Shri. P. Balachandran",                                         "phone": "9847581634" },
+      { "id": 4, "name": "Shri. K. J. Maxy",                                              "phone": "9447136374" },
+      { "id": 5, "name": "Dr. M. K. Muneer",                                              "phone": "9947041000" },
+      { "id": 6, "name": "Shri. Roji M. John",                                            "phone": "9971392134" },
+      { "id": 7, "name": "Shri. Xavier Chittilappilly",                                   "phone": "9446228486" },
+      { "id": 8, "name": "Secretary, Kerala Legislative Assembly (Ex-Officio member)",    "phone": "0471-2512002" }
+    ],
+    "officers_heading": "List of Officers",
+    "officers": [
+      { "id": 1, "name": "Shri. Shaji C. Baby",   "designation": "Special Secretary",  "phone": "0471-2512194" },
+      { "id": 2, "name": "Smt. Laila A.S.",        "designation": "Chief Librarian",    "phone": "0471-2512522" },
+      { "id": 3, "name": "Shri. G. Omanaseelan",  "designation": "Librarian",          "phone": "0471-2512523" },
+      { "id": 4, "name": "Smt. Mary Joseph E.",    "designation": "Deputy Librarian",   "phone": "0471-2512520" }
+    ]
+  },
+
+  "membership": {
+    "image": "/images/book-library.jpg",
+    "forms_pdf": null,
+    "forms_label": "Membership Forms",
+    "heading": "The following classes of persons shall alone be admitted as Members of the Library:",
+    "categories": [
+      "Members of the Kerala Legislative Assembly",
+      "Members of the Parliament representing the State of Kerala",
+      "Officers and Staff of the Legislature Secretariat",
+      "Ex-Members of the Kerala Legislative Assembly",
+      "Ex-Members of the Parliament represented Kerala",
+      "Ex-Secretaries of Kerala Legislature",
+      "Retired Officers and Staff of the Legislature Secretariat",
+      "Personal assistants to MLAs",
+      "General Public (Graduate)",
+      "General Public (Graduate student)"
+    ]
+  },
+
+  "collection": {
+    "image": "/images/abstract.jpg",
+    "heading": "The following classes of persons shall alone be admitted as Members of the Library:",
+    "description": "The library has an extensive collection of more than One Lakh Twenty One Thousand books, reports, gazettes, assembly proceedings, proclamations, acts, ordinances, census reports and back volumes of periodicals. Periodicals and newspapers also add to the general library collection.",
+    "special_collections_heading": "Special collections",
+    "special_collections_intro": "Some of the special collections maintained by the library are as follows:",
+    "special_collections": [
+      "Kerala Collection — with books on all subjects pertaining to Kerala",
+      "Souvenir Collection",
+      "Gazette Collection — includes Government of India and Kerala Gazettes",
+      "Reports Collection — contains reports of Commissions and Committees of Government of India and Government of Kerala",
+      "Biography Collection",
+      "Gandhiana — Books by, on, and about Gandhiji",
+      "EMS Collection — Books by, on and about EMS",
+      "Archives of rare books",
+      "Video CDs of unedited Assembly proceedings from 2005 onwards"
+    ],
+    "floors": [
+      {
+        "title": "Top Floor",
+        "image": "/images/abstract.jpg",
+        "description": "Houses reference documents with a display of nascent periodicals, Kerala collection, parliamentary studies, encyclopedias, dictionaries on all subjects, etc."
+      },
+      {
+        "title": "Middle Floor",
+        "image": "/images/abstract.jpg",
+        "description": "Encompasses books on all subjects starting from Generalia to Law along with Biography collection arranged in classified order. This floor also incorporates bound volumes of newspaper, Proceedings of the Travancore, Cochin, Travancore-Cochin and Kerala Legislative Assembly, Committee reports of Lok Sabha, Rajya Sabha, Kerala Legislative Assembly and Commissions and committee Reports of Government of India and Kerala."
+      },
+      {
+        "title": "Archives Unit",
+        "image": "/images/abstract.jpg",
+        "description": "The Kerala Legislature Library is one of the oldest libraries of the state. It is rich in rare collections of historic materials relating to the history of the state and also its legislative proceedings. The library maintains an air conditioned Archival Unit, for the preservation of records, manus, rare books, reports and assembly proceedings from 1888 onwards."
+      },
+      {
+        "title": "Ground Floor",
+        "image": "/images/abstract.jpg",
+        "description": "The ground floor houses Gazettes, Parliamentary debates (both Lok Sabha and Rajya Sabha), Census reports, Administration reports, bound volumes of periodicals etc."
+      }
+    ]
+  },
+
+  "library_rules": {
+    "pdf_url": null,
+    "pdf_label": "Library Rules"
+  },
+
+  "branches": {
+    "branches_list": [
+      {
+        "title": "LIBRARY — MEMBERS' REFERENCE BRANCH",
+        "image": "/images/abstract.jpg",
+        "description": "Members' Reference Branch functions in the first floor of the Assembly block in room 504. This section expedites library services to Members because of its proximity to the assembly. Leading newspapers, selected periodicals, papers laid on the table, KLA proceedings, newspaper clippings arranged in subject wise, ready reference documents etc are available here."
+      },
+      {
+        "title": "LIBRARY EXTENSION COUNTER — MLA HOSTEL",
+        "image": "/images/abstract.jpg",
+        "description": "Functions in the Legislators' Hostel to cater to the information needs of resident members. Newspapers, periodicals, Kerala Gazette and prominent reference documents are available here."
+      },
+      {
+        "title": "KERALA LEGISLATURE — CHILDREN'S LIBRARY",
+        "image": "/images/abstract.jpg",
+        "description": "The Kerala Legislative Assembly Children's Library (KLACL) was inaugurated on 25th February 2016. The main objective of the Children's Library is to inculcate reading habits among children and to enable them in accessing and sharing the wide and rare resources available in the Kerala Legislature Library. The Children's Library functions in room no. 204 of Administrative Building. The library shall remain open from 10.30 a.m. to 4.30 p.m. on all working days."
+      }
+    ],
+    "childrens_library": {
+      "membership_heading": "Membership",
+      "membership_intro": "Children in the age group of 10 to 18 are eligible to be a member of the Children's Library of Kerala Legislative Assembly. The Children in the following category shall alone be admitted as Members of the Children's Library:",
+      "membership_categories": [
+        "Children/Grandchildren of MLAs, Ex-MLAs, MPs from Kerala and Ex-MPs from Kerala who are members of the Kerala Legislature Library",
+        "Children of permanent employees of Kerala Legislature Secretariat, General Administration, Finance and Law Secretariat who are members of the Kerala Legislature Library",
+        "Children of Journalists accredited to the Press Gallery of Kerala Legislative Assembly",
+        "Children belonging to the under-privileged / marginalised sections recommended by MLAs",
+        "Children sponsored by recognized schools",
+        "Children of General Public (Graduates)"
+      ],
+      "collections_heading": "Collections",
+      "collections_description": "The children's library collection includes books, audio visual documents, e-books, online resources. Library also subscribes magazines for children.",
+      "working_hours_heading": "Working Hours",
+      "working_hours": "The Children's library will be kept open from 10.30 a.m. to 4.30 p.m. on all working days.",
+      "contacts_heading": "Contacts",
+      "contact": {
+        "name": "Children's Library",
+        "organisation": "Kerala Legislative Assembly",
+        "address": "Assembly Complex, Thiruvananthapuram",
+        "phone": "0471-2512640",
+        "email": "klaclib@gmail.com"
+      }
+    }
+  },
+
+  "digital_archives": {
+    "heading": "Digital Archives",
+    "description": "The library is involved in the digitisation of assembly documents including assembly deliberations, bills passed, committee and commission reports and bulletins. Assembly documents from the year 1888 to 2016 have been digitised and the work is going on. Over Nine Lakh images have been digitised. More than fifty thousand links are provided to access the digitised documents. Digitisation of assembly documents is a novel method in preserving the same. These digitised documents are available in the archives link of the Kerala Legislative Assembly (www.klaproceedings.niyamasabha.org). These documents can be searched by means of member name, assembly, session, date and subject options.",
+    "portal_url": "https://www.klaproceedings.niyamasabha.org",
+    "computerisation_heading": "Computerisation",
+    "computerisation_description": "Automation in the Kerala Legislature Library initiated in 2006 has bestowed it with the status of India's first computerised Assembly Library using SOUL software of Inflibnet. On 2018 'Koha' software was used for the same facilitates members to search and extract the required information easily. Availability of library documents can be searched using OPAC (Online Public Access Catalogue) in the intranet of Kerala Legislature Secretariat."
+  },
+
+  "services": {
+    "services_heading": "Services",
+    "services_list": [
+      {
+        "title": "Reference Service",
+        "type": "paragraph",
+        "content": "Provides books/documents or relevant materials as demanded by the Members to suit their reference enquiries. This service is also extended to research scholars and accredited press representatives for short duration during non session periods."
+      },
+      {
+        "title": "Indexing and Documentation Services",
+        "type": "list",
+        "items": [
+          "Selects and disseminates information indispensable for indigenous publications like 'Legal and Constitutional Digest'",
+          "Prepares subject bibliographies",
+          "Index of nascent periodicals and articles",
+          "Digital Library offers access to important reference documents through Intranet of the Kerala Legislature Secretariat",
+          "E-reading portal — A gateway of information that offers access to more than thirty five thousand e-books"
+        ]
+      },
+      {
+        "title": "Press Clipping Service",
+        "type": "paragraph",
+        "content": "Assimilating daily news of utmost relevance and preserving the same for effective retrieval."
+      },
+      {
+        "title": "Photocopying Service",
+        "type": "paragraph",
+        "content": "Available in Main Library, Members' Reference Branch and Library Extension Counter."
+      }
+    ],
+    "databases_heading": "Databases",
+    "databases": [
+      {
+        "name": "Doper",
+        "description": "Index of articles in the periodical publications."
+      },
+      {
+        "name": "Person",
+        "description": "Index of articles on political personalities and other eminent persons."
+      },
+      {
+        "name": "Supreme Court and High Court Judgements",
+        "description": "Library subscribes a database which enables full text search on Kerala High Court Judgements from 1957 onwards and Supreme Court Judgements from 2000 onwards. Legislature Library also subscribes Manupatra (a legal database)."
+      }
+    ],
+    "book_exhibition_heading": "Book Exhibition",
+    "book_exhibition_description": "The Library conducts book exhibitions in connection with occasions like official language week and also to pay respect to eminent writers and political leaders on occasions of homage on their birth/death anniversaries or as and when they are acclaimed."
+  },
+
+  "forms": {
+    "heading": "Forms",
+    "items": [
+      { "id": 1, "title": "Membership Forms",                  "pdf_url": null },
+      { "id": 2, "title": "Membership Renewal Form",           "pdf_url": null },
+      { "id": 3, "title": "Application for Research Facility", "pdf_url": null },
+      { "id": 4, "title": "Request for Photocopying",          "pdf_url": null },
+      { "id": 5, "title": "Loan Slip",                         "pdf_url": null },
+      { "id": 6, "title": "Non Liability Certificate",         "pdf_url": null },
+      { "id": 7, "title": "Letter of Authority",               "pdf_url": null }
+    ]
+  }
+}

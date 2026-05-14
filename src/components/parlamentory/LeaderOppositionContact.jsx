@@ -114,7 +114,8 @@ const LeaderOppositionContact = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
-            { name: "Parlamentory Functionaries", href: "/parlamentory" },
+            { name: "Parliamentary Functionaries", href: "/governor" },
+            { name: "Leader of Opposition", href: "/leader-opposition-contact" },
             {
               name: "Leader of Opposition Contact",
               href: "/leader-opposition-contact",

@@ -8,15 +8,21 @@
  * @returns {string} - The proxied URL for HTTP, original URL for HTTPS
  */
 export const ensureHttps = (url) => {
-  if (!url) return url;
-  
-  // If URL starts with http:// (not https://), use the PDF proxy
-  if (url.startsWith('http://')) {
-    // Use the PDF proxy to fetch the HTTP PDF over HTTPS
-    return `/pdf-proxy.php?url=${encodeURIComponent(url)}`;
+  if (!url) return '';
+
+  const cleaned = url.trim();
+
+  // If already HTTPS, use directly
+  if (cleaned.startsWith('https://')) {
+    return cleaned;
   }
-  
-  return url;
+
+  // If HTTP, send through proxy
+  if (cleaned.startsWith('http://')) {
+    return `/pdf-proxy.php?url=${encodeURIComponent(cleaned)}`;
+  }
+
+  return cleaned;
 };
 
 /**

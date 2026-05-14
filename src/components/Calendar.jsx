@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -72,6 +73,7 @@ function Calendar({
 
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   const monthsSidebarRef = useRef(null);
+  const navigate = useNavigate();
 
   // Fetch calendar events from API
   useEffect(() => {
@@ -431,6 +433,40 @@ function Calendar({
                   </p>
                 )}
               </div>
+
+              {/* ---- Static Call of Attention link ---- */}
+              <div
+                className="mt-3 pt-3"
+                style={{ borderTop: "1px solid #e8e8e8" }}
+              >
+                <button
+                  onClick={() => navigate("/calling-attention")}
+                  className="d-flex align-items-center gap-2 w-100 text-start"
+                  style={{
+                    background: "var(--clr--violet, #e6e1ff)",
+                    border: "1px solid var(--clr--primary, #6440fb)",
+                    borderRadius: 6,
+                    padding: "8px 12px",
+                    cursor: "pointer",
+                    color: "var(--clr--primary, #6440fb)",
+                    fontWeight: 600,
+                    fontSize: 13,
+                    width: "100%",
+                  }}
+                >
+                  <span
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      background: "var(--clr--primary, #6440fb)",
+                      flexShrink: 0,
+                    }}
+                  />
+                  Calling Attention
+                </button>
+              </div>
+
             </div>
           </div>
         </div>

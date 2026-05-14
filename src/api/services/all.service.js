@@ -74,20 +74,34 @@ export const fetchFormerSecretaries = async () => {
   }
 };
 
-export const fetchSynopsis = async () => {
+export const fetchSynopsis = async ({ kla_id, session_no } = {}) => {
   try {
-    const response = await axiosInstance.get(API_ENDPOINTS.SYNOPSIS);
-    return response.data || [];
+    const params = new URLSearchParams();
+    if (kla_id != null) params.set("kla_id", String(kla_id));
+    if (session_no != null) params.set("session_no", String(session_no));
+    const query = params.toString();
+    const url = query ? `${API_ENDPOINTS.SYNOPSIS}?${query}` : API_ENDPOINTS.SYNOPSIS;
+    const response = await axiosInstance.get(url);
+    // Handle { status, data: [...] } or bare array
+    if (response.data?.status && Array.isArray(response.data?.data)) return response.data.data;
+    return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error("Error fetching Synopsis data:", error);
     return [];
   }
 };
 
-export const fetchGleaning = async () => {
+export const fetchGleaning = async ({ kla_id, session_no } = {}) => {
   try {
-    const response = await axiosInstance.get(API_ENDPOINTS.GLEANING);
-    return response.data || [];
+    const params = new URLSearchParams();
+    if (kla_id != null) params.set("kla_id", String(kla_id));
+    if (session_no != null) params.set("session_no", String(session_no));
+    const query = params.toString();
+    const url = query ? `${API_ENDPOINTS.GLEANING}?${query}` : API_ENDPOINTS.GLEANING;
+    const response = await axiosInstance.get(url);
+    // Handle { status, data: [...] } or bare array
+    if (response.data?.status && Array.isArray(response.data?.data)) return response.data.data;
+    return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error("Error fetching Gleaning data:", error);
     return [];

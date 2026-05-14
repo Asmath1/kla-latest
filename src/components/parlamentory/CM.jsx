@@ -128,7 +128,8 @@ const CM = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
-            { name: "Parlamentory Functionaries", href: "/parlamentory" },
+            { name: "Parliamentary Functionaries", href: "/governor" },
+            { name: "Chief Minister", href: "/cm" },
             { name: "Chief Minister", href: "/cm" },
           ]}
         />

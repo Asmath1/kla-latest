@@ -839,7 +839,7 @@ const Speaker = () => {
         <BreadcrumbNav
           breadcrumbs={[
             { name: "Home", href: "/" },
-            { name: "Parlamentory Functionaries", href: "/parlamentory" },
+            { name: "Parliamentary Functionaries", href: "/governor" },
             { name: "Speaker", href: "/speaker" },
           ]}
         />

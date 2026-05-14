@@ -4,7 +4,11 @@ import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { fetchKlaMembers } from "../../services/MemberService";
-import { fetchConstituencies, fetchKlaSessions } from "../../services/MasterService";
+import { 
+  fetchConstituencies, 
+  fetchKlaSessions,
+  fetchKlaSessionsWithMembers 
+} from "../../services/MasterService";
 import Select from "react-select";
 
 // ✅ Overlay component (when sidebar is open)
@@ -47,11 +51,13 @@ const FilterComponent = ({ isOpen, onClose, filters = {}, onSubmit, klaId = 15 }
     age: "",
     gender: "",
     members: "",
+    ministerMemberId: "",
     category: [],
     status: "",
     startDate: "",
     endDate: "",
     sessionDate: "",
+    isMinister: false,
     ...filters,
   });
 
@@ -63,6 +69,7 @@ const FilterComponent = ({ isOpen, onClose, filters = {}, onSubmit, klaId = 15 }
     genders: [],
     statuses: [],
     members: [],
+    ministers: [],
     loading: false,
     error: null,
   });
@@ -78,34 +85,44 @@ const FilterComponent = ({ isOpen, onClose, filters = {}, onSubmit, klaId = 15 }
       age: "",
       gender: "",
       members: "",
+      ministerMemberId: "",
       category: [],
       status: "",
       startDate: "",
       endDate: "",
       sessionDate: "",
+      isMinister: false,
       ...filters,
     }));
   }, [filters]);
 
-  // Fetch kla-members when klaId changes and derive unique option lists
+  // Fetch kla-members and ministers when klaId changes and derive unique option lists
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
       setOptions((s) => ({ ...s, loading: true, error: null }));
       try {
-        const data = await fetchKlaMembers(klaId);
+        // Try to fetch from new API first
+        const sessionsData = await fetchKlaSessionsWithMembers(klaId);
         if (cancelled) return;
+
+        const data = sessionsData.members || [];
+        const ministers = sessionsData.ministers || [];
 
         const constituencies = [];
         const parties = [];
         const districts = [];
         const genders = new Set();
         const statuses = new Set();
-        const members = [];
+        const membersList = [];
+        const ministersList = [];
 
         data.forEach((it) => {
           // constituency
-          const cName = it?.constituency?.entitle || it?.constituency?.maltitle;
+          const cName =
+            it?.constituency?.entitle ||
+            it?.constituency?.maltitle ||
+            it?.constituency?.name;
           if (cName && !constituencies.find((c) => c.value === cName)) {
             constituencies.push({ value: cName, label: cName });
           }
@@ -117,13 +134,13 @@ const FilterComponent = ({ isOpen, onClose, filters = {}, onSubmit, klaId = 15 }
           }
 
           // district
-          const d = it?.district?.name;
+          const d = it?.district?.name || it?.district;
           if (d && !districts.find((dist) => dist.value === d)) {
             districts.push({ value: d, label: d });
           }
 
           // gender (member.gender numeric -> map)
-          const g = it?.member?.gender;
+          const g = it?.member?.gender != null ? it.member.gender : it?.gender;
           if (g != null) genders.add(String(g));
 
           // membership reason/status
@@ -131,9 +148,21 @@ const FilterComponent = ({ isOpen, onClose, filters = {}, onSubmit, klaId = 15 }
           if (reason) statuses.add(reason);
 
           // members (name)
-          const mName = it?.member?.langs?.[0]?.name || it?.member?.name;
-          if (mName && !members.find((m) => m.value === mName)) {
-            members.push({ value: mName, label: mName });
+          const mName = it?.name || it?.member?.langs?.[0]?.name || it?.member?.name;
+          if (mName && !membersList.find((m) => m.value === mName)) {
+            membersList.push({ value: mName, label: mName });
+          }
+        });
+
+        // Build ministers list
+        ministers.forEach((minister) => {
+          const minName = minister?.member_name || "Unknown";
+          if (!ministersList.find((m) => m.value === minName)) {
+            ministersList.push({ 
+              value: minName, 
+              label: minName,
+              memberId: minister.member_id 
+            });
           }
         });
 
@@ -152,13 +181,74 @@ const FilterComponent = ({ isOpen, onClose, filters = {}, onSubmit, klaId = 15 }
           districts: districts.sort((a, b) => a.label.localeCompare(b.label)),
           genders: genderOptions,
           statuses: statusOptions.sort((a, b) => a.label.localeCompare(b.label)),
-          members: members.sort((a, b) => a.label.localeCompare(b.label)),
+          members: membersList.sort((a, b) => a.label.localeCompare(b.label)),
+          ministers: ministersList.sort((a, b) => a.label.localeCompare(b.label)),
           loading: false,
           error: null,
         });
       } catch (err) {
         if (cancelled) return;
-        setOptions((s) => ({ ...s, loading: false, error: err.message || String(err) }));
+        // Fallback to old API
+        try {
+          const data = await fetchKlaMembers(klaId);
+          const constituencies = [];
+          const parties = [];
+          const districts = [];
+          const genders = new Set();
+          const statuses = new Set();
+          const membersList = [];
+
+          data.forEach((it) => {
+            const cName = it?.constituency?.entitle || it?.constituency?.maltitle;
+            if (cName && !constituencies.find((c) => c.value === cName)) {
+              constituencies.push({ value: cName, label: cName });
+            }
+
+            const p = it?.party?.entitle || it?.member?.party || it?.party || null;
+            if (p && !parties.find((party) => party.value === p)) {
+              parties.push({ value: p, label: p });
+            }
+
+            const d = it?.district?.name;
+            if (d && !districts.find((dist) => dist.value === d)) {
+              districts.push({ value: d, label: d });
+            }
+
+            const g = it?.member?.gender;
+            if (g != null) genders.add(String(g));
+
+            const reason = it?.reason?.langs?.[0]?.name || it?.reason?.name;
+            if (reason) statuses.add(reason);
+
+            const mName = it?.member?.langs?.[0]?.name || it?.member?.name;
+            if (mName && !membersList.find((m) => m.value === mName)) {
+              membersList.push({ value: mName, label: mName });
+            }
+          });
+
+          const genderOptions = Array.from(genders).map((g) => {
+            if (g === "1") return { value: "1", label: "Male" };
+            if (g === "2") return { value: "2", label: "Female" };
+            return { value: g, label: g };
+          });
+
+          const statusOptions = Array.from(statuses).map((s) => ({ value: s, label: s }));
+
+          setOptions({
+            constituencies: constituencies.sort((a, b) => a.label.localeCompare(b.label)),
+            parties: parties.sort((a, b) => a.label.localeCompare(b.label)),
+            districts: districts.sort((a, b) => a.label.localeCompare(b.label)),
+            genders: genderOptions,
+            statuses: statusOptions.sort((a, b) => a.label.localeCompare(b.label)),
+            members: membersList.sort((a, b) => a.label.localeCompare(b.label)),
+            ministers: [],
+            loading: false,
+            error: null,
+          });
+        } catch (fallbackErr) {
+          if (cancelled) return;
+          setOptions((s) => ({ ...s, loading: false, error: fallbackErr.message || String(fallbackErr) }));
+        }
       }
     };
 
@@ -244,11 +334,13 @@ const FilterComponent = ({ isOpen, onClose, filters = {}, onSubmit, klaId = 15 }
       age: "",
       gender: "",
       members: "",
+      ministerMemberId: "",
       category: [],
       status: "",
       startDate: "",
       endDate: "",
       sessionDate: "",
+      isMinister: false,
     };
     setLocalFilters(emptyFilters);
     onSubmit(emptyFilters); // 🔥 Trigger clear immediately
@@ -413,6 +505,57 @@ const FilterComponent = ({ isOpen, onClose, filters = {}, onSubmit, klaId = 15 }
                           <option value="Leader of Opposition">Leader of Opposition</option>
                           <option value="Chief Whip">Chief Whip</option>
                         </select>
+                      </div>
+                    </div>
+
+                    {/* Minister Name */}
+                    <div className="form-style1 mb20">
+                      <label className="heading-color ff-heading fw500 mb0">Minister Name</label>
+                      <div className="bootselect-multiselect">
+                        <select
+                          className="form-select"
+                          name="ministerMemberId"
+                          value={localFilters.ministerMemberId}
+                          onChange={handleFilterChange}
+                          disabled={options.loading || options.ministers.length === 0}
+                        >
+                          <option value="">All Ministers</option>
+                          {options.loading ? (
+                            <option value="">Loading...</option>
+                          ) : options.ministers && options.ministers.length > 0 ? (
+                            options.ministers.map((minister, idx) => (
+                              <option key={`${minister.value}-${idx}`} value={minister.memberId || minister.value}>
+                                {minister.label}
+                              </option>
+                            ))
+                          ) : (
+                            <option value="" disabled>No ministers available</option>
+                          )}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Minister Filter Checkbox */}
+                    <div className="form-style1 mb20">
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="checkbox"
+                          id="isMinisterCheckbox"
+                          name="isMinister"
+                          checked={localFilters.isMinister || false}
+                          onChange={(e) => {
+                            const updated = {
+                              ...localFilters,
+                              isMinister: e.target.checked,
+                            };
+                            setLocalFilters(updated);
+                            onSubmit(updated);
+                          }}
+                          className="form-check-input me-2"
+                        />
+                        <label htmlFor="isMinisterCheckbox" className="heading-color ff-heading fw500 mb0" style={{ cursor: 'pointer' }}>
+                          Show Ministers Only
+                        </label>
                       </div>
                     </div>
 

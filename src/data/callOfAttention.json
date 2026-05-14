@@ -1,0 +1,89 @@
+{
+  "default": {
+    "kla_id": 15,
+    "session_id": 13
+  },
+
+  "sessions": [
+    {
+      "kla_id": 15,
+      "session_id": 13,
+      "start_date": "2025-07-05",
+      "end_date": "2025-08-05",
+      "meeting_dates": ["2025-07-05", "2025-07-09", "2025-07-15"],
+      "allowed_dates": ["2025-07-05", "2025-07-09", "2025-07-15"],
+      "daily_pdfs": [
+        {
+          "date": "2025-07-05",
+          "title": "Calling Attention - 05 Jul 2025",
+          "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+        },
+        {
+          "date": "2025-07-05",
+          "title": "Calling Attention (Part 2) - 05 Jul 2025",
+          "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC43.pdf"
+        },
+        {
+          "date": "2025-07-09",
+          "title": "Calling Attention - 09 Jul 2025",
+          "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+        },
+        {
+          "date": "2025-07-15",
+          "title": "Calling Attention - 15 Jul 2025",
+          "pdf_url": null
+        }
+      ]
+    },
+    {
+      "kla_id": 15,
+      "session_id": 1,
+      "start_date": "2021-05-24",
+      "end_date": "2021-06-11",
+      "meeting_dates": ["2021-05-24", "2021-05-26", "2021-06-03"],
+      "allowed_dates": ["2021-05-24", "2021-05-26", "2021-06-03"],
+      "daily_pdfs": [
+        {
+          "date": "2021-05-24",
+          "title": "Calling Attention - 24 May 2021",
+          "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+        },
+        {
+          "date": "2021-05-26",
+          "title": "Calling Attention - 26 May 2021",
+          "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC44.pdf"
+        },
+        {
+          "date": "2021-06-03",
+          "title": "Calling Attention - 03 Jun 2021",
+          "pdf_url": null
+        }
+      ]
+    },
+    {
+      "kla_id": 14,
+      "session_id": 1,
+      "start_date": "2016-06-01",
+      "end_date": "2016-07-08",
+      "meeting_dates": ["2016-06-01", "2016-06-08", "2016-06-15"],
+      "allowed_dates": ["2016-06-01", "2016-06-08", "2016-06-15"],
+      "daily_pdfs": [
+        {
+          "date": "2016-06-01",
+          "title": "Calling Attention - 01 Jun 2016",
+          "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC43.pdf"
+        },
+        {
+          "date": "2016-06-08",
+          "title": "Calling Attention - 08 Jun 2016",
+          "pdf_url": "https://www.niyamasabha.nic.in/images//15th-KLA-committee-report/LFAC43.pdf"
+        },
+        {
+          "date": "2016-06-15",
+          "title": "Calling Attention - 15 Jun 2016",
+          "pdf_url": null
+        }
+      ]
+    }
+  ]
+}
