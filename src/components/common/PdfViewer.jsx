@@ -1,138 +1,70 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { Worker, Viewer, SpecialZoomLevel } from "@react-pdf-viewer/core";
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import { buildPdfSrc } from "../../utils/pdfUtils";
 
+/**
+ * PdfViewer
+ *
+ * Rendering strategy (in order of preference):
+ *  1. Local paths → served directly, no proxy needed.
+ *  2. Remote URLs → PHP proxy if available; otherwise Google Docs viewer.
+ *
+ * See PdfViewerModal.jsx for the dev/production setup notes.
+ */
 const PdfViewer = ({
-	show,
-	onClose,
-	fileUrl,
-	title = "Document Viewer",
-	headerActions,
-	height = "calc(100vh - 160px)",
-	defaultScale,
-	workerUrl = "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js",
+  show,
+  onClose,
+  fileUrl,
+  title = "Document Viewer",
+  headerActions,
+  height = "calc(100vh - 160px)",
 }) => {
-	const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  const [src, setSrc] = useState("");
 
-	const resolvedScale =
-		defaultScale !== undefined
-			? defaultScale
-			: typeof window !== "undefined" && window.innerWidth <= 576
-			? SpecialZoomLevel.PageFit
-			: SpecialZoomLevel.PageWidth;
+  useEffect(() => {
+    if (!fileUrl) {
+      setSrc("");
+      return;
+    }
+    buildPdfSrc(fileUrl).then(setSrc);
+  }, [fileUrl]);
 
-	// --- DOWNLOAD HANDLER ---
-	const handleDownload = () => {
-		if (fileUrl) {
-			const link = document.createElement("a");
-			link.href = fileUrl;
-			link.download = fileUrl.split("/").pop() || "document.pdf";
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-		}
-	};
+  const handleOpenNewTab = () => {
+    if (fileUrl) window.open(fileUrl, "_blank", "noopener,noreferrer");
+  };
 
-	return (
-		<Modal show={show} onHide={onClose} centered dialogClassName="modal-60vh">
-			<Modal.Header closeButton>
-				<div className="d-flex justify-content-between align-items-center w-100">
-					<Modal.Title className="modal-title">{title}</Modal.Title>
+  return (
+    <Modal show={show} onHide={onClose} centered dialogClassName="modal-60vh">
+      <Modal.Header closeButton>
+        <div className="d-flex justify-content-between align-items-center w-100">
+          <Modal.Title className="modal-title">{title}</Modal.Title>
+          <div className="d-flex align-items-center gap-2">
+            <Button variant="outline-primary" size="sm" onClick={handleOpenNewTab}>
+              Download
+            </Button>
+            {headerActions || null}
+          </div>
+        </div>
+      </Modal.Header>
 
-					{/* Right-side actions */}
-					<div className="d-flex align-items-center gap-2">
-						<Button
-							variant="outline-primary"
-							size="sm"
-							onClick={handleDownload}
-						>
-							Download
-						</Button>
-						{headerActions || null}
-					</div>
-				</div>
-			</Modal.Header>
-
-			<Modal.Body style={{ height, overflow: "auto" }}>
-				{fileUrl && (
-					<div
-						className="pdf-viewer-responsive"
-						style={{ height: "100%", width: "100%" }}
-					>
-						<Worker workerUrl={workerUrl}>
-							<Viewer
-								fileUrl={fileUrl}
-								plugins={[defaultLayoutPluginInstance]}
-								defaultScale={resolvedScale}
-							/>
-						</Worker>
-					</div>
-				)}
-			</Modal.Body>
-		</Modal>
-	);
+      <Modal.Body style={{ height, overflow: "hidden", padding: 0 }}>
+        {src ? (
+          <iframe
+            key={src}
+            src={src}
+            title={title}
+            width="100%"
+            height="100%"
+            style={{ border: "none", display: "block" }}
+          />
+        ) : (
+          <div className="d-flex justify-content-center align-items-center h-100">
+            <p className="text-muted">No document selected.</p>
+          </div>
+        )}
+      </Modal.Body>
+    </Modal>
+  );
 };
 
 export default PdfViewer;
-
-
-
-
-// import React from "react";
-// import { Modal, Button } from "react-bootstrap";
-// import { Worker, Viewer, SpecialZoomLevel } from "@react-pdf-viewer/core";
-// import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-// import "@react-pdf-viewer/core/lib/styles/index.css";
-// import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-
-// const PdfViewer = ({
-// 	show,
-// 	onClose,
-// 	fileUrl,
-// 	title = "Document Viewer",
-// 	headerActions,
-// 	height = "calc(100vh - 160px)",
-// 	defaultScale,
-// 	workerUrl = "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js",
-// }) => {
-// 	const defaultLayoutPluginInstance = defaultLayoutPlugin();
-
-// 	const resolvedScale =
-// 		defaultScale !== undefined
-// 			? defaultScale
-// 			: typeof window !== "undefined" && window.innerWidth <= 576
-// 			? SpecialZoomLevel.PageFit
-// 			: SpecialZoomLevel.PageWidth;
-
-// 	return (
-// 		<Modal show={show} onHide={onClose} centered dialogClassName="modal-60vh">
-// 			<Modal.Header closeButton>
-// 				<div className="d-flex justify-content-between align-items-center w-100">
-// 					<Modal.Title className="modal-title">{title}</Modal.Title>
-// 					{headerActions || null}
-// 				</div>
-// 			</Modal.Header>
-
-// 			<Modal.Body style={{ height, overflow: "auto" }}>
-// 				{fileUrl && (
-					
-// 					<div className="pdf-viewer-responsive" style={{ height: "100%", width: "100%" }}>
-// 						<Worker workerUrl={workerUrl}>
-// 							<Viewer
-// 								fileUrl={fileUrl}
-// 								plugins={[defaultLayoutPluginInstance]}
-// 								defaultScale={resolvedScale}
-// 							/>
-// 						</Worker>
-// 					</div>
-// 				)}
-// 			</Modal.Body>
-
-// 		</Modal>
-// 	);
-// };
-
-// export default PdfViewer;

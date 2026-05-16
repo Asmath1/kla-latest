@@ -7,6 +7,15 @@ export default defineConfig({
   base: '/',
   server: {
     historyApiFallback: true,
+    proxy: {
+      // Forward /pdf-proxy.php requests to the PHP built-in server.
+      // Start it with: php -S localhost:8001 -t public
+      '/pdf-proxy.php': {
+        target: 'http://localhost:8001',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
   build: {
     chunkSizeWarningLimit: 1000, // Increase warning limit to 1MB

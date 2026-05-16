@@ -1,0 +1,229 @@
+{
+  "filterDefaults": {
+    "constituency": "",
+    "party": "",
+    "qualification": "",
+    "terms": "",
+    "position": "",
+    "age": "",
+    "gender": "",
+    "members": "",
+    "ministerMemberId": "",
+    "category": [],
+    "status": "",
+    "startDate": "",
+    "endDate": "",
+    "sessionDate": "",
+    "isMinister": false
+  },
+  "filters": [
+    {
+      "key": "constituency",
+      "label": "Constituency",
+      "type": "select",
+      "source": "api",
+      "apiField": "constituency.entitle | constituency.maltitle | constituency.name",
+      "defaultValue": "",
+      "placeholder": "All Constituencies",
+      "options": []
+    },
+    {
+      "key": "party",
+      "label": "Party",
+      "type": "select",
+      "source": "api",
+      "apiField": "party.entitle | member.party | party",
+      "defaultValue": "",
+      "placeholder": "All Parties",
+      "staticFallback": [
+        { "value": "CPI",    "label": "CPI" },
+        { "value": "CPI(M)", "label": "CPI(M)" },
+        { "value": "INC",    "label": "INC" },
+        { "value": "BJP",    "label": "BJP" }
+      ]
+    },
+    {
+      "key": "qualification",
+      "label": "Qualification",
+      "type": "select",
+      "source": "static",
+      "defaultValue": "",
+      "placeholder": "All Qualifications",
+      "options": [
+        { "value": "Graduate",        "label": "Graduate" },
+        { "value": "Post Graduate",   "label": "Post Graduate" },
+        { "value": "Doctorate",       "label": "Doctorate" },
+        { "value": "Professional",    "label": "Professional" },
+        { "value": "Diploma",         "label": "Diploma" },
+        { "value": "Higher Secondary","label": "Higher Secondary" },
+        { "value": "Secondary",       "label": "Secondary" }
+      ]
+    },
+    {
+      "key": "terms",
+      "label": "No. of Terms",
+      "type": "select",
+      "source": "static",
+      "defaultValue": "",
+      "placeholder": "All Terms",
+      "options": [
+        { "value": 1,  "label": "1" },
+        { "value": 2,  "label": "2" },
+        { "value": 3,  "label": "3" },
+        { "value": 4,  "label": "4" },
+        { "value": 5,  "label": "5" },
+        { "value": 6,  "label": "6" },
+        { "value": 7,  "label": "7" },
+        { "value": 8,  "label": "8" },
+        { "value": 9,  "label": "9" },
+        { "value": 10, "label": "10" }
+      ]
+    },
+    {
+      "key": "position",
+      "label": "Position Held",
+      "type": "select",
+      "source": "static",
+      "defaultValue": "",
+      "placeholder": "All Positions",
+      "options": [
+        { "value": "Minister",             "label": "Minister" },
+        { "value": "Chief Minister",       "label": "Chief Minister" },
+        { "value": "Speaker",              "label": "Speaker" },
+        { "value": "Deputy Speaker",       "label": "Deputy Speaker" },
+        { "value": "Leader of Opposition", "label": "Leader of Opposition" },
+        { "value": "Chief Whip",           "label": "Chief Whip" }
+      ]
+    },
+    {
+      "key": "ministerMemberId",
+      "label": "Minister Name",
+      "type": "select",
+      "source": "api",
+      "apiField": "ministers[].member_name",
+      "valueField": "member_id",
+      "defaultValue": "",
+      "placeholder": "All Ministers",
+      "options": []
+    },
+    {
+      "key": "isMinister",
+      "label": "Show Ministers Only",
+      "type": "checkbox",
+      "source": "static",
+      "defaultValue": false
+    },
+    {
+      "key": "age",
+      "label": "Age",
+      "type": "select",
+      "source": "static",
+      "defaultValue": "",
+      "placeholder": "All Ages",
+      "options": [
+        { "value": "20-30", "label": "20-30" },
+        { "value": "30-40", "label": "30-40" },
+        { "value": "41-50", "label": "41-50" },
+        { "value": "51-60", "label": "51-60" },
+        { "value": "61-70", "label": "61-70" },
+        { "value": "71+",   "label": "71+" }
+      ]
+    },
+    {
+      "key": "gender",
+      "label": "Gender",
+      "type": "select",
+      "source": "api",
+      "apiField": "member.gender",
+      "defaultValue": "",
+      "placeholder": "All Genders",
+      "staticFallback": [
+        { "value": "1", "label": "Male" },
+        { "value": "2", "label": "Female" },
+        { "value": "3", "label": "Other" }
+      ],
+      "valueMap": {
+        "1": "Male",
+        "2": "Female"
+      }
+    },
+    {
+      "key": "category",
+      "label": "Constitutional Category",
+      "type": "multiselect",
+      "source": "static",
+      "defaultValue": [],
+      "placeholder": "Select categories...",
+      "options": [
+        { "value": "General",      "label": "General" },
+        { "value": "SC",           "label": "SC" },
+        { "value": "ST",           "label": "ST" },
+        { "value": "OBC",          "label": "OBC" },
+        { "value": "Anglo-Indian", "label": "Anglo-Indian" }
+      ]
+    },
+    {
+      "key": "status",
+      "label": "Membership Status",
+      "type": "select",
+      "source": "api",
+      "apiField": "reason.langs[0].name | reason.name",
+      "defaultValue": "",
+      "placeholder": "All Status",
+      "staticFallback": [
+        { "value": "Active",       "label": "Active" },
+        { "value": "Inactive",     "label": "Inactive" },
+        { "value": "Expired",      "label": "Expired" },
+        { "value": "Resigned",     "label": "Resigned" },
+        { "value": "Disqualified", "label": "Disqualified" }
+      ]
+    },
+    {
+      "key": "startDate",
+      "label": "Start Date",
+      "type": "date",
+      "source": "static",
+      "defaultValue": ""
+    },
+    {
+      "key": "endDate",
+      "label": "End Date",
+      "type": "date",
+      "source": "static",
+      "defaultValue": ""
+    },
+    {
+      "key": "sessionDate",
+      "label": "Session Date",
+      "type": "select",
+      "source": "api",
+      "apiEndpoint": "kla-sessions",
+      "defaultValue": "",
+      "options": []
+    }
+  ],
+  "apiSources": {
+    "primary": {
+      "endpoint": "https://api.niyamasabha.in/api/kla-sessions-with-members",
+      "method": "POST",
+      "bodyParam": "kla_id",
+      "responseFields": {
+        "members": "members[]",
+        "ministers": "ministers[]"
+      }
+    },
+    "fallback": {
+      "endpoint": "https://api.niyamasabha.in/api/kla-members/{klaId}",
+      "method": "GET"
+    },
+    "constituencies": {
+      "endpoint": "https://api.niyamasabha.in/api/constituencies",
+      "method": "POST"
+    },
+    "sessions": {
+      "endpoint": "https://api.niyamasabha.in/api/kla-sessions",
+      "method": "POST",
+      "bodyParam": "kla_id"
+    }
+  }
+}

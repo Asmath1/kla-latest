@@ -31,17 +31,20 @@ const safeGender = (item) =>
     : "";
 const safeImage = (item) => {
   const img =
-  item?.member?.image ||
-    item?.image ||
-    item?.image_url ||
     item?.member?.image_url ||
-    
+    item?.image_url ||
+    item?.member?.image ||
+    item?.image ||
     "";
   if (!img) return "/images/prof-dummy.png";
   if (img.startsWith("http://") || img.startsWith("https://")) return img;
   if (img.startsWith("//")) return `https:${img}`;
   if (img.startsWith("/")) return getImageUrl(img);
-  return img;
+  console.log(img, "imgggggg");
+
+  // bare filename — prepend the API uploads path
+  return `https://api.niyamasabha.in/uploads/member_images/ported/${img}`;
+  
 };
 
 // --------------------------- MemberCard ---------------------------
@@ -49,12 +52,16 @@ const MemberCard = ({ member, navigate, selectedKla }) => {
   const name = safeName(member);
   const constituency = safeConstituency(member);
   const img = safeImage(member);
+  // Use member_id (the actual member identifier) for profile navigation.
+  // The kla-member record `id` is a join-table ID and does not match
+  // what the member-profile API expects.
+  const profileId = member.member_id || member.id;
 
   return (
     <div
       className="member-card job-list-style1 bdr1 text-center"
       onClick={() =>
-        navigate(`/member-profile/${member.id}?kla=${selectedKla}`)
+        navigate(`/member-profile/${profileId}?kla=${selectedKla}`)
       }
       style={{ cursor: "pointer" }}
     >
@@ -426,16 +433,16 @@ const MemberList = () => {
     };
   }, []);
 
+
+  
 // --------------------------- Fetch members for selected KLA ---------------------------
 useEffect(() => {
   if (!selectedKla) return;
   
   let cancelled = false;
-  // Use a unique request ID to handle race conditions
   const requestId = Date.now();
   
   const loadMembers = async () => {
-    // Set loading states based on active tab
     if (activeTab === "pills-profile2") {
       setLoading(true);
       setError(null);
@@ -447,60 +454,41 @@ useEffect(() => {
     try {
       console.log(`Fetching members for KLA ${selectedKla}, tab: ${activeTab}, requestId: ${requestId}`);
       
-      // Try to fetch from new API with ministers data
-      let data, ministersData = [];
-      try {
-        const sessionsData = await fetchKlaSessionsWithMembers(selectedKla);
-        data = sessionsData.members || [];
-        ministersData = sessionsData.ministers || [];
-        console.log("Fetched from new API with ministers data");
-      } catch (newApiErr) {
-        console.log("New API failed, falling back to old API:", newApiErr);
-        // Fallback to old API
-        data = await fetchKlaMembers(selectedKla);
-        ministersData = [];
-      }
+      // Always use kla-members for member cards — it returns the correct `id`
+      // used for profile navigation. Fetch ministers separately for filter options.
+      const data = await fetchKlaMembers(selectedKla);
+
+      // Fetch ministers in parallel for the filter sidebar (non-blocking)
+      fetchKlaSessionsWithMembers(selectedKla)
+        .then((sessionsData) => {
+          if (!cancelled) setMinisters(sessionsData?.ministers || []);
+        })
+        .catch(() => {/* ministers are optional — ignore errors */});
       
-      // Check if this request is still valid
       if (cancelled) {
         console.log(`Request ${requestId} cancelled`);
         return;
       }
       
-      console.log("=== API DATA RECEIVED ===");
-      console.log("KLA ID:", selectedKla);
-      console.log("Active Tab:", activeTab);
-      console.log("Raw API response type:", typeof data);
-      console.log("Is Array:", Array.isArray(data));
-      
-      // Handle different API response structures
       let membersArray = [];
-      
       if (Array.isArray(data)) {
         membersArray = data;
       } else if (data?.data && Array.isArray(data.data)) {
         membersArray = data.data;
       } else {
-        console.error("Unexpected data structure:", data);
         throw new Error("Invalid data structure from API");
       }
       
       console.log(`Members array length: ${membersArray.length}`);
-      console.log(`Ministers array length: ${ministersData.length}`);
       
       if (!cancelled) {
-        // Store ministers data (always update to avoid stale values)
-        setMinisters(ministersData || []);
-        
         if (activeTab === "pills-profile2") {
           setMembers(membersArray);
           setFilteredMembers(membersArray);
           setError(null);
-          console.log("Sitting members updated:", membersArray.length);
         } else {
           setFormerMembers(membersArray);
           setFormerError(null);
-          console.log("Former members updated:", membersArray.length);
         }
       }
     } catch (err) {

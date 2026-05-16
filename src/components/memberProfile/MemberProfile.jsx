@@ -15,8 +15,8 @@ import {
   faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { BreadcrumbNav, CategoriesNav, SectionTitle } from "../common";
-import InlinePdfViewer from "../common/InlinePdfViwer";
 import { API_ENDPOINTS, getImageUrl } from "../../utils/config";
+import { buildPdfSrc } from "../../utils/pdfUtils";
 
 // Export Dropdown Component
 const ExportDropdown = ({ isOpen, onToggle, onExport }) => {
@@ -368,12 +368,12 @@ const MemberProfile = () => {
     m?.constituency?.entitle || m?.constituency?.maltitle || m?.constituency || "";
   const getParty = (m) => m?.party?.entitle || m?.party || "";
   const getImage = (m) => {
-    const img = m?.member?.image || m?.image_url || m?.member?.image_url || m?.image || "";
+    const img = m?.member?.image_url || m?.member?.image || m?.image_url || m?.image || "";
     if (!img) return "/images/prof-dummy.png";
     if (img.startsWith("http://") || img.startsWith("https://")) return img;
     if (img.startsWith("//")) return `https:${img}`;
     if (img.startsWith("/")) return getImageUrl(img);
-    return img;
+    return `https://api.niyamasabha.in/uploads/member_images/ported/${img}`;
   };
   const getPhone = (m) => {
     const phone = m?.addresses?.mobile_nos || m?.member?.contact?.phone || m?.phone || "";
@@ -393,6 +393,27 @@ const MemberProfile = () => {
   const getMLAAddress = (m) => m?.addresses?.address_langs?.[0]?.mla_address || "---";
   const getOfficeTelephone = (m) => m?.addresses?.office_telephone || "---";
 
+  // Derive structured fields from the API response shape
+  const GetSpouseName = (m) =>
+    m?.spouse?.languages?.[0]?.name || m?.spouse?.name || "---";
+
+  const GetHobbies = (m) =>
+    m?.other_details?.other_detail_langs?.[0]?.hobbies ||
+    m?.other_details?.hobbies ||
+    "---";
+
+  const GetPositionsText = (m) =>
+    m?.positions?.position_langs?.[0]?.name ||
+    (Array.isArray(m?.positions) ? m.positions.map(p => p.position || p.name || "").filter(Boolean).join("; ") : null) ||
+    "---";
+
+  const GetSocialLinks = (m) => ({
+    facebook: m?.other_details?.fb_link || null,
+    instagram: m?.other_details?.instagram_link || null,
+    linkedin: m?.other_details?.linkedin_link || null,
+    twitter: m?.other_details?.twitter_link || null,
+  });
+
   useEffect(() => {
     let cancelled = false;
     const loadMember = async () => {
@@ -403,44 +424,68 @@ const MemberProfile = () => {
       setMemberLoading(true);
       setMemberError(null);
       try {
-        // First try the member-profile API endpoint
-        const profileRes = await fetch(API_ENDPOINTS.MEMBER_PROFILE(memberId));
-        const profileJson = await profileRes.json();
-        
+        // Fetch member-profile (detailed data) and kla-members (constituency/party) in parallel
+        const queryParams = new URLSearchParams(window.location.search);
+        const klaId = queryParams.get("kla") || "15";
+
+        const [profileRes, klaRes] = await Promise.all([
+          fetch(API_ENDPOINTS.MEMBER_PROFILE(memberId)).catch(() => null),
+          fetch(API_ENDPOINTS.KLA_MEMBERS(klaId)).catch(() => null),
+        ]);
+
+        if (cancelled) return;
+
+        // Parse both responses safely
+        const profileJson = profileRes ? await profileRes.json().catch(() => null) : null;
+        const klaJson = klaRes ? await klaRes.json().catch(() => null) : null;
+
+        // Find the matching kla-member entry for constituency/party
+        // memberId in the URL is now member_id, so match on member_id first
+        let klaEntry = null;
+        if (klaJson?.status && Array.isArray(klaJson.data)) {
+          klaEntry = klaJson.data.find(
+            (x) => String(x.member_id) === String(memberId) || String(x.id) === String(memberId)
+          );
+        }
+
         if (profileJson?.status && profileJson?.data) {
-          if (!cancelled) setMemberData(profileJson.data);
+          // Merge kla-member fields (constituency, party, designation) into profile data
+          const merged = {
+            ...profileJson.data,
+            constituency: klaEntry?.constituency || profileJson.data?.constituency || null,
+            party: klaEntry?.party || profileJson.data?.party || null,
+            designation: klaEntry?.designation || profileJson.data?.designation || null,
+            kla_id: klaEntry?.kla_id || profileJson.data?.kla_id || null,
+          };
+          if (!cancelled) setMemberData(merged);
           if (!cancelled) setMemberLoading(false);
           return;
         }
 
-        // Fallback: Get klaId from query string and try kla-members list
-        const queryParams = new URLSearchParams(window.location.search);
-        const klaId = queryParams.get("kla") || "15";
-
-        const res = await fetch(API_ENDPOINTS.KLA_MEMBERS(klaId));
-        const json = await res.json();
-        let found = null;
-
-        if (json?.status && Array.isArray(json.data)) {
-          found = json.data.find((x) => String(x.id) === String(memberId));
+        // Fallback: use kla-members entry directly if profile API failed
+        if (klaEntry) {
+          if (!cancelled) setMemberData(klaEntry);
+          if (!cancelled) setMemberLoading(false);
+          return;
         }
 
-        if (found) {
-          if (!cancelled) setMemberData(found);
-        } else {
-          // Last fallback: try generic member API
-          try {
-            const r2 = await fetch(API_ENDPOINTS.MEMBER(memberId));
-            const j2 = await r2.json();
-            if (j2?.status && j2?.data) {
-              if (!cancelled) setMemberData(j2.data);
-            } else {
-              if (!cancelled) setMemberError("Member not found");
-            }
-          } catch (err) {
-            console.error(err);
+        // Last fallback: try generic member API
+        try {
+          const r2 = await fetch(API_ENDPOINTS.MEMBER(memberId));
+          const j2 = await r2.json();
+          if (j2?.status && j2?.data) {
+            const merged2 = {
+              ...j2.data,
+              constituency: klaEntry?.constituency || j2.data?.constituency || null,
+              party: klaEntry?.party || j2.data?.party || null,
+            };
+            if (!cancelled) setMemberData(merged2);
+          } else {
             if (!cancelled) setMemberError("Member not found");
           }
+        } catch (err) {
+          console.error(err);
+          if (!cancelled) setMemberError("Member not found");
         }
       } catch (err) {
         console.error(err);
@@ -521,7 +566,14 @@ console.log(getMLAAddress);
   const [activeTab, setActiveTab] = useState("basic-details");
   const [selectedKLA, setSelectedKLA] = useState("16th KLA");
   const [selectedPdfUrl, setSelectedPdfUrl] = useState(null);
+  const [pdfSrc, setPdfSrc] = useState("");
   const [pdfModalTitle, setPdfModalTitle] = useState("");
+
+  // Resolve the best PDF src whenever selectedPdfUrl changes
+  useEffect(() => {
+    if (!selectedPdfUrl) { setPdfSrc(""); return; }
+    buildPdfSrc(selectedPdfUrl).then(setPdfSrc);
+  }, [selectedPdfUrl]);
   const [selectedConstituency, setSelectedConstituency] =
     useState("Chadayamangalam");
   //   const [selectedSession, setSelectedSession] = useState('Session 1');
@@ -531,38 +583,58 @@ console.log(getMLAAddress);
   const basicDetails = memberData ? {
     personal: {
       dob: memberData.member?.date_of_birth || "---",
-      birthPlace: "---", // Not in API
-      fatherName: memberData.member_languages?.[0]?.father_name || "---",
-      motherName: memberData.member_languages?.[0]?.mother_name || "---",
+      birthPlace: "---",
+      fatherName: Array.isArray(memberData.member_languages)
+        ? memberData.member_languages[0]?.father_name || "---"
+        : memberData.member?.langs?.[0]?.father_name || "---",
+      motherName: Array.isArray(memberData.member_languages)
+        ? memberData.member_languages[0]?.mother_name || "---"
+        : memberData.member?.langs?.[0]?.mother_name || "---",
       maritalStatus: memberData.spouse ? "Married" : "---",
-      marriageDate: "---", // Not in API
-      spouseName: memberData.spouse?.name || "---",
-      hobbies: memberData.other_details?.hobbies || "---",
+      marriageDate: memberData.spouse?.languages?.[0]?.married_date || "---",
+      spouseName: GetSpouseName(memberData),
+      hobbies: GetHobbies(memberData),
       children: {
-        sons: memberData.children?.filter(c => c.gender === 'male').map(c => c.name) || ["---"],
-        daughters: memberData.children?.filter(c => c.gender === 'female').map(c => c.name) || ["---"],
+        // children is a single object with langs[], not an array
+        sons: Array.isArray(memberData.children)
+          ? memberData.children.filter(c => c.gender === 'male').map(c => c.name)
+          : (memberData.children?.langs?.filter(l => l.gender === 'male').map(l => l.name) || ["---"]),
+        daughters: Array.isArray(memberData.children)
+          ? memberData.children.filter(c => c.gender === 'female').map(c => c.name)
+          : (memberData.children?.langs?.filter(l => l.gender === 'female').map(l => l.name) || ["---"]),
       },
     },
     address: {
       present: getPresentAddress(memberData),
       permanent: getPermanentAddress(memberData),
+      mla: getMLAAddress(memberData),
     },
     qualifications: {
-      education: memberData.qualifications?.map(q => q.qualification).join(", ") || "---",
-      profession: memberData.other_details?.profession || "---",
-      languages: memberData.languages_known?.map(l => l.language).join(", ") || "---",
+      // qualifications is an array of IDs — display count or "Available"
+     education: Array.isArray(memberData.qualifications) && memberData.qualifications.length > 0
+  ? memberData.qualifications.join(", ")
+        : "---",
+      profession: memberData.other_details?.other_detail_langs?.[0]?.social_activities ||
+        memberData.other_details?.profession || "---",
+      // languages_known is a JSON string like "[3, 5, 6, 11]"
+      languages: (() => {
+        try {
+          const raw = memberData.languages_known;
+          if (Array.isArray(raw)) return raw.join(", ");
+          if (typeof raw === "string") {
+            const parsed = JSON.parse(raw);
+            return Array.isArray(parsed) ? `${parsed.length} language(s) known` : raw;
+          }
+          return "---";
+        } catch {
+          return String(memberData.languages_known || "---");
+        }
+      })(),
     },
-    positions: memberData.positions?.map(p => ({
-      title: p.position,
-      organization: p.organization || "---",
-      period: `${p.from_date || "---"}–${p.to_date || "---"}`,
-    })) || [
-      {
-        title: "---",
-        organization: "---",
-        period: "---",
-      },
-    ],
+    positions: GetPositionsText(memberData),
+    recreations: memberData.other_details?.other_detail_langs?.[0]?.recreations || "---",
+    travelAbroad: memberData.other_details?.other_detail_langs?.[0]?.travel_abroad || "---",
+    socialLinks: GetSocialLinks(memberData),
   } : {
     personal: {
       dob: "---",
@@ -573,300 +645,327 @@ console.log(getMLAAddress);
       marriageDate: "---",
       spouseName: "---",
       hobbies: "---",
-      children: {
-        sons: ["---"],
-        daughters: ["---"],
-      },
+      children: { sons: ["---"], daughters: ["---"] },
     },
-    address: {
-      present: "---",
-      permanent: "---",
-    },
-    qualifications: {
-      education: "---",
-      profession: "---",
-      languages: "---",
-    },
-    positions: [
-      {
-        title: "---",
-        organization: "---",
-        period: "---",
-      },
-    ],
+    address: { present: "---", permanent: "---", mla: "---" },
+    qualifications: { education: "---", profession: "---", languages: "---" },
+    positions: "---",
+    recreations: "---",
+    travelAbroad: "---",
+    socialLinks: { facebook: null, instagram: null, linkedin: null, twitter: null },
   };
 
 
-  // Complete data for voting results
-  const votingResults = [
-    {
-      kla: "16th KLA",
-      constituency: "Chadayamangalam",
-      electorate: "2,01,643",
-      votesPolled: "1,47,177",
-      candidates: [
-        { name: "Smt. J. Chinchurani (C.P.I.)", votes: "67,252", winner: true },
-        { name: "Shri M. M. Naseer (I.N.C)", votes: "53,574", winner: false },
+  // Complete data for voting results — will be sourced from API when available
+  // (currently hidden in the UI — kept for when the API provides this data)
+  // eslint-disable-next-line no-unused-vars
+  const _votingResults = Array.isArray(memberData?.voting_results)
+    ? memberData.voting_results
+    : [];
+
+  // GIST of Business KLA filter state
+  const [gistKlaFilter, setGistKlaFilter] = useState("");
+
+  // Derive unique KLA IDs from gist data for the filter dropdown
+  const gistKlaOptions = React.useMemo(() => {
+    const ids = [...new Set((memberData?.gist_of_business || []).map(g => g.kla_id).filter(Boolean))];
+    return ids.sort((a, b) => a - b).map(id => ({ value: String(id), label: `KLA ${id}` }));
+  }, [memberData?.gist_of_business]);
+
+  // Auto-select the first KLA when options first load — use a ref so the
+  // effect doesn't re-run when gistKlaFilter changes (intentional one-shot).
+  const gistKlaInitialized = React.useRef(false);
+  useEffect(() => {
+    if (gistKlaOptions.length > 0 && !gistKlaInitialized.current) {
+      gistKlaInitialized.current = true;
+      setGistKlaFilter(String(gistKlaOptions[0].value));
+    }
+  }, [gistKlaOptions]);
+
+  // Complete data for GIST of Business — sourced from API (memberData.gist_of_business)
+  const gistOfBusiness = Array.isArray(memberData?.gist_of_business)
+    ? memberData.gist_of_business
+    : [];
+
+  // Filtered gist items based on selected KLA
+  const filteredGistOfBusiness = gistKlaFilter
+    ? gistOfBusiness.filter(g => String(g.kla_id) === gistKlaFilter)
+    : gistOfBusiness;
+  const debatesPresented = Array.isArray(memberData?.debates?.presented)
+    ? memberData.debates.presented
+    : [
         {
-          name: "Shri Vishnu Pattathanam (B.J.P)",
-          votes: "22,238",
-          winner: false,
+          id: 1,
+          type: "Debate Under Rule 58",
+          date: "12.05.2021",
+          title: "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+          participants: ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
+          videoUrl: "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+          documentUrl: "/images/document.svg",
         },
-      ],
-    },
-    {
-      kla: "15th KLA",
-      constituency: "Chadayamangalam",
-      electorate: "1,98,432",
-      votesPolled: "1,42,865",
-      candidates: [
-        { name: "Smt. J. Chinchurani (C.P.I.)", votes: "7,252", winner: false },
-        { name: "Shri M. M. Naseer (I.N.C)", votes: "73,574", winner: true },
         {
-          name: "Shri Vishnu Pattathanam (B.J.P)",
-          votes: "18,238",
-          winner: false,
+          id: 2,
+          type: "Debate Under Rule 58",
+          date: "25.05.2021",
+          title: "Need to set up a tex Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+          participants: ["J Chinchurani"],
+          documentUrl: "/images/document.svg",
+          videoUrl: "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
         },
-      ],
-    },
-  ];
+        {
+          id: 3,
+          type: "Debate Under Rule 58",
+          date: "12.05.2021",
+          title: "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+          participants: ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
+          documentUrl: "/images/document.svg",
+          videoUrl: "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        },
+        {
+          id: 4,
+          type: "Debate Under Rule 58",
+          date: "12.05.2021",
+          title: "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+          participants: ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
+          documentUrl: "/images/document.svg",
+          videoUrl: "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        },
+        {
+          id: 5,
+          type: "Debate Under Rule 58",
+          date: "26.05.2021",
+          title: "Need to set up a tex Bhilwara, Rajasthan",
+          participants: ["J Chinchurani"],
+          documentUrl: "/images/document.svg",
+          videoUrl: "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        },
+      ];
 
-  // Complete data for GIST of Business
-  const gistOfBusiness = [
-    { session: "Session 1", date: "March 2024", fileUrl: "/images/file2.svg" },
-    { session: "Session 2", date: "June 2023", fileUrl: "/images/file2.svg" },
-    {
-      session: "Session 3",
-      date: "December 2022",
-      fileUrl: "/images/file2.svg",
-    },
-    { session: "Session 4", date: "August 2022", fileUrl: "/images/file2.svg" },
-  ];
+  const debatesParticipated = Array.isArray(memberData?.debates?.participated)
+    ? memberData.debates.participated
+    : [
+        {
+          id: 1,
+          type: "Debate Under Rule 58",
+          date: "12.05.2021",
+          title: "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+          presenter: "A Prabhakaran",
+          participants: ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
+          documentUrl: "/images/document.svg",
+          videoUrl: "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        },
+        {
+          id: 2,
+          type: "Debate Under Rule 58",
+          date: "25.05.2021",
+          title: "Need to set up a tex Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+          presenter: "Chittayam Gopakumar",
+          participants: ["J Chinchurani"],
+          documentUrl: "/images/document.svg",
+          videoUrl: "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        },
+        {
+          id: 3,
+          type: "Debate Under Rule 58",
+          date: "12.05.2021",
+          title: "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
+          presenter: "DR. Mathew Kuzhalnadan",
+          participants: ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
+          documentUrl: "/images/document.svg",
+          videoUrl: "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
+        },
+      ];
 
-  // Complete data for debates
-  const debates = {
-    presented: [
-      {
-        id: 1,
-        type: "Debate Under Rule 58",
-        date: "12.05.2021",
-        title:
-          "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
-        participants: ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
-        videoUrl:
-          "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
-        documentUrl: "/images/document.svg",
-      },
-      {
-        id: 2,
-        type: "Debate Under Rule 58",
-        date: "25.05.2021",
-        title:
-          "Need to set up a tex Bhilwara, Rajasthan under PM MITRA Scheme-laid",
-        participants: ["J Chinchurani"],
-        documentUrl: "/images/document.svg",
-        videoUrl:
-          "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
-      },
-      {
-        id: 3,
-        type: "Debate Under Rule 58",
-        date: "12.05.2021",
-        title:
-          "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
-        participants: ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
-        documentUrl: "/images/document.svg",
-        videoUrl:
-          "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
-      },
-      {
-        id: 4,
-        type: "Debate Under Rule 58",
-        date: "12.05.2021",
-        title:
-          "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
-        participants: ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
-        documentUrl: "/images/document.svg",
-        videoUrl:
-          "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
-      },
-      {
-        id: 5,
-        type: "Debate Under Rule 58",
-        date: "26.05.2021",
-        title: "Need to set up a tex Bhilwara, Rajasthan",
-        participants: ["J Chinchurani"],
-        documentUrl: "/images/document.svg",
-        videoUrl:
-          "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
-      },
-    ],
-    participated: [
-      {
-        id: 1,
-        type: "Debate Under Rule 58",
-        date: "12.05.2021",
-        title:
-          "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
-        presenter: "A Prabhakaran",
-        participants: ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
-        documentUrl: "/images/document.svg",
-        videoUrl:
-          "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
-      },
-      {
-        id: 2,
-        type: "Debate Under Rule 58",
-        date: "25.05.2021",
-        title:
-          "Need to set up a tex Bhilwara, Rajasthan under PM MITRA Scheme-laid",
-        presenter: "Chittayam Gopakumar",
-        participants: ["J Chinchurani"],
-        documentUrl: "/images/document.svg",
-        videoUrl:
-          "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
-      },
-      {
-        id: 3,
-        type: "Debate Under Rule 58",
-        date: "12.05.2021",
-        title:
-          "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
-        presenter: "DR. Mathew Kuzhalnadan",
-        participants: ["J Chinchurani", "Abdul Hameed Master", "A N Shamseer"],
-        documentUrl: "/images/document.svg",
-        videoUrl:
-          "https://sabhatv.com/details/87f1e857-665e-48ae-8b07-5bce899d28de/Niyamasabha%20Proceedings/view-all/0",
-      },
-    ],
-  };
+  const debates = { presented: debatesPresented, participated: debatesParticipated };
 
-  // Complete data for special mentions
-  const specialMentions = [
-    {
-      title:
-        "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
-      date: "12.05.2021",
-      participants: "J Chinchurani",
-      keywords: "National Highways, Four Lane Road",
-      documentUrl: "/images/document.svg",
-    },
-    {
-      title:
-        "Need to set up a textiles park in Bhilwara, Rajasthan under PM MITRA Scheme-laid",
-      date: "12.05.2021",
-      participants: "J Chinchurani",
-      keywords: "National Highways, Four Lane Road",
-      documentUrl: "/images/document.svg",
-    },
-  ];
+  // Special mentions — will be sourced from API (memberData.special_mentions) when available
+  const specialMentions = Array.isArray(memberData?.special_mentions)
+    ? memberData.special_mentions
+    : [
+        {
+          title: "---",
+          date: "---",
+          participants: "---",
+          keywords: "---",
+          documentUrl: "---",
+        },
+      
+      ];
 
-  // Complete data for questions
-  const questions = [
-    {
-      number: "325",
-      subject: "Need to set up a textiles park in Bhilwara, Rajasth",
-      department: "Kerala Water Authority",
-      type: "Starred",
-      date: "12.05.2021",
-      documentUrl: "/images/document.svg",
-    },
-    {
-      number: "124",
-      subject: "Need to set up a textiles park in Bhilwara, Rajasth",
-      department: "Kerala Water Authority",
-      type: "Unstarred",
-      date: "12.05.2021",
-      documentUrl: "/images/document.svg",
-    },
-  ];
+  // Questions — sourced from API (memberData.question_answer)
+  const questionAnswer = React.useMemo(() => (
+    memberData?.question_answer || { starred: [], unstarred: [], shortnotice: [] }
+  ), [memberData?.question_answer]);
 
-  // Complete data for committee membership
-  const committeeMembership = [
-    {
-      id: 1,
-      committee: "Water Resources",
-      status: "Member",
-      fromDate: "12.12.2023",
-      toDate: "12.05.2025",
-    },
-    {
-      id: 2,
-      committee: "Water Resources",
-      status: "Member",
-      fromDate: "12.12.2023",
-      toDate: "--",
-    },
-  ];
+  // Question tab filter state
+  const [questionKlaFilter, setQuestionKlaFilter] = useState("");
+  const [questionSessionFilter, setQuestionSessionFilter] = useState("");
+  const [questionTypeFilter, setQuestionTypeFilter] = useState("starred");
+  const [questionSearchFilter, setQuestionSearchFilter] = useState("");
 
-  // Complete data for government bills
-  const governmentBills = [
-    {
-      id: 1,
-      title: "Bhartiya Vayuyan Vidheyak, 2024",
-      date: "30.12.2015",
-      participants:
-        "A K M Ashraf, A K Saseendran, Antony John, Chittayam Gopakumar, E Chandrasekharan, Kadakampally Surendran, K K Ramachandran",
-      keywords: "Air India, Airports, Civil Aviation, Natural Calamities",
-      documentUrl: "/images/document.svg",
-    },
-    {
-      id: 2,
-      title: "Bhartiya Vayuyan Vidheyak, 2024",
-      date: "30.12.2015",
-      participants:
-        "A K M Ashraf, A K Saseendran, Antony John, Chittayam Gopakumar, E Chandrasekharan, Kadakampally Surendran, K K Ramachandran",
-      keywords: "Air India, Airports, Civil Aviation, Natural Calamities",
-      documentUrl: "/images/document.svg",
-    },
-  ];
+  // Derive unique KLA options from all question types
+  const questionKlaOptions = React.useMemo(() => {
+    const all = [
+      ...(questionAnswer.starred || []),
+      ...(questionAnswer.unstarred || []),
+      ...(questionAnswer.shortnotice || []),
+    ];
+    const ids = [...new Set(all.map(q => q.kla_id).filter(Boolean))];
+    return ids.sort((a, b) => a - b).map(id => ({ value: String(id), label: `KLA ${id}` }));
+  }, [questionAnswer]);
 
-  // Complete data for private bills
-  const privateBills = [
-    {
-      id: 1,
-      title: "Bhartiya Vayuyan Vidheyak, 2024",
-      date: "30.12.2015",
-      participants:
-        "A K M Ashraf, A K Saseendran, Antony John, Chittayam Gopakumar, E Chandrasekharan, Kadakampally Surendran, K K Ramachandran",
-      keywords: "Air India, Airports, Civil Aviation, Natural Calamities",
-      documentUrl: "/images/document.svg",
-    },
-    {
-      id: 2,
-      title: "Bhartiya Vayuyan Vidheyak, 2024",
-      date: "30.12.2015",
-      participants:
-        "A K M Ashraf, A K Saseendran, Antony John, Chittayam Gopakumar, E Chandrasekharan, Kadakampally Surendran, K K Ramachandran",
-      keywords: "Air India, Airports, Civil Aviation, Natural Calamities",
-      documentUrl: "/images/document.svg",
-    },
-  ];
+  // Derive unique session options for the selected KLA
+  const questionSessionOptions = React.useMemo(() => {
+    const all = [
+      ...(questionAnswer.starred || []),
+      ...(questionAnswer.unstarred || []),
+      ...(questionAnswer.shortnotice || []),
+    ];
+    const filtered = questionKlaFilter
+      ? all.filter(q => String(q.kla_id) === questionKlaFilter)
+      : all;
+    const ids = [...new Set(filtered.map(q => q.session_id).filter(Boolean))];
+    return ids.sort((a, b) => a - b).map(id => ({ value: String(id), label: `Session ${id}` }));
+  }, [questionAnswer, questionKlaFilter]);
 
-  // Complete data for tours
-  const tours = [
-    {
-      id: 1,
-      country: "Canada",
-      purpose: "Lorem ipsum donki montbt thaiod hoplih",
-      fromDate: "12.10.2021",
-      toDate: "16.10.2021",
-    },
-    {
-      id: 2,
-      country: "Canada",
-      purpose: "Lorem ipsum donki montbt thaiod hoplih",
-      fromDate: "12.10.2021",
-      toDate: "16.10.2021",
-    },
-    {
-      id: 3,
-      country: "Canada",
-      purpose: "Lorem ipsum donki montbt thaiod hoplih",
-      fromDate: "12.10.2021",
-      toDate: "16.10.2021",
-    },
-  ];
+  // Auto-select first KLA for questions
+  const questionKlaInitialized = React.useRef(false);
+  useEffect(() => {
+    if (questionKlaOptions.length > 0 && !questionKlaInitialized.current) {
+      questionKlaInitialized.current = true;
+      setQuestionKlaFilter(String(questionKlaOptions[0].value));
+    }
+  }, [questionKlaOptions]);
+
+  // Reset session filter when KLA changes
+  useEffect(() => {
+    setQuestionSessionFilter("");
+  }, [questionKlaFilter]);
+
+  // Get the active question list based on type filter, then apply KLA/session/search filters
+  const filteredQuestions = React.useMemo(() => {
+    const typeKey = questionTypeFilter === "short-notice" ? "shortnotice" : questionTypeFilter;
+    const list = Array.isArray(questionAnswer[typeKey]) ? questionAnswer[typeKey] : [];
+    return list.filter(q => {
+      if (questionKlaFilter && String(q.kla_id) !== questionKlaFilter) return false;
+      if (questionSessionFilter && String(q.session_id) !== questionSessionFilter) return false;
+      if (questionSearchFilter) {
+        const search = questionSearchFilter.toLowerCase();
+        const titleMatch = String(q.title || "").toLowerCase().includes(search);
+        const numMatch = String(q.number || "").includes(search);
+        if (!titleMatch && !numMatch) return false;
+      }
+      return true;
+    });
+  }, [questionAnswer, questionTypeFilter, questionKlaFilter, questionSessionFilter, questionSearchFilter]);
+
+  // Pagination for questions
+  const [questionPage, setQuestionPage] = useState(1);
+  const QUESTIONS_PER_PAGE = 10;
+  const questionTotalPages = Math.ceil(filteredQuestions.length / QUESTIONS_PER_PAGE);
+  const pagedQuestions = filteredQuestions.slice(
+    (questionPage - 1) * QUESTIONS_PER_PAGE,
+    questionPage * QUESTIONS_PER_PAGE
+  );
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setQuestionPage(1);
+  }, [questionTypeFilter, questionKlaFilter, questionSessionFilter, questionSearchFilter]);
+
+  // Committee membership — sourced from API (memberData.committee_membership)
+  const committeeMembership = React.useMemo(
+    () => (Array.isArray(memberData?.committee_membership) ? memberData.committee_membership : []),
+    [memberData?.committee_membership]
+  );
+
+  // Committee membership filter state
+  const [cmKlaFilter, setCmKlaFilter] = useState("");
+  const [cmYearFilter, setCmYearFilter] = useState("");
+
+  // Derive unique KLA options from committee membership data
+  const cmKlaOptions = React.useMemo(() => {
+    const ids = [...new Set(committeeMembership.map(c => c.kla_id).filter(Boolean))];
+    return ids.sort((a, b) => a - b).map(id => ({ value: String(id), label: `KLA ${id}` }));
+  }, [committeeMembership]);
+
+  // Derive unique year options from report_date, filtered by selected KLA
+  const cmYearOptions = React.useMemo(() => {
+    const filtered = cmKlaFilter
+      ? committeeMembership.filter(c => String(c.kla_id) === cmKlaFilter)
+      : committeeMembership;
+    const years = [...new Set(
+      filtered
+        .map(c => c.report_date ? new Date(c.report_date).getFullYear() : null)
+        .filter(Boolean)
+    )];
+    return years.sort((a, b) => a - b).map(y => ({ value: String(y), label: String(y) }));
+  }, [committeeMembership, cmKlaFilter]);
+
+  // Auto-select first KLA for committee membership
+  const cmKlaInitialized = React.useRef(false);
+  useEffect(() => {
+    if (cmKlaOptions.length > 0 && !cmKlaInitialized.current) {
+      cmKlaInitialized.current = true;
+      setCmKlaFilter(String(cmKlaOptions[0].value));
+    }
+  }, [cmKlaOptions]);
+
+  // Reset year filter when KLA changes
+  useEffect(() => {
+    setCmYearFilter("");
+  }, [cmKlaFilter]);
+
+  // Filtered committee membership
+  const filteredCommitteeMembership = React.useMemo(() => {
+    return committeeMembership.filter(c => {
+      if (cmKlaFilter && String(c.kla_id) !== cmKlaFilter) return false;
+      if (cmYearFilter) {
+        const year = c.report_date ? String(new Date(c.report_date).getFullYear()) : null;
+        if (year !== cmYearFilter) return false;
+      }
+      return true;
+    });
+  }, [committeeMembership, cmKlaFilter, cmYearFilter]);
+
+  // Government bills — will be sourced from API (memberData.government_bills) when available
+  const governmentBills = Array.isArray(memberData?.government_bills)
+    ? memberData.government_bills
+    : [
+        {
+          id: 1,
+          title: "---",
+          date: "---",
+          participants: "---",
+          keywords: "---",
+          documentUrl: "---",
+        },
+       
+      ];
+
+  // Private bills — will be sourced from API (memberData.private_bills) when available
+  const privateBills = Array.isArray(memberData?.private_bills)
+    ? memberData.private_bills
+    : [
+        {
+          id: 1,
+          title: "---",
+          date: "---",
+          participants: "---",
+          keywords: "---",
+          documentUrl: "---",
+        },
+      
+      ];
+
+  // Tours — will be sourced from API (memberData.tours) when available
+  const tours = Array.isArray(memberData?.tours)
+    ? memberData.tours
+    : [
+        { id: 1, country: "---", purpose: "---", fromDate: "---", toDate: "---" },
+        { id: 2, country: "---", purpose: "---", fromDate: "---", toDate: "---" },
+        { id: 3, country: "---", purpose: "---", fromDate: "---", toDate: "---" },
+      ];
 
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
@@ -1019,6 +1118,17 @@ console.log(getMLAAddress);
                     </div>
                   </div>
                 </div>
+                {basicDetails.recreations !== "---" && (
+                  <div className="col-md-6 mb30">
+                    <div className="singleD">
+                      <img src="/images/hobbies.svg" alt="" />
+                      <div className="ryt">
+                        <h6>Recreations</h6>
+                        <h5>{basicDetails.recreations}</h5>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <div className="col-12 mb30">
                   <div className="singleD">
                     <img src="/images/twins.svg" alt="" />
@@ -1027,23 +1137,15 @@ console.log(getMLAAddress);
                       <div className="row">
                         <div className="col-6">
                           <p className="mb5">Sons:</p>
-                          {basicDetails.personal.children.sons.map(
-                            (son, index) => (
-                              <p key={index}>
-                                <span>{son}</span>
-                              </p>
-                            )
-                          )}
+                          {basicDetails.personal.children.sons.map((son, index) => (
+                            <p key={index}><span>{son}</span></p>
+                          ))}
                         </div>
                         <div className="col-6">
                           <p className="mb5 mt5">Daughters:</p>
-                          {basicDetails.personal.children.daughters.map(
-                            (daughter, index) => (
-                              <p key={index}>
-                                <span>{daughter}</span>
-                              </p>
-                            )
-                          )}
+                          {basicDetails.personal.children.daughters.map((daughter, index) => (
+                            <p key={index}><span>{daughter}</span></p>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -1070,6 +1172,17 @@ console.log(getMLAAddress);
                     </div>
                   </div>
                 </div>
+                {basicDetails.address.mla && basicDetails.address.mla !== "---" && (
+                  <div className="col-md-12 mb30">
+                    <div className="singleD">
+                      <img src="/images/home.svg" alt="" />
+                      <div className="ryt">
+                        <h6>MLA Address</h6>
+                        <h5>{basicDetails.address.mla}</h5>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
               <h6 className="title mb30">Qualifications</h6>
               <div className="row">
@@ -1086,7 +1199,7 @@ console.log(getMLAAddress);
                   <div className="singleD">
                     <img src="/images/suitcase.svg" alt="" />
                     <div className="ryt">
-                      <h6>Profession</h6>
+                      <h6>Profession / Social Activities</h6>
                       <h5>{basicDetails.qualifications.profession}</h5>
                     </div>
                   </div>
@@ -1100,63 +1213,27 @@ console.log(getMLAAddress);
                     </div>
                   </div>
                 </div>
+                {basicDetails.travelAbroad !== "---" && (
+                  <div className="col-md-6 mb30">
+                    <div className="singleD">
+                      <img src="/images/location.svg" alt="" />
+                      <div className="ryt">
+                        <h6>Travel Abroad</h6>
+                        <h5>{basicDetails.travelAbroad}</h5>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
           <div className="col-lg-6 basicD pl20">
             <h6 className="title mb30">Positions Held</h6>
-            <div className="timeline d-none">
-              <ul>
-                {basicDetails.positions.map((position, index) => (
-                  <motion.li
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                  >
-                    <div className="content">
-                      <h6>{position.title}</h6>
-                      <p>{position.organization}</p>
-                    </div>
-                    <div className="time">
-                      <h4>{position.period}</h4>
-                    </div>
-                  </motion.li>
-                ))}
-                <div style={{ clear: "both" }}></div>
-              </ul>
-            </div>
-
-            <div className="positionH d-non">
-              <div className="position-relative">
-                <div className="educational-quality">
-                  <div className="m-circle text-thm">★</div>
-                  <div className="wrapper mb40 position-relative">
-                    <span className="tag">1985–1990</span>
-                    <h6 className="mt15 mb5">Member</h6>
-                    <p>---</p>
-                  </div>
-                  <div className="m-circle  text-thm">★</div>
-                  <div className="wrapper mb40 position-relative">
-                    <span className="tag">1985–1990</span>
-                    <h6 className="mt15  mb5">Vice President</h6>
-                    <p>---</p>
-                  </div>
-                  <div className="m-circle  text-thm">★</div>
-                  <div className="wrapper mb40 position-relative">
-                    <span className="tag">1985–1990</span>
-                    <h6 className="mt15 mb5">Member</h6>
-                    <p>---</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <h6 className="title mb30 pt40">Other Positions Held</h6>
-            <div className="row">
+            <div className="positionH">
               <div className="singleD">
                 <div className="ryt">
-                  <p className="otherpo">
-                    ---
+                  <p className="otherpo" style={{ whiteSpace: "pre-line" }}>
+                    {basicDetails.positions}
                   </p>
                 </div>
               </div>
@@ -1168,103 +1245,10 @@ console.log(getMLAAddress);
   };
 
   const renderVotingResults = () => {
-    const filteredResults = votingResults.filter(
-      (result) =>
-        result.kla === selectedKLA &&
-        result.constituency === selectedConstituency
-    );
-
     return (
       <div className="grids votingResult">
         <h4 className="tabDet title mb10">Voting Results</h4>
-        <VotingFilter
-          showKLA={true}
-          showConstituency={true}
-          selectedKLA={selectedKLA}
-          setSelectedKLA={setSelectedKLA}
-          selectedConstituency={selectedConstituency}
-          setSelectedConstituency={setSelectedConstituency}
-        />
-        <div className="row">
-          <div className="col-md-6" />
-
-          {filteredResults.map((result, resultIndex) => (
-            <div className="row" key={resultIndex}>
-              <motion.div
-                className="col-6 col-sm-6 col-md-4 col-lg-3"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.1 }}
-              >
-                <div className="funfact-style1 bdrs16 text-center ms-md-auto">
-                  <ul className="ps-0 mb-0 d-flex justify-content-center">
-                    <li>
-                      <div className="timer title mb15">
-                        {result.electorate}
-                      </div>
-                    </li>
-                  </ul>
-                  <p className="voting-poll-content fz16 dark-color ">
-                    Electorate
-                  </p>
-                </div>
-              </motion.div>
-              <motion.div
-                className="col-6 col-sm-6 col-md-4 col-lg-3"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.2 }}
-              >
-                <div className="funfact-style1 bdrs16 text-center ms-md-auto">
-                  <ul className="ps-0 mb-0 d-flex justify-content-center">
-                    <li>
-                      <div className="timer title mb15">
-                        {result.votesPolled}
-                      </div>
-                    </li>
-                  </ul>
-                  <p className="voting-poll-content fz16 dark-color ">
-                    Votes Polled
-                  </p>
-                </div>
-              </motion.div>
-
-              {result.candidates.map((candidate, candidateIndex) => (
-                <motion.div
-                  className="col-6 col-sm-6 col-md-4 col-lg-3"
-                  key={candidateIndex}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.3,
-                    delay: 0.3 + candidateIndex * 0.1,
-                  }}
-                >
-                  <div
-                    className={`funfact-style1 bdrs16 text-center ms-md-auto ${
-                      candidate.winner
-                        ? "win"
-                        : candidate.votes < 10000
-                        ? "fail"
-                        : ""
-                    }`}
-                  >
-                    <ul className="ps-0 mb-0 d-flex justify-content-center">
-                      <li>
-                        <div className="timer title mb15">
-                          {candidate.votes}
-                        </div>
-                      </li>
-                    </ul>
-                    <p className="voting-poll-content fz16 dark-color ">
-                      {candidate.name}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          ))}
-        </div>
+        <div className="text-center py-5 text-muted">---</div>
       </div>
     );
   };
@@ -1273,44 +1257,83 @@ console.log(getMLAAddress);
     return (
       <div className="grids votingResult">
         <h4 className="tabDet title mb20">GIST of Business</h4>
-        <VotingFilter
-          showKLA={true}
-          selectedKLA={selectedKLA}
-          setSelectedKLA={setSelectedKLA}
-          selectedConstituency={selectedConstituency}
-          setSelectedConstituency={setSelectedConstituency}
-        />
-        <div className="row">
-          <div className="col-md-4"></div>
-          <div className="col-md-8" />
 
-          {gistOfBusiness.map((session, index) => (
-            <div className="col-md-4 col-6 col-lg-3 mb-2" key={index}>
-              <div className="session card">
-                <a 
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSelectedPdfUrl(session.pdfUrl || "/pdf1.pdf");
-                    setPdfModalTitle(`${session.session} - ${session.date}`);
-                  }}
-                  style={{ cursor: 'pointer' }}
+        {/* KLA filter — controlled, filters the cards below */}
+        <div className="row filt mb20">
+          <div className="col-md-3 col-sm-6">
+            <div className="form-style1 selectM">
+              <label className="heading-color ff-heading fw500 mb0">KLA</label>
+              <div className="bootselect-multiselect">
+                <select
+                  className="form-select"
+                  value={gistKlaFilter}
+                  onChange={(e) => setGistKlaFilter(e.target.value)}
+                  disabled={gistKlaOptions.length === 0}
                 >
-                  <div>
-                    <h6>{session.session}</h6>
-                    <p>{session.date}</p>
-                  </div>
-                  <div className="imgx">
-                    <img
-                      src={session.fileUrl || "/placeholder.svg"}
-                      width={15}
-                      alt=""
-                    />
-                  </div>
-                </a>
+                  <option value="">All KLA</option>
+                  {gistKlaOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
-          ))}
+          </div>
+        </div>
+
+        <div className="row">
+          {memberLoading ? (
+            <div className="col-12 text-center py-4">
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : filteredGistOfBusiness.length === 0 ? (
+            <div className="col-12 text-center py-4">
+              <p className="text-muted">
+                {gistOfBusiness.length === 0
+                  ? "No GIST of Business records available."
+                  : "No records for the selected KLA."}
+              </p>
+            </div>
+          ) : (
+            filteredGistOfBusiness.map((item, index) => (
+              <div className="col-md-4 col-6 col-lg-3 mb-2" key={index}>
+                <div className="session card">
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (item.pdf_link) {
+                        setSelectedPdfUrl(item.pdf_link);
+                        setPdfModalTitle(`Session ${item.session_number} — KLA ${item.kla_id}`);
+                      }
+                    }}
+                    style={{ cursor: item.pdf_link ? "pointer" : "default" }}
+                  >
+                    <div>
+                      <h6>Session {item.session_number}</h6>
+                      <p style={{ marginBottom: "4px" }}>KLA {item.kla_id}</p>
+                      {/* <small className="text-muted d-block" style={{ fontSize: "11px" }}>
+                        📅{" "}
+                        {item.sitting_date
+                          ? new Date(item.sitting_date).toLocaleDateString("en-GB", {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            })
+                          : "—"}
+                      </small> */}
+                    </div>
+                    <div className="imgx">
+                      <img src="/images/file2.svg" width={15} alt="" />
+                    </div>
+                  </a>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     );
@@ -1736,102 +1759,209 @@ console.log(getMLAAddress);
   };
 
   const renderQuestions = () => {
+    const typeTabLabels = [
+      { key: "starred",      label: "Starred" },
+      { key: "unstarred",    label: "Unstarred" },
+      { key: "short-notice", label: "Short Notice" },
+    ];
+
     return (
       <div className="grids votingResult">
         <h4 className="tabDet title mb20">Questions</h4>
-        <VotingFilter
-          showKLA={true}
-          showSession={true}
-          showDate={true}
-          showType={true}
-          showCategory={true}
-          selectedKLA={selectedKLA}
-          setSelectedKLA={setSelectedKLA}
-          selectedConstituency={selectedConstituency}
-          setSelectedConstituency={setSelectedConstituency}
-          isQuestionsSection={true}
-        />
-        <div className="row">
-          <div className="col-12">
-            <div className="tabley">
-              <div className="page_control_shorting mb10 d-flex align-items-center justify-content-start">
-                <div className="pcs_dropdown dark-color pr10 pr0-xs">
-                  <span>Download</span>
-                  <select className="selectpicker show-tick">
-                    <option>PDF</option>
-                    <option>XML</option>
-                    <option>Doc</option>
-                  </select>
-                </div>
-              </div>
 
-              <table className="table table myTable2">
-                <thead>
-                  <tr>
-                    <th scope="col">Qs. No</th>
-                    <th scope="col">Subject</th>
-                    <th scope="col">Department</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Document</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {questions.map((question, index) => (
-                    <tr className="debate" key={index}>
-                      <td>{question.number}</td>
-                      <td>{question.subject}</td>
-                      <td>{question.department}</td>
-                      <td>
-                        <p className={`${question.type.toLowerCase()} mx-auto`}>
-                          {question.type}
-                        </p>
-                      </td>
-                      <td>{question.date}</td>
-                      <td className="text-center">
-                        <a 
-                          href="#" 
-                          className="doci"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setSelectedPdfUrl(question.pdfUrl || "/pdf1.pdf");
-                            setPdfModalTitle(`Question ${question.number} - ${question.date}`);
-                          }}
-                          style={{ cursor: 'pointer' }}
-                        >
-                          <img
-                            src={question.documentUrl || "/placeholder.svg"}
-                            alt=""
-                          />
-                        </a>
-                      </td>
-                    </tr>
+        {/* Filters */}
+        <div className="row filt mb20">
+          <div className="col-md-3 col-sm-6 mb-2">
+            <div className="form-style1 selectM">
+              <label className="heading-color ff-heading fw500 mb0">KLA</label>
+              <div className="bootselect-multiselect">
+                <select
+                  className="form-select"
+                  value={questionKlaFilter}
+                  onChange={(e) => setQuestionKlaFilter(e.target.value)}
+                  disabled={questionKlaOptions.length === 0}
+                >
+                  <option value="">All KLA</option>
+                  {questionKlaOptions.map(opt => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
                   ))}
-                </tbody>
-              </table>
-              <div className="mbp_pagination mt30 text-center">
-                <ul className="page_navigation">
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      <FontAwesomeIcon icon={faAngleLeft} color="#222222" />
-                    </a>
-                  </li>
-                  <li className="page-item active" aria-current="page">
-                    <a className="page-link" href="#">
-                      1 <span className="sr-only">(current)</span>
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      <FontAwesomeIcon icon={faAngleRight} color="#222222" />
-                    </a>
-                  </li>
-                </ul>
-                <p className="mt10 mb-0 pagination_page_count text-center">
-                  1 – 2 of 2
-                </p>
+                </select>
               </div>
             </div>
+          </div>
+          <div className="col-md-3 col-sm-6 mb-2">
+            <div className="form-style1 selectM">
+              <label className="heading-color ff-heading fw500 mb0">Session</label>
+              <div className="bootselect-multiselect">
+                <select
+                  className="form-select"
+                  value={questionSessionFilter}
+                  onChange={(e) => setQuestionSessionFilter(e.target.value)}
+                  disabled={questionSessionOptions.length === 0}
+                >
+                  <option value="">All Sessions</option>
+                  {questionSessionOptions.map(opt => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-4 col-sm-12 mb-2">
+            <div className="form-style1 selectM">
+              <label className="heading-color ff-heading fw500 mb0">Search</label>
+              <div className="search_area">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search by title or number..."
+                  value={questionSearchFilter}
+                  onChange={(e) => setQuestionSearchFilter(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Type tabs */}
+        <div className="navtab-style1 mb20">
+          <nav>
+            <div className="nav nav-tabs" role="tablist">
+              {typeTabLabels.map(({ key, label }) => (
+                <button
+                  key={key}
+                  className={`nav-link fw600 ${questionTypeFilter === key ? "active" : ""}`}
+                  onClick={() => setQuestionTypeFilter(key)}
+                  type="button"
+                >
+                  {label}
+                  <span className="ms-1 badge bg-secondary" style={{ fontSize: "11px" }}>
+                    {(() => {
+                      const typeKey = key === "short-notice" ? "shortnotice" : key;
+                      const list = Array.isArray(questionAnswer[typeKey]) ? questionAnswer[typeKey] : [];
+                      const count = list.filter(q => {
+                        if (questionKlaFilter && String(q.kla_id) !== questionKlaFilter) return false;
+                        if (questionSessionFilter && String(q.session_id) !== questionSessionFilter) return false;
+                        return true;
+                      }).length;
+                      return count;
+                    })()}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </nav>
+        </div>
+
+        <div className="col-12">
+          <div className="tabley">
+            {memberLoading ? (
+              <div className="text-center py-4">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            ) : pagedQuestions.length === 0 ? (
+              <div className="text-center py-4">
+                <p className="text-muted">No questions found for the selected filters.</p>
+              </div>
+            ) : (
+              <>
+                <table className="table myTable2">
+                  <thead>
+                    <tr>
+                      <th scope="col">No.</th>
+                      <th scope="col">Qs. No</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">KLA</th>
+                      <th scope="col">Session</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Document</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pagedQuestions.map((question, index) => {
+                      const pdfUrl = Array.isArray(question.attachments) && question.attachments.length > 0
+                        ? `https://api.niyamasabha.in/${question.attachments[0]}`
+                        : null;
+                      return (
+                        <tr className="debate" key={question.id || index}>
+                          <td>{(questionPage - 1) * QUESTIONS_PER_PAGE + index + 1}</td>
+                          <td>{question.number}</td>
+                          <td style={{ maxWidth: "300px" }}>{question.title}</td>
+                          <td>{question.kla_id ? `KLA ${question.kla_id}` : "---"}</td>
+                          <td>{question.session_id ? `Session ${question.session_id}` : "---"}</td>
+                          <td>
+                            {question.sitting_date
+                              ? new Date(question.sitting_date).toLocaleDateString("en-GB", {
+                                  day: "2-digit", month: "short", year: "numeric",
+                                })
+                              : "---"}
+                          </td>
+                          <td>
+                            <span className={`badge ${question.isAnswered ? "bg-success" : "bg-warning text-dark"}`}>
+                              {question.isAnswered ? "Answered" : "Pending"}
+                            </span>
+                          </td>
+                          <td className="text-center">
+                            {pdfUrl ? (
+                              <a
+                                href="#"
+                                className="doci"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setSelectedPdfUrl(pdfUrl);
+                                  setPdfModalTitle(`Q.${question.number} — ${question.title}`);
+                                }}
+                                style={{ cursor: "pointer" }}
+                              >
+                                <img src="/images/document.svg" alt="PDF" />
+                              </a>
+                            ) : (
+                              <span className="text-muted" style={{ fontSize: "12px" }}>—</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+
+                {/* Pagination */}
+                {questionTotalPages > 1 && (
+                  <div className="mbp_pagination mt30 text-center mb-4">
+                    <ul className="page_navigation">
+                      <li className={`page-item ${questionPage === 1 ? "disabled" : ""}`}>
+                        <a className="page-link" href="#" onClick={(e) => { e.preventDefault(); if (questionPage > 1) setQuestionPage(p => p - 1); }}>
+                          <FontAwesomeIcon icon={faAngleLeft} color="#222222" />
+                        </a>
+                      </li>
+                      {Array.from({ length: Math.min(questionTotalPages, 5) }, (_, i) => {
+                        let page;
+                        if (questionTotalPages <= 5) page = i + 1;
+                        else if (questionPage <= 3) page = i + 1;
+                        else if (questionPage >= questionTotalPages - 2) page = questionTotalPages - 4 + i;
+                        else page = questionPage - 2 + i;
+                        return (
+                          <li key={page} className={`page-item ${page === questionPage ? "active" : ""}`}>
+                            <a className="page-link" href="#" onClick={(e) => { e.preventDefault(); setQuestionPage(page); }}>{page}</a>
+                          </li>
+                        );
+                      })}
+                      <li className={`page-item ${questionPage === questionTotalPages ? "disabled" : ""}`}>
+                        <a className="page-link" href="#" onClick={(e) => { e.preventDefault(); if (questionPage < questionTotalPages) setQuestionPage(p => p + 1); }}>
+                          <FontAwesomeIcon icon={faAngleRight} color="#222222" />
+                        </a>
+                      </li>
+                    </ul>
+                    <p className="mt10 mb-0 pagination_page_count text-center">
+                      {(questionPage - 1) * QUESTIONS_PER_PAGE + 1}–{Math.min(questionPage * QUESTIONS_PER_PAGE, filteredQuestions.length)} of {filteredQuestions.length}
+                    </p>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -1842,61 +1972,120 @@ console.log(getMLAAddress);
     return (
       <div className="grids votingResult">
         <h4 className="tabDet title mb20">Committee Membership</h4>
-        <VotingFilter
-          showKLA={true}
-          selectedKLA={selectedKLA}
-          setSelectedKLA={setSelectedKLA}
-          selectedConstituency={selectedConstituency}
-          setSelectedConstituency={setSelectedConstituency}
-        />
+
+        {/* KLA + Year filters */}
+        <div className="row filt mb20">
+          <div className="col-md-3 col-sm-6 mb-2">
+            <div className="form-style1 selectM">
+              <label className="heading-color ff-heading fw500 mb0">KLA</label>
+              <div className="bootselect-multiselect">
+                <select
+                  className="form-select"
+                  value={cmKlaFilter}
+                  onChange={(e) => setCmKlaFilter(e.target.value)}
+                  disabled={cmKlaOptions.length === 0}
+                >
+                  <option value="">All KLA</option>
+                  {cmKlaOptions.map(opt => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-3 col-sm-6 mb-2">
+            <div className="form-style1 selectM">
+              <label className="heading-color ff-heading fw500 mb0">Year</label>
+              <div className="bootselect-multiselect">
+                <select
+                  className="form-select"
+                  value={cmYearFilter}
+                  onChange={(e) => setCmYearFilter(e.target.value)}
+                  disabled={cmYearOptions.length === 0}
+                >
+                  <option value="">All Years</option>
+                  {cmYearOptions.map(opt => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="row">
-          <div className="col-md-9" />
           <div className="col-12">
             <div className="tabley">
-              <table className="table table myTable2">
-                <thead>
-                  <tr>
-                    <th scope="col">S.No</th>
-                    <th scope="col">Committee</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Date From</th>
-                    <th scope="col">Date To</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {committeeMembership.map((membership) => (
-                    <tr className="debate" key={membership.id}>
-                      <td>{membership.id}</td>
-                      <td>{membership.committee}</td>
-                      <td>{membership.status}</td>
-                      <td>{membership.fromDate}</td>
-                      <td>{membership.toDate}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="mbp_pagination mt30 text-center">
-                <ul className="page_navigation">
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      <FontAwesomeIcon icon={faAngleLeft} color="#222222" />
-                    </a>
-                  </li>
-                  <li className="page-item active" aria-current="page">
-                    <a className="page-link" href="#">
-                      1 <span className="sr-only">(current)</span>
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      <FontAwesomeIcon icon={faAngleRight} color="#222222" />
-                    </a>
-                  </li>
-                </ul>
-                <p className="mt10 mb-0 pagination_page_count text-center">
-                  1 – 2 of 2
-                </p>
-              </div>
+              {memberLoading ? (
+                <div className="text-center py-4">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              ) : filteredCommitteeMembership.length === 0 ? (
+                <div className="text-center py-4">
+                  <p className="text-muted">
+                    {committeeMembership.length === 0
+                      ? "No committee membership records available."
+                      : "No records for the selected filters."}
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <table className="table myTable2">
+                    <thead>
+                      <tr>
+                        <th scope="col">S.No</th>
+                        <th scope="col">Committee</th>
+                        <th scope="col">KLA</th>
+                        <th scope="col">Report No.</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Report Date</th>
+                        <th scope="col">Document</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredCommitteeMembership.map((item, index) => (
+                        <tr className="debate" key={item.id}>
+                          <td>{index + 1}</td>
+                          <td>{item.committee_name || "---"}</td>
+                          <td>{item.kla_id ? `KLA ${item.kla_id}` : "---"}</td>
+                          <td>{item.report_no || "---"}</td>
+                          <td>{item.title || "---"}</td>
+                          <td>
+                            {item.report_date
+                              ? new Date(item.report_date).toLocaleDateString("en-GB", {
+                                  day: "2-digit", month: "short", year: "numeric",
+                                })
+                              : "---"}
+                          </td>
+                          <td className="text-center">
+                            {item.pdf_url ? (
+                              <a
+                                href="#"
+                                className="doci"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setSelectedPdfUrl(item.pdf_url);
+                                  setPdfModalTitle(`${item.committee_name} — ${item.title}`);
+                                }}
+                                style={{ cursor: "pointer" }}
+                              >
+                                <img src="/images/document.svg" alt="PDF" />
+                              </a>
+                            ) : (
+                              <span className="text-muted" style={{ fontSize: "12px" }}>—</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <p className="mt10 mb-0 pagination_page_count text-center">
+                    {filteredCommitteeMembership.length} record{filteredCommitteeMembership.length !== 1 ? "s" : ""}
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -2227,7 +2416,7 @@ console.log(getMLAAddress);
               <div className="breadcumb-style1">
                 <div className="breadcumb-list">
                   <Link to="/">Home</Link>
-                  <Link to="/members">Members</Link>
+                  <Link to="members">Members</Link>
                   <Link to="/memberlist">Members List</Link>
                 </div>
               </div>
@@ -2256,12 +2445,12 @@ console.log(getMLAAddress);
         <div className="cta-job-v1 freelancer-single-style mx-auto maxw1700 bdrs16 position-relative overflow-hidden d-flex align-items-center">
           <img
             className="left-top-img wow zoomIn"
-            // src="/images/Frame3.png"
+            src="/images/Frame3.png"
             alt="img"
           />
           <img
             className="right-bottom-img wow zoomIn"
-            // src="/images/Frame8.png"
+            src="/images/Frame8.png"
             alt="img"
           />
           <div className="container">
@@ -2299,16 +2488,18 @@ console.log(getMLAAddress);
                         <div className="row">
                           <div className="memb-prof col-lg-6 mb-3 mb-lg-0">
                               <div className="ml20 ml0-xs mt15-sm">
-                              <h3 className="title">{memberLoading ? "Loading..." : memberData ? getName(memberData) : "J Chinchurani"}</h3>
-                              <h6 className="mb-2 text-th">{memberData?.designation || "---"}</h6>
+                              <h3 className="title">{memberLoading ? "Loading..." : getName(memberData) || "---"}</h3>
+                              <h6 className="mb-2 text-th">{memberData?.designation || ""}</h6>
                               <h6 className="list-inline-item mb-0 text-thm">
-                                {memberData ? `${getConstituency(memberData)} ${memberData?.constituency?.id ? `(${memberData.constituency.id})` : ''}` : "Chadayamangalam (12)"}
+                                {getConstituency(memberData)
+                                  ? `${getConstituency(memberData)}${memberData?.constituency?.constituency_no ? ` (${memberData.constituency.constituency_no})` : memberData?.constituency?.id ? ` (${memberData.constituency.id})` : ''}`
+                                  : memberLoading ? "" : "---"}
                               </h6>
                               <h6 className="list-inline-item mb-0 bdrl-eunry pl15 text-thm">
                                 {/* {memberData?.district?.name || memberData?.member?.district } */}
                               </h6>
                               <br />
-                              <small>{memberData ? getParty(memberData) : "Communist Party of India"}</small>
+                              <small>{getParty(memberData) || (memberLoading ? "" : "---")}</small>
                             </div>
                           </div>
                           <div className="memb-prof col-lg-6">
@@ -2358,38 +2549,26 @@ console.log(getMLAAddress);
                               <div className="d-flex contac">
                                 <div className="social-widget text-center text-md-end">
                                   <div className="footer-social-style">
-                                    <a href="#" className="list-inline-items">
-                                      <FontAwesomeIcon
-                                        className="font-icon"
-                                        icon={faFacebookF}
-                                        height={15}
-                                        color="#B197FC"
-                                      />
-                                    </a>
-                                    <a href="#" className="list-inline-items">
-                                      <FontAwesomeIcon
-                                        className="font-icon"
-                                        icon={faXTwitter}
-                                        height={15}
-                                        color="#B197FC"
-                                      />
-                                    </a>
-                                    <a href="#" className="list-inline-items">
-                                      <FontAwesomeIcon
-                                        className="font-icon"
-                                        icon={faInstagram}
-                                        height={15}
-                                        color="#B197FC"
-                                      />
-                                    </a>
-                                    <a href="#" className="list-inline-items">
-                                      <FontAwesomeIcon
-                                        className="font-icon"
-                                        icon={faLinkedinIn}
-                                        height={15}
-                                        color="#B197FC"
-                                      />
-                                    </a>
+                                    {(basicDetails.socialLinks?.facebook || !memberData) && (
+                                      <a href={basicDetails.socialLinks?.facebook || "#"} className="list-inline-items" target={basicDetails.socialLinks?.facebook ? "_blank" : undefined} rel="noopener noreferrer">
+                                        <FontAwesomeIcon className="font-icon" icon={faFacebookF} height={15} color="#B197FC" />
+                                      </a>
+                                    )}
+                                    {(basicDetails.socialLinks?.twitter || !memberData) && (
+                                      <a href={basicDetails.socialLinks?.twitter || "#"} className="list-inline-items" target={basicDetails.socialLinks?.twitter ? "_blank" : undefined} rel="noopener noreferrer">
+                                        <FontAwesomeIcon className="font-icon" icon={faXTwitter} height={15} color="#B197FC" />
+                                      </a>
+                                    )}
+                                    {(basicDetails.socialLinks?.instagram || !memberData) && (
+                                      <a href={basicDetails.socialLinks?.instagram || "#"} className="list-inline-items" target={basicDetails.socialLinks?.instagram ? "_blank" : undefined} rel="noopener noreferrer">
+                                        <FontAwesomeIcon className="font-icon" icon={faInstagram} height={15} color="#B197FC" />
+                                      </a>
+                                    )}
+                                    {(basicDetails.socialLinks?.linkedin || !memberData) && (
+                                      <a href={basicDetails.socialLinks?.linkedin || "#"} className="list-inline-items" target={basicDetails.socialLinks?.linkedin ? "_blank" : undefined} rel="noopener noreferrer">
+                                        <FontAwesomeIcon className="font-icon" icon={faLinkedinIn} height={15} color="#B197FC" />
+                                      </a>
+                                    )}
                                   </div>
                                 </div>
                               </div>
@@ -2428,7 +2607,7 @@ console.log(getMLAAddress);
                         "voting-results",
                         "GIST of Business",
                         "attendance",
-                        "debates",
+                        // "debates",
                         "special Mentions",
                         "question",
                         "Committee Membership",
@@ -2507,16 +2686,28 @@ console.log(getMLAAddress);
                   <h5 className="modal-title">
                     {pdfModalTitle || "PDF Preview"}
                   </h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    onClick={() => setSelectedPdfUrl(null)}
-                  ></button>
+                  <div className="d-flex align-items-center gap-2">
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-primary"
+                      onClick={() => window.open(selectedPdfUrl, "_blank", "noopener,noreferrer")}
+                    >
+                      Download
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      onClick={() => setSelectedPdfUrl(null)}
+                    />
+                  </div>
                 </div>
-                <div className="modal-body">
-                  <InlinePdfViewer
-                    fileUrl={selectedPdfUrl}
-                    height="85vh"
+                <div className="modal-body" style={{ height: "80vh", padding: 0 }}>
+                  <iframe
+                    src={pdfSrc}
+                    title={pdfModalTitle || "PDF Preview"}
+                    width="100%"
+                    height="100%"
+                    style={{ border: "none", display: "block" }}
                   />
                 </div>
               </div>

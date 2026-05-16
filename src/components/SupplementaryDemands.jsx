@@ -11,7 +11,7 @@ import {
   SessionCalendar,
   PdfViewerModal,
 } from "./common";
-import { fetchBudgetDemandsForGrants } from "../services/MasterService";
+import { fetchSupplementaryDemands } from "../services/MasterService";
 
 // ---------------------------------------------------------------------------
 // Members modal
@@ -104,12 +104,12 @@ const MinistersModal = ({ ministers, onClose }) => (
 // ---------------------------------------------------------------------------
 // Main component
 // ---------------------------------------------------------------------------
-const StatementDemands = () => {
+const SupplementaryDemands = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   // ── API data ──────────────────────────────────────────────────────────────
-  const [allRows, setAllRows] = useState([]);          // flat list of all budget_items
-  const [sessions, setSessions] = useState([]);        // session objects with meeting_dates
+  const [allRows, setAllRows] = useState([]);
+  const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -121,7 +121,7 @@ const StatementDemands = () => {
 
   // ── Filter state ──────────────────────────────────────────────────────────
   const [klaId, setKlaId] = useState(15);
-  const [sessionNo, setSessionNo] = useState(null);   // null = all
+  const [sessionNo, setSessionNo] = useState(null);
   const [eventFilter, setEventFilter] = useState("");
   const [subjectFilter, setSubjectFilter] = useState("");
   const [memberFilter, setMemberFilter] = useState("");
@@ -151,16 +151,15 @@ const StatementDemands = () => {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    fetchBudgetDemandsForGrants()
+    fetchSupplementaryDemands()
       .then(({ rows, sessions: sess, defaultSelection }) => {
         setAllRows(rows);
         setSessions(sess);
-        // Apply default selection from API
         if (defaultSelection?.kla_id) setKlaId(defaultSelection.kla_id);
         if (defaultSelection?.session_id) setSessionNo(defaultSelection.session_id);
       })
       .catch((err) => {
-        console.error("Failed to load budget demands:", err);
+        console.error("Failed to load supplementary demands:", err);
         setError("Failed to load data. Please try again.");
       })
       .finally(() => setLoading(false));
@@ -181,17 +180,13 @@ const StatementDemands = () => {
       setSessionEndDate(matchedSession.end_date || null);
       setMeetingDates(matchedSession.meeting_dates || []);
     } else {
-      // No specific session — show full range
       const klaSessionsForKla = sessions.filter(
         (s) => Number(s.kla_id) === Number(klaId)
       );
       if (klaSessionsForKla.length) {
-        const dates = klaSessionsForKla.flatMap((s) => s.meeting_dates || []);
-        setMeetingDates(dates);
+        setMeetingDates(klaSessionsForKla.flatMap((s) => s.meeting_dates || []));
         setSessionStartDate(klaSessionsForKla[0]?.start_date || null);
-        setSessionEndDate(
-          klaSessionsForKla[klaSessionsForKla.length - 1]?.end_date || null
-        );
+        setSessionEndDate(klaSessionsForKla[klaSessionsForKla.length - 1]?.end_date || null);
       } else {
         setMeetingDates([]);
         setSessionStartDate(null);
@@ -200,7 +195,7 @@ const StatementDemands = () => {
     }
   }, [klaId, sessionNo, sessions]);
 
-  // ── Filter handler from <Filter> component ────────────────────────────────
+  // ── Filter handler ────────────────────────────────────────────────────────
   const handleFiltersChange = (values) => {
     if (values?.KLA != null) {
       const n = Number(typeof values.KLA === "object" ? values.KLA.value ?? values.KLA : values.KLA);
@@ -210,18 +205,14 @@ const StatementDemands = () => {
       const v = typeof values.SESSION_TYPE === "object" ? values.SESSION_TYPE.value : values.SESSION_TYPE;
       setSessionNo(v === "" || v === "All" ? null : Number(v));
     }
-    if (values?.MEMBER != null) {
+    if (values?.MEMBER != null)
       setMemberFilter(typeof values.MEMBER === "object" ? values.MEMBER.value ?? "" : values.MEMBER);
-    }
-    if (values?.MINISTER != null) {
+    if (values?.MINISTER != null)
       setMinisterFilter(typeof values.MINISTER === "object" ? values.MINISTER.value ?? "" : values.MINISTER);
-    }
-    if (values?.EVENT != null) {
+    if (values?.EVENT != null)
       setEventFilter(typeof values.EVENT === "object" ? values.EVENT.value ?? "" : values.EVENT);
-    }
-    if (values?.SUBJECT != null) {
+    if (values?.SUBJECT != null)
       setSubjectFilter(typeof values.SUBJECT === "object" ? values.SUBJECT.value ?? "" : values.SUBJECT);
-    }
     if (values?.DATE_FROM != null) setDateFrom(values.DATE_FROM);
     if (values?.DATE_TO != null) setDateTo(values.DATE_TO);
     if (values?.SEARCH != null) setSearchText(values.SEARCH);
@@ -235,106 +226,55 @@ const StatementDemands = () => {
 
   const sessionOptions = useMemo(() => {
     const ids = [...new Set(rowsForKla.map((r) => r.session))].sort((a, b) => a - b);
-    return [
-      { value: "", label: "All" },
-      ...ids.map((id) => ({ value: id, label: String(id) })),
-    ];
+    return [{ value: "", label: "All" }, ...ids.map((id) => ({ value: id, label: String(id) }))];
   }, [rowsForKla]);
 
-  const eventOptions = useMemo(() => {
-    const events = [...new Set(rowsForKla.map((r) => r.event).filter(Boolean))];
-    return [
-      { value: "", label: "-Select Event-" },
-      ...events.map((e) => ({ value: e, label: e })),
-    ];
-  }, [rowsForKla]);
+  // const eventOptions = useMemo(() => {
+  //   const events = [...new Set(rowsForKla.map((r) => r.event).filter(Boolean))];
+  //   return [{ value: "", label: "-Select Event-" }, ...events.map((e) => ({ value: e, label: e }))];
+  // }, [rowsForKla]);
 
   const subjectOptions = useMemo(() => {
     const subjects = [...new Set(rowsForKla.map((r) => r.subject_en).filter(Boolean))];
-    return [
-      { value: "", label: "-Select Subject-" },
-      ...subjects.map((s) => ({ value: s, label: s })),
-    ];
+    return [{ value: "", label: "-Select Subject-" }, ...subjects.map((s) => ({ value: s, label: s }))];
   }, [rowsForKla]);
 
   const memberOptions = useMemo(() => {
-    const names = [
-      ...new Set(
-        rowsForKla.flatMap((r) => r.members.map((m) => m.name)).filter(Boolean)
-      ),
-    ].sort();
-    return [
-      { value: "", label: "All Members" },
-      ...names.map((n) => ({ value: n, label: n })),
-    ];
+    const names = [...new Set(rowsForKla.flatMap((r) => r.members.map((m) => m.name)).filter(Boolean))].sort();
+    return [{ value: "", label: "All Members" }, ...names.map((n) => ({ value: n, label: n }))];
   }, [rowsForKla]);
 
   const ministerOptions = useMemo(() => {
-    const names = [
-      ...new Set(
-        rowsForKla.flatMap((r) => r.ministers.map((m) => m.name)).filter(Boolean)
-      ),
-    ].sort();
-    return [
-      { value: "", label: "All Ministers" },
-      ...names.map((n) => ({ value: n, label: n })),
-    ];
+    const names = [...new Set(rowsForKla.flatMap((r) => r.ministers.map((m) => m.name)).filter(Boolean))].sort();
+    return [{ value: "", label: "All Ministers" }, ...names.map((n) => ({ value: n, label: n }))];
   }, [rowsForKla]);
 
   // ── Client-side filtering ─────────────────────────────────────────────────
   const filteredRows = useMemo(() => {
     return rowsForKla.filter((row) => {
       if (sessionNo != null && Number(row.session) !== Number(sessionNo)) return false;
-      if (eventFilter && row.event !== eventFilter) return false;
+      // if (eventFilter && row.event !== eventFilter) return false;
       if (subjectFilter && row.subject_en !== subjectFilter) return false;
-      if (memberFilter) {
-        const has = row.members.some((m) =>
-          m.name.toLowerCase().includes(memberFilter.toLowerCase())
-        );
-        if (!has) return false;
-      }
-      if (ministerFilter) {
-        const has = row.ministers.some((m) =>
-          m.name.toLowerCase().includes(ministerFilter.toLowerCase())
-        );
-        if (!has) return false;
-      }
+      if (memberFilter && !row.members.some((m) => m.name.toLowerCase().includes(memberFilter.toLowerCase()))) return false;
+      if (ministerFilter && !row.ministers.some((m) => m.name.toLowerCase().includes(ministerFilter.toLowerCase()))) return false;
       if (dateFrom && row.isoDate && row.isoDate < dateFrom) return false;
       if (dateTo && row.isoDate && row.isoDate > dateTo) return false;
       if (searchText) {
         const q = searchText.toLowerCase();
-        if (
-          !row.subject_en.toLowerCase().includes(q) &&
-          !row.subject_ml.toLowerCase().includes(q) &&
-          !row.event.toLowerCase().includes(q)
-        )
+        if (!row.subject_en.toLowerCase().includes(q) && !row.subject_ml.toLowerCase().includes(q) && !row.event.toLowerCase().includes(q))
           return false;
       }
       return true;
     });
-  }, [
-    rowsForKla,
-    sessionNo,
-    eventFilter,
-    subjectFilter,
-    memberFilter,
-    ministerFilter,
-    dateFrom,
-    dateTo,
-    searchText,
-  ]);
+  }, [rowsForKla, sessionNo, eventFilter, subjectFilter, memberFilter, ministerFilter, dateFrom, dateTo, searchText]);
 
   // Reset to page 1 when filters change
   useEffect(() => { setCurrentPage(1); }, [
-    klaId, sessionNo, eventFilter, subjectFilter,
-    memberFilter, ministerFilter, dateFrom, dateTo, searchText,
+    klaId, sessionNo, eventFilter, subjectFilter, memberFilter, ministerFilter, dateFrom, dateTo, searchText,
   ]);
 
   const totalPages = Math.ceil(filteredRows.length / ITEMS_PER_PAGE);
-  const pagedRows = filteredRows.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  const pagedRows = filteredRows.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   const openPdf = (url, title) => setPdfModal({ show: true, url, title });
 
@@ -355,45 +295,31 @@ const StatementDemands = () => {
           breadcrumbs={[
             { name: "Home", href: "/" },
             { name: "Business", href: "/business" },
-            { name: "Statement of Demands for Grants", href: "/statement-demands" },
+            { name: "Supplementary Demands", href: "/budgetsupplementary-demands" },
           ]}
         />
 
         <section className="Bussiness-schedule quest pt20 pb-30 pb30-md represent">
           <div className="container">
-            <SectionTitle title="Statement of Demands for Grants" />
+            <SectionTitle title="Supplementary Demands" />
 
             <div className="bill-content col-md-12 mt30 committeeDt">
               <div className="terms_condition_grid text-start mb-40">
 
                 {/* ── FILTER + CALENDAR ROW ── */}
                 <div className="row">
-                  {/* Left: filters */}
                   <div className="col-lg-8">
                     <div className="tab-title mb-2">
                       <h6>Search By Filter</h6>
                     </div>
 
                     <Filter
-                      filterKeys={[
-                        "KLA",
-                        "SESSION_TYPE",
-                        "EVENT",
-                        "SUBJECT",
-                        "MEMBER",
-                        "MINISTER",
-                        "DATE_FROM",
-                        "DATE_TO",
-                        "SEARCH",
-                      ]}
+                      filterKeys={["KLA", "SESSION_TYPE", "EVENT", "SUBJECT", "MEMBER", "MINISTER", "DATE_FROM", "DATE_TO", "SEARCH"]}
                       onFiltersChange={handleFiltersChange}
                       overrides={{
                         KLA: { defaultValue: klaId },
-                        SESSION_TYPE: {
-                          defaultValue: sessionNo ?? "",
-                          options: sessionOptions,
-                        },
-                        EVENT: { options: eventOptions },
+                        SESSION_TYPE: { defaultValue: sessionNo ?? "", options: sessionOptions },
+                        // EVENT: { options: eventOptions },
                         SUBJECT: { options: subjectOptions },
                         MEMBER: { options: memberOptions },
                         MINISTER: { options: ministerOptions },
@@ -413,7 +339,6 @@ const StatementDemands = () => {
                     </div>
                   </div>
 
-                  {/* Right: calendar */}
                   <div className="col-lg-4 section-calendar mb20">
                     <SessionCalendar
                       selectedDate={selectedDate}
@@ -461,33 +386,24 @@ const StatementDemands = () => {
                                 {row.subject_ml && (
                                   <div
                                     className="text-muted mt-1"
-                                    style={{
-                                      fontSize: "0.85em",
-                                      fontFamily: "'Noto Sans Malayalam', sans-serif",
-                                    }}
+                                    style={{ fontSize: "0.85em", fontFamily: "'Noto Sans Malayalam', sans-serif" }}
                                   >
                                     {row.subject_ml}
                                   </div>
                                 )}
                               </td>
 
-                              {/* PDF button */}
                               <td className="text-center">
                                 <button
                                   title="View PDF"
                                   disabled={!row.pdf_url}
-                                  onClick={() =>
-                                    row.pdf_url &&
-                                    openPdf(row.pdf_url, row.subject_en || "Document")
-                                  }
+                                  onClick={() => row.pdf_url && openPdf(row.pdf_url, row.subject_en || "Document")}
                                   style={{
                                     width: 32,
                                     height: 32,
                                     borderRadius: "50%",
                                     border: "2px solid var(--clr--primary)",
-                                    background: row.pdf_url
-                                      ? "var(--clr--primary)"
-                                      : "#e0e0e0",
+                                    background: row.pdf_url ? "var(--clr--primary)" : "#e0e0e0",
                                     color: row.pdf_url ? "#fff" : "#aaa",
                                     fontWeight: 700,
                                     fontSize: 13,
@@ -503,7 +419,6 @@ const StatementDemands = () => {
                                 </button>
                               </td>
 
-                              {/* Actions */}
                               <td className="text-center">
                                 <div className="d-flex align-items-center justify-content-center gap-2 flex-wrap">
                                   <button
@@ -591,4 +506,4 @@ const StatementDemands = () => {
   );
 };
 
-export default StatementDemands;
+export default SupplementaryDemands;

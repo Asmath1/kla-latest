@@ -18,6 +18,11 @@ import { ensureHttps } from "../utils/urlUtils";
 
 const dummyPdf = "/pdf1.pdf";
 
+const normalizePdfUrl = (url) => {
+  if (!url) return null;
+  return ensureHttps(url.trim());
+};
+
 export const BillsTabs = () => {
   const [activeTab, setActiveTab] = useState("rules");
   const [showModal, setShowModal] = useState(false);
@@ -32,7 +37,13 @@ export const BillsTabs = () => {
   };
 
   const openPdf = (url) => {
-    setPdfUrl(url);
+    const normalizedUrl = normalizePdfUrl(url);
+    if (!normalizedUrl) {
+      console.error("Invalid PDF URL", url);
+      return;
+    }
+
+    setPdfUrl(normalizedUrl);
     setShowModal(true);
   };
 
@@ -270,7 +281,7 @@ export const BillsTabs = () => {
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
               {pdfUrl && (
                 <Viewer
-                  fileUrl={ensureHttps(pdfUrl)}
+                  fileUrl={normalizePdfUrl(pdfUrl)}
                   plugins={[defaultLayoutPluginInstance]}
                   defaultScale={
                     typeof window !== "undefined" && window.innerWidth <= 576
@@ -556,20 +567,26 @@ const Bills = () => {
       e.preventDefault();
     }
 
+    const normalizedUrl = normalizePdfUrl(pdfUrl);
+    if (!normalizedUrl) {
+      console.error("Invalid PDF URL", pdfUrl);
+      return;
+    }
+
     const isMobile = window.innerWidth <= 768;
 
     if (isMobile) {
       // On mobile, show PDF in popup
       setSelectedBillPdf(null); // force re-render if same file
       setTimeout(() => {
-        setSelectedBillPdf(pdfUrl);
+        setSelectedBillPdf(normalizedUrl);
         setShowPdfPopup(true);
       }, 0);
     } else {
       // On desktop, show PDF inline
       setSelectedBillPdf(null); // force re-render if same file
       setTimeout(() => {
-        setSelectedBillPdf(pdfUrl);
+        setSelectedBillPdf(normalizedUrl);
       }, 0);
     }
 
@@ -1441,7 +1458,7 @@ const Bills = () => {
                           <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
                             {selectedBillPdf && (
                               <Viewer
-                                fileUrl={selectedBillPdf}
+                                fileUrl={normalizePdfUrl(selectedBillPdf)}
                                 plugins={[defaultLayoutPluginInstance]}
                                 defaultScale={
                                   typeof window !== "undefined" &&
@@ -1492,7 +1509,7 @@ const Bills = () => {
               <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
                 {selectedBillPdf && (
                   <Viewer
-                    fileUrl={selectedBillPdf}
+                    fileUrl={normalizePdfUrl(selectedBillPdf)}
                     plugins={[defaultLayoutPluginInstance]}
                   />
                 )}

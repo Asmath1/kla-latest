@@ -215,14 +215,20 @@ export const fetchKlaDuration = async () => {
 
 export const fetchMemberContact = async (page = 1) => {
   try {
-    const response = await axiosInstance.get(`${API_ENDPOINTS.MEMBER_CONTACT}?page=${page}`);
-    console.log("Member Contact API Response:", response);
-    
-    // API returns paginated data with structure: { success: true, data: { data: [...], current_page, last_page, etc } }
+    const response = await axiosInstance.get(API_ENDPOINTS.MEMBER_CONTACT, {
+      params: { page },
+    });
+
+    // API returns: { success: true, data: { data: [...], last_page, total, ... } }
     if (response.data?.success && response.data?.data) {
-      return response.data.data;
+      return response.data.data; // paginated object: { data: [], last_page, total, ... }
     }
-    
+
+    // Fallback: bare paginated object at root
+    if (response.data?.data && Array.isArray(response.data.data)) {
+      return response.data;
+    }
+
     return { data: [], current_page: 1, last_page: 1, total: 0 };
   } catch (error) {
     console.error("Error fetching Member Contact data:", error);

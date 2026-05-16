@@ -11,7 +11,7 @@ import {
   SessionCalendar,
   PdfViewerModal,
 } from "./common";
-import { fetchBudgetDemandsForGrants } from "../services/MasterService";
+import { fetchBudgetPresentation } from "../services/MasterService";
 
 // ---------------------------------------------------------------------------
 // Members modal
@@ -104,7 +104,7 @@ const MinistersModal = ({ ministers, onClose }) => (
 // ---------------------------------------------------------------------------
 // Main component
 // ---------------------------------------------------------------------------
-const StatementDemands = () => {
+const BudgetPresentation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   // ── API data ──────────────────────────────────────────────────────────────
@@ -151,7 +151,7 @@ const StatementDemands = () => {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    fetchBudgetDemandsForGrants()
+    fetchBudgetPresentation()
       .then(({ rows, sessions: sess, defaultSelection }) => {
         setAllRows(rows);
         setSessions(sess);
@@ -160,7 +160,7 @@ const StatementDemands = () => {
         if (defaultSelection?.session_id) setSessionNo(defaultSelection.session_id);
       })
       .catch((err) => {
-        console.error("Failed to load budget demands:", err);
+        console.error("Failed to load budget presentation:", err);
         setError("Failed to load data. Please try again.");
       })
       .finally(() => setLoading(false));
@@ -355,13 +355,13 @@ const StatementDemands = () => {
           breadcrumbs={[
             { name: "Home", href: "/" },
             { name: "Business", href: "/business" },
-            { name: "Statement of Demands for Grants", href: "/statement-demands" },
+            { name: "Budget Presentation", href: "/budget-presentation" },
           ]}
         />
 
         <section className="Bussiness-schedule quest pt20 pb-30 pb30-md represent">
           <div className="container">
-            <SectionTitle title="Statement of Demands for Grants" />
+            <SectionTitle title="Budget Presentation" />
 
             <div className="bill-content col-md-12 mt30 committeeDt">
               <div className="terms_condition_grid text-start mb-40">
@@ -591,4 +591,4 @@ const StatementDemands = () => {
   );
 };
 
-export default StatementDemands;
+export default BudgetPresentation;

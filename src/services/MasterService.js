@@ -134,16 +134,7 @@ const formatDisplayDate = (dateString) => {
   return `${day}-${month}-${year}`;
 };
 
-export const fetchBudgetSessions = async () => {
-  const url = "https://api.niyamasabha.in/api/budget-sessions";
-  const res = await fetch(url, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-    },
-  });
-
-  const json = await res.json();
+const normalizeBudgetResponse = (json) => {
   const sessions = Array.isArray(json?.sessions) ? json.sessions : [];
 
   const normalizedSessions = sessions.map((session) => {
@@ -202,12 +193,82 @@ export const fetchBudgetSessions = async () => {
   };
 };
 
+export const fetchBudgetDemandsForGrants = async () => {
+  const url = "https://api.niyamasabha.in/api/budget-demands-for-grants";
+  const res = await fetch(url, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+  });
+  const json = await res.json();
+  return normalizeBudgetResponse(json);
+};
+
+export const fetchSupplementaryDemands = async () => {
+  const url = "https://api.niyamasabha.in/api/budget-supplementary-demands";
+  const res = await fetch(url, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+  });
+  const json = await res.json();
+  return normalizeBudgetResponse(json);
+};
+
+export const fetchBudgetSessions = async () => {
+  const url = "https://api.niyamasabha.in/api/budget-sessions";
+  const res = await fetch(url, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+  });
+  const json = await res.json();
+  return normalizeBudgetResponse(json);
+};
+
+export const fetchBudgetGeneralDiscussion = async () => {
+  const url = "https://api.niyamasabha.in/api/budget-general-discussion";
+  const res = await fetch(url, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+  });
+  const json = await res.json();
+  return normalizeBudgetResponse(json);
+};
+
+export const fetchBudgetPresentation = async () => {
+  const url = "https://api.niyamasabha.in/api/budget-presentation";
+  const res = await fetch(url, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+  });
+  const json = await res.json();
+  return normalizeBudgetResponse(json);
+};
+
+export const fetchBudgetExcessDemands = async () => {
+  const url = "https://api.niyamasabha.in/api/budget-excess-demands";
+  const res = await fetch(url, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+  });
+  const json = await res.json();
+  return normalizeBudgetResponse(json);
+};
+
+export const fetchBudgetVoteOnAccount = async () => {
+  const url = "https://api.niyamasabha.in/api/budget-vote-on-account";
+  const res = await fetch(url, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+  });
+  const json = await res.json();
+  return normalizeBudgetResponse(json);
+};
+
 // Fetch KLA sessions with members and ministers data
 export const fetchKlaSessionsWithMembers = async (klaId = 15) => {
   try {
     const url = "https://api.niyamasabha.in/api/kla-sessions-with-members";
     const opts = {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
         Accept: "application/json",

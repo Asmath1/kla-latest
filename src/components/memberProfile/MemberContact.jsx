@@ -1,26 +1,124 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import HomeTest from "../Header";
 import { CategoriesNav, BreadcrumbNav, SectionTitle, Pagination, ExportButton } from "../common";
 import { fetchMemberContact } from "../../api/services/all.service";
 import { exportData as exportDataUtil } from "../../utils/exportUtils";
 
+// ---------------------------------------------------------------------------
+// Helpers — the API returns member.langs items as either plain objects OR as
+// PowerShell-style "@{key=value; ...}" strings (depending on the serialiser).
+// We normalise both shapes here.
+// ---------------------------------------------------------------------------
+
+/** Parse a single lang entry regardless of whether it is an object or a string. */
+const parseLang = (lang) => {
+  if (!lang) return null;
+  if (typeof lang === "object") return lang;
+  // PowerShell "@{id=1; language_id=2; name=FOO; ...}" → plain object
+  if (typeof lang === "string" && lang.startsWith("@{")) {
+    const inner = lang.slice(2, -1); // strip "@{" and "}"
+    const obj = {};
+    inner.split(";").forEach((pair) => {
+      const eqIdx = pair.indexOf("=");
+      if (eqIdx === -1) return;
+      const key = pair.slice(0, eqIdx).trim();
+      const val = pair.slice(eqIdx + 1).trim();
+      obj[key] = val;
+    });
+    return obj;
+  }
+  return null;
+};
+
+/** Get the English (language_id=2) name, falling back to the first lang entry. */
+const getMemberName = (contact) => {
+  const langs = contact?.member?.langs;
+  if (!Array.isArray(langs) || langs.length === 0) return "";
+  const parsed = langs.map(parseLang).filter(Boolean);
+  const en = parsed.find((l) => String(l.language_id) === "2");
+  return (en?.name || parsed[0]?.name || "").trim();
+};
+
+/** Get the English permanent address, falling back to the first lang entry. */
+const getPermanentAddress = (contact) => {
+  const langs = contact?.langs;
+  if (!Array.isArray(langs) || langs.length === 0) return "";
+  // Prefer language_id=2 (English), then first non-empty
+  const parsed = langs.map(parseLang).filter(Boolean);
+  const en = parsed.find((l) => String(l.language_id) === "2");
+  const addr = en?.permanent_address || parsed[0]?.permanent_address || "";
+  return (addr === "-" || addr === null) ? "" : (addr || "").trim();
+};
+
+/** Deduplicate contacts by member_id — keep the one with the most data. */
+const deduplicateByMember = (contacts) => {
+  const map = new Map();
+  for (const c of contacts) {
+    const key = c.member_id;
+    if (!map.has(key)) {
+      map.set(key, c);
+    } else {
+      // Prefer the entry that has more contact info
+      const existing = map.get(key);
+      const existingScore =
+        (existing.mobile_nos ? 1 : 0) +
+        (existing.email_ids ? 1 : 0) +
+        (existing.office_telephone ? 1 : 0);
+      const newScore =
+        (c.mobile_nos ? 1 : 0) +
+        (c.email_ids ? 1 : 0) +
+        (c.office_telephone ? 1 : 0);
+      if (newScore > existingScore) map.set(key, c);
+    }
+  }
+  return Array.from(map.values());
+};
+
+// ---------------------------------------------------------------------------
+// Alphabet filter component
+// ---------------------------------------------------------------------------
+const AlphabetFilter = ({ onLetterClick, activeLetter }) => {
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  return (
+    <div className="alphabets d-flex w-100 wow fadeInUp" style={{ flexWrap: "wrap", gap: "2px" }}>
+      <a
+        href="#"
+        className={!activeLetter ? "active" : ""}
+        onClick={(e) => { e.preventDefault(); onLetterClick(""); }}
+      >
+        All
+      </a>
+      {alphabet.map((letter) => (
+        <a
+          href="#"
+          key={letter}
+          className={activeLetter === letter ? "active" : ""}
+          onClick={(e) => { e.preventDefault(); onLetterClick(letter); }}
+        >
+          {letter}
+        </a>
+      ))}
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// Main component
+// ---------------------------------------------------------------------------
 const MemberContact = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [memberContactData, setMemberContactData] = useState([]);
-  const [allMemberData, setAllMemberData] = useState([]); // Store all data for filtering
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalRecords, setTotalRecords] = useState(0);
+  const [allMemberData, setAllMemberData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
     memberName: "",
-    constituency: "All",
-    partyWise: "All",
-    orderBy: "Members",
     alphabetFilter: "",
+    orderBy: "Members",
   });
-  const itemsPerPage = 15; // Items per page for client-side pagination
 
+  const ITEMS_PER_PAGE = 15;
+
+  // Scroll handler
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
@@ -28,76 +126,85 @@ const MemberContact = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Fetch all data once on component mount
+  // Fetch ALL pages once on mount
   useEffect(() => {
-    const loadAllMemberContact = async () => {
+    let cancelled = false;
+
+    const loadAll = async () => {
       setLoading(true);
       try {
-        // Fetch all pages to get complete data
-        let allData = [];
+        let accumulated = [];
         let page = 1;
-        let hasMorePages = true;
+        let lastPage = 1;
 
-        while (hasMorePages) {
-          const data = await fetchMemberContact(page);
-          if (data && Array.isArray(data.data) && data.data.length > 0) {
-            allData = [...allData, ...data.data];
-            hasMorePages = page < (data.last_page || 1);
-            page++;
+        do {
+          const paginated = await fetchMemberContact(page);
+          // paginated = { data: [...], last_page, total, ... }
+          if (Array.isArray(paginated?.data) && paginated.data.length > 0) {
+            accumulated = [...accumulated, ...paginated.data];
+            lastPage = paginated.last_page || 1;
           } else {
-            hasMorePages = false;
+            break;
           }
-        }
+          page++;
+        } while (page <= lastPage);
 
-        console.log("Fetched all member contact data:", allData.length);
-        setAllMemberData(allData);
-        setTotalRecords(allData.length);
-      } catch (error) {
-        console.error("Error loading member contact:", error);
-        setAllMemberData([]);
-        setTotalRecords(0);
+        if (!cancelled) {
+          // Deduplicate by member_id before storing
+          setAllMemberData(deduplicateByMember(accumulated));
+        }
+      } catch (err) {
+        console.error("Error loading member contact:", err);
+        if (!cancelled) setAllMemberData([]);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
-    loadAllMemberContact();
-  }, []); // Only run once on mount
+    loadAll();
+    return () => { cancelled = true; };
+  }, []);
 
-  // Get member name from langs array (English version)
-  const getMemberName = (member) => {
-    const englishLang = member.member?.langs?.find(lang => lang.language_id === 2);
-    return englishLang?.name || member.member?.langs?.[0]?.name || "";
-  };
+  // ---------------------------------------------------------------------------
+  // Filtering + sorting (memoised)
+  // ---------------------------------------------------------------------------
+  const filteredSorted = useMemo(() => {
+    let result = allMemberData.filter((contact) => {
+      const name = getMemberName(contact);
 
-  // Get permanent address from langs array (English version)
-  const getPermanentAddress = (contact) => {
-    const englishLang = contact.langs?.find(lang => lang.language_id === 2);
-    return englishLang?.permanent_address || contact.langs?.[0]?.permanent_address || "";
-  };
+      // Name search
+      if (
+        filters.memberName &&
+        !name.toLowerCase().includes(filters.memberName.toLowerCase())
+      ) {
+        return false;
+      }
 
-  // Filter data based on filters (client-side filtering on ALL data)
-  const filteredData = allMemberData.filter((contact) => {
-    const memberName = getMemberName(contact);
-    const matchesName = memberName.toLowerCase().includes(filters.memberName.toLowerCase());
-    const matchesAlphabet = !filters.alphabetFilter || memberName.toUpperCase().startsWith(filters.alphabetFilter);
-    
-    return matchesName && matchesAlphabet;
-  });
+      // Alphabet filter — match against the first letter of the name
+      if (filters.alphabetFilter) {
+        const firstLetter = name.trimStart().charAt(0).toUpperCase();
+        if (firstLetter !== filters.alphabetFilter) return false;
+      }
 
-  // Sort data based on orderBy
-  const sortedData = [...filteredData].sort((a, b) => {
+      return true;
+    });
+
+    // Sort
     if (filters.orderBy === "Members") {
-      return getMemberName(a).localeCompare(getMemberName(b));
+      result = [...result].sort((a, b) =>
+        getMemberName(a).localeCompare(getMemberName(b))
+      );
     }
-    return 0; // Constituency sorting would need additional data
-  });
 
-  // Calculate pagination for filtered data
-  const totalFilteredPages = Math.ceil(sortedData.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const paginatedData = sortedData.slice(startIndex, endIndex);
+    return result;
+  }, [allMemberData, filters]);
+
+  // ---------------------------------------------------------------------------
+  // Pagination
+  // ---------------------------------------------------------------------------
+  const totalPages = Math.ceil(filteredSorted.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedData = filteredSorted.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -105,68 +212,37 @@ const MemberContact = () => {
   };
 
   const handleFilterChange = (key, value) => {
-    setFilters({ ...filters, [key]: value });
-    setCurrentPage(1); // Reset to first page when any filter changes
+    setFilters((prev) => ({ ...prev, [key]: value }));
+    setCurrentPage(1);
   };
 
   const handleAlphabetClick = (letter) => {
-    setFilters({ ...filters, alphabetFilter: letter });
-    setCurrentPage(1); // Reset to first page when alphabet filter changes
+    setFilters((prev) => ({ ...prev, alphabetFilter: letter }));
+    setCurrentPage(1);
   };
 
+  // ---------------------------------------------------------------------------
+  // Export
+  // ---------------------------------------------------------------------------
   const handleExport = (format) => {
-    // Prepare data for export
-    const exportData = sortedData.map((contact, index) => ({
-      'Sl. No': contact.order || index + 1,
-      'Name of Member': getMemberName(contact),
-      'Permanent Address': getPermanentAddress(contact) || "-",
-      'Telephone': contact.office_telephone || "-",
-      'Mobile': contact.mobile_nos || "-",
-      'E-mail': contact.email_ids || "-"
+    const exportData = filteredSorted.map((contact, index) => ({
+      "Sl. No": index + 1,
+      "Name of Member": getMemberName(contact),
+      "Permanent Address": getPermanentAddress(contact) || "-",
+      Telephone: contact.office_telephone || "-",
+      Mobile: contact.mobile_nos || "-",
+      "E-mail": contact.email_ids || "-",
     }));
 
-    // Use export utility
-    exportDataUtil(exportData, format, 'member-contact', {
-      title: 'Member Contact Details',
-      sheetName: 'Member Contact'
+    exportDataUtil(exportData, format, "member-contact", {
+      title: "Member Contact Details",
+      sheetName: "Member Contact",
     });
   };
 
-  // --------------------------- AlphabetFilter ---------------------------
-  const AlphabetFilter = ({ onLetterClick, activeLetter }) => {
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-    return (
-      <div className="alphabets d-flex w-100 wow fadeInUp">
-        {/* All button */}
-        <a
-          href="#"
-          key="all"
-          className={!activeLetter ? "active" : ""}
-          onClick={(e) => {
-            e.preventDefault();
-            onLetterClick("");
-          }}
-        >
-          All
-        </a>
-        {/* Alphabet letters */}
-        {alphabet.map((letter) => (
-          <a
-            href="#"
-            key={letter}
-            className={activeLetter === letter ? "active" : ""}
-            onClick={(e) => {
-              e.preventDefault();
-              onLetterClick(letter);
-            }}
-          >
-            {letter}
-          </a>
-        ))}
-      </div>
-    );
-  };
-
+  // ---------------------------------------------------------------------------
+  // Render
+  // ---------------------------------------------------------------------------
   return (
     <div className="wrapper ovh">
       <header
@@ -193,7 +269,10 @@ const MemberContact = () => {
 
             <div className="bill-content col-md-12 mt30 committeeDt">
               {/* Filter Section */}
-              <div className="filter-section mb-4 p-4" style={{ backgroundColor: "#f5f5f5", borderRadius: "8px" }}>
+              <div
+                className="filter-section mb-4 p-4"
+                style={{ backgroundColor: "#f5f5f5", borderRadius: "8px" }}
+              >
                 <div className="row g-3">
                   <div className="col-md-6">
                     <label className="form-label fw-bold">Member Name</label>
@@ -205,74 +284,6 @@ const MemberContact = () => {
                       onChange={(e) => handleFilterChange("memberName", e.target.value)}
                     />
                   </div>
-                  {/* <div className="col-md-6">
-                    <label className="form-label fw-bold">Constituency</label>
-                    <select
-                      className="form-select"
-                      value={filters.constituency}
-                      onChange={(e) => handleFilterChange("constituency", e.target.value)}
-                    >
-                      <option value="All">All</option>
-                      <option value="Vallikunnu">Vallikunnu</option>
-                      <option value="Kunnamkulam">Kunnamkulam</option>
-                      <option value="KozhikodeSouth">Kozhikode South</option>
-                      <option value="Manjeshwar">Manjeshwar</option>
-                      <option value="Elathur">Elathur</option>
-                    </select>
-                  </div> */}
-                  {/* <div className="col-md-6">
-                    <label className="form-label fw-bold">Party Wise</label>
-                    <select
-                      className="form-select"
-                      value={filters.partyWise}
-                      onChange={(e) => handleFilterChange("partyWise", e.target.value)}
-                    >
-                      <option value="All">All</option>
-                      <option value="CPM">CPM</option>
-                      <option value="INC">INC</option>
-                      <option value="BJP">BJP</option>
-                      <option value="IUML">IUML</option>
-                      <option value="KC(M)">KC(M)</option>
-                      <option value="NCP">NCP</option>
-                    </select>
-                  </div> */}
-                  {/* <div className="col-md-6">
-                    <label className="form-label fw-bold">Order By</label>
-                    <div className="d-flex gap-3 mt-2">
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="orderBy"
-                          id="orderMembers"
-                          checked={filters.orderBy === "Members"}
-                          onChange={() => handleFilterChange("orderBy", "Members")}
-                        />
-                        <label className="form-check-label" htmlFor="orderMembers">
-                          Members
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="orderBy"
-                          id="orderConstituency"
-                          checked={filters.orderBy === "Constituency"}
-                          onChange={() => handleFilterChange("orderBy", "Constituency")}
-                        />
-                        <label className="form-check-label" htmlFor="orderConstituency">
-                          Constituency
-                        </label>
-                      </div>
-                    </div>
-                  </div> */}
-                  {/* <div className="col-12 text-end">
-                    <button className="btn btn-secondary me-2" onClick={handleReset}>
-                      Reset
-                    </button>
-                    <button className="btn btn-primary">Submit</button>
-                  </div> */}
                 </div>
               </div>
 
@@ -284,81 +295,86 @@ const MemberContact = () => {
                 />
               </div>
 
-              {/* Total Records and Export */}
+              {/* Summary + Export */}
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                  <strong>Total Records: {sortedData.length}</strong>
+                  <strong>Total Records: {filteredSorted.length}</strong>
                   {filters.alphabetFilter && (
                     <span className="ms-2 text-muted">
                       (Filtered by: {filters.alphabetFilter})
                     </span>
                   )}
-                  {!filters.alphabetFilter && sortedData.length === allMemberData.length && (
-                    <span className="ms-2 text-muted">
-                      (Showing All)
-                    </span>
-                  )}
+                  {!filters.alphabetFilter &&
+                    !filters.memberName &&
+                    filteredSorted.length === allMemberData.length && (
+                      <span className="ms-2 text-muted">(Showing All)</span>
+                    )}
                 </div>
-                <div>
-                  <ExportButton
-                    className=""
-                    buttonText="Export"
-                    exportOptions={["PDF", "Excel", "CSV", "XML", "DOC"]}
-                    onExport={handleExport}
-                    buttonClassName="btn btn-secondary dropdown-toggle"
-                  />
-                </div>
+                <ExportButton
+                  buttonText="Export"
+                  exportOptions={["PDF", "Excel", "CSV", "XML", "DOC"]}
+                  onExport={handleExport}
+                  buttonClassName="btn btn-secondary dropdown-toggle"
+                />
               </div>
 
               {loading ? (
                 <div className="text-center py-5">
                   <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
+                    <span className="visually-hidden">Loading…</span>
                   </div>
+                  <p className="mt-2 text-muted">Loading member contacts…</p>
                 </div>
               ) : (
                 <>
-                  {/* Table */}
                   <div className="table-responsive">
                     <table className="table myTable2">
                       <thead>
                         <tr>
                           <th scope="col">Sl. No</th>
-                          <th scope="col">Name of member (Constituency)</th>
+                          <th scope="col">Name of Member (Constituency)</th>
                           <th scope="col">Permanent Address</th>
-                          <th scope="col">Telephone Mobile</th>
+                          <th scope="col">Telephone / Mobile</th>
                           <th scope="col">E-mail</th>
                         </tr>
                       </thead>
                       <tbody>
                         {paginatedData.length > 0 ? (
                           paginatedData.map((contact, index) => {
-                            const memberName = getMemberName(contact);
-                            const permanentAddress = getPermanentAddress(contact);
-                            // Calculate serial number based on current page and filtered results
-                            const serialNumber = startIndex + index + 1;
-                            
+                            const name = getMemberName(contact);
+                            const address = getPermanentAddress(contact);
+                            const phone = [
+                              contact.office_telephone &&
+                              contact.office_telephone !== "-"
+                                ? contact.office_telephone
+                                : null,
+                              contact.mobile_nos && contact.mobile_nos !== "-"
+                                ? contact.mobile_nos
+                                : null,
+                            ]
+                              .filter(Boolean)
+                              .join(" / ");
+
                             return (
-                              <tr key={contact.id}>
-                                <td className="text-th">{serialNumber}</td>
+                              <tr key={`${contact.id}-${contact.member_id}`}>
                                 <td className="text-th">
-                                  <strong>{memberName}</strong>
-                                </td>
-                                <td className="text-th">{permanentAddress || "-"}</td>
-                                <td className="text-th">
-                                  {contact.office_telephone && (
-                                    <>
-                                      {contact.office_telephone}
-                                      <br />
-                                    </>
-                                  )}
-                                  {contact.mobile_nos || "-"}
+                                  {startIndex + index + 1}
                                 </td>
                                 <td className="text-th">
-                                  {contact.email_ids ? (
-                                    <a href={`mailto:${contact.email_ids}`}>{contact.email_ids}</a>
+                                  <strong>{name || "—"}</strong>
+                                </td>
+                                <td className="text-th">{address || "—"}</td>
+                                <td className="text-th">{phone || "—"}</td>
+                                <td className="text-th">
+                                  {contact.email_ids &&
+                                  contact.email_ids !== "-" ? (
+                                    <a
+                                      href={`mailto:${contact.email_ids.trim()}`}
+                                    >
+                                      {contact.email_ids}
+                                    </a>
                                   ) : (
-                                    "-"
+                                    "—"
                                   )}
                                 </td>
                               </tr>
@@ -366,7 +382,7 @@ const MemberContact = () => {
                           })
                         ) : (
                           <tr>
-                            <td colSpan="5" className="text-center">
+                            <td colSpan="5" className="text-center py-4">
                               No records found
                             </td>
                           </tr>
@@ -375,15 +391,14 @@ const MemberContact = () => {
                     </table>
                   </div>
 
-                  {/* Pagination */}
-                  {totalFilteredPages > 1 && (
+                  {totalPages > 1 && (
                     <div className="mt-4">
                       <Pagination
                         currentPage={currentPage}
-                        totalPages={totalFilteredPages}
+                        totalPages={totalPages}
                         onPageChange={handlePageChange}
-                        totalItems={sortedData.length}
-                        itemsPerPage={itemsPerPage}
+                        totalItems={filteredSorted.length}
+                        itemsPerPage={ITEMS_PER_PAGE}
                       />
                     </div>
                   )}

@@ -323,7 +323,7 @@ header.nav-homepage-style.stricky.scrolled-nav .login-info {
   padding: 15px;
   border-bottom: 1px solid #eee;
   display: flex;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
 }
 
 /* .btn-close {

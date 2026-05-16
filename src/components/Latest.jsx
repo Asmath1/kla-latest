@@ -43,7 +43,7 @@ export const SeatMap = () => {
     const ttName = ttNameRef.current;
 
     const meta = {
-      "R1-22": { name: "Pinarayi Vijayan", img: "/images/cm1.jpg" },
+      "R1-22": { name: "Seat 1", img: "images/us.jpg" },
       "R7-9": { name: "Seat R7-9", img: "images/us.jpg" },
       "R7-8": { name: "Seat R7-8", img: "images/us.jpg" },
       "R7-4": { name: "Seat R7-4", img: "images/us.jpg" },

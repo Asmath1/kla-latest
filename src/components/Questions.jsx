@@ -1940,8 +1940,8 @@ const Questions = () => {
     : sessionOptionsFromQuestions;
 
   const questionFilterOverrides = {
-    MEMBER: memberOptions,
-    MINISTER: ministerOptions,
+    MEMBER: { options: [{ value: "", label: "All Members" }, ...memberOptions] },
+    MINISTER: { options: [{ value: "", label: "All Ministers" }, ...ministerOptions] },
   };
 
   // Calendar date change handler

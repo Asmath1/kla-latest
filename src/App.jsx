@@ -67,12 +67,18 @@ import ViewMore from "./components/ViewMore";
 import Publications from "./components/resources/Publications";
 import LegCouncil from "./components/memberProfile/LegCouncil";
 import CallOfAttention from "./components/CallOfAttention";
+import Submission from "./components/Submission";
 import PresidentsRule from "./components/PresidentsRule";
 import DurationOfAssembly from "./components/DurationOfAssembly";
 import PartyChart from "./components/PartyChart";
 import HandBook from "./components/memberProfile/HandBook";
 import BudgetDocs from "./components/BudgetDocs";
 import StatementDemands from "./components/StatementDemands";
+import SupplementaryDemands from "./components/SupplementaryDemands";
+import BdGeneralDiscussion from "./components/BdGeneralDiscussion";
+import BudgetPresentation from "./components/BudgetPresentation";
+import ExcessDemands from "./components/ExcessDemands";
+import VoteOnAccount from "./components/VoteOnAccount";
 
 const AppLayout = () => {
   const location = useLocation();
@@ -82,7 +88,7 @@ const AppLayout = () => {
   React.useEffect(() => {
     // Prevent automatic scroll restoration when navigating with hash
     if (window.history.scrollRestoration) {
-      window.history.scrollRestoration = 'manual';
+      window.history.scrollRestoration = "manual";
     }
 
     // Don't scroll to top if there's a hash in the URL
@@ -141,18 +147,32 @@ const AppLayout = () => {
           <Route path="/otherImptNo" element={<OtherImptNo />} />
           <Route path="/legislators-hostel" element={<LegislatorsHostel />} />
           <Route path="/former-staffs" element={<FormerStaffs />} />
-          <Route path="/organizational-chart" element={<OrganizationalChart />} />
+          <Route
+            path="/organizational-chart"
+            element={<OrganizationalChart />}
+          />
           <Route path="/resources" element={<Resources />} />
           <Route path="/publications" element={<Publications />} />
           <Route path="/leg-council-before-1956" element={<LegCouncil />} />
-          <Route path="/calling-attention" element={<CallOfAttention/>} />
+          <Route path="/calling-attention" element={<CallOfAttention />} />
+          <Route path="/submission" element={<Submission />} />
           <Route path="/presidents-rule" element={<PresidentsRule />} />
-          <Route path="/duration-of-assembly" element={<DurationOfAssembly />} />
+          <Route
+            path="/duration-of-assembly"
+            element={<DurationOfAssembly />}
+          />
           <Route path="/party-chart" element={<PartyChart />} />
           <Route path="/handbook" element={<HandBook />} />
           <Route path="/budget-documents" element={<BudgetDocs />} />
-          <Route path="/budgetstatement-demands" element={<StatementDemands />} />
-
+          <Route
+            path="/budgetstatement-demands"
+            element={<StatementDemands />}
+          />
+          <Route path="/budgetsupplementary-demands" element={<SupplementaryDemands />} />
+          <Route path="/general-discussion" element={<BdGeneralDiscussion />} />
+          <Route path="/budget-presentation" element={<BudgetPresentation />} />
+          <Route path="/excessgrant" element={<ExcessDemands />} />
+          <Route path="/voteonaccount" element={<VoteOnAccount />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
@@ -161,7 +181,6 @@ const AppLayout = () => {
     </div>
   );
 };
-
 const App = () => {
   return (
     <LanguageProvider>

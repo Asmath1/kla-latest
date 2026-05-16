@@ -74,36 +74,7 @@ const SpecialSecretary = () => {
       period: "22 Jul 2019 ‒ 31 May 2022",
       img: "http://niyamasabha.nic.in/images/Fromer_Secretaries/4.S_V_Unnikrishnan_Nair.jpg",
     },
-    {
-      name: "Sri. C. Jos (In-Charge)",
-      period: "01 Jun 2019 ‒ 29 Jul 2019",
-      img: "http://niyamasabha.nic.in/images/Fromer_Secretaries/5.C_Jos.jpg",
-    },
-    {
-      name: "Shri. V. K. Babu Prakash",
-      period: "10 Jul 2016 ‒ 21 Jul 2019",
-      img: "http://niyamasabha.nic.in/images/Fromer_Secretaries/6.V_K_Babu_Prakash.jpg",
-    },
-    {
-      name: "Smt. P. Jayalekshmi (In-Charge)",
-      period: "31 May 2016 ‒ 06 Oct 2016",
-      img: "http://niyamasabha.nic.in/images/Fromer_Secretaries/7.P_Jayalekshmi.jpg",
-    },
-    {
-      name: "Shri. K. Mohandas (In-charge)",
-      period: "18 May 2016 ‒ 31 May 2016",
-      img: "http://niyamasabha.nic.in/images/Fromer_Secretaries/8.K_Mohandas.jpg",
-    },
-    {
-      name: "Shri. P. D. Sarangadharan",
-      period: "30 Nov 2012 ‒ 18 May 2016",
-      img: "http://niyamasabha.nic.in/images/Fromer_Secretaries/9.P_D_Sarangadharan.jpg",
-    },
-    {
-      name: "Shri. P. K. Muraleedharan (In-charge)",
-      period: "13 Jan 2012 ‒ 30 Nov 2012",
-      img: "http://niyamasabha.nic.in/images/Fromer_Secretaries/10.P_K_Muraleedharan.jpg",
-    },
+
   ];
 
   return (

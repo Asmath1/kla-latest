@@ -1,61 +1,54 @@
-// common/InlinePdfViewer.jsx
-import React from "react";
-import { Worker, Viewer, SpecialZoomLevel } from "@react-pdf-viewer/core";
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-import { ensureHttps } from "../../utils/urlUtils";
+import { useState, useEffect } from "react";
+import { buildPdfSrc } from "../../utils/pdfUtils";
 
-const InlinePdfViewer = ({
-  fileUrl,
-  height = "75vh",
-  defaultScale,
-  fitToWidthOnLoad = true,
-  className,
-  workerUrl = "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js",
-}) => {
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
-  
-  // Convert HTTP URLs to use PDF proxy
-  const secureFileUrl = ensureHttps(fileUrl);
+/**
+ * InlinePdfViewer
+ *
+ * Rendering strategy (in order of preference):
+ *  1. Local paths (start with "/") → served directly by Vite/Apache, no proxy needed.
+ *  2. Remote URLs → PHP proxy if available; otherwise Google Docs viewer.
+ *
+ * The proxy check is cached for the page lifetime, so only one network request
+ * is made regardless of how many viewers are on the page.
+ */
+const InlinePdfViewer = ({ fileUrl, height = "75vh", className }) => {
+  const [src, setSrc] = useState("");
 
-  // Prefer fitting to container width unless caller overrides
-  const resolvedScale =
-    defaultScale !== undefined
-      ? defaultScale
-      : fitToWidthOnLoad
-      ? SpecialZoomLevel.PageWidth
-      : typeof window !== "undefined" && window.innerWidth <= 576
-      ? SpecialZoomLevel.PageFit
-      : 1;
-
-  // Download handler
-  const handleDownload = () => {
-    if (secureFileUrl) {
-      const link = document.createElement("a");
-      link.href = secureFileUrl;
-      link.download = secureFileUrl.split("/").pop() || "document.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  useEffect(() => {
+    if (!fileUrl) {
+      setSrc("");
+      return;
     }
+    buildPdfSrc(fileUrl).then(setSrc);
+  }, [fileUrl]);
+
+  const handleOpenNewTab = () => {
+    if (fileUrl) window.open(fileUrl, "_blank", "noopener,noreferrer");
   };
+
+  if (!fileUrl) {
+    return (
+      <div
+        className={`d-flex justify-content-center align-items-center ${className || ""}`}
+        style={{ height, border: "1px solid #ddd", borderRadius: "6px" }}
+      >
+        <p className="text-muted">Select a document to view PDF</p>
+      </div>
+    );
+  }
 
   return (
     <div className={className || ""}>
-      {/* Button Row */}
-      {secureFileUrl && (
-        <div className="d-flex justify-content-end mb-2">
-          <button
-            onClick={handleDownload}
-            className="btn btn-sm btn-outline-primary"
-          >
-            Download
-          </button>
-        </div>
-      )}
+      <div className="d-flex justify-content-end mb-2">
+        <button
+          type="button"
+          className="btn btn-sm btn-outline-primary"
+          onClick={handleOpenNewTab}
+        >
+          Download
+        </button>
+      </div>
 
-      {/* PDF Viewer */}
       <div
         className="pdf-viewer-responsive mb40"
         style={{
@@ -66,18 +59,15 @@ const InlinePdfViewer = ({
           overflow: "hidden",
         }}
       >
-        {secureFileUrl ? (
-          <Worker workerUrl={workerUrl}>
-            <Viewer
-              fileUrl={secureFileUrl}
-              plugins={[defaultLayoutPluginInstance]}
-              defaultScale={resolvedScale}
-            />
-          </Worker>
-        ) : (
-          <div className="d-flex justify-content-center align-items-center h-100">
-            <p className="text-muted">Select a bulletin to view PDF</p>
-          </div>
+        {src && (
+          <iframe
+            key={src}
+            src={src}
+            title="PDF Viewer"
+            width="100%"
+            height="100%"
+            style={{ border: "none", display: "block" }}
+          />
         )}
       </div>
     </div>
@@ -85,54 +75,3 @@ const InlinePdfViewer = ({
 };
 
 export default InlinePdfViewer;
-
-
-
-
-
-
-// import React from "react";
-// import { Worker, Viewer, SpecialZoomLevel } from "@react-pdf-viewer/core";
-// import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-// import "@react-pdf-viewer/core/lib/styles/index.css";
-// import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-
-// const InlinePdfViewer = ({
-//   fileUrl,
-//   height = "80vh",
-//   defaultScale,
-//   fitToWidthOnLoad = true,
-//   className,
-//   workerUrl = "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js",
-// }) => {
-//   const defaultLayoutPluginInstance = defaultLayoutPlugin();
-
-//   const resolvedScale =
-//     defaultScale !== undefined
-//       ? defaultScale
-//       : fitToWidthOnLoad
-//       ? SpecialZoomLevel.PageWidth
-//       : typeof window !== "undefined" && window.innerWidth <= 576
-//       ? SpecialZoomLevel.PageFit
-//       : 1;
-
-//   return (
-//     <div className={`pdf-viewer-responsive ${className || ""}`} style={{ height, width: "100%", border: "1px solid #ddd", borderRadius: "6px", overflow: "hidden" }}>
-//       {fileUrl ? (
-//         <Worker workerUrl={workerUrl}>
-//           <Viewer
-//             fileUrl={fileUrl}
-//             plugins={[defaultLayoutPluginInstance]}
-//             defaultScale={resolvedScale}
-//           />
-//         </Worker>
-//       ) : (
-//         <div className="d-flex justify-content-center align-items-center h-100">
-//           <p className="text-muted">Select a bulletin to view PDF</p>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default InlinePdfViewer;

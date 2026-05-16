@@ -26,7 +26,7 @@ export const fetchKlaMembers = async (assemblyNumber = 15) => {
 export const fetchKlaMembersAndMinisters = async (klaId = 15) => {
   try {
     const response = await fetch("https://api.niyamasabha.in/api/kla-sessions-with-members", {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
         Accept: "application/json",
