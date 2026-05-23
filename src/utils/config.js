@@ -47,6 +47,7 @@ export const API_ENDPOINTS = {
   BILLS_LIST: `${DEMO_API_BASE_URL}/api/bills`,
   BILLS_FILTERS: `${DEMO_API_BASE_URL}/api/bills-filters`,
   BILLS_STATUSES: `${DEMO_API_BASE_URL}/api/bills-statuses`,
+  BILLS_PASSED: (klaId) => `${DEMO_API_BASE_URL}/api/bill-passed/kla/${klaId}`,
 
 
 };

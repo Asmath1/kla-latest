@@ -1,3 +1,4 @@
+```
 <?php
 /**
  * PDF Proxy Script
@@ -39,7 +40,9 @@ $allowedDomains = [
     'www.niyamasabha.org',
     'niyamasabha.org',
     'oldsite.niyamasabha.org',
-    'klaproceedings.niyamasabha.org'
+    'klaproceedings.niyamasabha.org',
+    'www.niyamasabha.nic.in',
+    'niyamasabha.nic.in',
 ];
 
 $urlParts = parse_url($pdfUrl);
@@ -94,3 +97,4 @@ header('Pragma: public');
 echo $pdfContent;
 exit();
 ?>
+```

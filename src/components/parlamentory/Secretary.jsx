@@ -35,9 +35,9 @@ const Secretary = () => {
 
   // Secretary profile data (sample)
   const secretary = {
-    name: "Sri. Shaji C Baby (In-Charge)",
-    designation: "Secretary (In-Charge)",
-    party: "The Hon'ble Secretary of Kerala Legislative Assembly",
+    name: "Sri. Shaji C Baby",
+    // designation: "Secretary (In-Charge)",
+    party: "The Hon'ble Secretary-in-Charge of Kerala Legislative Assembly",
     constituency: "",
     electedDate: "",
     email: "secretary@niyamasabha.nic.in, shajicb@niyamasabha.nic.in",

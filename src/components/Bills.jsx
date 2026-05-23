@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { Viewer, Worker, SpecialZoomLevel } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
@@ -21,6 +21,70 @@ const dummyPdf = "/pdf1.pdf";
 const normalizePdfUrl = (url) => {
   if (!url) return null;
   return ensureHttps(url.trim());
+};
+
+const getOrdinalSuffix = (num) => {
+  const value = Number(num);
+  if (Number.isNaN(value)) return "";
+  const mod100 = value % 100;
+  if (mod100 >= 11 && mod100 <= 13) return "th";
+  switch (value % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+};
+
+const extractKlaId = (klaOption) => {
+  if (klaOption == null) return null;
+
+  if (typeof klaOption === "number") {
+    return Number.isFinite(klaOption) ? klaOption : null;
+  }
+
+  if (typeof klaOption === "string") {
+    const match = klaOption.match(/\d+/);
+    return match ? Number(match[0]) : null;
+  }
+
+  const rawValue =
+    klaOption.value ??
+    klaOption.id ??
+    klaOption.kla_id ??
+    klaOption.klaId ??
+    klaOption.label;
+
+  if (rawValue == null) return null;
+
+  const match = String(rawValue).match(/\d+/);
+  return match ? Number(match[0]) : null;
+};
+
+const buildKlaRangeOptions = (klaOptions = [], preferredKlaId = 13) => {
+  const klaIds = (Array.isArray(klaOptions) ? klaOptions : [])
+    .map(extractKlaId)
+    .filter((id) => Number.isInteger(id) && id > 0);
+
+  const maxKlaId = Math.max(preferredKlaId, ...klaIds, 1);
+  const options = Array.from({ length: maxKlaId }, (_, index) => {
+    const klaId = index + 1;
+    return {
+      value: klaId,
+      label: `${klaId}${getOrdinalSuffix(klaId)} KLA`,
+    };
+  });
+
+  return {
+    options,
+    defaultValue: options.some((option) => option.value === preferredKlaId)
+      ? preferredKlaId
+      : maxKlaId,
+  };
 };
 
 export const BillsTabs = () => {
@@ -327,6 +391,19 @@ const Bills = () => {
   const [selectedBill, setSelectedBill] = useState(null);
   const [currentFilters, setCurrentFilters] = useState({});
 
+  // Bills Passed state
+  const [billsPassedData, setBillsPassedData] = useState([]);
+  const [isLoadingBillsPassed, setIsLoadingBillsPassed] = useState(false);
+  const [billsPassedKlaId, setBillsPassedKlaId] = useState(13);
+  const [billsPassedSearch, setBillsPassedSearch] = useState("");
+  const [billsPassedYear, setBillsPassedYear] = useState("");
+  const [billsPassedPage, setBillsPassedPage] = useState(1);
+  const BILLS_PASSED_PER_PAGE = 10;
+  const billsKlaOptions = useMemo(
+    () => buildKlaRangeOptions(billsFilters?.kla, 13),
+    [billsFilters]
+  );
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 100);
@@ -376,9 +453,10 @@ const Bills = () => {
           
           // KLA filter
           if (filtersResult.filters.kla) {
+            const klaRange = buildKlaRangeOptions(filtersResult.filters.kla, 13);
             overrides.KLA = {
-              options: filtersResult.filters.kla,
-              defaultValue: filtersResult.filters.kla[0]?.value
+              options: klaRange.options,
+              defaultValue: klaRange.defaultValue
             };
           }
           
@@ -432,6 +510,18 @@ const Bills = () => {
 
     fetchBillsFilters();
   }, []);
+
+  useEffect(() => {
+    if (!billsKlaOptions.options.length) return;
+
+    const hasCurrentKla = billsKlaOptions.options.some(
+      (option) => Number(option.value) === Number(billsPassedKlaId)
+    );
+
+    if (!hasCurrentKla) {
+      setBillsPassedKlaId(billsKlaOptions.defaultValue);
+    }
+  }, [billsKlaOptions, billsPassedKlaId]);
 
   // Fetch Ordinances data
   useEffect(() => {
@@ -516,6 +606,34 @@ const Bills = () => {
 
     fetchBills();
   }, [activeMainTab, currentFilters]);
+
+  // Fetch Bills Passed data
+  useEffect(() => {
+    if (activeMainTab !== "bills-passed") return;
+
+    const fetchBillsPassed = async () => {
+      setIsLoadingBillsPassed(true);
+      try {
+        const response = await fetch(API_ENDPOINTS.BILLS_PASSED(billsPassedKlaId), {
+          method: "GET",
+          headers: { "Accept": "application/json" },
+        });
+        const result = await response.json();
+        if (result?.status && result?.data) {
+          setBillsPassedData(result.data);
+        } else {
+          setBillsPassedData([]);
+        }
+      } catch (error) {
+        console.error("Error fetching bills passed:", error);
+        setBillsPassedData([]);
+      } finally {
+        setIsLoadingBillsPassed(false);
+      }
+    };
+
+    fetchBillsPassed();
+  }, [activeMainTab, billsPassedKlaId]);
 
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
@@ -819,13 +937,26 @@ const Bills = () => {
                         >
                           <span>Pre-legislative Public Opinion</span>
                         </button>
+                        <button
+                          className={`nav-link text-start ${
+                            activeMainTab === "bills-passed" ? "active" : ""
+                          }`}
+                          id="nav-bills-passed-tab"
+                          type="button"
+                          role="tab"
+                          aria-controls="nav-bills-passed"
+                          aria-selected={activeMainTab === "bills-passed"}
+                          onClick={() => handleMainTabClick("bills-passed")}
+                        >
+                          <span>Bills Passed</span>
+                        </button>
                       </div>
                     </nav>
                   </div>
                 </div>
               </div>
 
-              <div className="bill-content col-md-12 mt30 committeeDt">
+              <div className="bill-content col-md-12 mt30 mb30 committeeDt">
                 <div className="terms_condition_grid text-start">
                   <div className="tab-content" id="nav-tabContent">
                     {/* ---------------------Bills------------------------- */}
@@ -1265,6 +1396,204 @@ const Bills = () => {
                               </div>
                             </div>
                           </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* --------------------------Bills Passed------------------------------ */}
+                    {activeMainTab === "bills-passed" && (
+                      <div
+                        className="tab-pane fade show active"
+                        id="nav-bills-passed"
+                        role="tabpanel"
+                        aria-labelledby="nav-bills-passed-tab"
+                      >
+                        <div className="grid-bill grids">
+                          {/* Filter row */}
+                          <div className="row align-items-end mb-3">
+                            <div className="col-lg-3 col-md-4">
+                              <label className="heading-color ff-heading fw500 mb10">
+                                KLA
+                              </label>
+                              <select
+                                className="form-select"
+                                value={billsPassedKlaId}
+                                onChange={(e) => {
+                                  setBillsPassedKlaId(Number(e.target.value));
+                                  setBillsPassedSearch("");
+                                  setBillsPassedYear("");
+                                  setBillsPassedPage(1);
+                                }}
+                              >
+                                {billsKlaOptions.options.map((kla) => (
+                                  <option key={kla.value} value={kla.value}>
+                                    {kla.label}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                            <div className="col-lg-3 col-md-4">
+                              <label className="heading-color ff-heading fw500 mb10">
+                                Year
+                              </label>
+                              <select
+                                className="form-select"
+                                value={billsPassedYear}
+                                onChange={(e) => { setBillsPassedYear(e.target.value); setBillsPassedPage(1); }}
+                              >
+                                <option value="">All Years</option>
+                                {[...new Set(billsPassedData.map((b) => b.year))]
+                                  .sort((a, b) => b - a)
+                                  .map((yr) => (
+                                    <option key={yr} value={yr}>
+                                      {yr}
+                                    </option>
+                                  ))}
+                              </select>
+                            </div>
+                            <div className="col-lg-4 col-md-4">
+                              <label className="heading-color ff-heading fw500 mb10">
+                                Search
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Search by title or act no..."
+                                value={billsPassedSearch}
+                                onChange={(e) => { setBillsPassedSearch(e.target.value); setBillsPassedPage(1); }}
+                              />
+                            </div>
+                            <div className="col-lg-2 col-md-12 mt-2 mt-lg-0">
+                              <ExportDropdown />
+                            </div>
+                          </div>
+
+                          {isLoadingBillsPassed ? (
+                            <div className="text-center py-5">
+                              <div className="spinner-border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                              </div>
+                            </div>
+                          ) : (
+                            <>
+                              {/* Record count */}
+                              <div className="mb-3 p-3" style={{
+                                backgroundColor: "#f8f9fa",
+                                borderLeft: "4px solid var(--clr--primary)",
+                                borderRadius: "4px"
+                              }}>
+                                <p className="mb-0 text-muted" style={{ fontSize: "14px" }}>
+                                  {(() => {
+                                    const filtered = billsPassedData.filter((b) => {
+                                      const matchYear = !billsPassedYear || b.year === billsPassedYear;
+                                      const matchSearch = !billsPassedSearch ||
+                                        b.bill_name_eng?.toLowerCase().includes(billsPassedSearch.toLowerCase()) ||
+                                        b.bill_name_mal?.includes(billsPassedSearch) ||
+                                        String(b.act_no).includes(billsPassedSearch);
+                                      return matchYear && matchSearch;
+                                    }).sort((a, b) => Number(b.year) - Number(a.year) || Number(b.act_no) - Number(a.act_no));
+                                    return `${filtered.length} record${filtered.length !== 1 ? "s" : ""} found`;
+                                  })()}
+                                </p>
+                              </div>
+
+                              <div className="tabley">
+                                <table className="table table myTable2">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Sl.No</th>
+                                      <th scope="col">Act No</th>
+                                      <th scope="col">Bill Title (English)</th>
+                                      <th scope="col">Bill Title (Malayalam)</th>
+                                      <th scope="col">Year</th>
+                                      <th scope="col">Document</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {(() => {
+                                      const filtered = billsPassedData.filter((b) => {
+                                        const matchYear = !billsPassedYear || b.year === billsPassedYear;
+                                        const matchSearch = !billsPassedSearch ||
+                                          b.bill_name_eng?.toLowerCase().includes(billsPassedSearch.toLowerCase()) ||
+                                          b.bill_name_mal?.includes(billsPassedSearch) ||
+                                          String(b.act_no).includes(billsPassedSearch);
+                                        return matchYear && matchSearch;
+                                      }).sort((a, b) => Number(b.year) - Number(a.year) || Number(b.act_no) - Number(a.act_no));
+
+                                      if (filtered.length === 0) {
+                                        return (
+                                          <tr>
+                                            <td colSpan="6" className="text-center">
+                                              No bills passed found
+                                            </td>
+                                          </tr>
+                                        );
+                                      }
+
+                                      const paginated = filtered.slice(
+                                        (billsPassedPage - 1) * BILLS_PASSED_PER_PAGE,
+                                        billsPassedPage * BILLS_PASSED_PER_PAGE
+                                      );
+
+                                      return paginated.map((bill, index) => (
+                                        <tr key={bill.id} className="debate">
+                                          <td>{(billsPassedPage - 1) * BILLS_PASSED_PER_PAGE + index + 1}</td>
+                                          <td>{bill.act_no}</td>
+                                          <td>{bill.bill_name_eng}</td>
+                                          <td>{bill.bill_name_mal}</td>
+                                          <td>{bill.year}</td>
+                                          <td className="text-center">
+                                            {bill.pdf_url ? (
+                                              <a
+                                                href={bill.pdf_url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="doci"
+                                              >
+                                                <img
+                                                  src="/images/document.svg"
+                                                  alt="View PDF"
+                                                />
+                                              </a>
+                                            ) : (
+                                              "-"
+                                            )}
+                                          </td>
+                                        </tr>
+                                      ));
+                                    })()}
+                                  </tbody>
+                                </table>
+                                {/* Pagination */}
+                                {(() => {
+                                  const filtered = billsPassedData.filter((b) => {
+                                    const matchYear = !billsPassedYear || b.year === billsPassedYear;
+                                    const matchSearch = !billsPassedSearch ||
+                                      b.bill_name_eng?.toLowerCase().includes(billsPassedSearch.toLowerCase()) ||
+                                      b.bill_name_mal?.includes(billsPassedSearch) ||
+                                      String(b.act_no).includes(billsPassedSearch);
+                                    return matchYear && matchSearch;
+                                  }).sort((a, b) => Number(b.year) - Number(a.year) || Number(b.act_no) - Number(a.act_no));
+                                  const totalPages = Math.ceil(filtered.length / BILLS_PASSED_PER_PAGE);
+                                  if (totalPages <= 1) return null;
+                                  return (
+                                    <div className="mbp_pagination mt30 text-center">
+                                      <Pagination
+                                        currentPage={billsPassedPage}
+                                        totalPages={totalPages}
+                                        onPageChange={(page) => {
+                                          setBillsPassedPage(page);
+                                          window.scrollTo({ top: 0, behavior: "smooth" });
+                                        }}
+                                        totalItems={filtered.length}
+                                        itemsPerPage={BILLS_PASSED_PER_PAGE}
+                                      />
+                                    </div>
+                                  );
+                                })()}
+                              </div>
+                            </>
+                          )}
                         </div>
                       </div>
                     )}

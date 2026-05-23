@@ -1031,8 +1031,7 @@ import "../css/menu.css";
 import "../css/flaticon.css";
 import "../css/ud-custom-spacing.css";
 import "../css/animate.css";
-import { Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link, useNavigate } from "react-router-dom";import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
   faXmark,
@@ -1080,6 +1079,15 @@ const MenuItemRenderer = ({ item, level = 0 }) => {
   const hasChildren = item.items && item.items.length > 0;
   const isExternal = item.type === "external";
 
+  const handleClick = (e, link) => {
+    if (!link || link === "#") return;
+    const currentPath = window.location.pathname;
+    if (currentPath === link) {
+      e.preventDefault();
+      window.location.reload();
+    }
+  };
+
   if (level === 0) {
     if (hasChildren) {
       return (
@@ -1101,7 +1109,9 @@ const MenuItemRenderer = ({ item, level = 0 }) => {
               {item.title}
             </a>
           ) : (
-            <Link to={item.link}>{item.title}</Link>
+            <Link to={item.link} onClick={(e) => handleClick(e, item.link)}>
+              {item.title}
+            </Link>
           )}
         </div>
       </div>
@@ -1116,7 +1126,9 @@ const MenuItemRenderer = ({ item, level = 0 }) => {
             {item.title}
           </a>
         ) : (
-          <Link to={item.link}>{item.title}</Link>
+          <Link to={item.link} onClick={(e) => handleClick(e, item.link)}>
+            {item.title}
+          </Link>
         )}
       </li>
     );
@@ -1130,7 +1142,9 @@ const MenuItemRenderer = ({ item, level = 0 }) => {
             {item.title}
           </a>
         ) : (
-          <Link to={item.link}>{item.title}</Link>
+          <Link to={item.link} onClick={(e) => handleClick(e, item.link)}>
+            {item.title}
+          </Link>
         )}
       </li>
       {item.items.map((sub, i) => (
@@ -1145,6 +1159,17 @@ const MobileMenuGroup = ({ item, onNavigate }) => {
   const [open, setOpen] = useState(false);
   const hasChildren = item.items && item.items.length > 0;
   const isExternal = item.type === "external";
+
+  const handleClick = (e, link) => {
+    if (!link || link === "#") return;
+    if (window.location.pathname === link) {
+      e.preventDefault();
+      onNavigate();
+      window.location.reload();
+    } else {
+      onNavigate();
+    }
+  };
 
   if (!hasChildren) {
     // Top-level leaf — direct link
@@ -1164,7 +1189,7 @@ const MobileMenuGroup = ({ item, onNavigate }) => {
           <Link
             to={item.link}
             className="mob-group-header mob-group-link"
-            onClick={onNavigate}
+            onClick={(e) => handleClick(e, item.link)}
           >
             {item.title}
           </Link>
@@ -1214,7 +1239,7 @@ const MobileMenuGroup = ({ item, onNavigate }) => {
                   <Link
                     to={child.link}
                     className="mob-child-link"
-                    onClick={onNavigate}
+                    onClick={(e) => handleClick(e, child.link)}
                   >
                     {child.title}
                   </Link>
@@ -1238,7 +1263,6 @@ const HomeTest = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [isLoadingMenu, setIsLoadingMenu] = useState(true);
   const bodyOverflowRef = useRef(null);
-  const navigate = useNavigate();
 
   // Load menu from API
   useEffect(() => {

@@ -73,7 +73,10 @@ const CM = () => {
     party: "Communist Party of India (Marxist)",
     electedDate: currentCM?.start_date || "2021-05-02",
     email: "pinarayivijayan@niyamasabha.nic.in",
-    image: currentCM?.local_photo_url || currentCM?.photo_url || "https://www.niyamasabha.nic.in/images/Chief_Minister/Pinarayi_Vijayan.jpg",
+    image:
+      currentCM?.photo_url ||
+      currentCM?.local_photo_url ||
+      "https://www.niyamasabha.nic.in/images/Chief_Minister/Pinarayi_Vijayan.jpg",
     basic: {
       fatherName: "Shri Maroli Koran",
       motherName: "Smt. Alakkatt Kalyani",
@@ -174,7 +177,7 @@ const CM = () => {
                                         animate={{ opacity: 1 }}
                                         transition={{ duration: 0.5 }}
                                         className="memberProfileImg"
-                                        src="https://www.niyamasabha.nic.in/images/member/pinarayi-vijayan_member_15_7.jpg"
+                                        src={chiefMinister.image}
                                         width={150}
                                         alt=""
                                       />
@@ -493,7 +496,7 @@ const CM = () => {
                             >
                               <div className="text-center flex-shrink-0">
                                 <img
-                                  src={cm.local_photo_url || cm.photo_url}
+                                  src={cm.photo_url }
                                   alt={cm.name}
                                   style={{
                                     width: "100%",
@@ -502,7 +505,7 @@ const CM = () => {
                                     borderRadius: 12,
                                   }}
                                   onError={(e) => {
-                                    e.target.src = "/images/speaker.jpg";
+                                    e.target.src = "";
                                   }}
                                 />
                               </div>

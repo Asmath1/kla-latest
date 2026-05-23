@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import HomeTest from "../Header";
 import {
   CategoriesNav,
@@ -11,25 +11,26 @@ import {
 } from "../common";
 import InlinePdfViewer from "../common/InlinePdfViwer";
 import { fetchSynopsis, fetchGleaning } from "../../api/services/all.service";
-import { fetchKlaList, fetchKlaSessions } from "../../services/MasterService";
+import { fetchKlaSessions } from "../../services/MasterService";
 import { DEMO_API_BASE_URL } from "../../utils/config";
 
 const Debates = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeTab, setActiveTab] = useState("Gleanings");
 
   // KLA / session filter state
   const [klaId, setKlaId] = useState(15);
-  const [sessionNo, setSessionNo] = useState(null);
-  const [klaOptions, setKlaOptions] = useState([]);
-  const [sessionOptions, setSessionOptions] = useState([]);
+  const [sessionNo, setSessionNo] = useState(null); // null = latest session
 
-  // Raw data from API (re-fetched when klaId / sessionNo change)
+  // Sessions from API (all sessions for selected KLA)
+  const [allSessions, setAllSessions] = useState([]);
+  const [sessionsLoading, setSessionsLoading] = useState(false);
+
+  // Raw data from API
   const [gleaningData, setGleaningData] = useState([]);
   const [synopsisData, setSynopsisData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Calendar / PDF state — separate per tab so switching tabs keeps context
+  // Selected date per tab
   const [gleaningDate, setGleaningDate] = useState(null);
   const [synopsisDate, setSynopsisDate] = useState(null);
 
@@ -41,33 +42,44 @@ const Debates = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ── Load KLA list once ──────────────────────────────────────────────────────
-  useEffect(() => {
-    fetchKlaList()
-      .then((list) => {
-        const opts = (list || []).map((k) => ({
-          value: k.id,
-          label: k.languages?.[0]?.name || `KLA ${k.id}`,
-        }));
-        setKlaOptions(opts);
-      })
-      .catch(() => {});
-  }, []);
-
   // ── Load sessions whenever KLA changes ─────────────────────────────────────
   useEffect(() => {
     if (klaId == null) return;
+    setSessionsLoading(true);
     fetchKlaSessions(klaId)
       .then((sessions) => {
-        const opts = (sessions || []).map((s) => {
-          const value = s.session_id ?? s.session_no ?? s.id;
-          const label = String(s.session_id ?? s.session_no ?? s.name ?? s.id);
-          return { value, label };
-        });
-        setSessionOptions(opts);
+        // API returns all sessions — filter to the selected KLA
+        const filtered = (sessions || []).filter(
+          (s) => Number(s.kla_id) === Number(klaId)
+        );
+        // Sort by session_no ascending so last item = latest
+        filtered.sort((a, b) => Number(a.session_no) - Number(b.session_no));
+        setAllSessions(filtered);
+        // Reset to "latest session" when KLA changes
+        setSessionNo(null);
       })
-      .catch(() => {});
+      .catch(() => setAllSessions([]))
+      .finally(() => setSessionsLoading(false));
   }, [klaId]);
+
+  // ── Derive the active session object ───────────────────────────────────────
+  // null sessionNo → use the latest (last) session
+  const activeSession = useMemo(() => {
+    if (allSessions.length === 0) return null;
+    if (sessionNo == null) return allSessions[allSessions.length - 1];
+    return (
+      allSessions.find((s) => Number(s.session_no) === Number(sessionNo)) ||
+      allSessions[allSessions.length - 1]
+    );
+  }, [allSessions, sessionNo]);
+
+  // ── Session calendar range & sitting dates from session data ───────────────
+  const sessionStartDate = activeSession?.startdate || null;
+  const sessionEndDate = activeSession?.enddate || null;
+  const sessionSittingDates = useMemo(
+    () => activeSession?.sitting_dates || [],
+    [activeSession]
+  );
 
   // ── Fetch Gleaning + Synopsis whenever KLA or session changes ───────────────
   useEffect(() => {
@@ -87,13 +99,6 @@ const Debates = () => {
 
         setGleaningData(gleaningRes);
         setSynopsisData(synopsisRes);
-
-        // Auto-select first available date for each tab
-        const firstGleaningDate = getFirstDate(gleaningRes);
-        if (firstGleaningDate) setGleaningDate(new Date(firstGleaningDate));
-
-        const firstSynopsisDate = getFirstDate(synopsisRes);
-        if (firstSynopsisDate) setSynopsisDate(new Date(firstSynopsisDate));
       } catch (err) {
         console.error("Error loading Debates data:", err);
         if (!cancelled) {
@@ -105,36 +110,25 @@ const Debates = () => {
       }
     };
     load();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [klaId, sessionNo]);
 
   // ── Helpers ─────────────────────────────────────────────────────────────────
 
-  /** Return the first ISO date string found in a data array */
-  const getFirstDate = (data) => {
-    if (!Array.isArray(data) || data.length === 0) return null;
-    const dates = data
-      .map((item) => item.sitting_date || item.date || null)
-      .filter(Boolean)
-      .sort();
-    return dates[0] || null;
-  };
-
-  /** Unique sorted sitting dates from a data array */
-  const getMeetingDates = (data) =>
-    [...new Set(
-      (data || [])
-        .map((item) => item.sitting_date || item.date || null)
-        .filter(Boolean)
-    )].sort();
-
   /** Resolve the PDF URL for a given date from a data array */
-  const getPdfUrlForDate = (date, data) => {
-    if (!date || !Array.isArray(data)) return null;
+  const getPdfUrlForDate = useCallback((date, data) => {
+    if (!date || !Array.isArray(data) || data.length === 0) return null;
 
-    // Build a local date string (YYYY-MM-DD) without timezone shift
-    const d = date instanceof Date ? date : new Date(date);
-    const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    // Normalise to YYYY-MM-DD string
+    let dateStr;
+    if (typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      dateStr = date;
+    } else {
+      const d = date instanceof Date ? date : new Date(date);
+      dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    }
 
     const item = data.find(
       (i) => (i.sitting_date || i.date || "") === dateStr
@@ -150,22 +144,38 @@ const Debates = () => {
       null;
 
     if (!rawUrl) return null;
-    if (rawUrl.startsWith("http://") || rawUrl.startsWith("https://")) return rawUrl;
+    if (rawUrl.startsWith("http://") || rawUrl.startsWith("https://"))
+      return rawUrl;
     return `${DEMO_API_BASE_URL}${rawUrl.startsWith("/") ? "" : "/"}${rawUrl}`;
-  };
+  }, []);
 
-  /** Date range for SessionCalendar from a data array */
-  const getDateRange = (data) => {
-    const dates = getMeetingDates(data);
-    if (dates.length === 0) return { startDate: "2025-07-05", endDate: "2025-08-05" };
-    return { startDate: dates[0], endDate: dates[dates.length - 1] };
-  };
+  // ── Auto-select the most recent sitting date that has a PDF ────────────────
+  // Runs whenever session sitting dates or data changes
+  useEffect(() => {
+    if (!sessionSittingDates.length) return;
+
+    // Latest sitting date first
+    const sorted = [...sessionSittingDates].sort((a, b) =>
+      b.localeCompare(a)
+    );
+
+    // Pick the most recent sitting date that has a matching gleaning PDF
+    const bestGleaning =
+      sorted.find((d) => getPdfUrlForDate(d, gleaningData)) || sorted[0];
+    setGleaningDate(new Date(bestGleaning + "T00:00:00"));
+
+    // Same for synopsis
+    const bestSynopsis =
+      sorted.find((d) => getPdfUrlForDate(d, synopsisData)) || sorted[0];
+    setSynopsisDate(new Date(bestSynopsis + "T00:00:00"));
+  }, [sessionSittingDates, gleaningData, synopsisData, getPdfUrlForDate]);
 
   // ── Filter handler ──────────────────────────────────────────────────────────
   const handleFiltersChange = useCallback((values) => {
     if (values?.KLA != null) {
       const raw = values.KLA;
-      const n = typeof raw === "object" ? Number(raw.value ?? raw) : Number(raw);
+      const n =
+        typeof raw === "object" ? Number(raw.value ?? raw) : Number(raw);
       if (!Number.isNaN(n)) setKlaId(n);
     }
     if (values?.SESSION_TYPE != null) {
@@ -175,34 +185,32 @@ const Debates = () => {
     }
   }, []);
 
-  // ── Tab change ──────────────────────────────────────────────────────────────
-  const handleTabChange = (tabKey) => {
-    setActiveTab(tabKey);
-  };
+  // ── Session options for Filter ──────────────────────────────────────────────
+  const sessionOptions = useMemo(
+    () => [
+      { value: "", label: "Latest Session" },
+      ...allSessions.map((s) => ({
+        value: s.session_no,
+        label: `Session ${s.session_no}`,
+      })),
+    ],
+    [allSessions]
+  );
 
-  // ── Derived values ──────────────────────────────────────────────────────────
-  const gleaningDates = getMeetingDates(gleaningData);
-  const synopsisDates = getMeetingDates(synopsisData);
-  const { startDate: gStart, endDate: gEnd } = getDateRange(gleaningData);
-  const { startDate: sStart, endDate: sEnd } = getDateRange(synopsisData);
-
-  const filterOverrides = {
-    KLA: {
-      options: klaOptions.length ? klaOptions : undefined,
-      defaultValue: klaId,
-    },
-    SESSION_TYPE: {
-      defaultValue: sessionNo ?? "",
-      options: [
-        { value: "", label: "All" },
-        ...sessionOptions,
-      ],
-    },
-  };
+  const filterOverrides = useMemo(
+    () => ({
+      KLA: { defaultValue: klaId },
+      SESSION_TYPE: {
+        defaultValue: sessionNo ?? "",
+        options: sessionOptions,
+      },
+    }),
+    [klaId, sessionNo, sessionOptions]
+  );
 
   // ── Shared tab content renderer ─────────────────────────────────────────────
-  const renderTabContent = (data, selectedDate, onDateChange, meetingDates, startDate, endDate) => {
-    if (loading) {
+  const renderTabContent = (data, selectedDate, onDateChange) => {
+    if (loading || sessionsLoading) {
       return (
         <div className="text-center py-5">
           <div className="spinner-border text-primary" role="status">
@@ -211,6 +219,25 @@ const Debates = () => {
         </div>
       );
     }
+
+    // Sitting dates that actually have a PDF in this tab's data
+    const sittingDatesWithPdf = sessionSittingDates.filter((d) =>
+      getPdfUrlForDate(d, data)
+    );
+
+    // Fall back to all session sitting dates for dots (even without PDF)
+    const dotsForCalendar =
+      sittingDatesWithPdf.length > 0
+        ? sittingDatesWithPdf
+        : sessionSittingDates;
+
+    const calendarStart =
+      sessionStartDate || (sessionSittingDates[0] ?? "2025-01-01");
+    const calendarEnd =
+      sessionEndDate ||
+      (sessionSittingDates[sessionSittingDates.length - 1] ?? "2025-12-31");
+
+    const activePdfUrl = getPdfUrlForDate(selectedDate, data);
 
     return (
       <div className="terms_condition_grid text-start">
@@ -221,19 +248,52 @@ const Debates = () => {
         />
         <ExportButton />
 
+        {/* Session info banner */}
+        {activeSession && (
+          <div
+            className="mt-3 mb-3 p-3"
+            style={{
+              backgroundColor: "#f8f9fa",
+              borderLeft: "4px solid var(--clr--primary)",
+              borderRadius: "4px",
+            }}
+          >
+            <h5
+              className="mb-1"
+              style={{ color: "var(--clr--primary)", fontWeight: "600" }}
+            >
+              {activeSession.kla_name || `KLA ${klaId}`} — Session{" "}
+              {activeSession.session_no}
+            </h5>
+            <p className="text-muted mb-0" style={{ fontSize: "14px" }}>
+              {activeSession.startdate?.split("-").reverse().join(" ")} to{" "}
+              {activeSession.enddate?.split("-").reverse().join(" ")} &nbsp;·&nbsp;{" "}
+              {sessionSittingDates.length} sitting
+              {sessionSittingDates.length !== 1 ? "s" : ""}
+            </p>
+          </div>
+        )}
+
         <div className="session-list-buss row mt-4">
           {/* Calendar */}
           <div className="col-lg-6 col-md-6">
-            <SessionCalendar
-              selectedDate={selectedDate}
-              onDateChange={onDateChange}
-              startDate={startDate}
-              endDate={endDate}
-              meetingDates={meetingDates}
-              allowedDates={meetingDates}
-              height="400px"
-              width="100%"
-            />
+            {calendarStart && calendarEnd ? (
+              <SessionCalendar
+                selectedDate={selectedDate}
+                onDateChange={onDateChange}
+                startDate={calendarStart}
+                endDate={calendarEnd}
+                meetingDates={dotsForCalendar}
+                allowedDates={dotsForCalendar}
+                height="400px"
+                width="100%"
+                dateRangeTitle="Session date in between"
+              />
+            ) : (
+              <div className="text-center py-4 text-muted">
+                No session data available.
+              </div>
+            )}
           </div>
 
           {/* PDF Viewer */}
@@ -248,10 +308,7 @@ const Debates = () => {
                 </p>
               </div>
             ) : (
-              <InlinePdfViewer
-                fileUrl={getPdfUrlForDate(selectedDate, data)}
-                height="400px"
-              />
+              <InlinePdfViewer fileUrl={activePdfUrl} height="400px" />
             )}
           </div>
         </div>
@@ -294,10 +351,7 @@ const Debates = () => {
                       {renderTabContent(
                         gleaningData,
                         gleaningDate,
-                        setGleaningDate,
-                        gleaningDates,
-                        gStart,
-                        gEnd
+                        setGleaningDate
                       )}
                     </div>
                   ),
@@ -310,16 +364,13 @@ const Debates = () => {
                       {renderTabContent(
                         synopsisData,
                         synopsisDate,
-                        setSynopsisDate,
-                        synopsisDates,
-                        sStart,
-                        sEnd
+                        setSynopsisDate
                       )}
                     </div>
                   ),
                 },
               ]}
-              onChange={handleTabChange}
+              onChange={() => {}}
             />
           </div>
         </section>

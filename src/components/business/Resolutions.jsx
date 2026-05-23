@@ -1,256 +1,307 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import {
   BreadcrumbNav,
   CategoriesNav,
   ExportButton,
   Filter,
+  Pagination,
+  PdfViewerModal,
   SectionTitle,
   Tabs,
 } from "../common";
 import HomeTest from "../Header";
 import InlinePdfViewer from "../common/InlinePdfViwer";
 import { fetchPvtMemberResolutions } from "../../api/services/all.service";
+import { fetchKlaSessions } from "../../services/MasterService";
 import "./Resolutions.css";
 
 export const PrivateMemberResolutions = () => {
-  const [, setResolutions] = useState([]);
+  const [allResolutions, setAllResolutions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filteredResolutions, setFilteredResolutions] = useState([]);
 
+  // ── Filter state ────────────────────────────────────────────────────────────
+  const [klaId, setKlaId] = useState(15);
+  const [sessionNo, setSessionNo] = useState(null);
+  const [sessionOptions, setSessionOptions] = useState([{ value: "", label: "All" }]);
+  const [searchText, setSearchText] = useState("");
+  const [moverFilter, setMoverFilter] = useState("");
+  const [ministerFilter, setMinisterFilter] = useState("");
+
+  // ── Pagination ──────────────────────────────────────────────────────────────
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
+
+  // ── PDF modal ───────────────────────────────────────────────────────────────
+  const [pdfModal, setPdfModal] = useState({ show: false, url: null, title: "" });
+
+  // ── Fetch resolutions when KLA changes ─────────────────────────────────────
   useEffect(() => {
-    const loadResolutions = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchPvtMemberResolutions();
-        console.log("Fetched resolutions data:", data);
-        console.log("Data length:", data?.length);
-        
-        if (Array.isArray(data)) {
-          setResolutions(data);
-          setFilteredResolutions(data);
-        } else {
-          console.error("Data is not an array:", data);
-          setResolutions([]);
-          setFilteredResolutions([]);
-        }
-      } catch (error) {
-        console.error("Error loading resolutions:", error);
-        setResolutions([]);
-        setFilteredResolutions([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+    setLoading(true);
+    setCurrentPage(1);
+    setSessionNo(null);
+    fetchPvtMemberResolutions({ kla_id: klaId })
+      .then((data) => setAllResolutions(Array.isArray(data) ? data : []))
+      .catch(() => setAllResolutions([]))
+      .finally(() => setLoading(false));
+  }, [klaId]);
 
-    loadResolutions();
+  // ── Fetch sessions for the selected KLA (for session filter options) ────────
+  useEffect(() => {
+    fetchKlaSessions(klaId)
+      .then((sessions) => {
+        const filtered = (sessions || []).filter(
+          (s) => Number(s.kla_id) === Number(klaId)
+        );
+        filtered.sort((a, b) => Number(a.session_no) - Number(b.session_no));
+        setSessionOptions([
+          { value: "", label: "All" },
+          ...filtered.map((s) => ({
+            value: s.session_no,
+            label: `Session ${s.session_no}`,
+          })),
+        ]);
+      })
+      .catch(() => setSessionOptions([{ value: "", label: "All" }]));
+  }, [klaId]);
+
+  // ── Filter handler from <Filter> component ──────────────────────────────────
+  const handleFiltersChange = useCallback((values) => {
+    if (values?.KLA != null) {
+      const n = Number(
+        typeof values.KLA === "object" ? values.KLA.value ?? values.KLA : values.KLA
+      );
+      if (!Number.isNaN(n)) setKlaId(n);
+    }
+    if (values?.SESSION_TYPE != null) {
+      const v =
+        typeof values.SESSION_TYPE === "object"
+          ? values.SESSION_TYPE.value
+          : values.SESSION_TYPE;
+      setSessionNo(v === "" || v == null ? null : Number(v));
+    }
+    if (values?.SEARCH != null) setSearchText(values.SEARCH);
+    if (values?.MEMBER != null) {
+      setMoverFilter(
+        typeof values.MEMBER === "object" ? values.MEMBER.value ?? "" : values.MEMBER
+      );
+    }
+    if (values?.MINISTER != null) {
+      setMinisterFilter(
+        typeof values.MINISTER === "object"
+          ? values.MINISTER.value ?? ""
+          : values.MINISTER
+      );
+    }
   }, []);
 
-  // Format date from ISO to DD.MM.YYYY
+  // ── Format date DD.MM.YYYY ──────────────────────────────────────────────────
   const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}.${month}.${year}`;
+    if (!dateString) return "-";
+    const [y, m, d] = dateString.split("-");
+    return `${d}.${m}.${y}`;
   };
 
-  // ✅ Pagination setup
-  const itemsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(1);
+  // ── Client-side filtering ───────────────────────────────────────────────────
+  const filteredRows = useMemo(() => {
+    return allResolutions.filter((item) => {
+      if (sessionNo != null && Number(item.session_id) !== Number(sessionNo))
+        return false;
+      if (moverFilter) {
+        const name = (item.mover_member_name || "").toLowerCase();
+        if (!name.includes(moverFilter.toLowerCase())) return false;
+      }
+      if (ministerFilter) {
+        const name = (item.minister_member_name || "").toLowerCase();
+        if (!name.includes(ministerFilter.toLowerCase())) return false;
+      }
+      if (searchText) {
+        const q = searchText.toLowerCase();
+        const subject = (item.subject || "").toLowerCase();
+        const title = (item.title || "").toLowerCase();
+        if (!subject.includes(q) && !title.includes(q)) return false;
+      }
+      return true;
+    });
+  }, [allResolutions, sessionNo, moverFilter, ministerFilter, searchText]);
 
-  const totalPages = Math.ceil(filteredResolutions.length / itemsPerPage);
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [klaId, sessionNo, moverFilter, ministerFilter, searchText]);
 
-  const currentData = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredResolutions.slice(startIndex, startIndex + itemsPerPage);
-  }, [currentPage, filteredResolutions]);
+  const totalPages = Math.ceil(filteredRows.length / ITEMS_PER_PAGE);
+  const pagedRows = filteredRows.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
-  const handlePageChange = (pageNumber) => {
-    if (pageNumber >= 1 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
+  const filterOverrides = useMemo(
+    () => ({
+      KLA: { defaultValue: klaId },
+      SESSION_TYPE: {
+        defaultValue: sessionNo ?? "",
+        options: sessionOptions,
+      },
+    }),
+    [klaId, sessionNo, sessionOptions]
+  );
 
-  // Generate page numbers to display
-  const getPageNumbers = () => {
-    const pages = [];
-    const showPages = 3; // Number of pages to show at start and end
-    
-    if (totalPages <= 7) {
-      // Show all pages if total is 7 or less
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      // Always show first 3 pages
-      for (let i = 1; i <= showPages; i++) {
-        pages.push(i);
-      }
-      
-      // Add ellipsis if needed
-      if (currentPage > showPages + 1) {
-        pages.push('...');
-      }
-      
-      // Add current page and neighbors if in middle
-      if (currentPage > showPages && currentPage < totalPages - showPages + 1) {
-        if (currentPage - 1 > showPages) {
-          pages.push(currentPage - 1);
-        }
-        pages.push(currentPage);
-        if (currentPage + 1 < totalPages - showPages + 1) {
-          pages.push(currentPage + 1);
-        }
-      }
-      
-      // Add ellipsis if needed
-      if (currentPage < totalPages - showPages) {
-        pages.push('...');
-      }
-      
-      // Always show last 3 pages
-      for (let i = totalPages - showPages + 1; i <= totalPages; i++) {
-        if (!pages.includes(i)) {
-          pages.push(i);
-        }
-      }
-    }
-    
-    return pages;
-  };
+  return (
+    <section className="resolution-section">
+      {/* ── FILTERS ── */}
+      <div className="tab-title mb-2">
+        <h6>Search By Filter</h6>
+      </div>
 
-  if (loading) {
-    return (
-      <section className="container resolution-section">
-        <h3 className="resolution-title mb-4 text-upperca">
-          Private Member Resolutions
-        </h3>
+      <Filter
+        filterKeys={["KLA", "SESSION_TYPE", "SEARCH"]}
+        onFiltersChange={handleFiltersChange}
+        overrides={filterOverrides}
+      />
+
+      <div className="d-flex align-items-center justify-content-between mt-3 mb-3 flex-wrap gap-2">
+        <ExportButton
+          data={filteredRows.map((item, i) => ({
+            "Sl.No": i + 1,
+            Date: formatDate(item.scheduled_date || item.sitting_date),
+            "Name of Mover": item.mover_member_name || item.minister_member_name || "-",
+            "Minister": item.minister_member_name || "-",
+            Subject: item.subject || item.title || "-",
+          }))}
+          filename="private-resolutions"
+          title="Private Member Resolutions"
+          exportOptions={["PDF", "Excel", "CSV"]}
+        />
+        {!loading && (
+          <span className="text-muted" style={{ fontSize: 13 }}>
+            Total record/s found:{" "}
+            <strong style={{ color: "var(--clr--primary)" }}>
+              {filteredRows.length}
+            </strong>
+          </span>
+        )}
+      </div>
+
+      {/* ── TABLE ── */}
+      {loading ? (
         <div className="text-center py-5">
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
-      </section>
-    );
-  }
-
-  return (
-    <section className="container resolution-section">
-      <h3 className="resolution-title mb-4 text-upperca">
-        Private Member Resolutions
-      </h3>
-
-      <div className="resolutionz c-ptag">
-        <div className="tabley">
-          <div className="mydrop dropdown">
-            {/* Export button placeholder for future use */}
-          </div>
-          <div className="table-responsive">
-            <table className="table table myTable2">
-              <thead>
-                <tr>
-                  <th scope="col">Sl. No.</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Name of Mover</th>
-                  <th scope="col">Title / Subject Matter</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentData.length > 0 ? (
-                  currentData.map((item, index) => (
-                    <tr key={item.id}>
-                      <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
-                      <td>{formatDate(item.scheduled_date)}</td>
-                      <td>{item.mover_member_id || "-"}</td>
-                      <td>
-                        <strong
-                          className="resolution-subtitle d-block mb-2"
-                          style={{ fontSize: "15px" }}
-                        >
-                          {item.title}
-                        </strong>
-                        {item.summary && (
-                          <p className="mb-0" style={{ fontSize: "14px", color: "#555" }}>
-                            {item.summary}
-                          </p>
-                        )}
-                      </td>
+      ) : (
+        <>
+          <div className="resolutionz c-ptag">
+            <div className="tabley">
+              <div className="table-responsive">
+                <table className="table table myTable2">
+                  <thead>
+                    <tr>
+                      <th scope="col">Sl. No.</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Name of Mover</th>
+                      <th scope="col">Minister</th>
+                      <th scope="col">Subject Matter</th>
+                      <th scope="col" className="text-center">PDF</th>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="4" className="text-center py-4">
-                      No resolutions found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  </thead>
+                  <tbody>
+                    {pagedRows.length > 0 ? (
+                      pagedRows.map((item, index) => (
+                        <tr key={item.id}>
+                          <td>{(currentPage - 1) * ITEMS_PER_PAGE + index + 1}</td>
+                          <td style={{ whiteSpace: "nowrap" }}>
+                            {formatDate(item.scheduled_date || item.sitting_date)}
+                          </td>
+                          <td>{item.mover_member_name || "-"}</td>
+                          <td>{item.minister_member_name || "-"}</td>
+                          <td>
+                            {item.subject && (
+                              <p className="mb-1" style={{ fontSize: "14px" }}>
+                                {item.subject}
+                              </p>
+                            )}
+                            {item.title && item.title !== item.subject && (
+                              <strong
+                                className="d-block"
+                                style={{ fontSize: "13px", color: "#555" }}
+                              >
+                                {item.title}
+                              </strong>
+                            )}
+                            {!item.subject && !item.title && "-"}
+                          </td>
+                          <td className="text-center">
+                            <button
+                              title={item.pdf_url ? "View PDF" : "PDF not available"}
+                              disabled={!item.pdf_url}
+                              onClick={() =>
+                                item.pdf_url &&
+                                setPdfModal({
+                                  show: true,
+                                  url: item.pdf_url,
+                                  title: item.subject || item.title || "Document",
+                                })
+                              }
+                              style={{
+                                width: 32,
+                                height: 32,
+                                borderRadius: "50%",
+                                border: "2px solid var(--clr--primary)",
+                                background: item.pdf_url
+                                  ? "var(--clr--primary)"
+                                  : "#e0e0e0",
+                                color: item.pdf_url ? "#fff" : "#aaa",
+                                fontWeight: 700,
+                                fontSize: 11,
+                                cursor: item.pdf_url ? "pointer" : "not-allowed",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                padding: 0,
+                              }}
+                            >
+                              PDF
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="6" className="text-center py-4">
+                          No resolutions found for the selected filters
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* ✅ Pagination */}
-      {totalPages > 1 && (
-        <div className="pagination-container text-center mt-3">
-          <ul className="paginationn justify-content-center">
-            <li
-              className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-              onClick={(e) => {
-                e.preventDefault();
-                if (currentPage > 1) handlePageChange(currentPage - 1);
+          {/* ── PAGINATION ── */}
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(p) => {
+                setCurrentPage(p);
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              style={{ cursor: currentPage === 1 ? "not-allowed" : "pointer" }}
-            >
-              <a href="#" className="page-link" onClick={(e) => e.preventDefault()}>
-                &laquo;
-              </a>
-            </li>
-
-            {getPageNumbers().map((page, index) => (
-              page === '...' ? (
-                <li key={`ellipsis-${index}`} className="page-item disabled">
-                  <span className="page-link">...</span>
-                </li>
-              ) : (
-                <li
-                  key={page}
-                  className={`page-item ${currentPage === page ? "active" : ""}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handlePageChange(page);
-                  }}
-                  style={{ cursor: "pointer" }}
-                >
-                  <a href="#" className="page-link" onClick={(e) => e.preventDefault()}>
-                    {page}
-                  </a>
-                </li>
-              )
-            ))}
-
-            <li
-              className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
-              onClick={(e) => {
-                e.preventDefault();
-                if (currentPage < totalPages) handlePageChange(currentPage + 1);
-              }}
-              style={{ cursor: currentPage === totalPages ? "not-allowed" : "pointer" }}
-            >
-              <a href="#" className="page-link" onClick={(e) => e.preventDefault()}>
-                &raquo;
-              </a>
-            </li>
-          </ul>
-          <p className="pagination-info">
-            Showing {(currentPage - 1) * itemsPerPage + 1}–
-            {Math.min(currentPage * itemsPerPage, filteredResolutions.length)} of{" "}
-            {filteredResolutions.length}
-          </p>
-        </div>
+              totalItems={filteredRows.length}
+              itemsPerPage={ITEMS_PER_PAGE}
+            />
+          )}
+        </>
       )}
+
+      {/* ── PDF MODAL ── */}
+      <PdfViewerModal
+        show={pdfModal.show}
+        onHide={() => setPdfModal({ show: false, url: null, title: "" })}
+        fileUrl={pdfModal.url}
+        title={pdfModal.title}
+      />
     </section>
   );
 };
@@ -364,8 +415,6 @@ const Resolutions = () => {
                   label: "Private Resolutions",
                   content: (
                     <div className="bill-content col-md-12 mt30 committeeDt">
-                      <Filter filterKeys={["KLA"]} />
-                      <ExportButton />
                       <PrivateMemberResolutions />
                     </div>
                   ),

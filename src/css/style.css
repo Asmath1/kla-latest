@@ -11585,7 +11585,7 @@ li.mm-listitem:focus {
 .latestNews .details .text {
   font-size: 14px;
   line-height: 25px;
-  min-height: 63px;
+  min-height: 40px;
   font-weight: 400;
 }
 .twoSection {

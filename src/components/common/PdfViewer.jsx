@@ -1,15 +1,12 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { buildPdfSrc } from "../../utils/pdfUtils";
 
 /**
  * PdfViewer
  *
- * Rendering strategy (in order of preference):
- *  1. Local paths → served directly, no proxy needed.
- *  2. Remote URLs → PHP proxy if available; otherwise Google Docs viewer.
- *
- * See PdfViewerModal.jsx for the dev/production setup notes.
+ * Uses Google Docs viewer for remote URLs (no PHP/proxy needed).
+ * http:// URLs are automatically upgraded to https:// for compatibility.
  */
 const PdfViewer = ({
   show,
@@ -26,7 +23,18 @@ const PdfViewer = ({
       setSrc("");
       return;
     }
-    buildPdfSrc(fileUrl).then(setSrc);
+
+    let cancelled = false;
+
+    buildPdfSrc(fileUrl).then((resolvedSrc) => {
+      if (!cancelled) {
+        setSrc(resolvedSrc);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, [fileUrl]);
 
   const handleOpenNewTab = () => {
@@ -40,14 +48,14 @@ const PdfViewer = ({
           <Modal.Title className="modal-title">{title}</Modal.Title>
           <div className="d-flex align-items-center gap-2">
             <Button variant="outline-primary" size="sm" onClick={handleOpenNewTab}>
-              Download
+              Open / Download
             </Button>
             {headerActions || null}
           </div>
         </div>
       </Modal.Header>
 
-      <Modal.Body style={{ height, overflow: "hidden", padding: 0 }}>
+      <Modal.Body style={{ height, overflow: "hidden", padding: 0, background: "#f8f9fa" }}>
         {src ? (
           <iframe
             key={src}

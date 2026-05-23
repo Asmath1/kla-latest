@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -12,23 +12,31 @@ const Pagination = ({
   const getPageNumbers = () => {
     const pages = [];
     const maxPagesToShow = 5;
+
     if (totalPages <= maxPagesToShow) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
       pages.push(1);
       let start = Math.max(2, currentPage - 1);
       let end = Math.min(totalPages - 1, currentPage + 1);
+
       if (currentPage <= 3) end = 4;
       if (currentPage >= totalPages - 2) start = totalPages - 3;
+
       if (start > 2) pages.push("...");
       for (let i = start; i <= end; i++) pages.push(i);
       if (end < totalPages - 1) pages.push("...");
       pages.push(totalPages);
     }
+
     return pages;
   };
 
   if (totalPages <= 1) return null;
+
+  const startItem =
+    totalItems === 0 ? 0 : Math.min(1 + (currentPage - 1) * itemsPerPage, totalItems);
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   return (
     <div className="mbp_pagination mt30 text-center">
@@ -73,11 +81,7 @@ const Pagination = ({
           </li>
         ))}
 
-        <li
-          className={`page-item ${
-            currentPage === totalPages ? "disabled" : ""
-          }`}
-        >
+        <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
           <a
             className="page-link"
             href="#"
@@ -92,8 +96,7 @@ const Pagination = ({
       </ul>
 
       <p className="mt10 mb-0 pagination_page_count text-center">
-        {Math.min(1 + (currentPage - 1) * itemsPerPage, totalItems)} –{" "}
-        {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}
+        {startItem} - {endItem} of {totalItems}
       </p>
     </div>
   );

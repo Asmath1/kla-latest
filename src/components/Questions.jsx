@@ -7,7 +7,7 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import Calendar from "react-calendar";
-import { API_ENDPOINTS } from "../utils/config";
+import { API_ENDPOINTS, DEMO_API_BASE_URL, getImageUrl } from "../utils/config";
 import { ensureHttps } from "../utils/urlUtils";
 import "../styles/Question.css";
 import "../css/flaticon.css";
@@ -1200,20 +1200,241 @@ const getEnglishLetterInMalayalam = (index) => {
   return englishLettersInMalayalam[index] || String.fromCharCode(97 + index);
 };
 
+const normalizeCategoryKey = (categoryName, categoryId) => {
+  const normalizedName = String(categoryName || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[_\s-]+/g, "");
+
+  if (normalizedName === "starred" || Number(categoryId) === 1) return "starred";
+  if (normalizedName === "unstarred" || Number(categoryId) === 2) return "unstarred";
+  if (
+    normalizedName === "shortnotice" ||
+    normalizedName === "shortquestions" ||
+    Number(categoryId) === 3
+  ) {
+    return "shortnotice";
+  }
+
+  return "unstarred";
+};
+
+const formatCategoryLabel = (categoryName, fallbackKey) => {
+  const raw = String(categoryName || "").trim();
+  if (raw) {
+    return raw
+      .replace(/[_-]+/g, " ")
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  }
+
+  if (fallbackKey === "shortnotice") return "Short Notice";
+  if (fallbackKey === "starred") return "Starred";
+  return "Unstarred";
+};
+
+const toArray = (value) => {
+  if (Array.isArray(value)) return value.filter(Boolean);
+  if (value == null || value === "") return [];
+  return [value];
+};
+
+const normalizeAssetUrl = (value) => {
+  if (!value) return "";
+
+  const resolved = getImageUrl(String(value).trim());
+  if (
+    resolved.startsWith("http://") ||
+    resolved.startsWith("https://") ||
+    resolved.startsWith("/pdf-proxy.php") ||
+    resolved.startsWith("/")
+  ) {
+    return resolved;
+  }
+
+  return `${DEMO_API_BASE_URL}/${resolved.replace(/^\/+/, "")}`;
+};
+
+const normalizeAttachments = (question) => {
+  const attachmentCandidates = question?.attachments ?? question?.attachment ?? [];
+
+  return toArray(attachmentCandidates)
+    .map((item) => {
+      if (typeof item === "string") return normalizeAssetUrl(item);
+      if (item?.url) return normalizeAssetUrl(item.url);
+      if (item?.file) return normalizeAssetUrl(item.file);
+      return null;
+    })
+    .filter(Boolean);
+};
+
+const normalizeQuestionItem = ({
+  question,
+  categoryKey,
+  categoryName,
+  categoryId,
+  klaId,
+  session,
+  sittingDate,
+}) => {
+  const members = toArray(
+    question?.members ??
+      question?.member_names ??
+      question?.member_name ??
+      question?.members_name
+  ).map((member) => String(member).trim());
+
+  const subQuestions = toArray(question?.subQuestions ?? question?.sub_questions).map(
+    (subQuestion) => String(subQuestion).trim()
+  );
+
+  const departments = toArray(question?.departments ?? question?.department_names).map(
+    (department) => String(department).trim()
+  );
+
+  const askedTo =
+    question?.askedTo ??
+    question?.asked_to ??
+    question?.minister_name ??
+    question?.department_name ??
+    departments.join(", ");
+
+  return {
+    ...question,
+    id:
+      question?.id ??
+      `${klaId ?? "kla"}-${session?.session_id ?? session?.session_no ?? "session"}-${
+        sittingDate ?? "date"
+      }-${categoryKey}-${question?.number ?? question?.title ?? "question"}`,
+    kla_id: question?.kla_id ?? klaId ?? null,
+    session_id: question?.session_id ?? session?.session_id ?? null,
+    session_no: question?.session_no ?? session?.session_no ?? null,
+    sitting_date: question?.sitting_date ?? sittingDate ?? "",
+    category: categoryKey,
+    category_id: question?.category_id ?? categoryId ?? null,
+    category_name: formatCategoryLabel(
+      question?.category_name ?? categoryName,
+      categoryKey
+    ),
+    title:
+      question?.title ??
+      question?.subject ??
+      question?.question_title ??
+      question?.question ??
+      `Question ${question?.number ?? ""}`.trim(),
+    question:
+      question?.question ??
+      question?.question_text ??
+      question?.description ??
+      question?.title ??
+      "",
+    members,
+    askedBy:
+      question?.askedBy ??
+      question?.asked_by ??
+      question?.member_name ??
+      question?.asked_by_name ??
+      "",
+    askedTo: askedTo ? String(askedTo).trim() : "",
+    subQuestions,
+    departments,
+    attachments: normalizeAttachments(question),
+    isAnswered:
+      typeof question?.isAnswered === "boolean"
+        ? question.isAnswered
+        : typeof question?.is_answered === "boolean"
+        ? question.is_answered
+        : categoryKey === "starred",
+    isLate:
+      typeof question?.isLate === "boolean"
+        ? question.isLate
+        : Boolean(question?.is_late),
+  };
+};
+
+const normalizeQuestionsPayload = (payload) => {
+  if (Array.isArray(payload)) return { starred: [], unstarred: payload, shortnotice: [] };
+
+  if (!payload || typeof payload !== "object") {
+    return { starred: [], unstarred: [], shortnotice: [] };
+  }
+
+  if (Array.isArray(payload.data)) {
+    const normalized = { starred: [], unstarred: [], shortnotice: [] };
+
+    payload.data.forEach((klaEntry) => {
+      const klaId = klaEntry?.kla_id ?? null;
+
+      toArray(klaEntry?.sessions).forEach((session) => {
+        toArray(session?.sitting_dates).forEach((sittingEntry) => {
+          const sittingDate = sittingEntry?.sitting_date ?? "";
+
+          toArray(sittingEntry?.categories).forEach((category) => {
+            const categoryKey = normalizeCategoryKey(
+              category?.category_name,
+              category?.category_id
+            );
+
+            toArray(category?.questions).forEach((question) => {
+              normalized[categoryKey].push(
+                normalizeQuestionItem({
+                  question,
+                  categoryKey,
+                  categoryName: category?.category_name,
+                  categoryId: category?.category_id,
+                  klaId,
+                  session,
+                  sittingDate,
+                })
+              );
+            });
+          });
+        });
+      });
+    });
+
+    return normalized;
+  }
+
+  if (payload.data && typeof payload.data === "object") {
+    return payload.data;
+  }
+
+  return payload;
+};
+
 const QuestionCard = ({ question, onPdfClick, isStarredTab }) => (
   <div className="card mb-3">
     <div className="card-header">
-      <a
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          if (question.isAnswered) {
-            onPdfClick(question);
-          }
-        }}
-      >
-        {question.title}
-      </a>
+      <div className="d-flex flex-column">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            if (question.isAnswered) {
+              onPdfClick(question);
+            }
+          }}
+        >
+          {question.title}
+        </a>
+        {/* {question.category_name && (
+          <span
+            className="mt-1"
+            style={{
+              fontSize: "12px",
+              fontWeight: 600,
+              color: "#7b5e00",
+              backgroundColor: "#fff3cd",
+              border: "1px solid #ffe69c",
+              borderRadius: "999px",
+              padding: "2px 10px",
+              width: "fit-content",
+            }}
+          >
+            {question.category_name}
+          </span>
+        )} */}
+      </div>
 
       <div className="late-section">
         {question.isAnswered && question.isLate && (
@@ -1594,7 +1815,7 @@ const Questions = () => {
 
           // Handle KLA 15 API response structure
           if (payload.status && payload.data) {
-            normalized = payload.data;
+            normalized = normalizeQuestionsPayload(payload);
           } else {
             normalized = { starred: [], unstarred: [], shortnotice: [] };
           }
@@ -1619,14 +1840,7 @@ const Questions = () => {
           let payload = await resp.json();
           if (aborted) return;
 
-          const normalize = (p) => {
-            if (Array.isArray(p)) return { unstarred: p };
-            if (p && typeof p === "object")
-              return p.data && typeof p.data === "object" ? p.data : p;
-            return { unstarred: [] };
-          };
-
-          normalized = normalize(payload);
+          normalized = normalizeQuestionsPayload(payload);
 
           // If we tried session_no=0 (All) and got no items back, retry *without* session_no
           const totalCount =
@@ -1646,7 +1860,7 @@ const Questions = () => {
             if (resp2.ok) {
               const payload2 = await resp2.json();
               if (aborted) return;
-              normalized = normalize(payload2);
+              normalized = normalizeQuestionsPayload(payload2);
             }
           }
         }
@@ -2207,6 +2421,7 @@ const Questions = () => {
                               totalPages={totalPages}
                               onPageChange={handlePageChange}
                               totalItems={currentQuestions.length}
+                              itemsPerPage={itemsPerPage}
                             />
                           )}
                         </div>

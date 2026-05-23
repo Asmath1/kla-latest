@@ -128,9 +128,15 @@ export const fetchPresidentsRule = async () => {
   }
 };
 
-export const fetchPvtMemberResolutions = async () => {
+export const fetchPvtMemberResolutions = async ({ kla_id } = {}) => {
   try {
-    const response = await axiosInstance.get(API_ENDPOINTS.PVT_MEMBER_RESOLUTIONS);
+    const params = new URLSearchParams();
+    if (kla_id != null) params.set("kla_id", String(kla_id));
+    const query = params.toString();
+    const url = query
+      ? `${API_ENDPOINTS.PVT_MEMBER_RESOLUTIONS}?${query}`
+      : API_ENDPOINTS.PVT_MEMBER_RESOLUTIONS;
+    const response = await axiosInstance.get(url);
     console.log("API Response:", response);
     console.log("Response data:", response.data);
     
